@@ -1,4 +1,3 @@
-
 export default {
     // 주택 종류
     PROPERTY_TYPE: 'PROPERTY_TYPE',
@@ -14,5 +13,5 @@ export default {
     MORTGAGE_INQUIRE_PROCESS: 'MORTGAGE_INQUIRE_PROCESS',
     // 대출 결과
     MORTGAGE_INQUIRE_RESULT: 'MORTGAGE_INQUIRE_RESULT',
-  };
+} as const;
   
