@@ -22,7 +22,10 @@
     "noEmit": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@component/*":["components/*"]
+  }
   },
   "include": [
     "next-env.d.ts",
