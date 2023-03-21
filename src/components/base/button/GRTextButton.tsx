@@ -1,20 +1,18 @@
 import { Button } from "@mui/material";
 import { Color } from "styles/colors";
 
-const GRButton = ({
-  children,
-  style
+const GRTextButton = ({
+  text
 }) => {
   return (
     <Button
       style={{
-        backgroundColor:Color.green200,
-        ...style
+        backgroundColor:Color.green200
       }}
     >
-      {children}
+      {text}
     </Button>
   )
 }
 
-export default GRButton;
+export default GRTextButton;
