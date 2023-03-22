@@ -1,7 +1,10 @@
+import BaseLayout from "@component/base/layout/BaseLayout"
+
 function MyApp({ Component, pageProps }) {
-  console.log("Myapp")
   return (
-    <Component {...pageProps} />
+    <BaseLayout>
+      <Component {...pageProps} />
+    </BaseLayout>
   )
   
 }
@@ -9,7 +12,6 @@ function MyApp({ Component, pageProps }) {
 export default MyApp
 
 export async function getServerSideProps(){
-  console.log("props")
   return { 
     props:{}
    }

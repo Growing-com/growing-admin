@@ -1,9 +1,14 @@
-import { Button } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
+import React, { CSSProperties } from "react";
 import { Color } from "styles/colors";
 
-const GRButton = ({
+type tGRButton = {
+  style: CSSProperties
+} & ButtonProps
+
+const GRButton : React.FC<tGRButton> = ({
   children,
-  style
+  style,
 }) => {
   return (
     <Button
