@@ -1,5 +1,5 @@
 import BaseLayout from "@component/base/layout/BaseLayout"
-
+import 'styles/globals.css'
 function MyApp({ Component, pageProps }) {
   return (
     <BaseLayout>

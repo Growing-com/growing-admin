@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@mui/material";
+import { Button, ButtonProps } from "antd";
 import React, { CSSProperties } from "react";
 import { Color } from "styles/colors";
 
@@ -9,12 +9,14 @@ type tGRButton = {
 const GRButton : React.FC<tGRButton> = ({
   children,
   style,
+  ...props
 }) => {
   return (
     <Button
       style={{
         backgroundColor:Color.green200,
-        ...style
+        ...style,
+        ...props
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "antd";
 import { Color } from "styles/colors";
 
 const GRTextButton = ({
