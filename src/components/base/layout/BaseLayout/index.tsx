@@ -2,13 +2,20 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
+import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
+import { Router, useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+
 
 const { Content, Sider } = Layout;
 
 type tBaseLayout = {};
 
 const BaseLayout: React.FC = ({ children }) => {
+  const [menu,setMenu] = useState([]);
+  const router = useRouter();
+
   const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
     key,
     label: `nav ${key}`,
@@ -30,6 +37,24 @@ const BaseLayout: React.FC = ({ children }) => {
       }),
     };
   });
+  
+  const onSelectMenu = useCallback(async(e)=>{
+    const newPath = e.key.replace("-","/");
+    console.log("newPath",newPath)
+    router.push(`/department/${newPath}`)
+  },[router])
+
+  useEffect(()=>{
+    const menuItems = DEPARTMENT_MAIN_MENU.map( main => {
+      return {
+        key:main.key,
+        label: main.label,
+        children: main.children
+      }      
+    } )
+    console.log("!!")
+    setMenu(menuItems)
+  },[])
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -44,13 +69,14 @@ const BaseLayout: React.FC = ({ children }) => {
             border-right: 0.1rem solid green};
           `}
         >
-          <Menu
+          {!!menu.length && <Menu
             mode="inline"
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
-            items={items2}
-          />
+            items={menu}
+            onSelect={onSelectMenu}
+          />}
         </Sider>
         <Layout style={{ padding: "24px 24px", backgroundColor: "white" }}>
           <Content
