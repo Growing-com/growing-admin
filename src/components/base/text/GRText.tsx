@@ -1,8 +1,14 @@
-import React from 'react'
-
-const GRText = () => {
+import React, { FC, ReactNode } from 'react'
+interface IGRText {
+  children: ReactNode;
+}
+const GRText: FC<IGRText> = ({
+  children
+}) => {
   return (
-    <div></div>
+    <div>
+      {children}
+    </div>
   )
 }
 
