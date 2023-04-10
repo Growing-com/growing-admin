@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
 
 interface IGRFlexView {
@@ -24,7 +24,8 @@ const GRFlexView: FC<IGRFlexView> = ({
 }) => {
   return (
     <div
-      css={[css`
+      css={[
+        css`
           display: flex;
           flex-direction: ${isRow ? "row" : "colum"};
           background-color: ${backgroundColor};

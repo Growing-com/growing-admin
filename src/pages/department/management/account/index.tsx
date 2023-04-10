@@ -1,3 +1,4 @@
+import GRTable from "@component/base/GRTable"
 import GRButton from "@component/base/button/GRButton"
 import GRText from "@component/base/text/GRText"
 import GRFlexView from "@component/base/view/GRFlexView"
@@ -18,9 +19,9 @@ const ManagementAccount : NextPage = () => {
         </GRText>
         
       </GRFlexView>
-      <Table>
-
-      </Table>
+      <GRTable
+        
+      />
       <Pagination/>
     </div>
   )

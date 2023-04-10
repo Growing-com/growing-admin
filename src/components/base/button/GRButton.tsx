@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import { Button, ButtonProps } from "antd";
 import React, { CSSProperties } from "react";
 import { Color } from "styles/colors";
@@ -8,20 +9,22 @@ type tGRButton = {
 
 const GRButton : React.FC<tGRButton> = ({
   children,
+  size,
   style,
   ...props
 }) => {
   return (
     <Button
-      style={{
-        backgroundColor:Color.green200,
-        ...style,
-        ...props
-      }}
+      type={'primary'}
+      size={size}
+      css={css`
+        background-color: ${Color.green200}
+      `}
+      {...props}
     >
       {children}
     </Button>
-  )
+  );
 }
 
 export default GRButton;
