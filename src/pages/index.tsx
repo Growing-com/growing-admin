@@ -6,12 +6,6 @@ import React from 'react'
 
 export default function PrerenderPage() {
   return (
-    <div>
-      <GRButton>
-        <GRText>
-          버튼
-        </GRText>
-      </GRButton>
-    </div>
+    <div>PrerenderPage</div>
   )
 }
