@@ -1,5 +1,6 @@
 import GRTable from "@component/base/GRTable"
 import GRButton from "@component/base/button/GRButton"
+import GRSelect from "@component/base/dataEntry/GRSelect"
 import GRText from "@component/base/text/GRText"
 import GRTextInput from "@component/base/text/GRTextInput"
 import GRFlexView from "@component/base/view/GRFlexView"
@@ -14,7 +15,7 @@ export default function ManagementSearch() {
         <GRText>
           상태
         </GRText>
-        
+        <GRSelect/>
         </GRFlexView>
         <GRText>
           검색
