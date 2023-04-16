@@ -35,3 +35,22 @@ export const DUMP_DATA = [
       phoneNumber:"010-5485-9349",
     },
   ];
+
+  export const STATUS_DUMP_DATA = [
+    {
+      label:"리더",
+      value:"leader"
+    },
+    {
+      label:"코디",
+      value:"codi"
+    },
+    {
+      label:"새가족",
+      value:"new_person"
+    },
+    {
+      label:"조원",
+      value:"crew"
+    },
+  ]

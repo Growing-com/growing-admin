@@ -27,6 +27,7 @@ const GRFlexView: FC<IGRFlexView> = ({
       css={[
         css`
           display: flex;
+          flex:1;
           flex-direction: ${isRow ? "row" : "colum"};
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};

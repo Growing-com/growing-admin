@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import { Select } from 'antd'
 import type { SelectProps } from 'antd'
 import React, { FC } from 'react'
@@ -23,16 +24,22 @@ const GRSelect: FC<tGRSelect> = ({
     }
 
     return (
-        <Select mode={mode}>
-            {options.map((option,index) =>(
-                <Option 
+            <Select 
+                mode={mode} 
+                css={css`
+                    display:flex;
+                    flex:1
+                `}
+            >
+                {options.map((option,index) =>(
+                    <Option 
                     key={`${option.label}_${index}`}
                     value={option.value}
-                >
-                    {option.label}
-                </Option>
-            ))}
-        </Select>
+                    >
+                        {option.label}
+                    </Option>
+                ))}
+            </Select>
     )
 }
 

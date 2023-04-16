@@ -16,5 +16,6 @@ export default function GRTextInput({
 }
 
 const InputComponent = styled(Input)`
-    
+    display:flex;
+    flex:1;
 `
