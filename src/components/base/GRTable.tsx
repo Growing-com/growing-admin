@@ -1,13 +1,15 @@
 import { Table } from 'antd'
 
-export default function GRTable({
+function GRTable({
   columns,
-  dataSource
+  dataSource,
+  pagination
 }) {
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
+      pagination={pagination}
     />
   )
 }
