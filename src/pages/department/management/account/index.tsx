@@ -8,6 +8,7 @@ import { NextPage } from "next"
 import ManagementSearch from "./ManagementSearch"
 import { ColumnsType } from "antd/es/table"
 import { DUMP_DATA } from "./dumpData"
+import { useCallback } from "react"
 
 interface DataType {
   key: string;
@@ -66,10 +67,14 @@ const ManagementAccount : NextPage = () => {
     },
   ];
 
+  const onClick = useCallback(()=>{
+
+  },[])
+
   return(
     <div>
       <GRFlexView isRow alignItems={"flex-between"}>
-        <GRButton>
+        <GRButton onClick={onClick}>
           계정 생성
         </GRButton>
       </GRFlexView>
