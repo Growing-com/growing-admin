@@ -1,11 +1,16 @@
 import { css } from "@emotion/react";
 import { Button, ButtonProps } from "antd";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useMemo } from "react";
 import { Color } from "styles/colors";
+import GRText from "../text/GRText";
 
 type tGRButton = {
   style?: CSSProperties;
   onClick: () => React.MouseEventHandler<HTMLAnchorElement> | void;
+  isTextButton?: boolean;
+  buttonType?: "primary" | "dashed" | "text" | "link";
+  backgroundColor?: CSSProperties['backgroundColor'];
+  textColor?: CSSProperties['color'];
 }
  & ButtonProps
 const GRButton : React.FC<tGRButton> = ({
@@ -13,19 +18,42 @@ const GRButton : React.FC<tGRButton> = ({
   size,
   style,
   onClick,
+  buttonType = "primary",
+  backgroundColor,
+  ghost,
+  textColor,
   ...props
 }) => {
+
+  const _backgroundColor = useMemo(() => 
+  {
+    if( buttonType === 'primary' ){
+      return Color.green200;
+    }
+    return backgroundColor ?? Color.white;
+  },[backgroundColor, buttonType])
+
+  const _textColor = useMemo(()=>{
+    if( buttonType === 'primary' ){
+      return Color.white;
+    }
+    return textColor ?? Color.green200
+  },[buttonType, textColor])
+
   return (
     <Button
-      type={'primary'}
+      type={buttonType}
       size={size}
       onClick={onClick}
       css={css`
-        background-color: ${Color.green200}
+        background-color: ${_backgroundColor};
+        color: ${_textColor};
       `}
       {...props}
     >
-      {children}
+      <GRText >
+        {children}
+      </GRText>
     </Button>
   );
 }

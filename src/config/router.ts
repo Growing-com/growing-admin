@@ -1,18 +1,20 @@
 const Routes = [];
 
+// 서브 메뉴
+export const MANAGEMENT_SUB_MENU = [
+  {
+    key: "management-account",
+    label: "계정 관리",
+    path: "management/account"
+  },
+]
 
-
+// 중간 메뉴
 export const DEPARTMENT_MAIN_MENU = [
   {
     key: "management",
     label: "부서 관리",
-    children : [
-      {
-        key: "management-account",
-        label: "계정 관리",
-        path: "management/account"
-      },
-    ],
+    children : MANAGEMENT_SUB_MENU
   },
   {
     key: "attendance",
@@ -32,6 +34,7 @@ export const DEPARTMENT_MAIN_MENU = [
   },
 ];
 
+// 큰 메뉴
 const TAB_MENU = {
   department: {
     key: "department",

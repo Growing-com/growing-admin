@@ -1,3 +1,6 @@
+import GRButton from "@component/base/button/GRButton";
+import GRFlexView from "@component/base/view/GRFlexView";
+import GRView from "@component/base/view/GRView";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import type { MenuProps } from "antd";
@@ -6,13 +9,13 @@ import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-
+import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
 
 type tBaseLayout = {};
 
-const BaseLayout: React.FC = ({ children }) => {
+const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
   const [menu,setMenu] = useState([]);
   const router = useRouter();
 
@@ -40,7 +43,6 @@ const BaseLayout: React.FC = ({ children }) => {
   
   const onSelectMenu = useCallback(async(e)=>{
     const newPath = e.key.replace("-","/");
-    console.log("newPath",newPath)
     router.push(`/department/${newPath}`)
   },[router])
 
@@ -59,18 +61,25 @@ const BaseLayout: React.FC = ({ children }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header>
-        <Image src={"/logo.png"} width={"150"} height={"50"} />
-        <div>부서</div>
+        <GRView width={12} justifyContent={"center"}>
+          <Image src={"/logo.png"} width={"120"} height={"40"} alt={"logo"} />
+        </GRView>
+        <GRFlexView justifyContent={"flex-start"}>
+          <GRButton buttonType={"link"} onClick={() => {}}>
+            부서
+          </GRButton>
+        </GRFlexView>
       </Header>
       <Layout>
         <Sider
-          width={200}
+          width={"12rem"}
           css={css`
-            border-right: 0.1rem solid green};
+            border-right: 0.01rem solid ${Color.grey100};
           `}
         >
-          {!!menu.length && <Menu
-            mode="inline"
+          {!!menu.length && 
+          <Menu
+            mode={"inline"}
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
