@@ -1,10 +1,20 @@
 import BaseLayout from "@component/base/layout/BaseLayout"
+import { ConfigProvider } from "antd"
+import { Color } from "styles/colors"
 import 'styles/globals.css'
 function MyApp({ Component, pageProps }) {
   return (
-    <BaseLayout>
-      <Component {...pageProps} />
-    </BaseLayout>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: Color.green200,
+        },
+      }}
+    >
+      <BaseLayout>
+        <Component {...pageProps} />
+      </BaseLayout>
+    </ConfigProvider>
   )
   
 }

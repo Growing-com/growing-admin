@@ -13,3 +13,5 @@ function GRTable({
     />
   )
 }
+
+export default GRTable;

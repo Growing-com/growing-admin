@@ -8,7 +8,7 @@ import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
@@ -61,9 +61,12 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header>
-        <GRView width={12} justifyContent={"center"}>
-          <Image src={"/logo.png"} width={"120"} height={"40"} alt={"logo"} />
-        </GRView>
+        <GRFlexView  justifyContent={"center"}alignItems={"center"} backgroundColor={"blue"}>
+          <Image src={"/logo.png"} width={100} height={30} alt={"logo"} style={{
+            objectFit:'contain',
+            backgroundColor:'red'
+          }}/>
+        </GRFlexView>
         <GRFlexView justifyContent={"flex-start"}>
           <GRButton buttonType={"link"} onClick={() => {}}>
             부서
@@ -71,32 +74,21 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
         </GRFlexView>
       </Header>
       <Layout>
-        <Sider
-          width={"12rem"}
-          css={css`
-            border-right: 0.01rem solid ${Color.grey100};
-          `}
-        >
+        <BaseLayoutSider>
           {!!menu.length && 
-          <Menu
-            mode={"inline"}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
-            items={menu}
-            onSelect={onSelectMenu}
-          />}
-        </Sider>
-        <Layout style={{ padding: "24px 24px", backgroundColor: "white" }}>
-          <Content
-            style={{
-              padding: 0,
-              margin: 0,
-              height: "100%",
-            }}
-          >
+            <BaseLayoutMenu
+              mode={"inline"}
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+              items={menu}
+              onSelect={onSelectMenu}
+            />
+          }
+        </BaseLayoutSider>
+        <Layout style={{ padding: "24px 24px" }}>
+          <LayoutContent>
             {children}
-          </Content>
+          </LayoutContent>
         </Layout>
       </Layout>
     </Layout>
@@ -114,3 +106,19 @@ const Header = styled.header`
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
     0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
 `;
+
+const LayoutContent = styled(Content)`
+  padding: 0;
+  margin: 0;
+  height: "100%";
+`
+
+const BaseLayoutSider = styled(Sider)`
+  border-right: 0.01rem solid ${Color.grey100};
+  width: 12rem;
+`
+
+const BaseLayoutMenu = styled(Menu)`
+  height: "100%";
+  border-right: 0;
+`
