@@ -19,73 +19,40 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
   const [menu,setMenu] = useState([]);
   const router = useRouter();
 
-  const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-    key,
-    label: `nav ${key}`,
-  }));
-
-  const items2: MenuProps["items"] = ["1", "2", "3", "4"].map((icon, index) => {
-    const key = String(index + 1);
-
-    return {
-      key: `sub${key}`,
-      label: `subnav ${key}`,
-
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  });
-  
   const onSelectMenu = useCallback(async(e)=>{
     const newPath = e.key.replace("-","/");
     router.push(`/department/${newPath}`)
   },[router])
 
   useEffect(()=>{
-    const menuItems = DEPARTMENT_MAIN_MENU.map( main => {
-      return {
-        key:main.key,
-        label: main.label,
-        children: main.children
-      }      
-    } )
-    console.log("!!")
-    setMenu(menuItems)
+    setMenu(DEPARTMENT_MAIN_MENU)
   },[])
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header>
-        <GRFlexView  justifyContent={"center"}alignItems={"center"} backgroundColor={"blue"}>
-          <Image src={"/logo.png"} width={100} height={30} alt={"logo"} style={{
-            objectFit:'contain',
-            backgroundColor:'red'
-          }}/>
-        </GRFlexView>
-        <GRFlexView justifyContent={"flex-start"}>
-          <GRButton buttonType={"link"} onClick={() => {}}>
-            부서
-          </GRButton>
-        </GRFlexView>
-      </Header>
+        <Header>
+          <GRView width={12} style={{ position:'relative' }}>
+            <Image src={"/logo.png"} fill={true} alt={"logo"} style={{ objectFit:"contain" }} />
+          </GRView>
+          <GRFlexView justifyContent={"flex-start"}>
+            <GRButton buttonType={"link"} onClick={() => {}}>
+              부서
+            </GRButton>
+          </GRFlexView>
+        </Header>
       <Layout>
-        <BaseLayoutSider>
-          {!!menu.length && 
-            <BaseLayoutMenu
-              mode={"inline"}
-              defaultSelectedKeys={["1"]}
-              defaultOpenKeys={["sub1"]}
-              items={menu}
-              onSelect={onSelectMenu}
-            />
-          }
-        </BaseLayoutSider>
-        <Layout style={{ padding: "24px 24px" }}>
+        <Sider width={'12rem'} style={{
+          backgroundColor: "white"
+        }}>
+          <BaseLayoutMenu
+            mode={"inline"}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            items={menu}
+            onSelect={onSelectMenu}
+          />
+        </Sider>
+        <Layout>
           <LayoutContent>
             {children}
           </LayoutContent>
@@ -99,7 +66,6 @@ export default BaseLayout;
 
 const Header = styled.header`
   display: flex;
-  position: relative;
   z-index: 10;
   background-color: #ffff;
   max-width: 100%;
@@ -108,14 +74,10 @@ const Header = styled.header`
 `;
 
 const LayoutContent = styled(Content)`
-  padding: 0;
   margin: 0;
   height: "100%";
-`
-
-const BaseLayoutSider = styled(Sider)`
-  border-right: 0.01rem solid ${Color.grey100};
-  width: 12rem;
+  padding: 2rem 2rem;
+  background-color: white;
 `
 
 const BaseLayoutMenu = styled(Menu)`

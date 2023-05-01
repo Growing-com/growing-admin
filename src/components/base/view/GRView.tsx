@@ -12,6 +12,7 @@ interface IGRView {
   padding?: CSSProperties['padding'];
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  style?: CSSProperties,
 }
 
 const GRView: FC<IGRView> = ({
@@ -24,6 +25,7 @@ const GRView: FC<IGRView> = ({
   padding,
   width,
   height,
+  style,
   ...rest
 }) => {
   return (
@@ -31,6 +33,7 @@ const GRView: FC<IGRView> = ({
       css={[
         css`
           width: ${width}rem;
+          height: ${height}rem;
           flex-direction: ${isRow ? "row" : "colum"};
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
@@ -42,6 +45,7 @@ const GRView: FC<IGRView> = ({
           border-radius: 1rem;
         `
       ]}
+      style={style}
       {...rest}
     >
       {children}

@@ -1,14 +1,45 @@
 const Routes = [];
 
-export const DEPARTMENT_MANAGEMENT_SUB_MENU = [
+type tDepartmentMainMenu = {
+  key: 'management' | 'attendance',
+  label: '부서 관리' | '출석 관리',
+  children: tDepartmentAttendanceSubMenu[] & tDepartmentManagementSubMenu[],
+}
+
+type tDepartmentAttendanceSubMenu = {
+  key: 'attendance-check' | 'attendance-statistics',
+  label: '출석 체크' | '출석 통계',
+  path: string
+}
+
+type tDepartmentManagementSubMenu = {
+  key: 'management-account',
+  label: '계정 관리',
+  path: string
+}
+
+const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
+  {
+    key: "attendance-check",
+    label: "출석 체크",
+    path: "attendance/check",
+  },
+  {
+    key: "attendance-statistics",
+    label: "출석 통계",
+    path: "attendance/statistics",
+  }
+]
+
+export const DEPARTMENT_MANAGEMENT_SUB_MENU :tDepartmentManagementSubMenu[] = [
   {
     key: "management-account",
     label: "계정 관리",
-    path: "management/account"
-  },
+    path: "management/account",
+  }
 ]
 
-export const DEPARTMENT_MAIN_MENU = [
+export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "management",
     label: "부서 관리",
@@ -17,18 +48,7 @@ export const DEPARTMENT_MAIN_MENU = [
   {
     key: "attendance",
     label: "출석 관리",
-    children : [
-      {
-        key: "attendance-check",
-        label: "출석 체크",
-        path:"attendance/check",
-      },
-      {
-        key: "attendance-statistics",
-        label: "출석 통계",
-        path:"attendance/statistics",
-      },
-    ],
+    children : DEPARTMENT_ATTENDANCE_SUB_MENU
   },
 ];
 

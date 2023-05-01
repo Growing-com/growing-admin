@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }) {
       theme={{
         token: {
           colorPrimary: Color.green200,
+          colorBgBase: Color.white
         },
       }}
     >
