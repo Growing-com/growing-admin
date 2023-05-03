@@ -1,15 +1,12 @@
 import GRButton from "@component/base/button/GRButton";
 import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
 
