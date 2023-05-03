@@ -51,7 +51,7 @@ const GRButton : React.FC<tGRButton> = ({
       `}
       {...props}
     >
-      <GRText >
+      <GRText color={Color.white}>
         {children}
       </GRText>
     </Button>
