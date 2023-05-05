@@ -1,4 +1,9 @@
+const USER_QUERIES = {
+    // 유저 리스트
+    LIST: 'LIST'
+}
 export default {
+    USER: USER_QUERIES,
     // 주택 종류
     PROPERTY_TYPE: 'PROPERTY_TYPE',
     // 대출 지역
@@ -14,4 +19,3 @@ export default {
     // 대출 결과
     MORTGAGE_INQUIRE_RESULT: 'MORTGAGE_INQUIRE_RESULT',
 } as const;
-  

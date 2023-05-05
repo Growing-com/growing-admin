@@ -9,6 +9,8 @@ import ManagementSearch from "./ManagementSearch"
 import { ColumnsType } from "antd/es/table"
 import { DUMP_DATA } from "./dumpData"
 import { useCallback } from "react"
+import { useQuery } from "queries/useQuery"
+import querykeys from "queries/querykeys"
 
 interface DataType {
   key: string;
