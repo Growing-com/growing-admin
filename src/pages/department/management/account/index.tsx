@@ -41,14 +41,14 @@ const ManagementAccount : NextPage = () => {
       title: '상태',
       key: 'status',
       dataIndex: 'tags',
-      // render: (_, { status }) => {
-      //       let color = status.length > 2 ? 'geekblue' : 'green';
-      //       return (
-      //         <Tag color={color} key={status}>
-      //           {status}
-      //         </Tag>
-      //       );
-      //   }
+      render: (_, { status }) => {
+            let color = status.length > 2 ? 'geekblue' : 'green';
+            return (
+              <Tag color={color} key={status}>
+                {status}
+              </Tag>
+            );
+        }
     },
     {
       title: '권한',
