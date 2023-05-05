@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
+import { getMargin, tGetMargin } from 'utils';
 
-interface IGRFlexView {
+interface IGRFlexView extends tGetMargin {
   children: ReactNode;
   isRow?: boolean;
   backgroundColor?: CSSProperties['backgroundColor'];
@@ -10,7 +11,7 @@ interface IGRFlexView {
   alignItems?: CSSProperties['alignItems']
   isBoard?: boolean;
   padding?: CSSProperties['padding'];
-}
+} 
 
 const GRFlexView: FC<IGRFlexView> = ({
   children,
@@ -22,6 +23,8 @@ const GRFlexView: FC<IGRFlexView> = ({
   padding,
   ...rest
 }) => {
+  const _margin = getMargin(rest);
+
   return (
     <div
       css={[

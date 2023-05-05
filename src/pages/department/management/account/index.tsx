@@ -80,6 +80,7 @@ const ManagementAccount : NextPage = () => {
       </GRFlexView>
       <ManagementSearch/>
       <GRTable
+        marginTop={2}
         columns={columns} 
         dataSource={DUMP_DATA}
       />
