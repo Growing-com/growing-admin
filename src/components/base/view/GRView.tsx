@@ -4,7 +4,7 @@ import { Color } from 'styles/colors';
 
 interface IGRView {
   children: ReactNode;
-  isRow?: boolean;
+  flexDirection?: CSSProperties['flexDirection'];
   backgroundColor?: CSSProperties['backgroundColor'];
   justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems']
@@ -17,7 +17,7 @@ interface IGRView {
 
 const GRView: FC<IGRView> = ({
   children,
-  isRow,
+  flexDirection,
   backgroundColor,
   justifyContent = "center",
   alignItems = "center",
@@ -32,9 +32,9 @@ const GRView: FC<IGRView> = ({
     <div
       css={[
         css`
-          width: ${width}rem;
-          height: ${height}rem;
-          flex-direction: ${isRow ? "row" : "colum"};
+          width: ${width ? `${width}rem` : "100%"};
+          height: ${height ? `${height}rem` : "100%"};
+          flex-direction: ${flexDirection};
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
           align-items: ${alignItems};

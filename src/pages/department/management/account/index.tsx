@@ -75,7 +75,7 @@ const ManagementAccount : NextPage = () => {
 
   return(
     <div>
-      <GRFlexView isRow justifyContent={"flex-end"}>
+      <GRFlexView flexDirection={'row'} justifyContent={"flex-end"}>
         <GRButton onClick={onClick}>
           계정 생성
         </GRButton>
