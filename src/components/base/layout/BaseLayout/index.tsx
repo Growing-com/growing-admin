@@ -33,10 +33,13 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
           <GRView width={12} style={{ position:'relative' }}>
             <Image src={"/logo.png"} fill={true} alt={"logo"} style={{ objectFit:"contain" }} />
           </GRView>
-          <GRFlexView justifyContent={"flex-start"}>
-            <GRText color={Color.green200}>
+          <GRFlexView justifyContent={"flex-start"} flexDirection={"row"}>
+            <GRButton type={"link"} textColor={Color.green200}  onClick={() => {}}>
               부서
-            </GRText>
+            </GRButton>
+            <GRButton type={"link"} textColor={Color.green200}  onClick={() => router.push('/login')}>
+              로그인
+            </GRButton>
           </GRFlexView>
         </Header>
       <Layout>

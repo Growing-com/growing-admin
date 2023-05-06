@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
+import { getMargin, tGetMargin } from 'utils';
 
-interface IGRView {
+interface IGRView extends tGetMargin {
   children: ReactNode;
   flexDirection?: CSSProperties['flexDirection'];
   backgroundColor?: CSSProperties['backgroundColor'];
@@ -28,6 +29,8 @@ const GRView: FC<IGRView> = ({
   style,
   ...rest
 }) => {
+  const _margin = getMargin(rest);
+  
   return (
     <div
       css={[
@@ -38,7 +41,8 @@ const GRView: FC<IGRView> = ({
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
           align-items: ${alignItems};
-          padding: ${padding}
+          padding: ${padding};
+          ${_margin}
         `,
         isBoard && css`
           border: 0.1rem solid ${Color.grey100};

@@ -5,7 +5,7 @@ import { getMargin, tGetMargin } from 'utils';
 
 interface IGRFlexView extends tGetMargin {
   children: ReactNode;
-  flexDirection?: CSSProperties['flexDirection'];
+  flexDirection?: "column" | "row";
   backgroundColor?: CSSProperties['backgroundColor'];
   justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems']
@@ -15,7 +15,7 @@ interface IGRFlexView extends tGetMargin {
 
 const GRFlexView: FC<IGRFlexView> = ({
   children,
-  flexDirection = "colum",
+  flexDirection = "column",
   backgroundColor,
   justifyContent,
   alignItems,

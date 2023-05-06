@@ -7,7 +7,7 @@ import GRText from "../text/GRText";
 type tGRButton = {
   style?: CSSProperties;
   isTextButton?: boolean;
-  buttonType?: "primary" | "dashed" | "text" | "link";
+  type?: "primary" | "dashed" | "text" | "link";
   backgroundColor?: CSSProperties['backgroundColor'];
   textColor?: CSSProperties['color'];
 } & ButtonProps
@@ -17,7 +17,7 @@ const GRButton : React.FC<tGRButton> = ({
   size,
   style,
   onClick,
-  buttonType = "primary",
+  type = "primary",
   backgroundColor,
   ghost,
   textColor,
@@ -26,31 +26,30 @@ const GRButton : React.FC<tGRButton> = ({
 
   const _backgroundColor = useMemo(() => 
   {
-    if( buttonType === 'primary' ){
+    if( type === 'primary' ){
       return Color.green200;
     }
     return backgroundColor ?? Color.white;
-  },[backgroundColor, buttonType])
+  },[backgroundColor, type])
 
   const _textColor = useMemo(()=>{
-    if( buttonType === 'primary' ){
+    if( type === 'primary' ){
       return Color.white;
     }
     return textColor ?? Color.green200
-  },[buttonType, textColor])
+  },[type, textColor])
 
   return (
     <Button
-      type={buttonType}
+      type={type}
       size={size}
       onClick={onClick}
       css={css`
         background-color: ${_backgroundColor};
-        color: ${_textColor};
       `}
       {...props}
     >
-      <GRText color={Color.white}>
+      <GRText color={_textColor}>
         {children}
       </GRText>
     </Button>
