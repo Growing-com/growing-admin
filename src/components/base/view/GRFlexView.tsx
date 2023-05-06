@@ -17,8 +17,8 @@ const GRFlexView: FC<IGRFlexView> = ({
   children,
   isRow,
   backgroundColor,
-  justifyContent = "center",
-  alignItems = "center",
+  justifyContent,
+  alignItems,
   isBoard,
   padding,
   ...rest
@@ -35,7 +35,8 @@ const GRFlexView: FC<IGRFlexView> = ({
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
           align-items: ${alignItems};
-          padding: ${padding}
+          padding: ${padding};
+          ${_margin}
         `,
         isBoard && css`
           border: 0.1rem solid ${Color.grey100};

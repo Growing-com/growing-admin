@@ -21,14 +21,14 @@ const getMargin = ({
     marginVertical
 }: tGetMargin) => {
     if ( !margin && marginHorizontal || marginVertical ){
-        margin = `${marginVertical} ${marginHorizontal}`
+        margin = `${marginVertical ?? 0}rem ${marginHorizontal ?? 0}rem`;
     }
     return css`
         margin-top: ${marginTop}rem;
         margin-bottom: ${marginBottom}rem;
         margin-right: ${marginRight}rem;
         margin-left: ${marginLeft}rem;
-        margin: ${margin};
+        margin: ${margin}
     `
 }
 

@@ -1,12 +1,17 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Input } from 'antd'
+import type { TextProps } from 'antd/es/typography/Text'
 import React from 'react'
 
-export default function GRTextInput({
-    placeholder,
-    onChange,
-}) {
+interface GRTextInput extends TextProps{
+
+}
+
+const GRTextInput = ({
+  placeholder,
+  onChange,
+}: GRTextInput) => {
   return (
     <InputComponent
         placeholder={placeholder}
@@ -14,6 +19,8 @@ export default function GRTextInput({
     />
   )
 }
+
+export default GRTextInput;
 
 const InputComponent = styled(Input)`
     display:flex;

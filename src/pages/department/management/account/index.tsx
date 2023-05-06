@@ -75,14 +75,13 @@ const ManagementAccount : NextPage = () => {
 
   return(
     <div>
-      <GRFlexView isRow alignItems={"flex-between"}>
+      <GRFlexView isRow justifyContent={"flex-end"}>
         <GRButton onClick={onClick}>
           계정 생성
         </GRButton>
       </GRFlexView>
       <ManagementSearch/>
       <GRTable
-        marginTop={2}
         columns={columns} 
         dataSource={DUMP_DATA}
       />

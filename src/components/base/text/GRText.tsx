@@ -1,6 +1,8 @@
 import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React from 'react'
+import type { CSSProperties, FC, ReactNode } from 'react'
+
 
 export type tFontSizeType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "h7" | "h8" | "h9" | "b1" | "b2" | "b3" | "b4" | "b5";
 
@@ -84,10 +86,9 @@ type tGRTextSpan = {
 }
 
 type GRTextProps = {
-  children: ReactNode;
   textAlign?: CSSProperties['textAlign'];
   display?: CSSProperties['display'];
-  weight: CSSProperties['fontWeight']; 
+  weight?: CSSProperties['fontWeight']; 
 } & JSX.IntrinsicElements["span"]
 
 const GRText: FC<GRTextProps> = ({

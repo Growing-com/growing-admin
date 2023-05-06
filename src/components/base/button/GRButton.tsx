@@ -6,13 +6,12 @@ import GRText from "../text/GRText";
 
 type tGRButton = {
   style?: CSSProperties;
-  onClick: () => React.MouseEventHandler<HTMLAnchorElement> | void;
   isTextButton?: boolean;
   buttonType?: "primary" | "dashed" | "text" | "link";
   backgroundColor?: CSSProperties['backgroundColor'];
   textColor?: CSSProperties['color'];
-}
- & ButtonProps
+} & ButtonProps
+
 const GRButton : React.FC<tGRButton> = ({
   children,
   size,
