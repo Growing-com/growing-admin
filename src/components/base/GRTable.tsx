@@ -6,7 +6,7 @@ type tGRTable<DataSourceType> = {
 
 } & tGetMargin & TableProps<DataSourceType>
 
-const GRTable =<DataSourceType extends {}> ({
+const GRTable = <DataSourceType extends {}> ({
   columns,
   dataSource,
   pagination,

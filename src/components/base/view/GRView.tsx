@@ -35,8 +35,8 @@ const GRView: FC<IGRView> = ({
     <div
       css={[
         css`
-          width: ${width ? `${width}rem` : "100%"};
-          height: ${height ? `${height}rem` : "100%"};
+          width: ${`${width}rem`};
+          height: ${`${height}rem`};
           flex-direction: ${flexDirection};
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};

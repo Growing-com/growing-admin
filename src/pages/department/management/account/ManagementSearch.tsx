@@ -16,20 +16,15 @@ const ManagementSearch = () =>{
   },[])
   
   return (
-    <GRFlexView isBoard padding={"1rem 2rem"} marginVertical={2}>
-        <GRFlexView alignItems={"center"}>
-          <GRText>
-            상태
-          </GRText>
-          <GRSelect
-            options={STATUS_DUMP_DATA}
-          />
-        </GRFlexView>
-        <GRFlexView alignItems={"center"}>
-          <GRText>
+    <GRFlexView flexDirection={"row"} isBoard padding={"1rem 2rem"} marginBottom={2}>
+        <GRFlexView alignItems={"center"} flexDirection={"row"}>
+          <GRText marginRight={1}>
             검색
           </GRText>
-          <GRTextInput/>
+          <GRTextInput
+            marginRight={2}
+            placeholder={"이름, 전화 번호로 검색 하세요."}
+          />
         </GRFlexView>
         <GRButton onClick={onClickSearch}>
           조회

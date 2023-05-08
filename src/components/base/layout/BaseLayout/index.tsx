@@ -44,7 +44,7 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
         </Header>
       <Layout>
         <Sider width={'12rem'} style={{
-          backgroundColor: "white"
+          backgroundColor: "white",
         }}>
           <BaseLayoutMenu
             mode={"inline"}
