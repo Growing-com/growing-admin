@@ -45,7 +45,7 @@ const GRView: FC<IGRView> = ({
           ${_margin}
         `,
         isBoard && css`
-          border: 0.1rem solid ${Color.grey100};
+          border: 0.1rem solid ${Color.green200};
           border-radius: 1rem;
         `
       ]}

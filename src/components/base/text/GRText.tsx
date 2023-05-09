@@ -4,10 +4,57 @@ import React from 'react'
 import type { CSSProperties, FC, ReactNode } from 'react'
 import { getMargin, tGetMargin } from 'utils';
 
+type tFontSizeType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "h7" | "h8" | "h9" | "b1" | "b2" | "b3" | "b4" | "b5";
 
-export type tFontSizeType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "h7" | "h8" | "h9" | "b1" | "b2" | "b3" | "b4" | "b5";
+type tGRTextSpan = {
+  color?: CSSProperties['color'];
+  weight?: CSSProperties['fontWeight'];
+  margin?: CSSProperties['margin'];
+}
 
-export const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
+type GRTextProps = {
+  textAlign?: CSSProperties['textAlign'];
+  display?: CSSProperties['display'];
+  weight?: CSSProperties['fontWeight']; 
+} & JSX.IntrinsicElements["span"] & tGetMargin
+
+const GRText: FC<GRTextProps> = ({
+  children,
+  weight,
+  display = 'inline-block',
+  textAlign,
+  color,
+  style,
+  ...rest
+}) => {
+  const _margin = getMargin(rest)
+  return (
+    <TextComponent
+      color={color}
+      weight={weight}
+      css={css`
+        display: ${display};
+        ${_margin};
+      `}
+      style={{
+        textAlign,
+        ...style,
+      }}
+    >
+      {children}
+    </TextComponent>
+  )
+}
+
+export default GRText
+
+const TextComponent = styled.span<tGRTextSpan>`
+  color: ${p => p?.color ?? "#222222"};
+  font-weight: ${p => p?.weight ?? "normal"};
+  margin: ${p => p?.margin ?? ""};
+`
+
+const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
     h1: css`
         font-size: 3rem;
         line-height: 4.2rem;
@@ -79,51 +126,3 @@ export const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
         letter-spacing: -0.01rem;
     `
 };
-
-type tGRTextSpan = {
-  color?: CSSProperties['color'];
-  weight?: CSSProperties['fontWeight'];
-  margin?: CSSProperties['margin'];
-}
-
-type GRTextProps = {
-  textAlign?: CSSProperties['textAlign'];
-  display?: CSSProperties['display'];
-  weight?: CSSProperties['fontWeight']; 
-} & JSX.IntrinsicElements["span"] & tGetMargin
-
-const GRText: FC<GRTextProps> = ({
-  children,
-  weight,
-  display = 'inline-block',
-  textAlign,
-  color,
-  style,
-  ...rest
-}) => {
-  const _margin = getMargin(rest)
-  return (
-    <TextComponent
-      color={color}
-      weight={weight}
-      css={css`
-        display: ${display};
-        ${_margin};
-      `}
-      style={{
-        textAlign,
-        ...style,
-      }}
-    >
-      {children}
-    </TextComponent>
-  )
-}
-
-export default GRText
-
-const TextComponent = styled.span<tGRTextSpan>`
-  color: ${p => p?.color ?? "#222222"};
-  font-weight: ${p => p?.weight ?? "normal"};
-  margin: ${p => p?.margin ?? ""};
-`

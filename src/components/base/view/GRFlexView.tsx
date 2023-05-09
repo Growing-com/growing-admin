@@ -11,6 +11,7 @@ interface IGRFlexView extends tGetMargin {
   alignItems?: CSSProperties['alignItems']
   isBoard?: boolean;
   padding?: CSSProperties['padding'];
+  borderRadius?: CSSProperties['borderRadius'];
 } 
 
 const GRFlexView: FC<IGRFlexView> = ({
@@ -21,6 +22,7 @@ const GRFlexView: FC<IGRFlexView> = ({
   alignItems,
   isBoard,
   padding,
+  borderRadius,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -36,7 +38,9 @@ const GRFlexView: FC<IGRFlexView> = ({
           justify-content: ${justifyContent};
           align-items: ${alignItems};
           padding: ${padding};
+          border-radius: ${borderRadius}rem;
           ${_margin}
+
         `,
         isBoard && css`
           border: 0.1rem solid ${Color.grey100};

@@ -3,6 +3,10 @@ import { Button, ButtonProps } from "antd";
 import React, { CSSProperties, useMemo } from "react";
 import { Color } from "styles/colors";
 import GRText from "../text/GRText";
+import { getMargin, tGetMargin } from "utils";
+import { SerializedStyles } from "@emotion/react";
+
+type tButtonSize = "large" | "normal" | "small"; 
 
 type tGRButton = {
   style?: CSSProperties;
@@ -10,20 +14,25 @@ type tGRButton = {
   type?: "primary" | "dashed" | "text" | "link";
   backgroundColor?: CSSProperties['backgroundColor'];
   textColor?: CSSProperties['color'];
-} & ButtonProps
+  size?: tButtonSize;
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
+} & Omit<ButtonProps,"size"> & tGetMargin;
 
 const GRButton : React.FC<tGRButton> = ({
   children,
-  size,
+  size = "normal", 
   style,
   onClick,
   type = "primary",
   backgroundColor,
   ghost,
   textColor,
+  width,
+  height,
   ...props
 }) => {
-
+  const _margin = getMargin(props);
   const _backgroundColor = useMemo(() => 
   {
     if( type === 'primary' ){
@@ -42,10 +51,13 @@ const GRButton : React.FC<tGRButton> = ({
   return (
     <Button
       type={type}
-      size={size}
       onClick={onClick}
       css={css`
         background-color: ${_backgroundColor};
+        ${BUTTON_SIZE_STYLE[size]};
+        ${_margin};
+        width: ${width};
+        height: ${height};
       `}
       {...props}
     >
@@ -57,3 +69,19 @@ const GRButton : React.FC<tGRButton> = ({
 }
 
 export default GRButton;
+
+
+export const BUTTON_SIZE_STYLE: Record<tButtonSize,SerializedStyles> = {
+  small: css`
+    width: 3.9rem;
+    height: 2rem;
+  `,
+  normal: css`
+    width: 5.3rem;
+    height: 2rem;
+  `,
+  large: css`
+    width: 8rem;
+    height: 2rem;
+  `
+}

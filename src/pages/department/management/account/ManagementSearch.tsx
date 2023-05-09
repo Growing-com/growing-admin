@@ -8,6 +8,7 @@ import { Button, Pagination, Table } from "antd"
 import { NextPage } from "next"
 import { STATUS_DUMP_DATA } from "./dumpData"
 import React, { useCallback } from "react"
+import { Color } from "styles/colors"
 
 const ManagementSearch = () =>{
 
@@ -16,9 +17,9 @@ const ManagementSearch = () =>{
   },[])
   
   return (
-    <GRFlexView flexDirection={"row"} isBoard padding={"1rem 2rem"} marginBottom={2}>
+    <GRFlexView flexDirection={"row"} borderRadius={1} padding={"2rem 2rem"} marginBottom={2} backgroundColor={Color.green100}>
         <GRFlexView alignItems={"center"} flexDirection={"row"}>
-          <GRText marginRight={1}>
+          <GRText marginRight={1} weight={"bold"}>
             검색
           </GRText>
           <GRTextInput
