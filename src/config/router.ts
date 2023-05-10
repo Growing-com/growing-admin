@@ -1,20 +1,20 @@
 const Routes = [];
 
 type tDepartmentMainMenu = {
-  key: 'management' | 'attendance',
-  label: '부서 관리' | '출석 관리',
+  key: "management" | "attendance",
+  label: "부서 관리" | "출석 관리",
   children: tDepartmentAttendanceSubMenu[] & tDepartmentManagementSubMenu[],
 }
 
 type tDepartmentAttendanceSubMenu = {
-  key: 'attendance-check' | 'attendance-statistics',
-  label: '출석 체크' | '출석 통계',
+  key: "attendance-check" | "attendance-statistics",
+  label: "출석 체크" | "출석 통계",
   path: string
 }
 
 type tDepartmentManagementSubMenu = {
-  key: 'management-account',
-  label: '계정 관리',
+  key: "management-account",
+  label: "계정 관리",
   path: string
 }
 

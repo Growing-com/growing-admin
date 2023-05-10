@@ -15,7 +15,7 @@ const ManagementSearch = () =>{
   const onClickSearch = () => useCallback(()=>{
     
   },[])
-  
+
   return (
     <GRFlexView flexDirection={"row"} borderRadius={1} padding={"2rem 2rem"} marginBottom={2} backgroundColor={Color.green100}>
         <GRFlexView alignItems={"center"} flexDirection={"row"}>

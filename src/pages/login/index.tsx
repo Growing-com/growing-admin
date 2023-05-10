@@ -15,11 +15,11 @@ const Login = () => {
         </GRView>
         <GRFlexView>
           <GRView marginBottom={1}>
-            <GRText marginBottom={0.5}>아이디</GRText>
+            <GRText marginBottom={0.5} weight={"bold"}>아이디</GRText>
             <GRTextInput placeholder={"아이디를 입력해 주세요"}/> 
           </GRView>
           <GRView marginBottom={1}>
-            <GRText marginBottom={0.5}>비밀번호</GRText>
+            <GRText marginBottom={0.5} weight={"bold"}>비밀번호</GRText>
             <GRTextInput placeholder={"비밀번호를 입력해 주세요"}/> 
           </GRView>
         </GRFlexView>
