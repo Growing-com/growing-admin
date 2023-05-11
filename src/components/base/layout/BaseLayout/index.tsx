@@ -29,7 +29,7 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-        <Header>
+        <Header style={{ padding: "0.5rem 0rem" }}>
           <GRView width={12} style={{ position:'relative' }}>
             <Image src={"/logo.png"} fill={true} alt={"logo"} style={{ objectFit:"contain" }} />
           </GRView>
@@ -79,7 +79,7 @@ const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
   padding: 2rem 2rem;
-  background-color: white;
+  background-color: ${Color.grey20};
 `
 
 const BaseLayoutMenu = styled(Menu)`

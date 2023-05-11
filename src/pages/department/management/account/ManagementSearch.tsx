@@ -4,7 +4,7 @@ import GRSelect from "@component/base/dataEntry/GRSelect"
 import GRText from "@component/base/text/GRText"
 import GRTextInput from "@component/base/text/GRTextInput"
 import GRFlexView from "@component/base/view/GRFlexView"
-import { Button, Pagination, Table } from "antd"
+import { Button, Divider, Pagination, Table } from "antd"
 import { NextPage } from "next"
 import { STATUS_DUMP_DATA } from "./dumpData"
 import React, { useCallback } from "react"
@@ -17,8 +17,17 @@ const ManagementSearch = () =>{
   },[])
 
   return (
-    <GRFlexView flexDirection={"row"} borderRadius={1} padding={"2rem 2rem"} marginBottom={2} backgroundColor={Color.green100}>
-        <GRFlexView alignItems={"center"} flexDirection={"row"}>
+    <GRFlexView  borderRadius={0.5} padding={"2rem 2rem"} marginBottom={2} backgroundColor="white">
+        <GRFlexView flexDirection={'row'} justifyContent={"space-between"}>
+            <GRText fontSize={"h9"} weight={"bold"}>
+              계정 관리
+            </GRText>
+          <GRButton onClick={() => {}}>
+            계정 생성
+          </GRButton>
+        </GRFlexView>
+        <Divider/>
+        <GRFlexView alignItems={"center"} flexDirection={"row"} padding={"1rem 0"} >
           <GRText marginRight={1} weight={"bold"}>
             검색
           </GRText>
@@ -26,10 +35,10 @@ const ManagementSearch = () =>{
             marginRight={2}
             placeholder={"이름, 전화 번호로 검색 하세요."}
           />
+          <GRButton onClick={onClickSearch}>
+            조회
+          </GRButton>
         </GRFlexView>
-        <GRButton onClick={onClickSearch}>
-          조회
-        </GRButton>
       </GRFlexView>
   )
 }

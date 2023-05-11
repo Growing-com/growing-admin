@@ -27,29 +27,18 @@ const GRTable: FC<tGRTable> = ({
   const tableStyles = useMemo(
     () => css`
         .ant-table-container {
-            border: ${border};
-            border-top-right-radius: ${borderRadius}rem;
-            border-top-left-radius: ${borderRadius}rem;
-            border-bottom-right-radius: ${props.footer ? 0 : borderRadius}rem;
-            border-bottom-left-radius: ${props.footer ? 0 : borderRadius}rem;
-
             table {
                 border-collapse: collapse;
 
                 .ant-table-thead {
                     tr {
                         .ant-table-cell {
-                            border-right: ${border};
                             font-weight: bold;
                             color: ${fontColor};
-                            background-color: ${Color.green100};
+                            background-color: #27fbbc33;
 
                             ::before {
                                 display: none;
-                            }
-
-                            :first-of-type {
-                                border-top-left-radius: ${borderRadius}rem;
                             }
 
                             :last-of-type {
@@ -57,11 +46,7 @@ const GRTable: FC<tGRTable> = ({
 
                             }
                         }
-
-                        .ant-table-cell.ant-table-cell-scrollbar {
-                            border-top-left-radius: 0;
-                            border-top-right-radius: ${borderRadius}rem;
-                        }
+                       
                     }
                 }
 
@@ -70,14 +55,11 @@ const GRTable: FC<tGRTable> = ({
                         cursor: pointer;
 
                         .ant-table-cell {
-                            border-top: ${border};
-                            border-right: ${border};
+
                             border-bottom: ${border};
                             color: ${fontColor};
 
-                            :last-of-type {
-                                border-right: none;
-                            }
+
                         }
 
                         :last-of-type .ant-table-cell {
@@ -92,7 +74,7 @@ const GRTable: FC<tGRTable> = ({
             padding: 0;
         }
     `,
-    [border, fontColor, props.footer]
+    [border, fontColor]
   );
 
   return (
@@ -120,4 +102,7 @@ const GRTable: FC<tGRTable> = ({
 export default GRTable;
 
 const ComponentContainer = styled.div`
+  background-color: ${Color.white};
+  padding: 2rem;
+  border-radius: 0.5rem;
 `
