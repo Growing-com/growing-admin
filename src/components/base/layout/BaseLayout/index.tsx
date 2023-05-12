@@ -78,11 +78,22 @@ const Header = styled.header`
 const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
-  padding: 2rem 2rem;
+  padding: 1rem 1rem;
   background-color: ${Color.grey20};
 `
 
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
   border-right: 0;
+  .ant-menu-submenu-title{
+    :hover{
+      background-color: ${Color.green100} !important;
+    }
+  }
+  .ant-menu-item{
+    :hover{
+      background-color: ${Color.green100} !important;
+    }
+  }
+  
 `

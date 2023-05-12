@@ -17,7 +17,7 @@ const ManagementSearch = () =>{
   },[])
 
   return (
-    <GRFlexView  borderRadius={0.5} padding={"2rem 2rem"} marginBottom={2} backgroundColor="white">
+    <GRFlexView  borderRadius={0.5} padding={"2rem 2rem"} marginBottom={1} backgroundColor="white">
         <GRFlexView flexDirection={'row'} justifyContent={"space-between"}>
             <GRText fontSize={"h9"} weight={"bold"}>
               계정 관리
@@ -27,8 +27,8 @@ const ManagementSearch = () =>{
           </GRButton>
         </GRFlexView>
         <Divider/>
-        <GRFlexView alignItems={"center"} flexDirection={"row"} padding={"1rem 0"} >
-          <GRText marginRight={1} weight={"bold"}>
+        <GRFlexView alignItems={"center"} flexDirection={"row"}  >
+          <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
             검색
           </GRText>
           <GRTextInput

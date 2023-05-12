@@ -8,6 +8,7 @@ import GRFlexView from './view/GRFlexView';
 
 type tGRTable = {
   paginationProps?: PaginationProps;
+  scroll?: TableProps<DataSourceType>["scroll"];
 } & tGetMargin & TableProps<RecordType>
 
 const GRTable: FC<tGRTable> = ({
@@ -15,6 +16,7 @@ const GRTable: FC<tGRTable> = ({
   dataSource,
   pagination = false,
   paginationProps,
+  scroll,
   ...props
 }) => {
   const _margin = getMargin(props);
@@ -83,13 +85,14 @@ const GRTable: FC<tGRTable> = ({
         columns={columns}
         dataSource={dataSource}
         pagination={pagination}
+        scroll={scroll}
         css={css`
           ${tableStyles}
           ${_margin};
         `}
       />
       {paginationProps &&
-      <GRFlexView alignItems={'center'} marginTop={2}>
+      <GRFlexView alignItems={'center'} marginTop={1}>
         <Pagination
           showSizeChanger={false}
           {...paginationProps}
