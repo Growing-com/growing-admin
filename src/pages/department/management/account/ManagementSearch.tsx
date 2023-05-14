@@ -9,6 +9,7 @@ import { NextPage } from "next"
 import { STATUS_DUMP_DATA } from "./dumpData"
 import React, { useCallback } from "react"
 import { Color } from "styles/colors"
+import GRModal from "@component/base/modal/GRModal"
 
 const ManagementSearch = () =>{
 
@@ -39,6 +40,7 @@ const ManagementSearch = () =>{
             조회
           </GRButton>
         </GRFlexView>
+        <GRModal />
       </GRFlexView>
   )
 }
