@@ -5,30 +5,30 @@ import type { TextProps } from 'antd/es/typography/Text'
 import React from 'react'
 import { getMargin, tGetMargin } from 'utils'
 
-interface GRTextInput extends TextProps, tGetMargin{
+interface GRFormInputText extends TextProps, tGetMargin{
 
 }
 
-const GRTextInput = ({
+const GRFormInputText = ({
   placeholder,
   onChange,
   ...props
-}: GRTextInput) => {
+}: GRFormInputText) => {
   const _margin = getMargin(props);
 
   return (
     <InputComponent
+        {...props}
         placeholder={placeholder}
         onChange={onChange}
         css={css`
           ${_margin}
         `}
-        {...props}
     />
   )
 }
 
-export default GRTextInput;
+export default GRFormInputText;
 
 const InputComponent = styled(Input)`
     display:flex;

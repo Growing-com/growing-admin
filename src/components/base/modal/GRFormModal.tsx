@@ -8,13 +8,13 @@ type tFooterComponent = {
   text: string;
 }
 
-type tGRModal = {
+type tGRFormModal = {
   footerComponent: ReactNode;
   okButtonText: string;
   cancelButtonText: string;
 } & ModalProps;
 
-const GRModal: FC<tGRModal> = ({
+const GRFormModal: FC<tGRFormModal> = ({
     children,
     footerComponent,
     okButtonText,
@@ -38,25 +38,25 @@ const GRModal: FC<tGRModal> = ({
       })
   },[footerComponent])
 
+  const onClickCancel = useCallback((e)=>{
+    onCancel?.(e)
+  },[onCancel])
+
+  const onClickOk = useCallback((e)=>{
+    onOk?.(e)
+  },[onOk])
+
   return (
     <Modal 
       open={open}
       onOk={onOk}
       onCancel={onCancel}
       maskClosable={maskClosable}
-      footer={[
-        <GRButton onClick={onCancel} key={"modal-cancel-button"}>
-          {cancelButtonText}
-        </GRButton>,
-        <GRButton onClick={onOk} key={"modal-ok-button"}>
-          {okButtonText}
-        </GRButton>
-      ]}
+      footer={[]}
     >
         {children}
-        {footerComponent}
     </Modal>
   )
 }
 
-export default GRModal;
+export default GRFormModal;

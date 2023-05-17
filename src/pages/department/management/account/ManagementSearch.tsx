@@ -7,23 +7,30 @@ import GRFlexView from "@component/base/view/GRFlexView"
 import { Button, Divider, Pagination, Table } from "antd"
 import { NextPage } from "next"
 import { STATUS_DUMP_DATA } from "./dumpData"
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { Color } from "styles/colors"
 import GRModal from "@component/base/modal/GRModal"
+import AccountModal from "./AccountModal"
 
 const ManagementSearch = () =>{
+  const [openAccountModal, setOpenAccountModal] = useState(false);
 
   const onClickSearch = () => useCallback(()=>{
     
   },[])
 
+  const onAccountModal = useCallback(()=>{
+    setOpenAccountModal(!openAccountModal);
+  },[openAccountModal])
+
   return (
+    <>
     <GRFlexView  borderRadius={0.5} padding={"2rem 2rem"} marginBottom={1} backgroundColor="white">
         <GRFlexView flexDirection={'row'} justifyContent={"space-between"}>
             <GRText fontSize={"h9"} weight={"bold"}>
               계정 관리
             </GRText>
-          <GRButton onClick={() => {}}>
+          <GRButton onClick={onAccountModal}>
             계정 생성
           </GRButton>
         </GRFlexView>
@@ -40,8 +47,12 @@ const ManagementSearch = () =>{
             조회
           </GRButton>
         </GRFlexView>
-        <GRModal />
       </GRFlexView>
+      <AccountModal
+        open={openAccountModal}
+        onClick={onAccountModal}
+      />
+      </>
   )
 }
 
