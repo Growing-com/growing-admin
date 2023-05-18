@@ -7,8 +7,8 @@ type tDepartmentMainMenu = {
 }
 
 type tDepartmentAttendanceSubMenu = {
-  key: "attendance-check" | "attendance-statistics",
-  label: "출석 체크" | "출석 통계",
+  key: "attendance-management" | "attendance-check" | "attendance-statistics",
+  label: "출석 체크" | "출석 통계" | "출석 관리",
   path: string
 }
 
@@ -20,14 +20,19 @@ type tDepartmentManagementSubMenu = {
 
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
-    key: "attendance-check",
-    label: "출석 체크",
-    path: "attendance/check",
+    key: "attendance-management",
+    label: "출석 관리",
+    path: "attendance/management",
   },
   {
     key: "attendance-statistics",
     label: "출석 통계",
     path: "attendance/statistics",
+  },
+  {
+    key: "attendance-check",
+    label: "출석 체크",
+    path: "attendance/check",
   }
 ]
 
