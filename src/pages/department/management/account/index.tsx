@@ -8,10 +8,12 @@ import { NextPage } from "next"
 import ManagementSearch from "./ManagementSearch"
 import { ColumnsType } from "antd/es/table"
 import { DUMP_DATA } from "./dumpData"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import { useQuery } from "queries/useQuery"
 import querykeys from "queries/querykeys"
 import { Color } from "styles/colors"
+import GRHeaderView from "@component/templates/view/GRHeaderView"
+import AccountModal from "./AccountModal"
 
 interface DataType {
   key: string;
@@ -21,8 +23,8 @@ interface DataType {
   tags: string[];
 }
 
-const ManagementAccount : NextPage = () => {
-
+const ManagementAccountPage : NextPage = () => {
+const [openAccountModal, setOpenAccountModal] = useState(false);
   const columns: ColumnsType<DataType> = [
     {
       title: '이름',
@@ -81,9 +83,21 @@ const ManagementAccount : NextPage = () => {
 
   },[])
 
+   const onAccountModal = useCallback(()=>{
+    setOpenAccountModal(!openAccountModal);
+  },[openAccountModal])
+
   return(
     <div>
-      <ManagementSearch/>
+      <GRHeaderView
+        title={"계정 관리"}
+        headerComponent={
+          <GRButton onClick={onAccountModal}>
+            계정 생성
+          </GRButton>
+        }
+        subComponent={<ManagementSearch/>}
+      />
       <GRTable
         columns={columns} 
         dataSource={DUMP_DATA}
@@ -92,9 +106,13 @@ const ManagementAccount : NextPage = () => {
           defaultPageSize:10
         }}
       />
+      <AccountModal
+        open={openAccountModal}
+        onClick={onAccountModal}
+      />
     </div>
   )
 }
 
 
-export default ManagementAccount
+export default ManagementAccountPage
