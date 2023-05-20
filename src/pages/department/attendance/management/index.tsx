@@ -1,4 +1,4 @@
-import GRHeaderView from '@component/templates/view/GRHeaderView';
+import HeaderView from '@component/templates/view/HeaderView';
 import { NextPage } from 'next';
 import React from 'react'
 import FilterSearch from './FilterSearch';
@@ -6,6 +6,7 @@ import GRTable from '@component/base/GRTable';
 import { DUMP_DATA } from 'pages/department/management/account/dumpData';
 import GRFlexView from '@component/base/view/GRFlexView';
 import GRButton from '@component/base/button/GRButton';
+import ExcelButton from '@component/templates/button/ExcelButton';
 
 
 const DATA = [{
@@ -53,15 +54,11 @@ const AttendanceManagementPage: NextPage = () => {
     ];
   return (
     <>
-        <GRHeaderView
+        <HeaderView
             title={"출석 관리"}
             subComponent={<FilterSearch/>}
         />
-        <GRFlexView>
-            <GRButton>
-                액셀 다운
-            </GRButton>
-        </GRFlexView>
+        <ExcelButton />
         <GRTable
             columns={columns} 
             dataSource={DATA}

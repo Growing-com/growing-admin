@@ -12,7 +12,7 @@ import { useCallback, useState } from "react"
 import { useQuery } from "queries/useQuery"
 import querykeys from "queries/querykeys"
 import { Color } from "styles/colors"
-import GRHeaderView from "@component/templates/view/GRHeaderView"
+import HeaderView from "@component/templates/view/HeaderView"
 import AccountModal from "./AccountModal"
 
 interface DataType {
@@ -89,7 +89,7 @@ const [openAccountModal, setOpenAccountModal] = useState(false);
 
   return(
     <div>
-      <GRHeaderView
+      <HeaderView
         title={"계정 관리"}
         headerComponent={
           <GRButton onClick={onAccountModal}>

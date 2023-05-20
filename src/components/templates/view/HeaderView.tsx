@@ -3,13 +3,13 @@ import GRFlexView from '@component/base/view/GRFlexView'
 import { Divider } from 'antd'
 import React, { type FC, ReactNode } from 'react'
 
-type tGRHeaderView = {
+type tHeaderView = {
   title: string;
   headerComponent?: ReactNode;
   subComponent?: ReactNode;
 }
 
-const GRHeaderView: FC<tGRHeaderView> = ({
+const HeaderView: FC<tHeaderView> = ({
   title,
   headerComponent,
   subComponent
@@ -32,4 +32,4 @@ const GRHeaderView: FC<tGRHeaderView> = ({
   )
 }
 
-export default GRHeaderView
+export default HeaderView

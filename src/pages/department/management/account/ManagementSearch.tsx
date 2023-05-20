@@ -11,7 +11,6 @@ import React, { useCallback, useState } from "react"
 import { Color } from "styles/colors"
 import GRModal from "@component/base/modal/GRModal"
 import AccountModal from "./AccountModal"
-import GRHeaderView from "@component/templates/view/GRHeaderView"
 
 const ManagementSearch = () =>{
   const onClickSearch = () => useCallback(()=>{
