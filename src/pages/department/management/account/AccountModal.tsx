@@ -23,11 +23,11 @@ const AccountModal: FC<tAccountModal> = ({
 
     const onOkClick = useCallback(() => {
         // onAccountModal?.()
-    },[onClick])
+    },[])
 
     return (
         <GRFormModal 
-            open={true}
+            open={open}
             footerComponent={undefined} 
             okButtonText={'완료'} 
             cancelButtonText={'취소'} 
@@ -39,7 +39,6 @@ const AccountModal: FC<tAccountModal> = ({
                     <GRText>이름</GRText>
                     <GRTextInput {...register("name")}/>
                     <GRText>비밀번호</GRText>
-                    <input {...register("password")} /> 
                 </GRFlexView>
                 <GRButton htmlType={"submit"}>
                     완료

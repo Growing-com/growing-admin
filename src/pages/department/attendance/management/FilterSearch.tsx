@@ -1,4 +1,5 @@
 import GRButton from '@component/base/button/GRButton'
+import GRDatePicker from '@component/base/dataEntry/GRDatePicker'
 import GRSelect from '@component/base/dataEntry/GRSelect'
 import GRText from '@component/base/text/GRText'
 import GRTextInput from '@component/base/text/GRTextInput'
@@ -11,7 +12,7 @@ type FilterSearch = {
 
 const FilterSearch : FC<FilterSearch> = () => {
 
-    const onClickSearch = () => useCallback(()=>{
+    const onClickSearch  = useCallback(()=>{
     
     },[])
 
@@ -19,12 +20,9 @@ const FilterSearch : FC<FilterSearch> = () => {
     <GRFlexView >
         <GRFlexView flexDirection={"row"}>
             <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
-            날짜
+                날짜
             </GRText>
-            <GRTextInput
-            marginRight={2}
-            placeholder={"이름, 전화 번호로 검색 하세요."}
-            />
+            <GRDatePicker />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
             <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
@@ -58,10 +56,10 @@ const FilterSearch : FC<FilterSearch> = () => {
                     },
                 ]}
             />
+            <GRButton onClick={onClickSearch}>
+                조회
+            </GRButton>
         </GRFlexView>
-        <GRButton onClick={onClickSearch}>
-          조회
-        </GRButton>
       </GRFlexView>
   )
 }

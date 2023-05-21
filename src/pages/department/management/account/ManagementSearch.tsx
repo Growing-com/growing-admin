@@ -13,7 +13,7 @@ import GRModal from "@component/base/modal/GRModal"
 import AccountModal from "./AccountModal"
 
 const ManagementSearch = () =>{
-  const onClickSearch = () => useCallback(()=>{
+  const onClickSearch = useCallback(()=>{
     
   },[])
 
