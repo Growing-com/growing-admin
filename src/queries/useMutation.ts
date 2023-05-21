@@ -1,13 +1,12 @@
-import { QueryFunction, QueryKey, useMutation as useOriginMutation, UseMutationOptions } from '@tanstack/react-query';
+import { QueryFunction, QueryKey, useMutation as useOriginMutation, UseMutationOptions, MutationFunction } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-
+// TVariables
 export function useMutation<TQueryFnData, TData>(
   queryKey: QueryKey, 
-  queryFn: QueryFunction<TQueryFnData, QueryKey>, 
+  mutationFn: MutationFunction<TQueryFnData,TData>, 
   option?: UseMutationOptions<TQueryFnData, AxiosError, TData, QueryKey>
 ){
-  return useOriginMutation(queryKey, queryFn, {
-    refetchOnWindowFocus: false,
+  return useOriginMutation(queryKey, mutationFn, {
     ...option,
   });
 }

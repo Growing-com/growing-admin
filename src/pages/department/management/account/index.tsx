@@ -6,7 +6,7 @@ import GRFlexView from "@component/base/view/GRFlexView"
 import { Button, Pagination, Space, Table, Tag } from "antd"
 import { NextPage } from "next"
 import ManagementSearch from "./ManagementSearch"
-import { ColumnsType } from "antd/es/table"
+import { ColumnType } from "antd/es/table"
 import { DUMP_DATA } from "./dumpData"
 import { useCallback, useState } from "react"
 import { useQuery } from "queries/useQuery"
@@ -15,17 +15,20 @@ import { Color } from "styles/colors"
 import HeaderView from "@component/templates/view/HeaderView"
 import AccountModal from "./AccountModal"
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+type tManagementTable =  {
+  name:string;
+  age:number;
+  gender:string;
+  status: string;
+  role?:string;
+  leader?:string;
+  phoneNumber?:string;
 }
 
 const ManagementAccountPage : NextPage = () => {
 const [openAccountModal, setOpenAccountModal] = useState(false);
-  const columns: ColumnsType<DataType> = [
+
+  const columns: ColumnType<tManagementTable>[] = [
     {
       title: '이름',
       dataIndex: 'name',
@@ -50,11 +53,11 @@ const [openAccountModal, setOpenAccountModal] = useState(false);
       key: 'status',
       dataIndex: 'tags',
       align:'center',
-      render: (_, { status }) => {
-            let color = status.length > 2 ? 'geekblue' : 'green';
+      render: (_, item) => {
+            let color = item?.status.length > 2 ? 'geekblue' : 'green';
             return (
-              <Tag color={color} key={status}>
-                {status}
+              <Tag color={color} key={item?.status}>
+                {item?.status}
               </Tag>
             );
         }

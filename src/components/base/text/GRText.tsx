@@ -35,7 +35,7 @@ const GRText: FC<GRTextProps> = ({
       color={color}
       weight={weight}
       css={css`
-        ${TEXT_SIZE[fontSize]}
+        ${fontSize && TEXT_SIZE[fontSize]}
         display: ${display};
         ${_margin};
       `}

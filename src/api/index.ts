@@ -12,6 +12,7 @@ const defaultHeaders = {
 
 const baseNetWork = () => {
     return axios.create({
+        headers: defaultHeaders,
         ...NetworkConfig.BASE_REQUEST
     })
 }
@@ -20,7 +21,7 @@ const baseApi = (option: AxiosRequestConfig) =>{
     baseNetWork().interceptors.request.use(
         config => {
             if( !config.headers?.Authorization ){
-                config.headers = defaultHeaders
+                config.headers.Authorization = 'Bear';
             }
             return config;
         }

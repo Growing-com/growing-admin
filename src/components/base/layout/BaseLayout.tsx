@@ -7,24 +7,49 @@ import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
 import { Router, useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FC } from "react";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
 
-type tBaseLayout = {};
+export type tMenuInfo = {
+  key: string;
+  keyPath: string[];
+  domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+};
 
-const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
-  const [menu,setMenu] = useState([]);
+export type tSelectInfo = tMenuInfo & {
+  selectedKeys: string[];
+};
+
+type tBaseLayout = {
+  children?: React.ReactNode
+};
+
+const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const router = useRouter();
 
-  const onSelectMenu = useCallback(async(e)=>{
-    const newPath = e.key.replace("-","/");
+  const [menu,setMenu] = useState([]);
+  const [openKeys, setOpenKeys] = useState<string>(DEPARTMENT_MAIN_MENU[0].key);
+
+  const onSelectMenu = useCallback(async( info : tSelectInfo )=>{
+    const newPath = info.key.replace("-","/");
     router.push(`/department/${newPath}`)
   },[router])
 
+  const onOpenChange = (keys: string[]) => {
+    console.log("keys",keys)
+    if( openKeys.length ){
+      const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    }
+    // if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+    //   setOpenKeys(keys);
+    // } else {
+    //   setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    // }
+  };
+
   useEffect(()=>{
-    setMenu(DEPARTMENT_MAIN_MENU)
   },[])
 
   return (
@@ -48,10 +73,9 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
         }}>
           <BaseLayoutMenu
             mode={"inline"}
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            items={menu}
+            items={DEPARTMENT_MAIN_MENU}
             onSelect={onSelectMenu}
+            onOpenChange={onOpenChange}
           />
         </Sider>
         <Layout>

@@ -2,8 +2,8 @@ const Routes = [];
 
 type tDepartmentMainMenu = {
   key: "management" | "attendance",
-  label: "부서 관리" | "출석 관리",
-  children: tDepartmentAttendanceSubMenu[] & tDepartmentManagementSubMenu[],
+  label: "관리" | "출석",
+  children: tDepartmentManagementSubMenu[] | tDepartmentAttendanceSubMenu[],
 }
 
 type tDepartmentAttendanceSubMenu = {
@@ -47,12 +47,12 @@ export const DEPARTMENT_MANAGEMENT_SUB_MENU :tDepartmentManagementSubMenu[] = [
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "management",
-    label: "부서 관리",
+    label: "관리",
     children : DEPARTMENT_MANAGEMENT_SUB_MENU
   },
   {
     key: "attendance",
-    label: "출석 관리",
+    label: "출석",
     children : DEPARTMENT_ATTENDANCE_SUB_MENU
   },
 ];

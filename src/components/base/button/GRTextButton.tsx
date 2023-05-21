@@ -1,7 +1,12 @@
 import { Button } from "antd";
 import { Color } from "styles/colors";
+import type { FC } from 'react';
 
-const GRTextButton = ({
+type tGRTextButton = {
+  text:string;
+}
+
+const GRTextButton: FC<tGRTextButton> = ({
   text
 }) => {
   return (

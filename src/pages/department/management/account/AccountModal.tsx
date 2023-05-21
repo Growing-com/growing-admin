@@ -19,7 +19,6 @@ const AccountModal: FC<tAccountModal> = ({
     onClick,
 }) => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
 
     const onOkClick = useCallback(() => {
         // onAccountModal?.()
@@ -34,16 +33,14 @@ const AccountModal: FC<tAccountModal> = ({
             onOk={onOkClick}
             onCancel={onClick}
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <GRFlexView flexDirection={"row"}>
-                    <GRText>이름</GRText>
-                    <GRTextInput {...register("name")}/>
-                    <GRText>비밀번호</GRText>
-                </GRFlexView>
-                <GRButton htmlType={"submit"}>
-                    완료
-                </GRButton>
-            </form>
+            <GRFlexView flexDirection={"row"}>
+                <GRText>이름</GRText>
+                <GRTextInput {...register("name")}/>
+                <GRText>비밀번호</GRText>
+            </GRFlexView>
+            <GRButton htmlType={"submit"}>
+                완료
+            </GRButton>
         </GRFormModal>
     )
 }

@@ -1,9 +1,15 @@
 import BaseLayout from "@component/base/layout/BaseLayout";
 import { ConfigProvider } from "antd";
+import { NextPage } from "next";
+import {  AppProps } from "next/app";
 import { Color } from "styles/colors";
 import 'styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
+type tMyApp = {
+
+} & AppProps
+
+const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
   return (
     <ConfigProvider
       theme={{

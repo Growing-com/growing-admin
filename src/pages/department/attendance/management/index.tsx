@@ -7,7 +7,7 @@ import { DUMP_DATA } from 'pages/department/management/account/dumpData';
 import GRFlexView from '@component/base/view/GRFlexView';
 import GRButton from '@component/base/button/GRButton';
 import ExcelButton from '@component/templates/button/ExcelButton';
-
+import { ColumnType } from 'antd/es/table';
 
 const DATA = [{
     cordi:"123",
@@ -16,9 +16,18 @@ const DATA = [{
     grade:"123",
     gender:"123",
 }]
+
+type tAttendanceTable = {
+  cordi: string;
+  leader: string;
+  name: string;
+  grade: string;
+  gender: string;
+}
+
 const AttendanceManagementPage: NextPage = () => {
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnType<tAttendanceTable>[] = [
         {
           title: '코디',
           dataIndex: 'cordi',
@@ -52,6 +61,7 @@ const AttendanceManagementPage: NextPage = () => {
           fixed: 'left',
         }
     ];
+    
   return (
     <>
         <HeaderView
@@ -60,12 +70,12 @@ const AttendanceManagementPage: NextPage = () => {
         />
         <ExcelButton />
         <GRTable
-            columns={columns} 
-            dataSource={DATA}
-            paginationProps={{
-                total:100,
-                defaultPageSize:10
-            }}
+          columns={columns} 
+          dataSource={DATA}
+          paginationProps={{
+              total:100,
+              defaultPageSize:10
+          }}
         />
     </>
   )

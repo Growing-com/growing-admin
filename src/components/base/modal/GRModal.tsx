@@ -2,11 +2,7 @@ import { Modal, ModalProps } from 'antd';
 import React, { useCallback, type FC, ReactNode } from 'react';
 import { map } from 'lodash';
 import GRButton from '../button/GRButton';
-
-type tFooterComponent = {
-  onClick: (e) => void;
-  text: string;
-}
+import GRFlexView from '../view/GRFlexView';
 
 type tGRModal = {
   footerComponent: ReactNode;
@@ -25,18 +21,13 @@ const GRModal: FC<tGRModal> = ({
     onOk
 }) => {
   
-  const _footrComponent = useCallback(() =>{
-      return map( footerComponent, (com: tFooterComponent) => {
-        const { onClick, text } = com;
-        return (
-          <GRButton
-            onClick={onClick}
-          >
-            {text ?? "!"}
-          </GRButton>
-        )
-      })
-  },[footerComponent])
+  const onCancelClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    onCancel?.(e)
+  }
+
+  const onOkClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    onOk?.(e);
+  }
 
   return (
     <Modal 
@@ -44,17 +35,18 @@ const GRModal: FC<tGRModal> = ({
       onOk={onOk}
       onCancel={onCancel}
       maskClosable={maskClosable}
-      footer={[
-        <GRButton onClick={onCancel} key={"modal-cancel-button"}>
-          {cancelButtonText}
-        </GRButton>,
-        <GRButton onClick={onOk} key={"modal-ok-button"}>
-          {okButtonText}
-        </GRButton>
-      ]}
+      footer={[]}
     >
         {children}
         {footerComponent}
+        <GRFlexView>
+          <GRButton onClick={onCancelClickButton} key={"modal-cancel-button"}>
+            {cancelButtonText}
+          </GRButton>,
+          <GRButton onClick={onOkClickButton} key={"modal-ok-button"}>
+            {okButtonText}
+          </GRButton>
+        </GRFlexView>
     </Modal>
   )
 }

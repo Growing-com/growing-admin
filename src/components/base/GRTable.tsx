@@ -6,19 +6,18 @@ import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
 import GRFlexView from './view/GRFlexView';
 
-type tGRTable = {
+type tGRTable<T> = {
   paginationProps?: PaginationProps;
-  scroll?: TableProps<DataSourceType>["scroll"];
-} & tGetMargin & TableProps<RecordType>
+} & tGetMargin & TableProps<T>
 
-const GRTable: FC<tGRTable> = ({
+const GRTable = <GRTableType extends {}> ({
   columns,
   dataSource,
   pagination = false,
   paginationProps,
   scroll,
   ...props
-}) => {
+}: tGRTable<GRTableType>) => {
   const _margin = getMargin(props);
 
   const borderColor = useMemo(() => Color.grey100, []);
@@ -28,7 +27,7 @@ const GRTable: FC<tGRTable> = ({
 
   const tableStyles = useMemo(
     () => css`
-        .ant-table-container {
+        /* .ant-table-container {
             table {
                 border-collapse: collapse;
 
@@ -60,8 +59,6 @@ const GRTable: FC<tGRTable> = ({
 
                             border-bottom: ${border};
                             color: ${fontColor};
-
-
                         }
 
                         :last-of-type .ant-table-cell {
@@ -74,7 +71,7 @@ const GRTable: FC<tGRTable> = ({
 
         .ant-table-footer {
             padding: 0;
-        }
+        } */
     `,
     [border, fontColor]
   );
