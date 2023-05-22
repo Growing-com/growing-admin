@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import React from 'react'
 import FilterSearch from './FilterSearch';
 import GRTable from '@component/base/GRTable';
-import { DUMP_DATA } from 'pages/department/management/account/dumpData';
 import GRFlexView from '@component/base/view/GRFlexView';
 import GRButton from '@component/base/button/GRButton';
 import ExcelButton from '@component/templates/button/ExcelButton';
