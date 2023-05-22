@@ -17,6 +17,8 @@ type GRTextProps = {
   display?: CSSProperties['display'];
   weight?: CSSProperties['fontWeight']; 
   fontSize?: tFontSizeType;
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
 } & JSX.IntrinsicElements["span"] & tGetMargin
 
 const GRText: FC<GRTextProps> = ({
@@ -27,6 +29,8 @@ const GRText: FC<GRTextProps> = ({
   color,
   style,
   fontSize,
+  width,
+  height,
   ...rest
 }) => {
   const _margin = getMargin(rest)
@@ -37,6 +41,8 @@ const GRText: FC<GRTextProps> = ({
       css={css`
         ${fontSize && TEXT_SIZE[fontSize]}
         display: ${display};
+        width: ${`${width}rem`};
+        height: ${`${height}rem`};
         ${_margin};
       `}
       style={{

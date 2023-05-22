@@ -66,8 +66,8 @@ const AttendanceManagementPage: NextPage = () => {
         <HeaderView
             title={"출석 관리"}
             subComponent={<FilterSearch/>}
+            headerComponent={<ExcelButton/>}
         />
-        <ExcelButton />
         <GRTable
           columns={columns} 
           dataSource={DATA}

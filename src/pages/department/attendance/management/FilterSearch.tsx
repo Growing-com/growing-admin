@@ -18,17 +18,18 @@ const FilterSearch : FC<FilterSearch> = () => {
 
   return (
     <GRFlexView >
-        <GRFlexView flexDirection={"row"}>
-            <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
+        <GRFlexView flexDirection={"row"} alignItems={"center"} marginBottom={1}>
+            <GRText marginRight={1} weight={"bold"} fontSize={"b5"} width={5}>
                 날짜
             </GRText>
-            <GRDatePicker />
+            <GRDatePicker picker={"month"} width={15} />
         </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-            <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
+        <GRFlexView flexDirection={"row"} alignItems={"center"}>
+            <GRText marginRight={1} weight={"bold"} fontSize={"b5"} width={5}>
                 검색 조건
             </GRText>
             <GRSelect
+                width={15}
                 options={[
                     {
                         label: "이름",
@@ -40,11 +41,11 @@ const FilterSearch : FC<FilterSearch> = () => {
                     },
                 ]}
             />
-            <GRText marginRight={1} weight={"bold"} fontSize={"b5"}>
+            <GRText marginLeft={1}  weight={"bold"} fontSize={"b5"} width={5}>
                 코디
             </GRText>
             <GRSelect
-                mode={"multiple"}
+                width={15}
                 options={[
                     {
                         label: "이종민",
@@ -56,9 +57,11 @@ const FilterSearch : FC<FilterSearch> = () => {
                     },
                 ]}
             />
-            <GRButton onClick={onClickSearch}>
-                조회
-            </GRButton>
+            <GRFlexView alignItems={"flex-end"}>
+                <GRButton onClick={onClickSearch}>
+                    조회
+                </GRButton>
+            </GRFlexView>
         </GRFlexView>
       </GRFlexView>
   )

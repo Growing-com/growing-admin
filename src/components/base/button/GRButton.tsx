@@ -11,7 +11,7 @@ type tButtonSize = "large" | "normal" | "small";
 type tGRButton = {
   style?: CSSProperties;
   isTextButton?: boolean;
-  type?: "primary" | "dashed" | "text" | "link";
+  type?: "primary" | "dashed" | "text" | "link" | "custom";
   backgroundColor?: CSSProperties['backgroundColor'];
   textColor?: CSSProperties['color'];
   size?: tButtonSize;
