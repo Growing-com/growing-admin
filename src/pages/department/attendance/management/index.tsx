@@ -9,6 +9,7 @@ import ExcelButton from '@component/templates/button/ExcelButton';
 import { ColumnType } from 'antd/es/table';
 import { getSundayOfMonth } from 'utils/DateUtils';
 import dayjs from 'dayjs';
+import GRContainerView from '@component/base/view/GRContainerView';
 
 const DATA = [{
     cordi:"123",
@@ -92,15 +93,17 @@ const AttendanceManagementPage: NextPage = () => {
             subComponent={<FilterSearch/>}
             headerComponent={<ExcelButton/>}
         />
-        <GRTable
-          columns={columns} 
-          dataSource={DATA}
-          paginationProps={{
+        <GRContainerView>
+          <GRTable
+            columns={columns} 
+            dataSource={DATA}
+            paginationProps={{
               total:100,
               defaultPageSize:10
-          }}
-          scroll={{ x: 1300 }}
-        />
+            }}
+            scroll={{ x: 1300 }}
+            />
+        </GRContainerView>
     </>
   )
 }

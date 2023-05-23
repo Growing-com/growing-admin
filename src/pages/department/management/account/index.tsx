@@ -14,6 +14,7 @@ import querykeys from "queries/querykeys"
 import { Color } from "styles/colors"
 import HeaderView from "@component/templates/view/HeaderView"
 import AccountModal from "./AccountModal"
+import GRContainerView from "@component/base/view/GRContainerView"
 
 type tManagementTable =  {
   name:string;
@@ -101,18 +102,20 @@ const [openAccountModal, setOpenAccountModal] = useState(false);
         }
         subComponent={<ManagementSearch/>}
       />
-      <GRTable
-        columns={columns} 
-        dataSource={DUMP_DATA}
-        paginationProps={{
-          total:100,
-          defaultPageSize:10
-        }}
-      />
-      <AccountModal
-        open={openAccountModal}
-        onClick={onAccountModal}
-      />
+      <GRContainerView>
+        <GRTable
+          columns={columns} 
+          dataSource={DUMP_DATA}
+          paginationProps={{
+            total:100,
+            defaultPageSize:10
+          }}
+          />
+        <AccountModal
+          open={openAccountModal}
+          onClick={onAccountModal}
+          />
+        </GRContainerView>
     </div>
   )
 }
