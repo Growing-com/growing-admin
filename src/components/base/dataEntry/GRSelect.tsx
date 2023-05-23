@@ -1,7 +1,10 @@
 import { css } from '@emotion/react'
+import styled from '@emotion/styled';
 import { Select } from 'antd'
 import type { SelectProps } from 'antd'
 import React, { CSSProperties, FC } from 'react'
+import { Color } from 'styles/colors';
+import GRText from '../text/GRText';
 
 interface tGRSelect extends SelectProps {
     options: ItemProps[];
@@ -40,10 +43,12 @@ const GRSelect: FC<tGRSelect> = ({
             >
                 {options.map((option,index) =>(
                     <Option 
-                    key={`${option.label}_${index}`}
-                    value={option.value}
+                        key={`${option.label}_${index}`}
+                        value={option.value}
                     >
-                        {option.label}
+                        <GRText color={Color.grey70}>
+                            {option.label}
+                        </GRText>
                     </Option>
                 ))}
             </Select>
