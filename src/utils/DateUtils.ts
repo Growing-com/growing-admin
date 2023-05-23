@@ -37,11 +37,12 @@ const getTimeLine = (date: dayjs.Dayjs | string) =>{
     return `방금`;
 }
 
-const getSundayOfMonth = (_date: dayjs.Dayjs | string) => {
+const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
+    if( !_date ) _date = dayjs().startOf('M');
     const numberWeekend = dayjs(_date).endOf('M').week() - dayjs(_date).startOf('M').week();
     const startWeek = dayjs().startOf('M').weekday(8)
     let sundays = [startWeek];
-    for( let i = 2 ; i < numberWeekend ; i ++ ){
+    for( let i = 1 ; i < numberWeekend ; i ++ ){
         sundays.push(startWeek.add(7 * i, 'day'))
     }
     return sundays;
