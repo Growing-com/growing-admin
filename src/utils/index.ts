@@ -28,7 +28,7 @@ const getMargin = ({
         margin-bottom: ${marginBottom}rem;
         margin-right: ${marginRight}rem;
         margin-left: ${marginLeft}rem;
-        margin: ${margin}
+        margin: ${margin}rem
     `
 }
 

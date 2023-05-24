@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
@@ -14,6 +14,7 @@ interface IGRView extends tGetMargin {
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   style?: CSSProperties,
+  customCss?: SerializedStyles; 
 }
 
 const GRView: FC<IGRView> = ({
@@ -27,6 +28,7 @@ const GRView: FC<IGRView> = ({
   width,
   height,
   style,
+  customCss,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -41,13 +43,14 @@ const GRView: FC<IGRView> = ({
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
           align-items: ${alignItems};
-          padding: ${padding};
+          padding: ${padding}rem;
           ${_margin}
         `,
         isBoard && css`
           border: 0.1rem solid ${Color.green200};
           border-radius: 1rem;
-        `
+        `,
+        customCss
       ]}
       style={style}
       {...rest}

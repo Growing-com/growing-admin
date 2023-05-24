@@ -5,9 +5,12 @@ import React, { FC, ReactNode, useCallback, useMemo } from 'react';
 import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
 import GRFlexView from './view/GRFlexView';
+import GRView from './view/GRView';
+import { GRStylesConfig } from 'styles';
 
 type tGRTable<T> = {
   paginationProps?: PaginationProps;
+  headerComponent?: ReactNode;
 } & tGetMargin & TableProps<T>
 
 const GRTable = <GRTableType extends {}> ({
@@ -16,6 +19,7 @@ const GRTable = <GRTableType extends {}> ({
   pagination = false,
   paginationProps,
   scroll,
+  headerComponent,
   ...props
 }: tGRTable<GRTableType>) => {
   const _margin = getMargin(props);
@@ -77,7 +81,10 @@ const GRTable = <GRTableType extends {}> ({
   );
 
   return (
-    <ComponentContainer>
+    <>
+      <GRView marginBottom={GRStylesConfig.BASE_MARGIN}>
+        {headerComponent}
+      </GRView>
       <Table
         columns={columns}
         dataSource={dataSource}
@@ -95,14 +102,8 @@ const GRTable = <GRTableType extends {}> ({
           {...paginationProps}
         />
       </GRFlexView>}
-    </ComponentContainer>
+    </>
   )
 }
 
 export default GRTable;
-
-const ComponentContainer = styled.div`
-  background-color: ${Color.white};
-  padding: 2rem;
-  border-radius: 0.5rem;
-`
