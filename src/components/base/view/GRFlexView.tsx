@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
@@ -14,6 +14,8 @@ interface IGRFlexView extends tGetMargin {
   borderRadius?: CSSProperties['borderRadius'];
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  style?: CSSProperties;
+  css?: SerializedStyles; 
 } 
 
 const GRFlexView: FC<IGRFlexView> = ({
@@ -27,6 +29,8 @@ const GRFlexView: FC<IGRFlexView> = ({
   borderRadius,
   width,
   height,
+  css: customCss,
+  style,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -50,8 +54,10 @@ const GRFlexView: FC<IGRFlexView> = ({
         isBoard && css`
           border: 0.1rem solid ${Color.grey100};
           border-radius: 1rem;
-        `
+        `,
+        {customCss}
       ]}
+      style={style}
       {...rest}
     >
       {children}

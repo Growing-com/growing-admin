@@ -78,22 +78,21 @@ const  AttendanceStatistics = () => {
       <HeaderView 
         title={"출석 통계"}
         headerComponent={
-          <GRButton type={"default"}> 
+          <GRButton> 
             <BarChartOutlined rev={undefined} style={{ fontSize:'1.3rem' }}/>
           </GRButton>
         }
       />
       <GRContainerView>
         <StatisticsCompareCards/>
-        <Divider />
         
         <GRTable
-          headerComponent={<GRText weight={"bold"} fontSize={"b4"}>결석 인원</GRText>}
+          marginBottom={2}
+          headerComponent={<GRText weight={"bold"} fontSize={"b4"}>🐏 결석 인원</GRText>}
           columns={absentColumns}
         />
-        <Divider />
         <GRTable
-          headerComponent={<GRText weight={"bold"} fontSize={"b4"}>새가족 인원</GRText>}
+          headerComponent={<GRText weight={"bold"} fontSize={"b4"}>🌱 새가족 인원</GRText>}
           columns={absentColumns}
         />
       </GRContainerView>

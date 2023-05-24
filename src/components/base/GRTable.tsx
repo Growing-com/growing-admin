@@ -6,7 +6,7 @@ import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
 import GRFlexView from './view/GRFlexView';
 import GRView from './view/GRView';
-import { GRStylesConfig } from 'styles';
+import GRStylesConfig from 'styles/GRStylesConfig';
 
 type tGRTable<T> = {
   paginationProps?: PaginationProps;

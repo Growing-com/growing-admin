@@ -102,7 +102,7 @@ const Header = styled.header`
 const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
-  padding: 1rem 1rem;
+  padding: 1rem 4rem;
   background-color: ${Color.grey20};
 `
 
