@@ -103,7 +103,7 @@ const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
   padding: 1rem 4rem;
-  background-color: ${Color.grey20};
+  background-color: ${Color.grey80};
 `
 
 const BaseLayoutMenu = styled(Menu)`
