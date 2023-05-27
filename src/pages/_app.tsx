@@ -1,4 +1,4 @@
-import BaseLayout from "@component/base/layout/BaseLayout";
+import BaseLayout from "@component/templates/layout/BaseLayout";
 import { ConfigProvider } from "antd";
 import { NextPage } from "next";
 import {  AppProps } from "next/app";

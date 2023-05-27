@@ -12,7 +12,7 @@ import { useCallback, useState } from "react"
 import { useQuery } from "queries/useQuery"
 import querykeys from "queries/querykeys"
 import { Color } from "styles/colors"
-import HeaderView from "@component/templates/view/HeaderView"
+import HeaderView from "@component/modules/view/HeaderView"
 import AccountModal from "./AccountModal"
 import GRContainerView from "@component/base/view/GRContainerView"
 

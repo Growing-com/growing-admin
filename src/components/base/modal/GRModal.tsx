@@ -4,10 +4,10 @@ import { map } from 'lodash';
 import GRButton from '../button/GRButton';
 import GRFlexView from '../view/GRFlexView';
 
-type tGRModal = {
-  footerComponent: ReactNode;
-  okButtonText: string;
-  cancelButtonText: string;
+export type tGRModal = {
+  footerComponent?: ReactNode;
+  okButtonText?: string;
+  cancelButtonText?: string;
 } & ModalProps;
 
 const GRModal: FC<tGRModal> = ({
@@ -16,9 +16,10 @@ const GRModal: FC<tGRModal> = ({
     okButtonText,
     cancelButtonText,
     open,
-    maskClosable = false,
+    closable = false,
     onCancel,
-    onOk
+    onOk,
+    ...props
 }) => {
   
   const onCancelClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -34,19 +35,12 @@ const GRModal: FC<tGRModal> = ({
       open={open}
       onOk={onOk}
       onCancel={onCancel}
-      maskClosable={maskClosable}
+      closable={closable}
       footer={[]}
+      {...props}
     >
         {children}
         {footerComponent}
-        <GRFlexView>
-          <GRButton onClick={onCancelClickButton} key={"modal-cancel-button"}>
-            {cancelButtonText}
-          </GRButton>,
-          <GRButton onClick={onOkClickButton} key={"modal-ok-button"}>
-            {okButtonText}
-          </GRButton>
-        </GRFlexView>
     </Modal>
   )
 }

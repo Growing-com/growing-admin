@@ -1,11 +1,7 @@
-import GRButton from "@component/base/button/GRButton";
-import GRText from "@component/base/text/GRText";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
+import HeaderMenu from "@component/modules/menu/HeaderMenu";
 import styled from "@emotion/styled";
-import { Layout, Menu } from "antd";
+import { Avatar, Layout, Menu, Popover } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
-import Image from "next/image";
 import { Router, useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState, type FC } from "react";
 import { Color } from "styles/colors";
@@ -54,19 +50,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-        <Header style={{ padding: "0.5rem 0rem" }}>
-          <GRView width={12} style={{ position:'relative' }}>
-            <Image src={"/logo.png"} fill={true} alt={"logo"} style={{ objectFit:"contain" }} />
-          </GRView>
-          <GRFlexView justifyContent={"flex-start"} flexDirection={"row"}>
-            <GRButton type={"link"} textColor={Color.green200}  onClick={() => {}}>
-              부서
-            </GRButton>
-            <GRButton type={"link"} textColor={Color.green200}  onClick={() => router.push('/login')}>
-              로그인
-            </GRButton>
-          </GRFlexView>
-        </Header>
+      <HeaderMenu />
       <Layout>
         <Sider width={'12rem'} style={{
           backgroundColor: "white",
@@ -90,14 +74,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
 export default BaseLayout;
 
-const Header = styled.header`
-  display: flex;
-  z-index: 10;
-  background-color: #ffff;
-  max-width: 100%;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
-    0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-`;
+
 
 const LayoutContent = styled(Content)`
   margin: 0;

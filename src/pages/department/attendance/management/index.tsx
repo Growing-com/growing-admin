@@ -1,11 +1,11 @@
-import HeaderView from '@component/templates/view/HeaderView';
+import HeaderView from '@component/modules/view/HeaderView';
 import { NextPage } from 'next';
 import React, { useMemo } from 'react'
 import FilterSearch from './FilterSearch';
 import GRTable from '@component/base/GRTable';
 import GRFlexView from '@component/base/view/GRFlexView';
 import GRButton from '@component/base/button/GRButton';
-import ExcelButton from '@component/templates/button/ExcelButton';
+import ExcelButton from '@component/modules/button/ExcelButton';
 import { ColumnType } from 'antd/es/table';
 import { getSundayOfMonth } from 'utils/DateUtils';
 import dayjs from 'dayjs';

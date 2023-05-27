@@ -3,7 +3,7 @@ import type  { CSSProperties, FC, ReactNode } from 'react'
 import { Color } from 'styles/colors';
 import { getMargin, tGetMargin } from 'utils';
 
-interface IGRView extends tGetMargin {
+export type tGRView = {
   children: ReactNode;
   flexDirection?: CSSProperties['flexDirection'];
   backgroundColor?: CSSProperties['backgroundColor'];
@@ -15,9 +15,9 @@ interface IGRView extends tGetMargin {
   height?: CSSProperties['height'];
   style?: CSSProperties,
   customCss?: SerializedStyles; 
-}
+} & tGetMargin
 
-const GRView: FC<IGRView> = ({
+const GRView: FC<tGRView> = ({
   children,
   flexDirection,
   backgroundColor,

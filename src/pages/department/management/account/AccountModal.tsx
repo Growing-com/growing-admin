@@ -1,5 +1,5 @@
 import GRButton from '@component/base/button/GRButton';
-import GRForm from '@component/base/form/GRForm';
+import GRForm from '@component/modules/form/GRForm';
 import GRFormModal from '@component/base/modal/GRFormModal';
 import GRModal from '@component/base/modal/GRModal';
 import GRText from '@component/base/text/GRText';
