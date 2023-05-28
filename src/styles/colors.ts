@@ -1,5 +1,16 @@
 
-export type tColor = "green200" | "green100" | "grey100" | "grey80" | "white" | "grey70" | "grey50" | "grey20" | "grey60"
+export type tColor = 
+    "white"
+    | "black"
+    | "green200" 
+    | "green100" 
+    | "grey100" 
+    | "grey80" 
+    | "grey70" 
+    | "grey50" 
+    | "grey30" 
+    | "grey20" 
+    |  "grey60"
 
 export const Color: Record<tColor,string> = {
     green200:'#20C895',
@@ -9,6 +20,8 @@ export const Color: Record<tColor,string> = {
     grey70:'#5C5C5C',
     grey60: '#EAEAEA',
     grey50: 'rgba(0, 0, 0, 0.45)',
+    grey30: '#222222',
     grey20: '#EEF0F6',
+    black: "#000000",
     white: '#FFFFFF',
 }
