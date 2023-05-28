@@ -6,11 +6,11 @@ import React, { CSSProperties, FC } from 'react'
 import { Color } from 'styles/colors';
 import GRText from '../text/GRText';
 
-interface tGRSelect extends SelectProps {
+export type tGRSelect = {
     options: ItemProps[];
     height?: CSSProperties['height'];
     width?: CSSProperties['width'];
-}
+} & SelectProps;
 
 type ItemProps = {
     label: string;
