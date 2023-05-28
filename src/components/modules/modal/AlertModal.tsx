@@ -1,10 +1,9 @@
-import GRButton from '@component/base/button/GRButton'
+import GRButtonText from '@component/base/button/GRTextButton'
 import GRModal, { tGRModal } from '@component/base/modal/GRModal'
 import GRText from '@component/base/text/GRText'
 import GRFlexView from '@component/base/view/GRFlexView'
-import GRView from '@component/base/view/GRView'
 import { css } from '@emotion/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 type tAlertModal = {
     onCancelClickButton?: () => void;
@@ -42,12 +41,12 @@ const AlertModal: FC<tAlertModal> = ({
                 </GRFlexView>
             </GRFlexView>
             <GRFlexView flexDirection={"row"} justifyContent={"center"}>
-                <GRButton onClick={onCancelClickButton} key={"modal-cancel-button"} marginRight={2} size={"large"}>
+                <GRButtonText onClick={onCancelClickButton} key={"modal-cancel-button"} marginRight={2} size={"large"}>
                     {cancelButtonText ?? "취소"}
-                </GRButton>
-                <GRButton onClick={onOkClickButton} key={"modal-ok-button"} size={"large"}>
+                </GRButtonText>
+                <GRButtonText onClick={onOkClickButton} key={"modal-ok-button"} size={"large"}>
                     {okButtonText ?? "확인"}
-                </GRButton>
+                </GRButtonText>
             </GRFlexView>
         </GRFlexView>
     </GRModal>

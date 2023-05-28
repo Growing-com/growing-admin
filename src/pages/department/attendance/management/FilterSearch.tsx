@@ -1,4 +1,4 @@
-import GRButton from '@component/base/button/GRButton'
+import GRButtonText from '@component/base/button/GRTextButton'
 import GRDatePicker from '@component/base/dataEntry/GRDatePicker'
 import GRSelect from '@component/base/dataEntry/GRSelect'
 import GRText from '@component/base/text/GRText'
@@ -121,9 +121,9 @@ const FilterSearch : FC<FilterSearch> = () => {
             </GRFlexView>
         </GRFlexView>
         <GRView>
-            <GRButton onClick={onClickSearch} marginLeft={2}>
+            <GRButtonText onClick={onClickSearch} marginLeft={2}>
                 조회
-            </GRButton>
+            </GRButtonText>
         </GRView>
       </GRFlexView>
   )

@@ -1,13 +1,12 @@
-import GRView from '@component/base/view/GRView';
-import React from 'react'
-import Image from "next/image";
-import GRFlexView from '@component/base/view/GRFlexView';
-import GRButton from '@component/base/button/GRButton';
-import { Avatar, Popover } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Color } from 'styles/colors';
+import GRButtonText from '@component/base/button/GRTextButton';
+import GRFlexView from '@component/base/view/GRFlexView';
+import GRView from '@component/base/view/GRView';
 import styled from '@emotion/styled';
-import { Router, useRouter } from "next/router";
+import { Avatar, Popover } from 'antd';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { Color } from 'styles/colors';
 
 const HeaderMenu = () => {
     const router = useRouter();
@@ -18,12 +17,12 @@ const HeaderMenu = () => {
             </GRView>
             <GRFlexView justifyContent={"space-between"} flexDirection={"row"} >
                 <GRFlexView justifyContent={"flex-start"} flexDirection={"row"}>
-                    <GRButton type={"link"} textColor={Color.green200}  onClick={() => {}}>
+                    <GRButtonText type={"link"} textColor={Color.green200}  onClick={() => {}}>
                         부서
-                    </GRButton>
-                    <GRButton type={"link"} textColor={Color.green200}  onClick={() => router.push('/login')}>
+                    </GRButtonText>
+                    <GRButtonText type={"link"} textColor={Color.green200}  onClick={() => router.push('/login')}>
                         로그인
-                    </GRButton>
+                    </GRButtonText>
                 </GRFlexView>
                 <Popover 
                     placement="bottom" 

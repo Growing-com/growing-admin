@@ -1,9 +1,9 @@
-import GRButton from "@component/base/button/GRButton";
+import GRButtonText from "@component/base/button/GRTextButton";
 
 const Attendance = () => {
   return (
     <div>
-      <GRButton></GRButton>
+      <GRButtonText></GRButtonText>
     </div>
   );
 };

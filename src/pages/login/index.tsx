@@ -1,4 +1,4 @@
-import GRButton from "@component/base/button/GRButton";
+import GRButtonText from "@component/base/button/GRTextButton";
 import GRText from "@component/base/text/GRText";
 import GRTextInput from "@component/base/text/GRTextInput";
 import GRFlexView from "@component/base/view/GRFlexView";
@@ -24,16 +24,16 @@ const Login = () => {
           </GRView>
         </GRFlexView>
         <GRFlexView>
-          <GRButton>
+          <GRButtonText>
             로그인
-          </GRButton>
+          </GRButtonText>
           <GRFlexView flexDirection={'row'}>
-            <GRButton type={'link'}>
+            <GRButtonText type={'link'}>
               카카오 문의
-            </GRButton>
-            <GRButton type={'link'}>
+            </GRButtonText>
+            <GRButtonText type={'link'}>
               비밀번호 변경
-            </GRButton>
+            </GRButtonText>
           </GRFlexView>
         </GRFlexView>
       </GRView>

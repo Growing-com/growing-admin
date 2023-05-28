@@ -1,17 +1,14 @@
-import GRButton from "@component/base/button/GRButton";
+import { BarChartOutlined } from "@ant-design/icons";
+import GRTable from "@component/base/GRTable";
+import GRButtonText from "@component/base/button/GRTextButton";
 import GRText from "@component/base/text/GRText";
 import GRContainerView from "@component/base/view/GRContainerView";
-import GRFlexView from "@component/base/view/GRFlexView";
-import HeaderView from "@component/templates/view/HeaderView";
-import { BarChartOutlined } from "@ant-design/icons";
-import GRView from "@component/base/view/GRView";
-import { Descriptions, Divider } from "antd";
-import { css } from "@emotion/react";
-import { Color } from "styles/colors";
-import GRTable from "@component/base/GRTable";
+import HeaderView from "@component/modules/view/HeaderView";
+import { useState } from "react";
 import StatisticsCompareCards from "./StatisticsCompareCards";
 
 const  AttendanceStatistics = () => {
+  const [openModal, setOpenModal] = useState(false);
 
   const absentColumns = [
     {
@@ -78,14 +75,13 @@ const  AttendanceStatistics = () => {
       <HeaderView 
         title={"출석 통계"}
         headerComponent={
-          <GRButton> 
+          <GRButtonText onClick={() => setOpenModal(!openModal)}> 
             <BarChartOutlined rev={undefined} style={{ fontSize:'1.3rem' }}/>
-          </GRButton>
+          </GRButtonText>
         }
       />
       <GRContainerView>
         <StatisticsCompareCards/>
-        
         <GRTable
           marginBottom={2}
           headerComponent={<GRText weight={"bold"} fontSize={"b4"}>🐏 결석 인원</GRText>}
