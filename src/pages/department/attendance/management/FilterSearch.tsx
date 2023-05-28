@@ -6,7 +6,7 @@ import GRTextInput from '@component/base/text/GRTextInput'
 import GRFlexView from '@component/base/view/GRFlexView'
 import GRView from '@component/base/view/GRView'
 import dayjs from 'dayjs'
-import React, { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 
 type tSearchFilter = "name" | 'cordi'
 
@@ -94,7 +94,7 @@ const FilterSearch : FC<FilterSearch> = () => {
                     onChange={(value) => onChangeDate('startDate',value)} 
                     defaultValue={filterDate.startDate}
                 />
-                <GRText marginHorizontal={1}>
+                <GRText marginHorizontal={1}> 
                 ~
                 </GRText>
                 <GRDatePicker 

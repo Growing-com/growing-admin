@@ -1,5 +1,5 @@
-import { SerializedStyles, css } from "@emotion/react"
-import { CSSProperties } from "react"
+import { css } from "@emotion/react";
+import { CSSProperties } from "react";
 
 export type tGetMargin = {
     margin?: CSSProperties['margin'];
@@ -20,19 +20,27 @@ const getMargin = ({
     marginHorizontal,
     marginVertical
 }: tGetMargin) => {
-    if ( !margin && marginHorizontal || marginVertical ){
-        margin = `${marginVertical ?? 0}rem ${marginHorizontal ?? 0}rem`;
+    if( margin ){
+        return css`margin:${margin}rem`
     }
+    if( marginHorizontal ) {
+        marginRight = marginHorizontal;
+        marginLeft = marginHorizontal;
+    }
+    if( marginVertical ){
+        marginTop = marginVertical;
+        marginBottom = marginVertical;
+    }
+    
     return css`
         margin-top: ${marginTop}rem;
         margin-bottom: ${marginBottom}rem;
         margin-right: ${marginRight}rem;
         margin-left: ${marginLeft}rem;
-        margin: ${margin}rem
     `
 }
 
 
 export {
     getMargin
-}
+};
