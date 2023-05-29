@@ -1,8 +1,9 @@
-import { Checkbox, CheckboxProps, Radio, RadioGroupProps, RadioProps } from 'antd'
-import React, { FC } from 'react'
+import { Checkbox, CheckboxProps } from 'antd';
+import { FC } from 'react';
+import { tOptions } from './dataEntryType';
 
 export type tGRCheck = {
-
+  options?: tOptions;
 } & CheckboxProps
 
 const GRCheck: FC<tGRCheck> = ({

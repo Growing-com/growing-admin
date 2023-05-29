@@ -1,9 +1,10 @@
-import { Radio, RadioGroupProps, RadioProps } from 'antd'
-import React, { FC } from 'react'
+import { Radio, RadioGroupProps } from 'antd';
+import { FC } from 'react';
+import { tOptions } from './dataEntryType';
 
 export type tGRRadio = {
-
-} & RadioGroupProps
+  options?: tOptions;
+} & Omit<RadioGroupProps,"options">
 
 const GRRadio: FC<tGRRadio> = ({
     options,

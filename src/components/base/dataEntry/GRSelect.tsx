@@ -1,21 +1,16 @@
-import { css } from '@emotion/react'
-import styled from '@emotion/styled';
-import { Select } from 'antd'
-import type { SelectProps } from 'antd'
-import React, { CSSProperties, FC } from 'react'
+import { css } from '@emotion/react';
+import type { SelectProps } from 'antd';
+import { Select } from 'antd';
+import { CSSProperties, FC } from 'react';
 import { Color } from 'styles/colors';
 import GRText from '../text/GRText';
+import { tOptions } from './dataEntryType';
 
 export type tGRSelect = {
-    options: ItemProps[];
+    options?: tOptions;
     height?: CSSProperties['height'];
     width?: CSSProperties['width'];
-} & SelectProps;
-
-type ItemProps = {
-    label: string;
-    value: string | number;
-}
+} & Omit<SelectProps,'options'>;
 
 const { Option } = Select;
 
