@@ -1,11 +1,11 @@
-import { css } from '@emotion/react'
-import { DatePicker, DatePickerProps } from 'antd'
-import React, { CSSProperties, type FC } from 'react'
+import { css } from "@emotion/react";
+import { DatePicker, DatePickerProps } from "antd";
+import { CSSProperties, type FC } from "react";
 
 type tGRDatePicker = {
-  height?: CSSProperties['height'];
-  width?: CSSProperties['width'];
-} & DatePickerProps
+  height?: CSSProperties["height"];
+  width?: CSSProperties["width"];
+} & DatePickerProps;
 
 const GRDatePicker: FC<tGRDatePicker> = ({
   style,
@@ -15,13 +15,13 @@ const GRDatePicker: FC<tGRDatePicker> = ({
 }) => {
   return (
     <DatePicker
-        css={css`
-          width: ${width}rem;
-          height: ${height}rem;
-        `}
-        {...props}
+      css={css`
+        width: ${width}rem;
+        height: ${height}rem;
+      `}
+      {...props}
     />
-  )
-}
+  );
+};
 
-export default GRDatePicker
+export default GRDatePicker;

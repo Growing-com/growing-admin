@@ -1,18 +1,10 @@
-import { Tabs, TabsProps } from 'antd'
-import React, { FC } from 'react'
+import { Tabs, TabsProps } from "antd";
+import { FC } from "react";
 
-type tGRTab = {
+type tGRTab = {} & TabsProps;
 
-} & TabsProps
+const GRTab: FC<tGRTab> = ({ ...props }) => {
+  return <Tabs {...props} />;
+};
 
-const GRTab: FC<tGRTab> = ({
-    ...props
-}) => {
-  return (
-    <Tabs
-        {...props}
-    />
-  )
-}
-
-export default GRTab
+export default GRTab;

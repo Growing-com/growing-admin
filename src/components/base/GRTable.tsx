@@ -1,19 +1,19 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { Pagination, PaginationProps, Table, TableProps } from 'antd'
-import React, { FC, ReactNode, useCallback, useMemo } from 'react';
-import { Color } from 'styles/colors';
-import { getMargin, tGetMargin } from 'utils';
-import GRFlexView from './view/GRFlexView';
-import GRView from './view/GRView';
-import GRStylesConfig from 'styles/GRStylesConfig';
+import { css } from "@emotion/react";
+import { Pagination, PaginationProps, Table, TableProps } from "antd";
+import { ReactNode, useMemo } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
+import { getMargin, tGetMargin } from "utils";
+import GRFlexView from "./view/GRFlexView";
+import GRView from "./view/GRView";
 
 type tGRTable<T> = {
   paginationProps?: PaginationProps;
   headerComponent?: ReactNode;
-} & tGetMargin & TableProps<T>
+} & tGetMargin &
+  TableProps<T>;
 
-const GRTable = <GRTableType extends {}> ({
+const GRTable = <GRTableType extends {}>({
   columns,
   dataSource,
   pagination = false,
@@ -31,7 +31,7 @@ const GRTable = <GRTableType extends {}> ({
 
   const tableStyles = useMemo(
     () => css`
-        /* .ant-table-container {
+      /* .ant-table-container {
             table {
                 border-collapse: collapse;
 
@@ -95,15 +95,13 @@ const GRTable = <GRTableType extends {}> ({
           ${_margin};
         `}
       />
-      {paginationProps &&
-      <GRFlexView alignItems={'center'} marginTop={1}>
-        <Pagination
-          showSizeChanger={false}
-          {...paginationProps}
-        />
-      </GRFlexView>}
+      {paginationProps && (
+        <GRFlexView alignItems={"center"} marginTop={1}>
+          <Pagination showSizeChanger={false} {...paginationProps} />
+        </GRFlexView>
+      )}
     </>
-  )
-}
+  );
+};
 
 export default GRTable;

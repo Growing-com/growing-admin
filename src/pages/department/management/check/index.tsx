@@ -1,4 +1,3 @@
 export default function ManagementCheck() {
-    return <div>ManagementCheck</div>;
-  }
-  
+  return <div>ManagementCheck</div>;
+}

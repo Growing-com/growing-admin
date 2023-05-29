@@ -1,9 +1,5 @@
-import React from 'react'
-
 const StatisticsModal = () => {
-  return (
-    <div>StatisticsModal</div>
-  )
-}
+  return <div>StatisticsModal</div>;
+};
 
-export default StatisticsModal
+export default StatisticsModal;

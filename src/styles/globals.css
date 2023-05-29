@@ -1,5 +1,4 @@
-
-@import './color.css';
+@import "./color.css";
 
 html,
 body {
@@ -28,7 +27,8 @@ a {
   }
 }
 
-.ant-input:focus, .ant-input:hover {
+.ant-input:focus,
+.ant-input:hover {
   border-color: var(--green200);
   box-shadow: 0 0 0 2px rgba(0, 255, 94, 0.1);
   border-inline-end-width: 1px;

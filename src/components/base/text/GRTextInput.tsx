@@ -1,16 +1,17 @@
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import { Input } from 'antd'
-import { InputProps, TextAreaProps } from 'antd/es/input'
-import type { TextProps } from 'antd/es/typography/Text'
-import React, { FC } from 'react'
-import { getMargin, tGetMargin } from 'utils'
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Input } from "antd";
+import { InputProps, TextAreaProps } from "antd/es/input";
+import { FC } from "react";
+import { getMargin, tGetMargin } from "utils";
 
 const { TextArea } = Input;
 
 export type tGRTextInput = {
-  multi?: boolean
-} & InputProps & TextAreaProps & tGetMargin
+  multi?: boolean;
+} & InputProps &
+  TextAreaProps &
+  tGetMargin;
 
 const GRTextInput: FC<tGRTextInput> = ({
   placeholder,
@@ -23,23 +24,21 @@ const GRTextInput: FC<tGRTextInput> = ({
 
   return (
     <TextInputComponent
-        placeholder={placeholder}
-        onChange={onChange}
-        css={css`
-          ${_margin}
-        `}
-        {...props}
+      placeholder={placeholder}
+      onChange={onChange}
+      css={css`
+        ${_margin}
+      `}
+      {...props}
     />
-  )
-}
+  );
+};
 
 export default GRTextInput;
 
 const InputComponent = styled(Input)`
-    display:flex;
-    flex:1;
-`
+  display: flex;
+  flex: 1;
+`;
 
-const TextAreaComponent = styled(TextArea)`
-  
-`
+const TextAreaComponent = styled(TextArea)``;
