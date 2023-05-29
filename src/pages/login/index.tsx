@@ -28,10 +28,10 @@ const Login = () => {
             로그인
           </GRButtonText>
           <GRFlexView flexDirection={'row'}>
-            <GRButtonText type={'link'}>
+            <GRButtonText buttonType={"default"}>
               카카오 문의
             </GRButtonText>
-            <GRButtonText type={'link'}>
+            <GRButtonText buttonType={"default"}>
               비밀번호 변경
             </GRButtonText>
           </GRFlexView>

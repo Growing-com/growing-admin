@@ -1,23 +1,28 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Input } from 'antd'
+import { InputProps, TextAreaProps } from 'antd/es/input'
 import type { TextProps } from 'antd/es/typography/Text'
-import React from 'react'
+import React, { FC } from 'react'
 import { getMargin, tGetMargin } from 'utils'
 
-interface GRTextInput extends TextProps, tGetMargin{
+const { TextArea } = Input;
 
-}
+export type tGRTextInput = {
+  multi?: boolean
+} & InputProps & TextAreaProps & tGetMargin
 
-const GRTextInput = ({
+const GRTextInput: FC<tGRTextInput> = ({
   placeholder,
   onChange,
+  multi = false,
   ...props
-}: GRTextInput) => {
+}) => {
   const _margin = getMargin(props);
+  const TextInputComponent = multi ? TextAreaComponent : InputComponent;
 
   return (
-    <InputComponent
+    <TextInputComponent
         placeholder={placeholder}
         onChange={onChange}
         css={css`
@@ -33,4 +38,8 @@ export default GRTextInput;
 const InputComponent = styled(Input)`
     display:flex;
     flex:1;
+`
+
+const TextAreaComponent = styled(TextArea)`
+  
 `

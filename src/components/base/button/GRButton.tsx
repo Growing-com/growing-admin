@@ -1,10 +1,9 @@
-import { css } from "@emotion/react";
+import { SerializedStyles, css } from "@emotion/react";
 import { Button, ButtonProps } from "antd";
 import React, { CSSProperties, useMemo } from "react";
 import { Color } from "styles/colors";
-import GRText from "../text/GRText";
 import { getMargin, tGetMargin } from "utils";
-import { SerializedStyles } from "@emotion/react";
+import GRText from "../text/GRText";
 
 type tButtonSize = "large" | "normal" | "small"; 
 
@@ -16,14 +15,17 @@ type tGRButton = {
   size?: tButtonSize;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  buttonType?: "default" | "primary" | "cancel" | "custom" ;
 } & Omit<ButtonProps,"size"> & tGetMargin;
+
+type tType = "default" | "primary";
 
 const GRButton : React.FC<tGRButton> = ({
   children,
   size = "normal", 
   style,
   onClick,
-  type = "primary",
+  buttonType = "primary",
   backgroundColor,
   ghost,
   textColor,
@@ -32,27 +34,35 @@ const GRButton : React.FC<tGRButton> = ({
   ...props
 }) => {
   const _margin = getMargin(props);
-  const _backgroundColor = useMemo(() => 
-  {
-    if( type === 'primary' ){
-      return Color.green200;
+  
+  const _type = useMemo(() =>{
+    let buttonProps = { type: buttonType, textColor, backgroundColor }
+    switch (buttonType) {
+      case "custom":
+          buttonProps.type = "default";
+        break;
+      case "default":
+          buttonProps.textColor = Color.green200;
+          buttonProps.backgroundColor = Color.white;
+        break;
+      case "primary":
+          buttonProps.textColor = Color.white;
+          buttonProps.backgroundColor = Color.green200;
+        break;
+      case "cancel":
+          buttonProps.textColor = Color.grey30;
+          buttonProps.backgroundColor = Color.grey20;
+        break;
     }
-    return backgroundColor ?? Color.white;
-  },[backgroundColor, type])
-
-  const _textColor = useMemo(()=>{
-    if( type === 'primary' ){
-      return Color.white;
-    }
-    return textColor ?? Color.green200
-  },[type, textColor])
+    return buttonProps;
+  },[backgroundColor, buttonType, textColor])
+  
 
   return (
     <Button
-      type={type}
       onClick={onClick}
       css={css`
-        background-color: ${_backgroundColor};
+        background-color:${_type.backgroundColor};
         ${BUTTON_SIZE_STYLE[size]};
         ${_margin};
         width: ${width};
@@ -60,7 +70,7 @@ const GRButton : React.FC<tGRButton> = ({
       `}
       {...props}
     >
-      <GRText color={_textColor}>
+      <GRText color={_type.textColor}>
         {children}
       </GRText>
     </Button>
@@ -68,7 +78,6 @@ const GRButton : React.FC<tGRButton> = ({
 }
 
 export default GRButton;
-
 
 export const BUTTON_SIZE_STYLE: Record<tButtonSize,SerializedStyles> = {
   small: css`

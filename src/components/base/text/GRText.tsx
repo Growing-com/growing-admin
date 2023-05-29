@@ -1,10 +1,9 @@
 import { SerializedStyles, css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react'
-import type { CSSProperties, FC, ReactNode } from 'react'
+import type { CSSProperties, FC } from 'react';
 import { getMargin, tGetMargin } from 'utils';
 
-type tFontSizeType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "h7" | "h8" | "h9" | "b1" | "b2" | "b3" | "b4" | "b5";
+type tFontSizeType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "h7" | "h8" | "h9" | "b1" | "b2" | "b3" | "b4" | "b5" | "b6" | "b7" | "b8";
 
 type tGRTextSpan = {
   color?: CSSProperties['color'];
@@ -132,6 +131,21 @@ const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
     b5: css`
         font-size: 1rem;
         line-height: 1.4rem;
+        letter-spacing: -0.01rem;
+    `,
+    b6: css`
+        font-size: 0.9rem;
+        line-height: 1.3rem;
+        letter-spacing: -0.01rem;
+    `,
+    b7: css`
+        font-size: 0.8rem;
+        line-height: 1.2rem;
+        letter-spacing: -0.01rem;
+    `,
+    b8: css`
+        font-size: 0.7rem;
+        line-height: 1.1rem;
         letter-spacing: -0.01rem;
     `
 };

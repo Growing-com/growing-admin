@@ -16,7 +16,7 @@ type tGRButtonText = {
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   buttonType?: "default" | "primary" | "cancel" | "custom" ;
-} & Omit<ButtonProps,"size"> & tGetMargin;
+} & Omit<ButtonProps,"size" | "type"> & tGetMargin;
 
 type tType = "default" | "primary";
 
@@ -34,6 +34,8 @@ const GRButtonText : React.FC<tGRButtonText> = ({
   ...props
 }) => {
   const _margin = getMargin(props);
+  const _width = useMemo(() =>  typeof width  === "string" ? width : `${width}rem` ,[width] )
+  const _height = useMemo(() =>  typeof height === "string" ? height : `${height}rem` ,[height] )
   
   const _type = useMemo(() =>{
     let buttonProps = { type: buttonType, textColor, backgroundColor }
@@ -66,8 +68,8 @@ const GRButtonText : React.FC<tGRButtonText> = ({
         background-color:${_type.backgroundColor};
         ${BUTTON_SIZE_STYLE[size]};
         ${_margin};
-        width: ${width};
-        height: ${height};
+        width: ${_width};
+        height: ${_height};
       `}
       {...props}
     >
