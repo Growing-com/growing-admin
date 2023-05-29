@@ -1,14 +1,15 @@
 import { Modal, ModalProps } from 'antd';
-import React, { useCallback, type FC, ReactNode } from 'react';
-import { map } from 'lodash';
-import GRButton from '../button/GRButton';
-import GRFlexView from '../view/GRFlexView';
+import React, { ReactNode, useMemo, type FC } from 'react';
+import GRButtonText from '../button/GRTextButton';
 
 export type tGRModal = {
   footerComponent?: ReactNode;
   okButtonText?: string;
   cancelButtonText?: string;
-} & ModalProps;
+  onCancel: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  onOk: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  modalOkButtonType?: "submit" | "button" | "reset";
+} &  Omit<ModalProps,"onOk" | "onCancel">;
 
 const GRModal: FC<tGRModal> = ({
     children,
@@ -19,24 +20,41 @@ const GRModal: FC<tGRModal> = ({
     closable = false,
     onCancel,
     onOk,
+    modalOkButtonType,
     ...props
 }) => {
+  const _htmlType = useMemo( ()=> modalOkButtonType ? modalOkButtonType : "button" ,[modalOkButtonType])
   
-  const onCancelClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onCancelClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     onCancel?.(e)
   }
 
-  const onOkClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> & React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onOkClickButton = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     onOk?.(e);
   }
 
   return (
     <Modal 
       open={open}
-      onOk={onOk}
-      onCancel={onCancel}
+      onOk={onOkClickButton}
+      onCancel={onCancelClickButton}
       closable={closable}
-      footer={[]}
+      footer={[
+        <GRButtonText 
+          key={"cancel-button"} 
+          buttonType={"cancel"} 
+          onClick={onCancelClickButton}
+        >
+          취소
+        </GRButtonText>,
+        <GRButtonText 
+          key={"ok-button"} 
+          onClick={onOkClickButton} 
+          htmlType={_htmlType}
+        >
+          확인
+        </GRButtonText>
+      ]}
       {...props}
     >
         {children}
