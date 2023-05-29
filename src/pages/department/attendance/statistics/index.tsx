@@ -4,13 +4,24 @@ import GRButtonText from "@component/base/button/GRTextButton";
 import GRText from "@component/base/text/GRText";
 import GRContainerView from "@component/base/view/GRContainerView";
 import HeaderView from "@component/modules/view/HeaderView";
+import { ColumnType } from "antd/es/table";
 import { useState } from "react";
 import StatisticsCompareCards from "./StatisticsCompareCards";
+
+type tAttendanceTable = {
+  'cordi':string;
+  'leader':string;
+  'name':string;
+  'grade':string;
+  'gender':string;
+  '2023-05-23':string;
+  '2023-05-30':string;
+}
 
 const  AttendanceStatistics = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const absentColumns = [
+  const absentColumns: ColumnType<tAttendanceTable>[] = [
     {
       title: '코디',
       dataIndex: 'cordi',
@@ -18,7 +29,7 @@ const  AttendanceStatistics = () => {
       align:'center',
       width: '5rem',
       fixed: 'left',
-      render: (text) => <a>{text}</a>,
+      render: (_,item) => <a>{item.cordi}</a>,
     },
     {
       title: '순장',
@@ -54,7 +65,7 @@ const  AttendanceStatistics = () => {
     },
     {
       title: '2023-05-23',
-      dataIndex: 'gender',
+      dataIndex: '2023-05-23',
       key: 'gender',
       align:'center',
       fixed: 'left',
@@ -62,7 +73,7 @@ const  AttendanceStatistics = () => {
     },
     {
       title: '2023-05-30',
-      dataIndex: 'gender',
+      dataIndex: '2023-05-30',
       key: 'gender',
       align:'center',
       fixed: 'left',

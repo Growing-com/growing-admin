@@ -1,20 +1,14 @@
 import GRTable from "@component/base/GRTable"
-import GRButton from "@component/base/button/GRButton"
-import GRText from "@component/base/text/GRText"
-import GRTextInput from "@component/base/text/GRTextInput"
-import GRFlexView from "@component/base/view/GRFlexView"
-import { Button, Pagination, Space, Table, Tag } from "antd"
-import { NextPage } from "next"
-import ManagementSearch from "./ManagementSearch"
-import { ColumnType } from "antd/es/table"
-import { DUMP_DATA } from "../../../../../dumpData"
-import { useCallback, useState } from "react"
-import { useQuery } from "queries/useQuery"
-import querykeys from "queries/querykeys"
-import { Color } from "styles/colors"
-import HeaderView from "@component/modules/view/HeaderView"
-import AccountModal from "./AccountModal"
+import GRButtonText from "@component/base/button/GRTextButton"
 import GRContainerView from "@component/base/view/GRContainerView"
+import HeaderView from "@component/modules/view/HeaderView"
+import { Tag } from "antd"
+import { ColumnType } from "antd/es/table"
+import { NextPage } from "next"
+import { useCallback, useState } from "react"
+import { DUMP_DATA } from "../../../../../dumpData"
+import AccountModal from "./AccountModal"
+import ManagementSearch from "./ManagementSearch"
 
 type tManagementTable =  {
   name:string;
@@ -96,9 +90,9 @@ const [openAccountModal, setOpenAccountModal] = useState(false);
       <HeaderView
         title={"계정 관리"}
         headerComponent={
-          <GRButton onClick={onAccountModal}>
+          <GRButtonText onClick={onAccountModal} buttonType={"default"}>
             계정 생성
-          </GRButton>
+          </GRButtonText>
         }
         subComponent={<ManagementSearch/>}
       />
@@ -110,12 +104,12 @@ const [openAccountModal, setOpenAccountModal] = useState(false);
             total:100,
             defaultPageSize:10
           }}
-          />
-        <AccountModal
-          open={openAccountModal}
-          onClick={onAccountModal}
-          />
-        </GRContainerView>
+        />
+      </GRContainerView>
+      <AccountModal
+        open={openAccountModal}
+        onClick={onAccountModal}
+      />
     </div>
   )
 }

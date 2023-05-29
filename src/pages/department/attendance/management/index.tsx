@@ -1,15 +1,13 @@
-import HeaderView from '@component/modules/view/HeaderView';
-import { NextPage } from 'next';
-import React, { useMemo } from 'react'
-import FilterSearch from './FilterSearch';
 import GRTable from '@component/base/GRTable';
-import GRFlexView from '@component/base/view/GRFlexView';
-import GRButton from '@component/base/button/GRButton';
-import ExcelButton from '@component/modules/button/ExcelButton';
-import { ColumnType } from 'antd/es/table';
-import { getSundayOfMonth } from 'utils/DateUtils';
-import dayjs from 'dayjs';
 import GRContainerView from '@component/base/view/GRContainerView';
+import ExcelButton from '@component/modules/button/ExcelButton';
+import HeaderView from '@component/modules/view/HeaderView';
+import { ColumnType } from 'antd/es/table';
+import dayjs from 'dayjs';
+import { NextPage } from 'next';
+import { useMemo } from 'react';
+import { getSundayOfMonth } from 'utils/DateUtils';
+import FilterSearch from './FilterSearch';
 
 const DATA = [{
     cordi:"123",
@@ -37,7 +35,7 @@ const AttendanceManagementPage: NextPage = () => {
           dataIndex: dayKey,
           key: dayKey,
           align:'center',
-        }
+        } as ColumnType<tAttendanceTable>
       });
     }
     const columns: ColumnType<tAttendanceTable>[] = useMemo(() =>
