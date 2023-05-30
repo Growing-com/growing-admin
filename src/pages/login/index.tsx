@@ -5,6 +5,7 @@ import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import { ReactElement } from "react";
 
 const Login = () => {
   return (
@@ -45,6 +46,10 @@ const Login = () => {
 };
 
 export default Login;
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return <>{page}</>;
+};
 
 const LoginContainer = styled.div`
   display: flex;

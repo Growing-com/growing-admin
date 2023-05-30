@@ -23,16 +23,14 @@ const HeaderMenu = () => {
         />
       </GRView>
       <GRFlexView justifyContent={"space-between"} flexDirection={"row"}>
-        <GRFlexView justifyContent={"flex-start"} flexDirection={"row"}>
-          <GRButtonText textColor={Color.green200} onClick={() => {}}>
+        <GRFlexView
+          justifyContent={"flex-start"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <GRText weight={"bold"} color={Color.green200} fontSize={"b5"}>
             부서
-          </GRButtonText>
-          <GRButtonText
-            textColor={Color.green200}
-            onClick={() => router.push("/login")}
-          >
-            로그인
-          </GRButtonText>
+          </GRText>
         </GRFlexView>
         <Popover
           placement="bottom"
