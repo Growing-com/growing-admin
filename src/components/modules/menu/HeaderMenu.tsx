@@ -7,11 +7,17 @@ import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const HeaderMenu = () => {
   const router = useRouter();
+
+  const onClickLogout = useCallback(() => {
+    router.replace("/");
+  }, []);
+
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
       <GRView width={12} style={{ position: "relative" }}>
@@ -55,7 +61,11 @@ const HeaderMenu = () => {
                 alignItems={"flex-end"}
                 marginTop={GRStylesConfig.BASE_MARGIN}
               >
-                <GRButtonText width={"100%"} buttonType={"default"}>
+                <GRButtonText
+                  width={"100%"}
+                  buttonType={"default"}
+                  onClick={onClickLogout}
+                >
                   로그아웃
                 </GRButtonText>
               </GRFlexView>

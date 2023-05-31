@@ -7,15 +7,20 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactElement, useCallback } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 const Login = () => {
   const router = useRouter();
+  const [userId, setUserId] = useState();
 
   const onClickLogin = useCallback(() => {
-    router.replace("/");
-  }, []);
+    if (userId) {
+      router.replace("/department/management/account");
+    } else {
+      confirm("아이디 입력해주세요.");
+    }
+  }, [userId]);
 
   const onClickChangePassword = useCallback(() => {
     router.push("/login/ChangePassword");
@@ -37,7 +42,10 @@ const Login = () => {
             <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               아이디
             </GRText>
-            <GRTextInput placeholder={"아이디를 입력해 주세요"} />
+            <GRTextInput
+              placeholder={"아이디를 입력해 주세요"}
+              onChange={e => setUserId(e.target.value)}
+            />
           </GRView>
           <GRView marginBottom={1}>
             <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
