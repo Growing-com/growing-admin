@@ -1,4 +1,5 @@
 const Routes = [];
+import { CheckOutlined, TeamOutlined } from "@ant-design/icons";
 
 type tDepartmentMainMenu = {
   key: "management" | "attendance";
@@ -49,12 +50,14 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "management",
     label: "관리",
-    children: DEPARTMENT_MANAGEMENT_SUB_MENU
+    children: DEPARTMENT_MANAGEMENT_SUB_MENU,
+    icon: <TeamOutlined rev={undefined} />
   },
   {
     key: "attendance",
     label: "출석",
-    children: DEPARTMENT_ATTENDANCE_SUB_MENU
+    children: DEPARTMENT_ATTENDANCE_SUB_MENU,
+    icon: <CheckOutlined rev={undefined} />
   }
 ];
 
