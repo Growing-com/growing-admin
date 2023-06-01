@@ -5,8 +5,9 @@ import GRText from "@component/base/text/GRText";
 import GRContainerView from "@component/base/view/GRContainerView";
 import HeaderView from "@component/modules/view/HeaderView";
 import { ColumnType } from "antd/es/table";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import StatisticsCompareCards from "./StatisticsCompareCards";
+import StatisticsModal from "./StatisticsModal";
 
 type tAttendanceTable = {
   cordi: string;
@@ -20,6 +21,7 @@ type tAttendanceTable = {
 
 const AttendanceStatistics = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
 
   const absentColumns: ColumnType<tAttendanceTable>[] = [
     {
@@ -80,12 +82,17 @@ const AttendanceStatistics = () => {
       width: "5rem"
     }
   ];
+
+  const onClickStatistics = useCallback(() => {
+    setOpenStatisticsModal(!openStatisticsModal);
+  }, [openStatisticsModal]);
+
   return (
     <>
       <HeaderView
         title={"출석 통계"}
         headerComponent={
-          <GRButtonText onClick={() => setOpenModal(!openModal)}>
+          <GRButtonText onClick={onClickStatistics}>
             <BarChartOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
           </GRButtonText>
         }
@@ -110,6 +117,10 @@ const AttendanceStatistics = () => {
           columns={absentColumns}
         />
       </GRContainerView>
+      <StatisticsModal
+        onClickStatistics={onClickStatistics}
+        open={openStatisticsModal}
+      />
     </>
   );
 };
