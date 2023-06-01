@@ -3,7 +3,7 @@ import { Pagination, PaginationProps, Table, TableProps } from "antd";
 import { ReactNode, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
-import { getMargin, tGetMargin } from "utils";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRFlexView from "./view/GRFlexView";
 import GRView from "./view/GRView";
 

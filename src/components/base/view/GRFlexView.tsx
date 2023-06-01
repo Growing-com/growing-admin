@@ -1,7 +1,7 @@
 import { SerializedStyles, css } from "@emotion/react";
 import type { CSSProperties, FC, ReactNode } from "react";
 import { Color } from "styles/colors";
-import { getMargin, tGetMargin } from "utils";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
 interface IGRFlexView extends tGetMargin {
   children: ReactNode;

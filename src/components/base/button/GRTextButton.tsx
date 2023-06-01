@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Button, ButtonProps } from "antd";
 import React, { CSSProperties, useMemo } from "react";
 import { Color } from "styles/colors";
-import { getMargin, tGetMargin } from "utils";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText from "../text/GRText";
 
 type tButtonSize = "large" | "normal" | "small";

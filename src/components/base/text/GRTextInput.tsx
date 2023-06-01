@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Input } from "antd";
 import { InputProps, TextAreaProps } from "antd/es/input";
 import { FC } from "react";
-import { getMargin, tGetMargin } from "utils";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
 const { TextArea } = Input;
 

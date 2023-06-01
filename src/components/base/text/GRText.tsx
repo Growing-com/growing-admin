@@ -1,7 +1,7 @@
 import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import type { CSSProperties, FC } from "react";
-import { getMargin, tGetMargin } from "utils";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
 type tFontSizeType =
   | "h1"
