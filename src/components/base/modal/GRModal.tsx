@@ -6,6 +6,7 @@ export type tGRModal = {
   footerComponent?: ReactNode;
   okButtonText?: string;
   cancelButtonText?: string;
+  showFooter?: boolean;
   onCancel: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -29,6 +30,7 @@ const GRModal: FC<tGRModal> = ({
   onCancel,
   onOk,
   modalOkButtonType,
+  showFooter = true,
   ...props
 }) => {
   const _htmlType = useMemo(
@@ -52,28 +54,33 @@ const GRModal: FC<tGRModal> = ({
     onOk?.(e);
   };
 
+  const _renderFooter = useMemo(() => {
+    if (footerComponent || !showFooter) return [];
+    return [
+      <GRButtonText
+        key={"cancel-button"}
+        buttonType={"cancel"}
+        onClick={onCancelClickButton}
+      >
+        취소
+      </GRButtonText>,
+      <GRButtonText
+        key={"ok-button"}
+        onClick={onOkClickButton}
+        htmlType={_htmlType}
+      >
+        확인
+      </GRButtonText>
+    ];
+  }, [showFooter, footerComponent, _htmlType]);
+
   return (
     <Modal
       open={open}
       onOk={onOkClickButton}
       onCancel={onCancelClickButton}
       closable={closable}
-      footer={[
-        <GRButtonText
-          key={"cancel-button"}
-          buttonType={"cancel"}
-          onClick={onCancelClickButton}
-        >
-          취소
-        </GRButtonText>,
-        <GRButtonText
-          key={"ok-button"}
-          onClick={onOkClickButton}
-          htmlType={_htmlType}
-        >
-          확인
-        </GRButtonText>
-      ]}
+      footer={_renderFooter}
       {...props}
     >
       {children}
