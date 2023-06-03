@@ -92,7 +92,7 @@ const AttendanceStatistics = () => {
       <HeaderView
         title={"출석 통계"}
         headerComponent={
-          <GRButtonText onClick={onClickStatistics}>
+          <GRButtonText onClick={onClickStatistics} buttonType={"default"}>
             <BarChartOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
           </GRButtonText>
         }
