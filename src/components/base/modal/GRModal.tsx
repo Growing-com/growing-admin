@@ -1,6 +1,8 @@
 import { Modal, ModalProps } from "antd";
-import React, { ReactNode, useMemo, type FC } from "react";
+import React, { ReactNode, useCallback, useMemo, type FC } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import GRButtonText from "../button/GRTextButton";
+import GRView from "../view/GRView";
 
 export type tGRModal = {
   footerComponent?: ReactNode;
@@ -18,7 +20,8 @@ export type tGRModal = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   modalOkButtonType?: "submit" | "button" | "reset";
-} & Omit<ModalProps, "onOk" | "onCancel">;
+  title: string;
+} & Omit<ModalProps, "onOk" | "onCancel" | "title">;
 
 const GRModal: FC<tGRModal> = ({
   children,
@@ -31,6 +34,7 @@ const GRModal: FC<tGRModal> = ({
   onOk,
   modalOkButtonType,
   showFooter = true,
+  title,
   ...props
 }) => {
   const _htmlType = useMemo(
@@ -72,7 +76,21 @@ const GRModal: FC<tGRModal> = ({
         확인
       </GRButtonText>
     ];
-  }, [showFooter, footerComponent, _htmlType]);
+  }, [
+    showFooter,
+    footerComponent,
+    _htmlType,
+    onCancelClickButton,
+    onOkClickButton
+  ]);
+
+  const renderModalHeader = useCallback(() => {
+    return (
+      <GRView borderBottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
+        {title}
+      </GRView>
+    );
+  }, []);
 
   return (
     <Modal
@@ -82,9 +100,9 @@ const GRModal: FC<tGRModal> = ({
       closable={closable}
       footer={_renderFooter}
       {...props}
+      title={renderModalHeader()}
     >
       {children}
-      {footerComponent}
     </Modal>
   );
 };

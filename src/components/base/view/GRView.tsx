@@ -1,7 +1,8 @@
 import { SerializedStyles, css } from "@emotion/react";
 import type { CSSProperties, FC, ReactNode } from "react";
 import { Color } from "styles/colors";
-import { getMargin, tGetMargin } from "utils";
+import getBorder, { tGetBorder } from "styles/css/getBorder";
+import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
 export type tGRView = {
   children: ReactNode;
@@ -15,7 +16,8 @@ export type tGRView = {
   height?: CSSProperties["height"];
   style?: CSSProperties;
   customCss?: SerializedStyles;
-} & tGetMargin;
+} & tGetMargin &
+  tGetBorder;
 
 const GRView: FC<tGRView> = ({
   children,
@@ -32,6 +34,7 @@ const GRView: FC<tGRView> = ({
   ...rest
 }) => {
   const _margin = getMargin(rest);
+  const _border = getBorder(rest);
 
   return (
     <div
@@ -45,6 +48,7 @@ const GRView: FC<tGRView> = ({
           align-items: ${alignItems};
           padding: ${padding}rem;
           ${_margin}
+          ${_border}
         `,
         isBoard &&
           css`
