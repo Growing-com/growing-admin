@@ -74,8 +74,8 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         buttonProps.backgroundColor = Color.green200;
         break;
       case "cancel":
-        buttonProps.textColor = Color.grey30;
-        buttonProps.backgroundColor = Color.grey20;
+        buttonProps.textColor = Color.grey40;
+        buttonProps.backgroundColor = Color.grey140;
         break;
       case "text":
         buttonProps.textColor = Color.green200;

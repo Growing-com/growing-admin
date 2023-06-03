@@ -38,7 +38,7 @@ const GRSelect: FC<tGRSelect> = ({
     >
       {options.map((option, index) => (
         <Option key={`${option.label}_${index}`} value={option.value}>
-          <GRText color={Color.grey70}>{option.label}</GRText>
+          <GRText color={Color.grey60}>{option.label}</GRText>
         </Option>
       ))}
     </Select>

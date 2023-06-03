@@ -51,7 +51,7 @@ const HeaderMenu = () => {
                 <GRText
                   fontSize={"b7"}
                   weight={"bold"}
-                  color={Color.grey40}
+                  color={Color.grey80}
                   marginLeft={GRStylesConfig.BASE_MARGIN}
                 >
                   관리자
