@@ -1,9 +1,11 @@
 import { SerializedStyles, css } from "@emotion/react";
 import type { CSSProperties, FC, ReactNode } from "react";
 import { Color } from "styles/colors";
-import getMargin, { type tGetMargin } from "styles/css/getMargin";
+import { AreaType } from "styles/css";
+import getMargin from "styles/css/getMargin";
+import getPadding from "styles/css/getPadding";
 
-interface IGRFlexView extends tGetMargin {
+type tGRFlexView = {
   children: ReactNode;
   flexDirection?: "column" | "row";
   backgroundColor?: CSSProperties["backgroundColor"];
@@ -16,9 +18,9 @@ interface IGRFlexView extends tGetMargin {
   height?: CSSProperties["height"];
   style?: CSSProperties;
   css?: SerializedStyles;
-}
+} & AreaType;
 
-const GRFlexView: FC<IGRFlexView> = ({
+const GRFlexView: FC<tGRFlexView> = ({
   children,
   flexDirection = "column",
   backgroundColor,
@@ -34,6 +36,7 @@ const GRFlexView: FC<IGRFlexView> = ({
   ...rest
 }) => {
   const _margin = getMargin(rest);
+  const _padding = getPadding(rest);
 
   return (
     <div
@@ -45,11 +48,12 @@ const GRFlexView: FC<IGRFlexView> = ({
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};
           align-items: ${alignItems};
-          padding: ${padding};
+          padding: ${padding ? `${padding}rem` : 0};
           border-radius: ${borderRadius}rem;
           width: ${`${width}rem`};
           height: ${`${height}rem`};
           ${_margin}
+          ${_padding}
         `,
         isBoard &&
           css`
