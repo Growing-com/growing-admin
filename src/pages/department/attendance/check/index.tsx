@@ -1,14 +1,19 @@
 import GRTab from "@component/base/GRTab";
 import GRButtonText from "@component/base/button/GRTextButton";
+import GRDatePicker from "@component/base/dataEntry/GRDatePicker";
 import GRTextInput from "@component/base/text/GRTextInput";
 import GRContainerView from "@component/base/view/GRContainerView";
+import GRFlexView from "@component/base/view/GRFlexView";
 import HeaderView from "@component/modules/view/HeaderView";
+import dayjs, { Dayjs } from "dayjs";
 import { useCallback, useState } from "react";
 import AttendanceCheckTable from "./AttendanceCheckTable";
 
 const INIT_TAB = "0";
 const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState(INIT_TAB);
+  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
+
   const DUMP_DATA = [
     {
       id: "22",
@@ -106,13 +111,18 @@ const AttendanceCheck = () => {
     setCurrentTab(_tabIndx);
   }, []);
 
-  const onClickAttend = () => {};
+  const onClickAttend = () => {
+    console.log("onClickAttend");
+  };
 
   return (
     <>
       <HeaderView
         title={"출석 체크"}
         titleInfo={"2023-05-17 수요일 00:00 까지 출석 체크가 가능합니다."}
+        headerComponent={
+          <GRButtonText onClick={onClickAttend}>출석 등록</GRButtonText>
+        }
       />
       <GRContainerView>
         <GRTab
@@ -120,7 +130,9 @@ const AttendanceCheck = () => {
           defaultActiveKey={currentTab}
           onChange={onChangeTab}
           tabBarExtraContent={
-            <GRButtonText onClick={onClickAttend}>출석 등록</GRButtonText>
+            <GRFlexView alignItems={"flex-start"}>
+              <GRDatePicker picker={"week"} defaultValue={filterDate} />
+            </GRFlexView>
           }
         />
         <AttendanceCheckTable colunms={colums} />
