@@ -1,23 +1,44 @@
+import { PlusCircleOutlined } from "@ant-design/icons";
 import GRTable from "@component/base/GRTable";
+import GRButtonText from "@component/base/button/GRTextButton";
+import GRText from "@component/base/text/GRText";
 import GRContainerView from "@component/base/view/GRContainerView";
 import ExcelButton from "@component/modules/button/ExcelButton";
 import HeaderView from "@component/modules/view/HeaderView";
+import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import dayjs from "dayjs";
 import { NextPage } from "next";
 import { useMemo } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { getSundayOfMonth } from "utils/DateUtils";
 import FilterSearch from "./FilterSearch";
-
 const DATA = [
   {
-    cordi: "123",
-    leader: "123",
-    name: "123",
-    grade: "123",
-    gender: "123"
+    cordi: "이순종",
+    leader: "아이유",
+    name: "박명수",
+    grade: "12",
+    gender: "남",
+    "06/05": "100",
+    "06/12": "200",
+    "06/19": "300",
+    "06/26": "100"
+  },
+  {
+    cordi: "조예인",
+    leader: "우상욱",
+    name: "이종민",
+    grade: "18",
+    gender: "남",
+    "06/05": "100",
+    "06/12": "200",
+    "06/19": "100",
+    "06/26": "300"
   }
 ];
+
+type tAttendStatus = "100" | "200" | "300";
 
 type tAttendanceTable = {
   cordi: string;
@@ -28,6 +49,23 @@ type tAttendanceTable = {
 };
 
 const AttendanceManagementPage: NextPage = () => {
+  const renderDayComponent = (attendStatus: tAttendStatus) => {
+    return (
+      <Popover
+        content={"오늘 배가 아파서 일찍 집에 갔습니다. "}
+        trigger={"click"}
+      >
+        <GRButtonText buttonType={"default"}>
+          <PlusCircleOutlined
+            rev={undefined}
+            style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
+          />
+          <GRText>{attendStatus === "100" ? "출석" : "결석"}</GRText>
+        </GRButtonText>
+      </Popover>
+    );
+  };
+
   const renderAddDay = () => {
     const sundays = getSundayOfMonth();
     return sundays.map((day: dayjs.Dayjs) => {
@@ -36,10 +74,12 @@ const AttendanceManagementPage: NextPage = () => {
         title: dayKey,
         dataIndex: dayKey,
         key: dayKey,
-        align: "center"
+        align: "center",
+        render: renderDayComponent
       } as ColumnType<tAttendanceTable>;
     });
   };
+
   const columns: ColumnType<tAttendanceTable>[] = useMemo(
     () => [
       {
@@ -99,6 +139,7 @@ const AttendanceManagementPage: NextPage = () => {
         <GRTable
           columns={columns}
           dataSource={DATA}
+          isHoverTable={false}
           paginationProps={{
             total: 100,
             defaultPageSize: 10
