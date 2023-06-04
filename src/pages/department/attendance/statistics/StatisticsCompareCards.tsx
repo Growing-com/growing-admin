@@ -30,14 +30,14 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"h6"}>200</GRText>
           <GRView>
             <GRText color={Color.red100} weight={"bold"}>
-              -10 % <ArrowUpOutlined rev={undefined} />
+              -10 % <ArrowDownOutlined rev={undefined} />
             </GRText>
             <GRText
               fontSize={"b7"}
               marginLeft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
-              2023-05-23 대비
+              210 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
@@ -48,14 +48,14 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"h6"}>200</GRText>
           <GRView>
             <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowDownOutlined rev={undefined} />
+              +20 % <ArrowUpOutlined rev={undefined} />
             </GRText>
             <GRText
               fontSize={"b7"}
               marginLeft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
-              2023-05-23 대비
+              200 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
@@ -66,14 +66,14 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"h6"}>200</GRText>
           <GRView>
             <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowDownOutlined rev={undefined}/>
+              +20 % <ArrowUpOutlined rev={undefined} />
             </GRText>
             <GRText
               fontSize={"b7"}
               marginLeft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
-              2023-05-23 대비
+              200 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
@@ -84,14 +84,14 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"h6"}>200</GRText>
           <GRView>
             <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowDownOutlined rev={undefined}/>
+              +20 % <ArrowUpOutlined rev={undefined} />
             </GRText>
             <GRText
               fontSize={"b7"}
               marginLeft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
-              2023-05-23 대비
+              200 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
