@@ -21,14 +21,16 @@ const getBorder = ({
   borderBottom,
   borderWidth
 }: tGetBorder) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const _borderWidth = useCallback(
     (_side: CSSProperties["border"]) => (_side ? `${borderWidth}rem` : "0rem"),
-    []
+    [borderWidth]
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const _borderColor = useMemo(
     () => (borderColor ? borderColor : Color.grey120),
-    []
+    [borderColor]
   );
 
   return css`

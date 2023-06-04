@@ -12,7 +12,7 @@ type tGRTable<T> = {
 } & tGetMargin &
   TableProps<T>;
 
-const GRTable = <GRTableType extends {}>({
+const GRTable = <GRTableType extends object>({
   columns,
   dataSource,
   pagination = false,

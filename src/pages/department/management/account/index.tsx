@@ -49,7 +49,7 @@ const ManagementAccountPage: NextPage = () => {
       dataIndex: "tags",
       align: "center",
       render: (_, item) => {
-        let color = item?.status.length > 2 ? "geekblue" : "green";
+        const color = item?.status.length > 2 ? "geekblue" : "green";
         return (
           <Tag color={color} key={item?.status}>
             {item?.status}
@@ -76,8 +76,6 @@ const ManagementAccountPage: NextPage = () => {
       align: "center"
     }
   ];
-
-  const onClick = useCallback(() => {}, []);
 
   const onAccountModal = useCallback(() => {
     setOpenAccountModal(!openAccountModal);

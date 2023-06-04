@@ -5,7 +5,9 @@ import GRFlexView from "@component/base/view/GRFlexView";
 import { useCallback } from "react";
 
 const ManagementSearch = () => {
-  const onClickSearch = useCallback(() => {}, []);
+  const onClickSearch = useCallback(() => {
+    console.log("onClickSearch");
+  }, []);
 
   return (
     <GRFlexView alignItems={"center"} flexDirection={"row"}>

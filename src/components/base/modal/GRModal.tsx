@@ -20,7 +20,7 @@ export type tGRModal = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   modalOkButtonType?: "submit" | "button" | "reset";
-  title: string;
+  title?: string;
 } & Omit<ModalProps, "onOk" | "onCancel" | "title">;
 
 const GRModal: FC<tGRModal> = ({
@@ -42,21 +42,27 @@ const GRModal: FC<tGRModal> = ({
     [modalOkButtonType]
   );
 
-  const onCancelClickButton = (
-    e:
-      | React.MouseEvent<HTMLAnchorElement, MouseEvent>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    onCancel?.(e);
-  };
+  const onCancelClickButton = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+        | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      onCancel?.(e);
+    },
+    [onCancel]
+  );
 
-  const onOkClickButton = (
-    e:
-      | React.MouseEvent<HTMLAnchorElement, MouseEvent>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    onOk?.(e);
-  };
+  const onOkClickButton = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+        | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      onOk?.(e);
+    },
+    [onOk]
+  );
 
   const _renderFooter = useMemo(() => {
     if (footerComponent || !showFooter) return [];
@@ -90,7 +96,7 @@ const GRModal: FC<tGRModal> = ({
         {title}
       </GRView>
     );
-  }, []);
+  }, [title]);
 
   return (
     <Modal

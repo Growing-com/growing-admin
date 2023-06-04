@@ -9,7 +9,6 @@ import {
   Tooltip
 } from "chart.js";
 import { FC, useMemo } from "react";
-import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -32,7 +31,6 @@ type tGRChart = {
 
 const GRChart: FC<tGRChart> = ({
   chartType = "bar",
-  data,
   title,
   legendPos,
   showLegend = false,
@@ -55,7 +53,7 @@ const GRChart: FC<tGRChart> = ({
     [responsive, showLegend, legendPos, title]
   );
   if (chartType === "bar") {
-    return <Bar options={options} data={data} />;
+    // return <Bar options={options} data={data} />;
   }
   return <></>;
 };

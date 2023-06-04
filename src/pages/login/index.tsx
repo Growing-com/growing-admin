@@ -12,7 +12,7 @@ import GRStylesConfig from "styles/GRStylesConfig";
 
 const Login = () => {
   const router = useRouter();
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState<string>();
 
   const onClickLogin = useCallback(() => {
     if (userId) {

@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import NetworkConfig from "config/NetworkConfig";
 
-type responseConfig = {};
-
 const defaultHeaders = {
   Accept: "aplication/json",
   "Content-Type": "application/json"

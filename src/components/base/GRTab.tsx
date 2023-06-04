@@ -1,9 +1,7 @@
 import { Tabs, TabsProps } from "antd";
 import { FC } from "react";
 
-type tGRTab = {} & TabsProps;
-
-const GRTab: FC<tGRTab> = ({ ...props }) => {
+const GRTab: FC<TabsProps> = ({ ...props }) => {
   return <Tabs {...props} />;
 };
 

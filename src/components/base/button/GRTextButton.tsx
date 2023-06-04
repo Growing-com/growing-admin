@@ -48,15 +48,12 @@ const GRButtonText: React.FC<tGRButtonText> = ({
   );
 
   const _type = useMemo(
-    () =>
-      buttonType !== "default" || buttonType !== "primary"
-        ? "default"
-        : buttonType,
-    []
+    () => (buttonType !== "primary" ? "default" : buttonType),
+    [buttonType]
   );
 
   const _buttonTypeColor = useMemo(() => {
-    let buttonProps = {
+    const buttonProps = {
       type: buttonType,
       textColor,
       backgroundColor

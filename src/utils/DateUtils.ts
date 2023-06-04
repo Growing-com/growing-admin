@@ -7,7 +7,7 @@ dayjs.extend(duration);
 dayjs.extend(weekday);
 
 const getTime = (date: dayjs.Dayjs | string) => {
-  let mille = dayjs().diff(date);
+  const mille = dayjs().diff(date);
   const D = Math.floor(mille / (1000 * 60 * 60 * 24));
   const H = Math.floor((mille / (1000 * 60 * 60)) % 24);
   const M = Math.floor((mille / (1000 * 60)) % 60);
@@ -42,7 +42,7 @@ const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
   const numberWeekend =
     dayjs(_date).endOf("M").week() - dayjs(_date).startOf("M").week();
   const startWeek = dayjs().startOf("M").weekday(8);
-  let sundays = [startWeek];
+  const sundays = [startWeek];
   for (let i = 1; i < numberWeekend; i++) {
     sundays.push(startWeek.add(7 * i, "day"));
   }

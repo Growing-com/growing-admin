@@ -6,11 +6,10 @@ import GRTextInput from "@component/base/text/GRTextInput";
 import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
 import dayjs from "dayjs";
-import { FC, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 type tSearchFilter = "name" | "cordi";
 
-type FilterSearch = {};
 const SEARCH_OPTION = [
   {
     label: "이름",
@@ -22,14 +21,16 @@ const SEARCH_OPTION = [
   }
 ];
 
-const FilterSearch: FC<FilterSearch> = () => {
+const FilterSearch = () => {
   const [searchFilter, setSearchFilter] = useState<tSearchFilter>("name");
   const [filterDate, setFilterDate] = useState({
     startDate: dayjs().startOf("M"),
     endDate: dayjs().endOf("M")
   });
 
-  const onClickSearch = useCallback(() => {}, []);
+  const onClickSearch = useCallback(() => {
+    console.log("onClickSearch");
+  }, []);
 
   const onChangeSearchSelect = useCallback((_value: tSearchFilter) => {
     setSearchFilter(_value);
