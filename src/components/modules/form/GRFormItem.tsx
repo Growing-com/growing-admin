@@ -8,7 +8,7 @@ import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
 import { ReactNode, forwardRef, useCallback } from "react";
 import { Controller, type Control, type FieldValues } from "react-hook-form";
-import GRTextInput, { tGRTextInput } from "../../base/text/GRTextInput";
+import GRTextInput from "../../base/text/GRTextInput";
 
 export type tFormItemType =
   | "input"
@@ -17,43 +17,60 @@ export type tFormItemType =
   | "select"
   | "custom"
   | "date"
-  | "view";
+  | "view"
+  | "textarea";
 
 type tGRFormItem = {
-  control: Control<FieldValues, any>;
+  control: Control<FieldValues, unknown>;
   /**@description FieldPath을 작성 예: user.age 해당 값을 submit에서 보내준다. */
   fieldName: string;
-  title: string;
+  title?: string;
   type?: tFormItemType;
   options?: tOptions;
   customComponent?: ReactNode;
-} & tGRTextInput;
+  /** @description register options */
+  required?: boolean;
+};
 
 // eslint-disable-next-line react/display-name
 const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
-  ({ control, fieldName, title, ...props }, _ref) => {
+  ({ control, fieldName, title, required = true, ...props }, _ref) => {
     const renderFormItems = useCallback(
       () =>
         // eslint-disable-next-line react/display-name
         () => {
-          if (props.type === "input") {
-            return <GRTextInput {...props} />;
+          if (props.type === "input" || props.type === "textarea") {
+            return <GRTextInput multi={props.type === "textarea"} {...props} />;
           }
 
           if (props.type === "radio") {
-            return <GRRadio {...props} onChange={() => {}} />;
+            return (
+              <GRRadio
+                {...props}
+                onChange={() => {
+                  console.log("GRRadio");
+                }}
+              />
+            );
           }
 
           if (props.type === "check") {
-            return <GRCheck {...props} onChange={() => {}} />;
+            return (
+              <GRCheck
+                {...props}
+                onChange={() => {
+                  console.log("GRCheck");
+                }}
+              />
+            );
           }
 
           if (props.type === "select") {
-            return <GRSelect style={{ flex: 1 }} />;
+            return <GRSelect style={{ flex: 1 }} {...props} />;
           }
 
           if (props.type === "date") {
-            return <GRDatePicker />;
+            return <GRDatePicker style={{ flex: 1 }} />;
           }
 
           if (props.type === "custom") {
@@ -62,18 +79,21 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
 
           return <GRView>break</GRView>;
         },
-      []
+      [props]
     );
 
     return (
       <GRFlexView flexDirection={"row"} alignItems={"center"}>
-        <GRText marginHorizontal={1} width={4}>
-          {title}
-        </GRText>
+        {title && (
+          <GRText margin={1} width={4} weight={"bold"}>
+            {title ?? ""}
+          </GRText>
+        )}
         <Controller
           control={control}
           name={fieldName}
           render={renderFormItems()}
+          rules={{ required: required }}
         />
       </GRFlexView>
     );
