@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState, type FC } from "react";
+import { useCallback, useState, type FC } from "react";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
@@ -48,8 +48,6 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
     // }
   };
 
-  useEffect(() => {}, []);
-
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderMenu />
@@ -63,6 +61,8 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
           <BaseLayoutMenu
             mode={"inline"}
             items={DEPARTMENT_MAIN_MENU}
+            // selectedKeys={["management-account"]} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
+            // openKeys={["management"]} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
             onOpenChange={onOpenChange}
           />
@@ -81,12 +81,15 @@ const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
   padding: 1rem 4rem;
-  background-color: ${Color.grey80};
+  background-color: ${Color.grey160};
 `;
 
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
   border-right: 0;
+  .ant-menu {
+    background-color: ${Color.white} !important;
+  }
   .ant-menu-submenu-title {
     :hover {
       background-color: ${Color.green100} !important;
