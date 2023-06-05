@@ -51,7 +51,10 @@ const Login = () => {
             <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               비밀번호
             </GRText>
-            <GRTextInput placeholder={"비밀번호를 입력해 주세요"} />
+            <GRTextInput
+              placeholder={"비밀번호를 입력해 주세요"}
+              type={"password"}
+            />
           </GRView>
         </GRFlexView>
         <GRFlexView>

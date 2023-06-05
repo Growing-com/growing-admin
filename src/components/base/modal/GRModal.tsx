@@ -91,11 +91,13 @@ const GRModal: FC<tGRModal> = ({
   ]);
 
   const renderModalHeader = useCallback(() => {
-    return (
-      <GRView borderBottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
-        {title}
-      </GRView>
-    );
+    if (title) {
+      return (
+        <GRView borderBottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
+          {title}
+        </GRView>
+      );
+    }
   }, [title]);
 
   return (
@@ -105,6 +107,9 @@ const GRModal: FC<tGRModal> = ({
       onCancel={onCancelClickButton}
       closable={closable}
       footer={_renderFooter}
+      bodyStyle={{
+        padding: "1rem"
+      }}
       {...props}
       title={renderModalHeader()}
     >

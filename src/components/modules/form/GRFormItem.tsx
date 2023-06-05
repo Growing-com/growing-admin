@@ -6,7 +6,7 @@ import { tOptions } from "@component/base/dataEntry/dataEntryType";
 import GRText from "@component/base/text/GRText";
 import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
-import { ReactNode, forwardRef, useCallback } from "react";
+import { CSSProperties, ReactNode, forwardRef, useCallback } from "react";
 import { Controller, type Control, type FieldValues } from "react-hook-form";
 import GRTextInput from "../../base/text/GRTextInput";
 
@@ -30,11 +30,12 @@ type tGRFormItem = {
   customComponent?: ReactNode;
   /** @description register options */
   required?: boolean;
+  style?: CSSProperties;
 };
 
 // eslint-disable-next-line react/display-name
 const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
-  ({ control, fieldName, title, required = true, ...props }, _ref) => {
+  ({ control, fieldName, title, required = true, style, ...props }, _ref) => {
     const renderFormItems = useCallback(
       () =>
         // eslint-disable-next-line react/display-name
@@ -83,7 +84,7 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
     );
 
     return (
-      <GRFlexView flexDirection={"row"} alignItems={"center"}>
+      <GRFlexView flexDirection={"row"} alignItems={"center"} style={style}>
         {title && (
           <GRText margin={1} width={4} weight={"bold"}>
             {title ?? ""}

@@ -13,6 +13,10 @@ type tGRTable<T> = {
 } & tGetMargin &
   TableProps<T>;
 
+const BASE_SCROLL = {
+  y: "40vh"
+};
+
 const GRTable = <GRTableType extends object>({
   columns,
   dataSource,
@@ -47,7 +51,7 @@ const GRTable = <GRTableType extends object>({
         columns={columns}
         dataSource={dataSource}
         pagination={pagination}
-        scroll={scroll}
+        scroll={scroll ?? BASE_SCROLL}
         css={css`
           ${_margin};
           ${_tableStyles}
