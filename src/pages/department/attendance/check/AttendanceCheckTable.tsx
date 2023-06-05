@@ -128,6 +128,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
               fieldName={"attends"}
               required={true}
               type={"radio"}
+              style={{ justifyContent: "center" }}
               options={[
                 { label: "출석", value: "100" },
                 { label: "현장", value: "200" },
