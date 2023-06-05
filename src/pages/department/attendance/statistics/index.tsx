@@ -1,11 +1,13 @@
-import { BarChartOutlined } from "@ant-design/icons";
+import { BarChartOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import GRTable from "@component/base/GRTable";
 import GRButtonText from "@component/base/button/GRTextButton";
 import GRText from "@component/base/text/GRText";
 import GRContainerView from "@component/base/view/GRContainerView";
 import HeaderView from "@component/modules/view/HeaderView";
+import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useCallback, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import StatisticsCompareCards from "./StatisticsCompareCards";
 import StatisticsModal from "./StatisticsModal";
 
@@ -19,9 +21,48 @@ type tAttendanceTable = {
   "2023-05-30": string;
 };
 
+const DATA = [
+  {
+    cordi: "이순종",
+    leader: "아이유",
+    name: "박명수",
+    grade: "12",
+    gender: "남",
+    "2023-05-23": "100",
+    "2023-05-30": "100"
+  },
+  {
+    cordi: "조예인",
+    leader: "우상욱",
+    name: "이종민",
+    grade: "18",
+    gender: "남",
+    "2023-05-23": "100",
+    "2023-05-30": "100"
+  }
+];
+type tAttendStatus = "100" | "200" | "300";
+
 const AttendanceStatistics = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
+
+  const renderDayComponent = (attendStatus: tAttendStatus) => {
+    return (
+      <Popover
+        content={"오늘 배가 아파서 일찍 집에 갔습니다. "}
+        trigger={"click"}
+      >
+        <GRButtonText buttonType={"default"}>
+          <PlusCircleOutlined
+            rev={undefined}
+            style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
+          />
+          <GRText>{attendStatus === "100" ? "출석" : "결석"}</GRText>
+        </GRButtonText>
+      </Popover>
+    );
+  };
 
   const absentColumns: ColumnType<tAttendanceTable>[] = [
     {
@@ -71,7 +112,8 @@ const AttendanceStatistics = () => {
       key: "gender",
       align: "center",
       fixed: "left",
-      width: "5rem"
+      width: "5rem",
+      render: renderDayComponent
     },
     {
       title: "2023-05-30",
@@ -79,7 +121,8 @@ const AttendanceStatistics = () => {
       key: "gender",
       align: "center",
       fixed: "left",
-      width: "5rem"
+      width: "5rem",
+      render: renderDayComponent
     }
   ];
 
@@ -107,6 +150,7 @@ const AttendanceStatistics = () => {
             </GRText>
           }
           columns={absentColumns}
+          dataSource={DATA}
         />
         <GRTable
           headerComponent={
