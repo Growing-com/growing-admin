@@ -4,9 +4,9 @@ import GRContainerView from "@component/base/view/GRContainerView";
 import HeaderView from "@component/modules/view/HeaderView";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
+import { useAccountsQuery } from "api/queries/accounts";
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
-import { DUMP_DATA } from "../../../../../dumpData";
 import AccountModal from "./AccountModal";
 import ManagementSearch from "./ManagementSearch";
 
@@ -22,6 +22,8 @@ type tManagementTable = {
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
+
+  const { data: accountlist } = useAccountsQuery();
 
   const columns: ColumnType<tManagementTable>[] = [
     {
@@ -95,7 +97,7 @@ const ManagementAccountPage: NextPage = () => {
       <GRContainerView>
         <GRTable
           columns={columns}
-          dataSource={DUMP_DATA}
+          dataSource={accountlist}
           paginationProps={{
             total: 100,
             defaultPageSize: 10
