@@ -20,11 +20,11 @@ const Login = () => {
     } else {
       confirm("아이디 입력해주세요.");
     }
-  }, [userId]);
+  }, [router, userId]);
 
   const onClickChangePassword = useCallback(() => {
     router.push("/login/ChangePassword");
-  }, []);
+  }, [router]);
 
   return (
     <LoginContainer>
