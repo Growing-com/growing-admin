@@ -1,14 +1,10 @@
 import { request } from "api";
 import { useQuery } from "hooks/queries/useQuery";
-
-export const accountQueryKey = {
-  base: "account",
-  list: _page => [accountQueryKey.base, ..._page]
-};
+import accountQueryKeys from "../accountQuerykeys";
 
 export const useAccountsQuery = () => {
   return useQuery(
-    [accountQueryKey.base],
+    [accountQueryKeys.base],
     async () => await request.get("/accounts"),
     {
       onSuccess: _data => console.log("_data", _data),
