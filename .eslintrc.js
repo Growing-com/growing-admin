@@ -5,6 +5,6 @@ module.exports = {
     es6: true
   },
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "react-hooks"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"]
 };
