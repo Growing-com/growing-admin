@@ -4,6 +4,7 @@
 ## 실행 
 
 ```
+yarn
 yarn dev
 ```
 
