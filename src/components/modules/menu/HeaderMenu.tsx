@@ -20,9 +20,9 @@ const HeaderMenu = () => {
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
-      <GRView width={12} style={{ position: "relative" }}>
+      <GRView width={12} style={{ position: "relative" }} marginRight={1}>
         <Image
-          src={"/logo.png"}
+          src={"/logo/logo-row-mark.png"}
           fill={true}
           alt={"logo"}
           style={{ objectFit: "contain" }}
