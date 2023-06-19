@@ -2,6 +2,7 @@ import GRCheck from "@component/base/dataEntry/GRCheck";
 import GRDatePicker from "@component/base/dataEntry/GRDatePicker";
 import GRRadio from "@component/base/dataEntry/GRRadio";
 import GRSelect from "@component/base/dataEntry/GRSelect";
+import GRSwitch from "@component/base/dataEntry/GRSwitch";
 import { tOptions } from "@component/base/dataEntry/dataEntryType";
 import GRText from "@component/base/text/GRText";
 import GRFlexView from "@component/base/view/GRFlexView";
@@ -15,6 +16,7 @@ export type tFormItemType =
   | "check"
   | "radio"
   | "select"
+  | "switch"
   | "custom"
   | "date"
   | "view"
@@ -68,6 +70,10 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
 
           if (props.type === "select") {
             return <GRSelect style={{ flex: 1 }} {...props} />;
+          }
+
+          if (props.type === "switch") {
+            return <GRSwitch {...props} />;
           }
 
           if (props.type === "date") {

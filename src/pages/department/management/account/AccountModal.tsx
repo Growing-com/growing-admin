@@ -88,8 +88,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
       {
         title: "활성화",
         fieldName: "active",
-        type: "check",
-        options: [{ label: "", value: "Y" }]
+        type: "switch"
       }
     ]
   ];
