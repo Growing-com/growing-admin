@@ -1,4 +1,4 @@
-import localStorage from "utils/store/localStore";
+import localStorage from "store/localStore";
 
 const useAuth = () => {
   const getAuth = () => {

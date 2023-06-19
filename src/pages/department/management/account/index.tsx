@@ -4,7 +4,7 @@ import GRContainerView from "@component/base/view/GRContainerView";
 import HeaderView from "@component/modules/view/HeaderView";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useAccountsQuery } from "api/queries/accounts";
+import { useAccountsQuery } from "api/account/queries/accounts";
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import AccountModal from "./AccountModal";
