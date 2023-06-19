@@ -90,6 +90,16 @@ const BaseLayoutMenu = styled(Menu)`
   .ant-menu {
     background-color: ${Color.white} !important;
   }
+  .ant-menu-submenu-selected {
+    .ant-menu-submenu-title {
+      .ant-menu-title-content {
+        font-weight: bold;
+      }
+    }
+  }
+  .ant-menu-item-selected {
+    font-weight: bold;
+  }
   .ant-menu-submenu-title {
     :hover {
       background-color: ${Color.green100} !important;
