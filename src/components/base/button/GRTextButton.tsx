@@ -56,7 +56,8 @@ const GRButtonText: React.FC<tGRButtonText> = ({
     const buttonProps = {
       type: buttonType,
       textColor,
-      backgroundColor
+      backgroundColor,
+      borderColor
     };
     switch (buttonType) {
       case "custom":
@@ -73,13 +74,14 @@ const GRButtonText: React.FC<tGRButtonText> = ({
       case "cancel":
         buttonProps.textColor = Color.grey40;
         buttonProps.backgroundColor = Color.grey140;
+        buttonProps.borderColor = "transparent";
         break;
       case "text":
         buttonProps.textColor = Color.green200;
         break;
     }
     return buttonProps;
-  }, [backgroundColor, buttonType, textColor]);
+  }, [backgroundColor, borderColor, buttonType, textColor]);
 
   return (
     <ButtonCompon
@@ -92,6 +94,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         ${_margin};
         width: ${_width};
         height: ${_height};
+        border-color: ${_buttonTypeColor.borderColor};
       `}
       {...props}
     >
