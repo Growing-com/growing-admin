@@ -18,7 +18,9 @@ const ManagementSearch = () => {
         marginright={2}
         placeholder={"이름, 전화 번호로 검색 하세요."}
       />
-      <GRButtonText onClick={onClickSearch}>조회</GRButtonText>
+      <GRButtonText onClick={onClickSearch} size={"large"}>
+        조회
+      </GRButtonText>
     </GRFlexView>
   );
 };

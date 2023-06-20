@@ -114,7 +114,7 @@ const FilterSearch = () => {
         </GRFlexView>
       </GRFlexView>
       <GRView>
-        <GRButtonText onClick={onClickSearch} marginleft={2}>
+        <GRButtonText onClick={onClickSearch} marginleft={2} size={"large"}>
           조회
         </GRButtonText>
       </GRView>
