@@ -37,9 +37,9 @@ const Login = () => {
             style={{ objectFit: "contain" }}
           />
         </GRView>
-        <GRFlexView marginTop={1}>
-          <GRView marginBottom={1}>
-            <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+        <GRFlexView margintop={1}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               아이디
             </GRText>
             <GRTextInput
@@ -47,8 +47,8 @@ const Login = () => {
               onChange={e => setUserId(e.target.value)}
             />
           </GRView>
-          <GRView marginBottom={1}>
-            <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               비밀번호
             </GRText>
             <GRTextInput
@@ -64,7 +64,7 @@ const Login = () => {
           <GRFlexView
             flexDirection={"row"}
             justifyContent={"center"}
-            marginTop={1}
+            margintop={1}
           >
             <GRButtonText buttonType={"text"} width={"100%"}>
               <Link href={`${process.env.OPEN_KAKAO}`} target={"_blank"}>

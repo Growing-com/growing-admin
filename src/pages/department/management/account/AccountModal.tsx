@@ -114,7 +114,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             type={"input"}
           />
           <GRFlexView justifyContent={"center"}>
-            <GRText color={Color.grey80} marginLeft={1} fontSize={"b7"}>
+            <GRText color={Color.grey80} marginleft={1} fontSize={"b7"}>
               * 아이디는 이름을 영문 타자로 자동 입력됩니다
             </GRText>
           </GRFlexView>

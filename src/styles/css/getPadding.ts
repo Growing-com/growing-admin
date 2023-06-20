@@ -3,42 +3,42 @@ import { CSSProperties } from "react";
 
 export type tGetPadding = {
   padding?: CSSProperties["padding"];
-  paddingTop?: CSSProperties["paddingTop"];
-  paddingRight?: CSSProperties["paddingRight"];
-  paddingBottom?: CSSProperties["paddingBottom"];
-  paddingLeft?: CSSProperties["paddingLeft"];
-  paddingHorizontal?: CSSProperties["paddingRight"];
-  paddingVertical?: CSSProperties["paddingBottom"];
+  paddingtop?: CSSProperties["paddingTop"];
+  paddingright?: CSSProperties["paddingRight"];
+  paddingbottom?: CSSProperties["paddingBottom"];
+  paddingleft?: CSSProperties["paddingLeft"];
+  paddinghorizontal?: CSSProperties["paddingRight"];
+  paddingvertical?: CSSProperties["paddingBottom"];
 };
 
 const getPadding = ({
   padding,
-  paddingTop,
-  paddingRight,
-  paddingBottom,
-  paddingLeft,
-  paddingHorizontal,
-  paddingVertical
+  paddingtop,
+  paddingright,
+  paddingbottom,
+  paddingleft,
+  paddinghorizontal,
+  paddingvertical
 }: tGetPadding) => {
   if (padding) {
     return css`
       padding: ${padding}rem;
     `;
   }
-  if (paddingHorizontal) {
-    paddingRight = paddingHorizontal;
-    paddingLeft = paddingHorizontal;
+  if (paddinghorizontal) {
+    paddingright = paddinghorizontal;
+    paddingleft = paddinghorizontal;
   }
-  if (paddingVertical) {
-    paddingTop = paddingVertical;
-    paddingBottom = paddingVertical;
+  if (paddingvertical) {
+    paddingtop = paddingvertical;
+    paddingbottom = paddingvertical;
   }
 
   return css`
-    padding-top: ${paddingTop}rem;
-    padding-bottom: ${paddingBottom}rem;
-    padding-right: ${paddingRight}rem;
-    padding-left: ${paddingLeft}rem;
+    padding-top: ${paddingtop}rem;
+    padding-bottom: ${paddingbottom}rem;
+    padding-right: ${paddingright}rem;
+    padding-left: ${paddingleft}rem;
   `;
 };
 

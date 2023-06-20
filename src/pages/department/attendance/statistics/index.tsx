@@ -151,7 +151,7 @@ const AttendanceStatistics = () => {
       <GRContainerView>
         <StatisticsCompareCards />
         <GRTable
-          marginBottom={2}
+          marginbottom={2}
           headerComponent={
             <GRText weight={"bold"} fontSize={"b4"}>
               🐏 결석 인원

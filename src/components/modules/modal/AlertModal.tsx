@@ -48,7 +48,7 @@ const AlertModal: FC<tAlertModal> = ({
           <GRButtonText
             onClick={onCancelClickButton}
             key={"modal-cancel-button"}
-            marginRight={2}
+            marginright={2}
             size={"large"}
           >
             {cancelButtonText ?? "취소"}

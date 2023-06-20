@@ -3,42 +3,42 @@ import { CSSProperties } from "react";
 
 export type tGetMargin = {
   margin?: CSSProperties["margin"];
-  marginTop?: CSSProperties["marginTop"];
-  marginRight?: CSSProperties["marginRight"];
-  marginBottom?: CSSProperties["marginBottom"];
-  marginLeft?: CSSProperties["marginLeft"];
-  marginHorizontal?: CSSProperties["marginRight"];
-  marginVertical?: CSSProperties["marginBottom"];
+  margintop?: CSSProperties["marginTop"];
+  marginright?: CSSProperties["marginRight"];
+  marginbottom?: CSSProperties["marginBottom"];
+  marginleft?: CSSProperties["marginLeft"];
+  marginhorizontal?: CSSProperties["marginRight"];
+  marginvertical?: CSSProperties["marginBottom"];
 };
 
 const getMargin = ({
   margin,
-  marginTop,
-  marginRight,
-  marginBottom,
-  marginLeft,
-  marginHorizontal,
-  marginVertical
+  margintop,
+  marginright,
+  marginbottom,
+  marginleft,
+  marginhorizontal,
+  marginvertical
 }: tGetMargin) => {
   if (margin) {
     return css`
       margin: ${margin}rem;
     `;
   }
-  if (marginHorizontal) {
-    marginRight = marginHorizontal;
-    marginLeft = marginHorizontal;
+  if (marginhorizontal) {
+    marginright = marginhorizontal;
+    marginleft = marginhorizontal;
   }
-  if (marginVertical) {
-    marginTop = marginVertical;
-    marginBottom = marginVertical;
+  if (marginvertical) {
+    margintop = marginvertical;
+    marginbottom = marginvertical;
   }
 
   return css`
-    margin-top: ${marginTop}rem;
-    margin-bottom: ${marginBottom}rem;
-    margin-right: ${marginRight}rem;
-    margin-left: ${marginLeft}rem;
+    margin-top: ${margintop}rem;
+    margin-bottom: ${marginbottom}rem;
+    margin-right: ${marginright}rem;
+    margin-left: ${marginleft}rem;
   `;
 };
 

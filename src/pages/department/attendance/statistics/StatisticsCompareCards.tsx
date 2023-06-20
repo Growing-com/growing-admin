@@ -14,16 +14,16 @@ const customBox = css`
 
 const StatisticsCompareCards = () => {
   return (
-    <GRView marginBottom={2}>
+    <GRView marginbottom={2}>
       <GRText
         weight={"bold"}
         fontSize={"b4"}
-        marginBottom={GRStylesConfig.BASE_MARGIN}
+        marginbottom={GRStylesConfig.BASE_MARGIN}
       >
         ⚡️ 지난주 대비
       </GRText>
-      <GRFlexView flexDirection={"row"} marginBottom={1}>
-        <GRFlexView padding={1} marginRight={1} css={customBox}>
+      <GRFlexView flexDirection={"row"} marginbottom={1}>
+        <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             전체 인원
           </GRText>
@@ -34,14 +34,14 @@ const StatisticsCompareCards = () => {
             </GRText>
             <GRText
               fontSize={"b7"}
-              marginLeft={GRStylesConfig.BASE_MARGIN}
+              marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               210 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
-        <GRFlexView padding={1} marginRight={1} css={customBox}>
+        <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             결석율
           </GRText>
@@ -52,14 +52,14 @@ const StatisticsCompareCards = () => {
             </GRText>
             <GRText
               fontSize={"b7"}
-              marginLeft={GRStylesConfig.BASE_MARGIN}
+              marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               200 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
-        <GRFlexView padding={1} marginRight={1} css={customBox}>
+        <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             새등록
           </GRText>
@@ -70,14 +70,14 @@ const StatisticsCompareCards = () => {
             </GRText>
             <GRText
               fontSize={"b7"}
-              marginLeft={GRStylesConfig.BASE_MARGIN}
+              marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               200 ( 2023-05-23 )
             </GRText>
           </GRView>
         </GRFlexView>
-        <GRFlexView padding={1} marginRight={1} css={customBox}>
+        <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             새가족 출석율
           </GRText>
@@ -88,7 +88,7 @@ const StatisticsCompareCards = () => {
             </GRText>
             <GRText
               fontSize={"b7"}
-              marginLeft={GRStylesConfig.BASE_MARGIN}
+              marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               200 ( 2023-05-23 )

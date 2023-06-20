@@ -44,7 +44,7 @@ const GRTable = <GRTableType extends object>({
 
   return (
     <>
-      <GRView marginBottom={GRStylesConfig.BASE_MARGIN}>
+      <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
         {headerComponent}
       </GRView>
       <Table
@@ -58,7 +58,7 @@ const GRTable = <GRTableType extends object>({
         `}
       />
       {paginationProps && (
-        <GRFlexView alignItems={"center"} marginTop={1}>
+        <GRFlexView alignItems={"center"} margintop={1}>
           <Pagination showSizeChanger={false} {...paginationProps} />
         </GRFlexView>
       )}

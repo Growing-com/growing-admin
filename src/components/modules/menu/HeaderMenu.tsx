@@ -20,7 +20,7 @@ const HeaderMenu = () => {
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
-      <GRView width={12} style={{ position: "relative" }} marginRight={1}>
+      <GRView width={12} style={{ position: "relative" }} marginright={1}>
         <Image
           src={"/logo/logo-row-mark.png"}
           fill={true}
@@ -52,14 +52,14 @@ const HeaderMenu = () => {
                   fontSize={"b7"}
                   weight={"bold"}
                   color={Color.grey80}
-                  marginLeft={GRStylesConfig.BASE_MARGIN}
+                  marginleft={GRStylesConfig.BASE_MARGIN}
                 >
                   관리자
                 </GRText>
               </GRFlexView>
               <GRFlexView
                 alignItems={"flex-end"}
-                marginTop={GRStylesConfig.BASE_MARGIN}
+                margintop={GRStylesConfig.BASE_MARGIN}
               >
                 <GRButtonText
                   width={"100%"}

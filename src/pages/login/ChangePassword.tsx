@@ -22,21 +22,21 @@ const ChangePassword = () => {
   return (
     <LoginContainer>
       <GRView width={15}>
-        <GRFlexView marginTop={1}>
-          <GRView marginBottom={1}>
-            <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+        <GRFlexView margintop={1}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               현재 비밀번호
             </GRText>
             <GRTextInput placeholder={"현재 비밀번호를 입력해 주세요."} />
           </GRView>
-          <GRView marginBottom={1}>
-            <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               새 비밀번호
             </GRText>
             <GRTextInput placeholder={"새 비밀번호를 입력해 주세요."} />
           </GRView>
-          <GRView marginBottom={1}>
-            <GRText marginBottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
               새 비밀번호 확인
             </GRText>
             <GRTextInput placeholder={"새 비밀번호를 다시 입력해 주세요."} />
@@ -46,7 +46,7 @@ const ChangePassword = () => {
           <GRButtonText
             width={"100%"}
             onClick={onClickChangePassword}
-            marginBottom={1}
+            marginbottom={1}
           >
             변경
           </GRButtonText>

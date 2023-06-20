@@ -78,7 +78,7 @@ const FilterSearch = () => {
         <GRFlexView
           flexDirection={"row"}
           alignItems={"center"}
-          marginBottom={1}
+          marginbottom={1}
         >
           <GRText weight={"bold"} fontSize={"b5"} width={5}>
             기간
@@ -89,14 +89,14 @@ const FilterSearch = () => {
             onChange={value => onChangeDate("startDate", value)}
             defaultValue={filterDate.startDate}
           />
-          <GRText marginHorizontal={1}>~</GRText>
+          <GRText marginhorizontal={1}>~</GRText>
           <GRDatePicker
             width={10}
             picker={"week"}
             onChange={value => onChangeDate("endDate", value)}
             defaultValue={filterDate.endDate}
           />
-          <GRText marginLeft={1} weight={"bold"} fontSize={"b5"} width={5}>
+          <GRText marginleft={1} weight={"bold"} fontSize={"b5"} width={5}>
             검색 조건
           </GRText>
           <GRSelect
@@ -114,7 +114,7 @@ const FilterSearch = () => {
         </GRFlexView>
       </GRFlexView>
       <GRView>
-        <GRButtonText onClick={onClickSearch} marginLeft={2}>
+        <GRButtonText onClick={onClickSearch} marginleft={2}>
           조회
         </GRButtonText>
       </GRView>

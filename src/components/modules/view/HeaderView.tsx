@@ -23,9 +23,9 @@ const HeaderView: FC<tHeaderView> = ({
   return (
     <GRFlexView
       borderRadius={GRStylesConfig.BASE_MARGIN}
-      paddingHorizontal={4}
-      paddingVertical={2}
-      marginBottom={GRStylesConfig.BASE_MARGIN}
+      paddinghorizontal={4}
+      paddingvertical={2}
+      marginbottom={GRStylesConfig.BASE_MARGIN}
       backgroundColor="white"
       css={css`
         box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
@@ -36,7 +36,7 @@ const HeaderView: FC<tHeaderView> = ({
           <GRText
             fontSize={"h9"}
             weight={"bold"}
-            marginRight={GRStylesConfig.BASE_MARGIN}
+            marginright={GRStylesConfig.BASE_MARGIN}
           >
             {title}
           </GRText>
