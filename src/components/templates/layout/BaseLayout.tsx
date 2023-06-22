@@ -1,9 +1,15 @@
 import HeaderMenu from "@component/modules/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { DEPARTMENT_MAIN_MENU } from "config/router";
+import { DEPARTMENT_MAIN_MENU, TAB_MENU } from "config/router";
 import { useRouter } from "next/router";
-import { useCallback, useState, type FC } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  type FC
+} from "react";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
@@ -25,28 +31,41 @@ type tBaseLayout = {
 const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const router = useRouter();
 
-  const [menu, setMenu] = useState([]);
-  const [openKeys, setOpenKeys] = useState<string>(DEPARTMENT_MAIN_MENU[0].key);
+  const [tabMenu] = useState(TAB_MENU[0].key);
+  const [defaultOpen, setDefaultOpen] = useState<string[]>();
+  const [defaultSelected, setDefaultSelected] = useState<string[]>();
+
+  const [mainMenu, setMainMenu] = useState<string[]>();
+  const [subMenu, setSubMenu] = useState<string[]>();
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
       const newPath = info.key.replace("-", "/");
+      setSubMenu([info.key]);
       router.push(`/department/${newPath}`);
     },
     [router]
   );
 
   const onOpenChange = (keys: string[]) => {
-    console.log("keys", keys);
-    if (openKeys.length) {
-      const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
-    }
-    // if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-    //   setOpenKeys(keys);
-    // } else {
-    //   setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    // }
+    setMainMenu(keys);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const _mainDefault = TAB_MENU.find(tab => tab.key === tabMenu)!.children;
+    setDefaultOpen([_mainDefault[0].key]);
+    const _subDefault = [_mainDefault[0].key];
+    setDefaultSelected(_subDefault);
+  }, [tabMenu]);
+
+  useLayoutEffect(() => {
+    if (router.pathname) {
+      const _path = router.pathname.split("/");
+      setMainMenu([_path[2]]);
+      setSubMenu([`${_path[2]}-${_path[3]}`]);
+    }
+  }, [router.pathname]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -61,8 +80,10 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
           <BaseLayoutMenu
             mode={"inline"}
             items={DEPARTMENT_MAIN_MENU}
-            // selectedKeys={["management-account"]} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
-            // openKeys={["management"]} // 열리게 되는 sub menu
+            defaultOpenKeys={defaultOpen}
+            defaultSelectedKeys={defaultSelected}
+            selectedKeys={subMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
+            openKeys={mainMenu} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
             onOpenChange={onOpenChange}
           />
