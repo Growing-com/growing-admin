@@ -120,9 +120,6 @@ const AttendanceCheck = () => {
       <HeaderView
         title={"출석 체크"}
         titleInfo={"2023-05-17 수요일 00:00 까지 출석 체크가 가능합니다."}
-        headerComponent={
-          <GRButtonText onClick={onClickAttend}>출석 등록</GRButtonText>
-        }
       />
       <GRContainerView>
         <GRTab
@@ -136,6 +133,15 @@ const AttendanceCheck = () => {
           }
         />
         <AttendanceCheckTable colunms={colums} />
+        <GRFlexView
+          flexDirection={"row"}
+          justifyContent={"flex-end"}
+          margintop={1}
+        >
+          <GRButtonText marginleft={0.5} onClick={onClickAttend} size={"large"}>
+            출석 등록
+          </GRButtonText>
+        </GRFlexView>
       </GRContainerView>
     </>
   );
