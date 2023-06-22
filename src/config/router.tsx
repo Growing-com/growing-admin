@@ -62,9 +62,9 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
 ];
 
 // 큰 메뉴
-const TAB_MENU = {
-  department: {
+export const TAB_MENU = [
+  {
     key: "department",
-    menus: DEPARTMENT_MAIN_MENU
+    children: DEPARTMENT_MAIN_MENU
   }
-};
+];
