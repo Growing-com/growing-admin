@@ -5,27 +5,18 @@ import HeaderView from "@component/modules/view/HeaderView";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useAccountsQuery } from "api/account/queries/accounts";
+import { tAccount } from "api/account/types";
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import AccountModal from "./AccountModal";
 import ManagementSearch from "./ManagementSearch";
-
-type tManagementTable = {
-  name: string;
-  age: number;
-  gender: string;
-  status: string;
-  role?: string;
-  leader?: string;
-  phoneNumber?: string;
-};
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
 
   const { data: accountlist } = useAccountsQuery();
 
-  const columns: ColumnType<tManagementTable>[] = [
+  const columns: ColumnType<tAccount>[] = [
     {
       title: "이름",
       dataIndex: "name",
@@ -88,7 +79,11 @@ const ManagementAccountPage: NextPage = () => {
       <HeaderView
         title={"계정 관리"}
         headerComponent={
-          <GRButtonText onClick={onAccountModal} buttonType={"default"}>
+          <GRButtonText
+            onClick={onAccountModal}
+            buttonType={"default"}
+            size={"large"}
+          >
             계정 생성
           </GRButtonText>
         }
@@ -96,6 +91,7 @@ const ManagementAccountPage: NextPage = () => {
       />
       <GRContainerView>
         <GRTable
+          rowKey={"id"}
           columns={columns}
           dataSource={accountlist}
           paginationProps={{
