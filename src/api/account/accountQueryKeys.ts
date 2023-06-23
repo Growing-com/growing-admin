@@ -1,6 +1,6 @@
 const accountQueryKeys = {
   base: "account",
-  list: _page => [accountQueryKeys.base, ..._page]
+  list: (_page: string[]) => [accountQueryKeys.base, ..._page]
 };
 
 export default accountQueryKeys;

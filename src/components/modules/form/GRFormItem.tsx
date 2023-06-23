@@ -37,16 +37,29 @@ type tGRFormItem = {
 
 // eslint-disable-next-line react/display-name
 const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
-  ({ control, fieldName, title, required = true, style, ...props }, _ref) => {
+  (
+    {
+      control,
+      fieldName,
+      title,
+      required = true,
+      style,
+      type,
+      options,
+      customComponent,
+      ...props
+    },
+    _ref
+  ) => {
     const renderFormItems = useCallback(
       () =>
         // eslint-disable-next-line react/display-name
         () => {
-          if (props.type === "input" || props.type === "textarea") {
-            return <GRTextInput multi={props.type === "textarea"} {...props} />;
+          if (type === "input" || type === "textarea") {
+            return <GRTextInput multi={type === "textarea"} {...props} />;
           }
 
-          if (props.type === "radio") {
+          if (type === "radio") {
             return (
               <GRRadio
                 {...props}
@@ -57,7 +70,7 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
             );
           }
 
-          if (props.type === "check") {
+          if (type === "check") {
             return (
               <GRCheck
                 {...props}
@@ -68,19 +81,19 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
             );
           }
 
-          if (props.type === "select") {
+          if (type === "select") {
             return <GRSelect style={{ flex: 1 }} {...props} />;
           }
 
-          if (props.type === "switch") {
+          if (type === "switch") {
             return <GRSwitch {...props} />;
           }
 
-          if (props.type === "date") {
+          if (type === "date") {
             return <GRDatePicker style={{ flex: 1 }} />;
           }
 
-          if (props.type === "custom") {
+          if (type === "custom") {
             return <div></div>;
           }
 

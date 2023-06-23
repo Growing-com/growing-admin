@@ -1,5 +1,4 @@
-import type { SwitchProps } from "antd";
-import { Switch } from "antd";
+import { Switch, type SwitchProps } from "antd";
 import { FC } from "react";
 import GRText from "../text/GRText";
 
