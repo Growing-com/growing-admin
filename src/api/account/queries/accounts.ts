@@ -4,7 +4,6 @@ import accountQueryKeys from "../accountQueryKeys";
 
 export const useAccountsQuery = () => {
   return useQuery([accountQueryKeys.base], async () => await getAccountList(), {
-    onSuccess: _data => console.log("_data", _data),
-    select: _data => _data.data
+    onSuccess: _data => console.log("_data", _data)
   });
 };
