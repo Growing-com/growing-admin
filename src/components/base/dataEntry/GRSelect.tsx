@@ -3,6 +3,8 @@ import type { SelectProps } from "antd";
 import { Select } from "antd";
 import { CSSProperties, FC } from "react";
 import { Color } from "styles/colors";
+import { AreaType } from "styles/css";
+import getMargin from "styles/css/getMargin";
 import GRText from "../text/GRText";
 import { tOptions } from "./dataEntryType";
 
@@ -10,7 +12,8 @@ export type tGRSelect = {
   options?: tOptions;
   height?: CSSProperties["height"];
   width?: CSSProperties["width"];
-} & Omit<SelectProps, "options">;
+} & Omit<SelectProps, "options"> &
+  AreaType;
 
 const { Option } = Select;
 
@@ -25,7 +28,7 @@ const GRSelect: FC<tGRSelect> = ({
   if (!options?.length) {
     return <></>;
   }
-
+  const _margin = getMargin(props);
   return (
     <Select
       mode={mode}
@@ -33,6 +36,7 @@ const GRSelect: FC<tGRSelect> = ({
         display: flex;
         width: ${width}rem;
         height: ${height}rem;
+        ${_margin};
       `}
       {...props}
     >
