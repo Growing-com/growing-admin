@@ -10,6 +10,7 @@ type tGRTable<T> = {
   paginationProps?: PaginationProps;
   headerComponent?: ReactNode;
   isHoverTable?: boolean;
+  data?: Array<T>;
 } & tGetMargin &
   TableProps<T>;
 
@@ -19,7 +20,7 @@ const BASE_SCROLL = {
 
 const GRTable = <GRTableType extends object>({
   columns,
-  dataSource,
+  data,
   pagination = false,
   paginationProps,
   scroll,
@@ -49,7 +50,7 @@ const GRTable = <GRTableType extends object>({
       </GRView>
       <Table
         columns={columns}
-        dataSource={dataSource}
+        dataSource={data ?? []}
         pagination={pagination}
         scroll={scroll ?? BASE_SCROLL}
         css={css`
