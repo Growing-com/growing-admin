@@ -66,7 +66,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
     ],
     [
       {
-        title: "역할",
+        title: "직분",
         fieldName: "leader",
         type: "select",
         options: STATUS_OPTIONS
@@ -80,7 +80,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
     ],
     [
       {
-        title: "권한",
+        title: "역할",
         fieldName: "role",
         type: "select",
         options: ROLES_OPTIONS

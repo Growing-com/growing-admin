@@ -51,56 +51,51 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
     },
     _ref
   ) => {
-    const renderFormItems = useCallback(
-      () =>
-        // eslint-disable-next-line react/display-name
-        () => {
-          if (type === "input" || type === "textarea") {
-            return <GRTextInput multi={type === "textarea"} {...props} />;
-          }
+    const renderFormItems = useCallback(() => {
+      if (type === "input" || type === "textarea") {
+        return <GRTextInput multi={type === "textarea"} {...props} />;
+      }
+      if (type === "radio") {
+        return (
+          <GRRadio
+            {...props}
+            options={options}
+            onChange={() => {
+              console.log("GRRadio");
+            }}
+          />
+        );
+      }
 
-          if (type === "radio") {
-            return (
-              <GRRadio
-                {...props}
-                onChange={() => {
-                  console.log("GRRadio");
-                }}
-              />
-            );
-          }
+      if (type === "check") {
+        return (
+          <GRCheck
+            {...props}
+            onChange={() => {
+              console.log("GRCheck");
+            }}
+          />
+        );
+      }
 
-          if (type === "check") {
-            return (
-              <GRCheck
-                {...props}
-                onChange={() => {
-                  console.log("GRCheck");
-                }}
-              />
-            );
-          }
+      if (type === "select") {
+        return <GRSelect style={{ flex: 1 }} options={options} {...props} />;
+      }
 
-          if (type === "select") {
-            return <GRSelect style={{ flex: 1 }} {...props} />;
-          }
+      if (type === "switch") {
+        return <GRSwitch {...props} />;
+      }
 
-          if (type === "switch") {
-            return <GRSwitch {...props} />;
-          }
+      if (type === "date") {
+        return <GRDatePicker style={{ flex: 1 }} />;
+      }
 
-          if (type === "date") {
-            return <GRDatePicker style={{ flex: 1 }} />;
-          }
+      if (type === "custom") {
+        return <div></div>;
+      }
 
-          if (type === "custom") {
-            return <div></div>;
-          }
-
-          return <GRView>break</GRView>;
-        },
-      [props]
-    );
+      return <GRView>break</GRView>;
+    }, [options, props, type]);
 
     return (
       <GRFlexView flexDirection={"row"} alignItems={"center"} style={style}>
@@ -112,7 +107,7 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
         <Controller
           control={control}
           name={fieldName}
-          render={renderFormItems()}
+          render={renderFormItems}
           rules={{ required: required }}
         />
       </GRFlexView>
