@@ -19,7 +19,14 @@ type tMyApp = {
 } & AppProps;
 
 initMocks();
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24,
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
   const getLayout =
