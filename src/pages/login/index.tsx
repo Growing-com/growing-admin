@@ -4,6 +4,7 @@ import GRTextInput from "@component/base/text/GRTextInput";
 import GRFlexView from "@component/base/view/GRFlexView";
 import GRView from "@component/base/view/GRView";
 import styled from "@emotion/styled";
+import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -25,6 +26,10 @@ const Login = () => {
   const onClickChangePassword = useCallback(() => {
     router.push("/login/ChangePassword");
   }, [router]);
+
+  useKeyPressEventListener("Enter", () => {
+    onClickLogin();
+  });
 
   return (
     <LoginContainer>
