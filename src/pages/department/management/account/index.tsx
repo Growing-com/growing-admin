@@ -37,7 +37,7 @@ const ManagementAccountPage: NextPage = () => {
       align: "center"
     },
     {
-      title: "상태",
+      title: "직분",
       key: "status",
       dataIndex: "tags",
       align: "center",
@@ -51,15 +51,9 @@ const ManagementAccountPage: NextPage = () => {
       }
     },
     {
-      title: "권한",
+      title: "역할",
       dataIndex: "role",
       key: "role",
-      align: "center"
-    },
-    {
-      title: "현재 리더",
-      dataIndex: "leader",
-      key: "leader",
       align: "center"
     },
     {

@@ -23,9 +23,9 @@ const Login = () => {
     }
   }, [router, userId]);
 
-  const onClickChangePassword = useCallback(() => {
-    router.push("/login/ChangePassword");
-  }, [router]);
+  // const onClickChangePassword = useCallback(() => {
+  //   router.push("/login/ChangePassword");
+  // }, [router]);
 
   useKeyPressEventListener("Enter", () => {
     onClickLogin();
@@ -76,13 +76,13 @@ const Login = () => {
                 카카오 문의
               </Link>
             </GRButtonText>
-            <GRButtonText
+            {/* <GRButtonText
               buttonType={"text"}
               width={"100%"}
               onClick={onClickChangePassword}
             >
               비밀번호 변경
-            </GRButtonText>
+            </GRButtonText> */}
           </GRFlexView>
         </GRFlexView>
       </GRView>
