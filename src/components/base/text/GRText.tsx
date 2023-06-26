@@ -20,7 +20,9 @@ type tFontSizeType =
   | "b5"
   | "b6"
   | "b7"
-  | "b8";
+  | "b8"
+  | "b9"
+  | "b10";
 
 type tGRTextSpan = {
   color?: CSSProperties["color"];
@@ -35,6 +37,8 @@ type GRTextProps = {
   fontSize?: tFontSizeType;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
+  color?: CSSProperties["color"];
+  style?: CSSProperties;
 } & JSX.IntrinsicElements["span"] &
   tGetMargin;
 
@@ -164,6 +168,16 @@ const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
   b8: css`
     font-size: 0.7rem;
     line-height: 1.1rem;
+    letter-spacing: -0.01rem;
+  `,
+  b9: css`
+    font-size: 0.6rem;
+    line-height: 1rem;
+    letter-spacing: -0.01rem;
+  `,
+  b10: css`
+    font-size: 0.5rem;
+    line-height: 0%.9;
     letter-spacing: -0.01rem;
   `
 };
