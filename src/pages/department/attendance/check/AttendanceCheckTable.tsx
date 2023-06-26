@@ -175,7 +175,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
 
   return (
     <GRForm onSubmit={handleSubmit(onSubmit)}>
-      <GRTable dataSource={DUMP_DATA} columns={columns} />
+      <GRTable data={DUMP_DATA} columns={columns} />
     </GRForm>
   );
 };

@@ -158,7 +158,7 @@ const AttendanceStatistics = () => {
             </GRText>
           }
           columns={absentColumns}
-          dataSource={DATA}
+          data={DATA}
         />
         <GRTable
           headerComponent={

@@ -138,7 +138,7 @@ const AttendanceManagementPage: NextPage = () => {
       <GRContainerView>
         <GRTable
           columns={columns}
-          dataSource={DATA}
+          data={DATA}
           isHoverTable={false}
           paginationProps={{
             total: 100,
