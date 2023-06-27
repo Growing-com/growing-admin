@@ -18,6 +18,8 @@ type tFormItems = {
   fieldName: string;
   type: tFormItemType;
   options?: tOptions;
+  placeholder?: string;
+  required?: boolean;
 };
 
 const GENDER_OPTIONS = [
@@ -48,11 +50,28 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
 
   const formItems: Array<tFormItems[]> = [
     [
-      { title: "이름", fieldName: "name", type: "input" },
-      { title: "비밀번호", fieldName: "password", type: "input" }
+      {
+        title: "이름",
+        fieldName: "name",
+        type: "input",
+        placeholder: "이름을 작성해 주세요",
+        required: true
+      },
+      {
+        title: "비밀번호",
+        fieldName: "password",
+        type: "input",
+        placeholder: "비밀번호를 작성해 주세요",
+        required: true
+      }
     ],
     [
-      { title: "전화번호", fieldName: "phoneNumber", type: "input" },
+      {
+        title: "전화번호",
+        fieldName: "phoneNumber",
+        type: "input",
+        placeholder: "- 없이 작성해 주세요"
+      },
       {
         title: "성별",
         fieldName: "gender",
@@ -61,21 +80,33 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
       }
     ],
     [
-      { title: "생년월일", fieldName: "birthday", type: "date" },
-      { title: "학년", fieldName: "grade", type: "input" }
+      {
+        title: "생년월일",
+        fieldName: "birthday",
+        type: "date",
+        placeholder: "생년월일을 선택해 주세요"
+      },
+      {
+        title: "학년",
+        fieldName: "grade",
+        type: "input",
+        placeholder: "학년 숫자만 작성해주세요"
+      }
     ],
     [
       {
         title: "직분",
         fieldName: "leader",
         type: "select",
-        options: STATUS_OPTIONS
+        options: STATUS_OPTIONS,
+        placeholder: "부서에서의 직분을 선택해주세요"
       },
       {
         title: "리더",
         fieldName: "leader",
         type: "select",
-        options: LEADER_OPTIONS
+        options: LEADER_OPTIONS,
+        placeholder: "부서에서의 직분을 선택해주세요"
       }
     ],
     [
@@ -83,7 +114,8 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         title: "역할",
         fieldName: "role",
         type: "select",
-        options: ROLES_OPTIONS
+        options: ROLES_OPTIONS,
+        placeholder: "웹 사용 역할을 선택해 주세요"
       },
       {
         title: "활성화",
@@ -104,6 +136,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
       onOk={handleSubmit(onClickModalOk)}
       title={"계정 생성"}
       modalOkButtonType={"submit"}
+      width={"60%"}
     >
       <GRView flexDirection={"row"}>
         <GRFlexView flexDirection={"row"}>
