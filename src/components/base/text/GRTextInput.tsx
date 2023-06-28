@@ -2,15 +2,18 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Input } from "antd";
 import { InputProps, TextAreaProps } from "antd/es/input";
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
 const { TextArea } = Input;
 
 export type tGRTextInput = {
   multi?: boolean;
+  onChange?: (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => void;
 } & InputProps &
-  TextAreaProps &
+  Omit<TextAreaProps, "onChange"> &
   tGetMargin;
 
 const GRTextInput: FC<tGRTextInput> = ({
@@ -22,10 +25,15 @@ const GRTextInput: FC<tGRTextInput> = ({
   const _margin = getMargin(props);
   const TextInputComponent = multi ? TextAreaComponent : InputComponent;
 
+  const onChangeText = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    onChange?.(e);
+  };
   return (
     <TextInputComponent
       placeholder={placeholder}
-      onChange={onChange}
+      onChange={onChangeText}
       css={css`
         ${_margin}
       `}
