@@ -8,8 +8,9 @@ import HeaderView from "@component/modules/view/HeaderView";
 import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import dayjs from "dayjs";
+import { ExportExcelOfJson } from "modules/excel/ExportExcelOfJson";
 import { NextPage } from "next";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { getSundayOfMonth } from "utils/DateUtils";
 import FilterSearch from "./FilterSearch";
@@ -128,12 +129,20 @@ const AttendanceManagementPage: NextPage = () => {
     []
   );
 
+  const onClickExcel = useCallback(async () => {
+    try {
+      await ExportExcelOfJson(DATA);
+    } catch (e) {
+      console.error("Error", e);
+    }
+  }, []);
+
   return (
     <>
       <HeaderView
         title={"출석 관리"}
         subComponent={<FilterSearch />}
-        headerComponent={<ExcelButton />}
+        headerComponent={<ExcelButton onClickExcel={onClickExcel} />}
       />
       <GRContainerView>
         <GRTable
