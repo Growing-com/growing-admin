@@ -42,22 +42,22 @@ const StatisticsModal: FC<tStatisticsModal> = ({ open, onClickStatistics }) => {
     labels,
     datasets: [
       {
-        label: "2023-06-04",
+        label: "06/04",
         data: labels.map(() => Math.floor(Math.random() * 20)),
         backgroundColor: "rgb(255, 99, 133)"
       },
       {
-        label: "2023-06-11",
+        label: "06/11",
         data: labels.map(() => Math.floor(Math.random() * 20)),
         backgroundColor: "rgb(53, 162, 235)"
       },
       {
-        label: "2023-06-18",
+        label: "06/18",
         data: labels.map(() => Math.floor(Math.random() * 20)),
         backgroundColor: "rgb(184, 235, 53)"
       },
       {
-        label: "2023-06-25",
+        label: "06/25",
         data: labels.map(() => Math.floor(Math.random() * 20)),
         backgroundColor: "rgba(53, 235, 96, 0.5)"
       }
