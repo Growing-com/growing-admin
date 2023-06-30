@@ -18,6 +18,10 @@ const SEARCH_OPTION = [
   {
     label: "코디",
     value: "cordi"
+  },
+  {
+    label: "학년",
+    value: "grade"
   }
 ];
 
@@ -64,12 +68,17 @@ const FilterSearch = () => {
 
   const onChangeDate = useCallback(
     (changeKey: "startDate" | "endDate", value: dayjs.Dayjs | null) => {
+      if (!value) return;
+      if (changeKey === "endDate" && value.diff(filterDate.startDate) < 0) {
+        alert("기간이 역전할수는 없습니다");
+        return;
+      }
       setFilterDate(prev => ({
         ...prev,
         [changeKey]: value
       }));
     },
-    []
+    [filterDate]
   );
 
   return (
