@@ -6,8 +6,8 @@ export type tGRRadio = {
   options?: tOptions;
 } & Omit<RadioGroupProps, "options">;
 
-const GRRadio: FC<tGRRadio> = ({ options }) => {
-  return <Radio.Group options={options} />;
+const GRRadio: FC<tGRRadio> = ({ options, ...props }) => {
+  return <Radio.Group options={options} {...props} />;
 };
 
 export default GRRadio;

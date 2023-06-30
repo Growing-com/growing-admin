@@ -1,4 +1,4 @@
-import HeaderMenu from "@component/modules/menu/HeaderMenu";
+import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU, TAB_MENU } from "config/router";

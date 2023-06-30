@@ -1,7 +1,7 @@
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRModal, { tGRModal } from "@component/base/modal/GRModal";
-import GRText from "@component/base/text/GRText";
-import GRFlexView from "@component/base/view/GRFlexView";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRModal, { tGRModal } from "@component/atom/modal/GRModal";
+import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import { css } from "@emotion/react";
 import { FC } from "react";
 

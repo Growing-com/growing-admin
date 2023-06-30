@@ -1,5 +1,5 @@
-import GRText from "@component/base/text/GRText";
-import GRFlexView from "@component/base/view/GRFlexView";
+import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import { css } from "@emotion/react";
 import { Alert, Divider } from "antd";
 import React, { ReactNode, type FC } from "react";
