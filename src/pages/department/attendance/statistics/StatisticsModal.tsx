@@ -1,10 +1,9 @@
-import GRChart from "@component/base/GRChart";
-import GRTab from "@component/base/GRTab";
-import GRDatePicker from "@component/base/dataEntry/GRDatePicker";
-import GRModal from "@component/base/modal/GRModal";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
-import dayjs from "dayjs";
+import GRChart from "@component/atom/GRChart";
+import GRTab from "@component/atom/GRTab";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRModal from "@component/atom/modal/GRModal";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import { FC, useCallback, useState } from "react";
 
 type tStatisticsModal = {
@@ -84,7 +83,7 @@ const StatisticsModal: FC<tStatisticsModal> = ({ open, onClickStatistics }) => {
         defaultActiveKey={currentTab}
         tabBarExtraContent={
           <GRFlexView alignItems={"flex-start"}>
-            <GRDatePicker picker={"week"} defaultValue={dayjs()} />
+            <GRDatePicker picker={"month"} />
           </GRFlexView>
         }
       />

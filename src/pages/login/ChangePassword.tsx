@@ -1,8 +1,8 @@
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRText from "@component/base/text/GRText";
-import GRTextInput from "@component/base/text/GRTextInput";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { ReactElement, useCallback } from "react";

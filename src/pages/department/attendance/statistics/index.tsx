@@ -1,9 +1,9 @@
 import { BarChartOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import GRTable from "@component/base/GRTable";
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRText from "@component/base/text/GRText";
-import GRContainerView from "@component/base/view/GRContainerView";
-import HeaderView from "@component/modules/view/HeaderView";
+import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
+import GRContainerView from "@component/atom/view/GRContainerView";
+import HeaderView from "@component/molecule/view/HeaderView";
 import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useCallback, useState } from "react";
@@ -29,7 +29,7 @@ const DATA = [
     grade: "12",
     gender: "남",
     "2023-05-23": "100",
-    "2023-05-30": "100"
+    "2023-05-30": "200"
   },
   {
     cordi: "조예인",
@@ -38,7 +38,7 @@ const DATA = [
     grade: "18",
     gender: "남",
     "2023-05-23": "100",
-    "2023-05-30": "100"
+    "2023-05-30": "200"
   }
 ];
 type tAttendStatus = "100" | "200" | "300";
@@ -50,7 +50,7 @@ const AttendanceStatistics = () => {
   const renderDayComponent = (attendStatus: tAttendStatus) => {
     return (
       <Popover
-        content={"오늘 배가 아파서 일찍 집에 갔습니다. "}
+        content={"오늘 배가 아파서 일찍 집에 갔습니다."}
         trigger={"click"}
       >
         <GRButtonText buttonType={"default"}>

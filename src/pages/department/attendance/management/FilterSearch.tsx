@@ -1,10 +1,10 @@
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRDatePicker from "@component/base/dataEntry/GRDatePicker";
-import GRSelect from "@component/base/dataEntry/GRSelect";
-import GRText from "@component/base/text/GRText";
-import GRTextInput from "@component/base/text/GRTextInput";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRSelect from "@component/atom/dataEntry/GRSelect";
+import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 

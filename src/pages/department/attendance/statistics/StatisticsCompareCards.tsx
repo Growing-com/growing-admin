@@ -1,7 +1,7 @@
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import GRText from "@component/base/text/GRText";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
+import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import { css } from "@emotion/react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";

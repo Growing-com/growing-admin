@@ -1,10 +1,10 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import GRTable from "@component/base/GRTable";
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRText from "@component/base/text/GRText";
-import GRContainerView from "@component/base/view/GRContainerView";
-import ExcelButton from "@component/modules/button/ExcelButton";
-import HeaderView from "@component/modules/view/HeaderView";
+import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
+import GRContainerView from "@component/atom/view/GRContainerView";
+import ExcelButton from "@component/molecule/button/ExcelButton";
+import HeaderView from "@component/molecule/view/HeaderView";
 import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import dayjs from "dayjs";
