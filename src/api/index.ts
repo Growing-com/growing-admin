@@ -6,6 +6,11 @@ const defaultHeaders = {
   "Content-Type": "application/json"
 };
 
+export const REQUEST_METHOD = {
+  GET: "get",
+  POST: "post"
+};
+
 const axiosInstance = axios.create({
   headers: defaultHeaders,
   ...NetworkConfig.BASE_REQUEST
