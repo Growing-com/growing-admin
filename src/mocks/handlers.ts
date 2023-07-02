@@ -1,9 +1,11 @@
+import { filter } from "lodash";
 import { rest } from "msw";
-import { accountDumpData } from "./data/accountDumpData";
+import { STATUS, accountDumpData } from "./data/accountDumpData";
 
 export const handlers = () => {
   return [
-    rest.get("/account", getAccountList),
+    rest.get("/accounts", getAccountList),
+    rest.get("/leaders", getLeaderList),
     rest.post("/account", postAccount),
     rest.get("/attendance", getAttendanceList),
     rest.post("/attendance", postAttendance),
@@ -18,8 +20,19 @@ const getAccountList = (_req: any, res: any, ctx: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const postAccount = (_req: any, res: any, ctx: any) => {
-  return res(ctx.status(200), ctx.json(accountDumpData));
+const getLeaderList = (_req: any, res: any, ctx: any) => {
+  const findLeader = filter(
+    accountDumpData,
+    account => account.status === STATUS.leader
+  );
+  return res(ctx.status(200), ctx.json(findLeader));
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postAccount = (req: any, res: any, ctx: any) => {
+  console.log("req.body", req.body);
+  // const findByName = accountDumpData.find( req.body )
+  return res(ctx.status(200));
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
