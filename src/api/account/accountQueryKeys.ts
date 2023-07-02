@@ -1,7 +1,8 @@
 const accountQueryKeys = {
   base: "account",
   list: (_page: string[]) => [accountQueryKeys.base, ..._page],
-  leader: "account-leader"
+  leader: "leaders",
+  roles: "roles"
 };
 
 export default accountQueryKeys;

@@ -5,6 +5,8 @@ import GRView from "@component/atom/view/GRView";
 import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import { useLeadersQuery } from "api/account/queries/useLeadersQuery";
+import { useRolesQuery } from "api/account/queries/useRolesQuery";
+import { STATUS_OPTIONS } from "config/const";
 import { FC, useCallback } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Color } from "styles/colors";
@@ -19,22 +21,6 @@ const GENDER_OPTIONS = [
   { label: "여", value: "W" }
 ];
 
-const STATUS_OPTIONS = [
-  { label: "리더", value: "leader" },
-  { label: "코디", value: "cordi" },
-  { label: "새가족", value: "new_com" },
-  { label: "조원", value: "normal" }
-];
-const LEADER_OPTIONS = [
-  { label: "이종민", value: "1123" },
-  { label: "조예인", value: "123" }
-];
-
-const ROLES_OPTIONS = [
-  { label: "관리자", value: "222" },
-  { label: "코디", value: "444" }
-];
-
 const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
   const { control, watch, handleSubmit } = useForm();
 
@@ -42,6 +28,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
   const isDisableLeaderSelect = watch("duty") === "cordi";
 
   const { data: leaderSelectOptions } = useLeadersQuery();
+  const { data: roleSelectOptions } = useRolesQuery();
 
   const onOkClick = useCallback(() => {
     // onAccountModal?.()
@@ -158,7 +145,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             title={"역할"}
             fieldName={"role"}
             control={control}
-            options={ROLES_OPTIONS}
+            options={roleSelectOptions}
             placeholder={"웹에서의 역할을 선택해 주세요"}
           />
           <GRFormItem

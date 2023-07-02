@@ -1,11 +1,13 @@
 import { filter } from "lodash";
 import { rest } from "msw";
 import { STATUS, accountDumpData } from "./data/accountDumpData";
+import { rolesDumpData } from "./data/teamDumpData";
 
 export const handlers = () => {
   return [
     rest.get("/accounts", getAccountList),
     rest.get("/leaders", getLeaderList),
+    rest.get("/roles", getRoleList),
     rest.post("/account", postAccount),
     rest.get("/attendance", getAttendanceList),
     rest.post("/attendance", postAttendance),
@@ -26,6 +28,11 @@ const getLeaderList = (_req: any, res: any, ctx: any) => {
     account => account.status === STATUS.leader
   );
   return res(ctx.status(200), ctx.json(findLeader));
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getRoleList = (_req: any, res: any, ctx: any) => {
+  return res(ctx.status(200), ctx.json(rolesDumpData));
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -14,3 +14,10 @@ export const getLeaderList = () => {
     url: "/leaders"
   });
 };
+
+export const getRoles = () => {
+  return request<tAccount[]>({
+    method: REQUEST_METHOD.GET,
+    url: "/roles"
+  });
+};
