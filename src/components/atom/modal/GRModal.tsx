@@ -72,22 +72,24 @@ const GRModal: FC<tGRModal> = ({
         buttonType={"cancel"}
         onClick={onCancelClickButton}
       >
-        취소
+        {cancelButtonText ?? "취소"}
       </GRButtonText>,
       <GRButtonText
         key={"ok-button"}
         onClick={onOkClickButton}
         htmlType={_htmlType}
       >
-        확인
+        {okButtonText ?? "확인"}
       </GRButtonText>
     ];
   }, [
-    showFooter,
     footerComponent,
-    _htmlType,
+    showFooter,
     onCancelClickButton,
-    onOkClickButton
+    cancelButtonText,
+    onOkClickButton,
+    _htmlType,
+    okButtonText
   ]);
 
   const renderModalHeader = useCallback(() => {
