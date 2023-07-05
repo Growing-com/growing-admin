@@ -8,3 +8,8 @@ export type tAccount = {
   leader: string;
   phoneNumber: string;
 };
+
+export type tRole = {
+  name: string;
+  value: string;
+};

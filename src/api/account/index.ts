@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAccount } from "./types";
+import { tAccount, tRole } from "./types";
 
 export const getAccountList = () => {
   return request<tAccount[]>({
@@ -16,7 +16,7 @@ export const getLeaderList = () => {
 };
 
 export const getRoles = () => {
-  return request<tAccount[]>({
+  return request<tRole[]>({
     method: REQUEST_METHOD.GET,
     url: "/roles"
   });
