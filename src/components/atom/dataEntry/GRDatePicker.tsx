@@ -8,10 +8,10 @@ const DEFAULT_FOMAT = "YYYY-MM-DD";
 type tGRDatePicker = {
   height?: CSSProperties["height"];
   width?: CSSProperties["width"];
-} & DatePickerProps;
+  onChange?: (date: Dayjs | null) => void;
+} & Omit<DatePickerProps, "onChange">;
 
 const GRDatePicker: FC<tGRDatePicker> = ({
-  style,
   height,
   width,
   format,

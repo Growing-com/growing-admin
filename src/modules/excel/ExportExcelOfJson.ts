@@ -4,8 +4,7 @@ import * as xlsx from "xlsx";
 const EXCEL_HEADER = ["코디", "순장", "이름", "학년", "성별"];
 
 export const ExportExcelOfJson = async <ExcelDataType>(
-  data: ExcelDataType[],
-  renderCell?: () => void
+  data: ExcelDataType[]
 ) => {
   return await new Promise((resolve, reject) => {
     try {

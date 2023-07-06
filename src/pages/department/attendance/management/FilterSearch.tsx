@@ -8,7 +8,7 @@ import GRView from "@component/atom/view/GRView";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 
-type tSearchFilter = "name" | "cordi";
+type tSearchFilter = "name" | "cordi" | "grade";
 
 const SEARCH_OPTION = [
   {
@@ -44,6 +44,8 @@ const FilterSearch = () => {
     switch (searchFilter) {
       case "name":
         return <GRTextInput placeholder={"이름으로 검색하세요"} />;
+      case "grade":
+        return <GRTextInput placeholder={"학년으로 검색하세요"} />;
       case "cordi":
         return (
           <GRSelect

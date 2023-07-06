@@ -6,7 +6,7 @@ import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import { useLeadersQuery } from "api/account/queries/useLeadersQuery";
 import { useRolesQuery } from "api/account/queries/useRolesQuery";
-import { STATUS_OPTIONS } from "config/const";
+import { GENDER_OPTIONS, STATUS_OPTIONS } from "config/const";
 import { FC, useCallback } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Color } from "styles/colors";
@@ -15,11 +15,6 @@ type tAccountModal = {
   open: boolean;
   onClick: () => void;
 };
-
-const GENDER_OPTIONS = [
-  { label: "남", value: "M" },
-  { label: "여", value: "W" }
-];
 
 const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
   const { control, watch, handleSubmit } = useForm();
