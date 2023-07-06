@@ -27,11 +27,8 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             전체 인원
           </GRText>
-          <GRText fontSize={"h6"}>200</GRText>
           <GRView>
-            <GRText color={Color.red100} weight={"bold"}>
-              -10 % <ArrowDownOutlined rev={undefined} />
-            </GRText>
+            <GRText fontSize={"h6"}>200</GRText>
             <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
@@ -40,22 +37,29 @@ const StatisticsCompareCards = () => {
               210 ( 2023-05-23 )
             </GRText>
           </GRView>
+          <GRView>
+            <GRText color={Color.red100} weight={"bold"}>
+              -10 % <ArrowDownOutlined rev={undefined} />
+            </GRText>
+          </GRView>
         </GRFlexView>
         <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             결석율
           </GRText>
-          <GRText fontSize={"h6"}>200</GRText>
           <GRView>
-            <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowUpOutlined rev={undefined} />
-            </GRText>
+            <GRText fontSize={"h6"}>200</GRText>
             <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               200 ( 2023-05-23 )
+            </GRText>
+          </GRView>
+          <GRView>
+            <GRText color={Color.blue100} weight={"bold"}>
+              +20 % <ArrowUpOutlined rev={undefined} />
             </GRText>
           </GRView>
         </GRFlexView>
@@ -63,17 +67,19 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             새등록
           </GRText>
-          <GRText fontSize={"h6"}>200</GRText>
           <GRView>
-            <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowUpOutlined rev={undefined} />
-            </GRText>
+            <GRText fontSize={"h6"}>200</GRText>
             <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
             >
               200 ( 2023-05-23 )
+            </GRText>
+          </GRView>
+          <GRView>
+            <GRText color={Color.blue100} weight={"bold"}>
+              +20 % <ArrowUpOutlined rev={undefined} />
             </GRText>
           </GRView>
         </GRFlexView>
@@ -81,11 +87,8 @@ const StatisticsCompareCards = () => {
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             새가족 출석율
           </GRText>
-          <GRText fontSize={"h6"}>200</GRText>
           <GRView>
-            <GRText color={Color.blue100} weight={"bold"}>
-              +20 % <ArrowUpOutlined rev={undefined} />
-            </GRText>
+            <GRText fontSize={"h6"}>200</GRText>
             <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
@@ -94,6 +97,9 @@ const StatisticsCompareCards = () => {
               200 ( 2023-05-23 )
             </GRText>
           </GRView>
+          <GRText color={Color.blue100} weight={"bold"}>
+            +20 % <ArrowUpOutlined rev={undefined} />
+          </GRText>
         </GRFlexView>
       </GRFlexView>
     </GRView>
