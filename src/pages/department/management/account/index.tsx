@@ -1,11 +1,12 @@
-import GRTable from "@component/base/GRTable";
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRContainerView from "@component/base/view/GRContainerView";
-import HeaderView from "@component/modules/view/HeaderView";
+import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRContainerView from "@component/atom/view/GRContainerView";
+import HeaderView from "@component/molecule/view/HeaderView";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useAccountsQuery } from "api/account/queries/accounts";
+import { useAccountsQuery } from "api/account/queries/useAccountsQuery";
 import { tAccount } from "api/account/types";
+import { ROLE_NAME, STATUS_NAME } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import AccountModal from "./AccountModal";
@@ -42,31 +43,43 @@ const ManagementAccountPage: NextPage = () => {
       dataIndex: "tags",
       align: "center",
       render: (_, item) => {
-        const color = item?.status.length > 2 ? "geekblue" : "green";
+        if (!item?.status) return;
         return (
-          <Tag color={color} key={item?.status}>
-            {item?.status}
+          <Tag color={STATUS_NAME[item?.status].color} key={item?.status}>
+            {STATUS_NAME[item?.status].name}
           </Tag>
         );
       }
     },
     {
-      title: "역할",
-      dataIndex: "role",
-      key: "role",
-      align: "center"
-    },
-    {
       title: "전화 번호",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
-      align: "center"
+      align: "center",
+      width: "15rem"
+    },
+    {
+      title: "역할",
+      dataIndex: "role",
+      key: "role",
+      align: "center",
+      render: (_, item) => {
+        return (
+          <Tag color={"default"} key={item?.role}>
+            {ROLE_NAME[item?.role] ?? ""}
+          </Tag>
+        );
+      }
     }
   ];
 
   const onAccountModal = useCallback(() => {
     setOpenAccountModal(!openAccountModal);
   }, [openAccountModal]);
+
+  const onClickSearch = useCallback((_searchText: string) => {
+    console.log("text", _searchText);
+  }, []);
 
   return (
     <div>
@@ -81,7 +94,7 @@ const ManagementAccountPage: NextPage = () => {
             계정 생성
           </GRButtonText>
         }
-        subComponent={<ManagementSearch />}
+        subComponent={<ManagementSearch onClickSearch={onClickSearch} />}
       />
       <GRContainerView>
         <GRTable
@@ -89,8 +102,8 @@ const ManagementAccountPage: NextPage = () => {
           columns={columns}
           data={accountlist}
           paginationProps={{
-            total: 100,
-            defaultPageSize: 10
+            total: accountlist?.length,
+            pageSize: 3
           }}
         />
       </GRContainerView>

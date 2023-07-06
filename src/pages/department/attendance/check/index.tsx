@@ -1,10 +1,8 @@
-import GRTab from "@component/base/GRTab";
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRDatePicker from "@component/base/dataEntry/GRDatePicker";
-import GRTextInput from "@component/base/text/GRTextInput";
-import GRContainerView from "@component/base/view/GRContainerView";
-import GRFlexView from "@component/base/view/GRFlexView";
-import HeaderView from "@component/modules/view/HeaderView";
+import GRTab from "@component/atom/GRTab";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRContainerView from "@component/atom/view/GRContainerView";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import HeaderView from "@component/molecule/view/HeaderView";
 import dayjs, { Dayjs } from "dayjs";
 import { useCallback, useState } from "react";
 import AttendanceCheckTable from "./AttendanceCheckTable";
@@ -42,53 +40,6 @@ const AttendanceCheck = () => {
           infor: "몸이 안좋아서 어제 빠르게 퇴근 했습니다."
         }
       ]
-    }
-  ];
-
-  const colums = [
-    {
-      title: "순장",
-      key: "leader"
-    },
-    {
-      title: "이름",
-      key: "name"
-    },
-    {
-      title: "학년",
-      key: "grade"
-    },
-    {
-      title: "학년",
-      key: "gender"
-    },
-    {
-      title: "출석",
-      key: "attendance",
-      type: "radio",
-      defaultValue: "100",
-      options: [
-        {
-          label: "현장",
-          value: "100"
-        },
-        {
-          label: "결석",
-          value: "100"
-        },
-        {
-          label: "온라인",
-          value: "100"
-        }
-      ]
-    },
-    {
-      title: "추가 내용",
-      key: "info",
-      type: "custom",
-      render: () => {
-        <GRTextInput />;
-      }
     }
   ];
 
@@ -132,16 +83,7 @@ const AttendanceCheck = () => {
             </GRFlexView>
           }
         />
-        <AttendanceCheckTable colunms={colums} />
-        <GRFlexView
-          flexDirection={"row"}
-          justifyContent={"flex-end"}
-          margintop={1}
-        >
-          <GRButtonText marginleft={0.5} onClick={onClickAttend} size={"large"}>
-            출석 등록
-          </GRButtonText>
-        </GRFlexView>
+        <AttendanceCheckTable />
       </GRContainerView>
     </>
   );
