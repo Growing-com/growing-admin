@@ -1,13 +1,26 @@
-import GRButtonText from "@component/base/button/GRTextButton";
-import GRText from "@component/base/text/GRText";
-import GRTextInput from "@component/base/text/GRTextInput";
-import GRFlexView from "@component/base/view/GRFlexView";
-import { useCallback } from "react";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import { ChangeEvent, FC, useCallback, useState } from "react";
+type tManagementSearch = {
+  onClickSearch: (searchText: string) => void;
+};
+const ManagementSearch: FC<tManagementSearch> = ({ onClickSearch }) => {
+  const [searchText, setSearchText] = useState("");
 
-const ManagementSearch = () => {
-  const onClickSearch = useCallback(() => {
-    console.log("onClickSearch");
-  }, []);
+  const onClickSearchButton = useCallback(() => {
+    if (searchText) {
+      onClickSearch(searchText);
+    }
+  }, [onClickSearch, searchText]);
+
+  const onChangeSearchText = useCallback(
+    (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
+      setSearchText(e.target.value);
+    },
+    []
+  );
 
   return (
     <GRFlexView alignItems={"center"} flexDirection={"row"}>
@@ -17,8 +30,9 @@ const ManagementSearch = () => {
       <GRTextInput
         marginright={2}
         placeholder={"이름, 전화 번호로 검색 하세요."}
+        onChange={onChangeSearchText}
       />
-      <GRButtonText onClick={onClickSearch} size={"large"}>
+      <GRButtonText onClick={onClickSearchButton} size={"large"}>
         조회
       </GRButtonText>
     </GRFlexView>
