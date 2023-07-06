@@ -10,14 +10,7 @@ module.exports = {
   arrowParens: "avoid",
   endOfLine: "auto",
   trailingComma: "none",
-  importOrder: [
-    "^react$",
-    "^next(/(.*))?$",
-    "<THIRD_PARTY_MODULES>",
-    "^public/(.*)$",
-    "^~/(.*)$",
-    "^[./]"
-  ],
+  importOrder: ["^react$", "^next(/(.*))?$", "<THIRD_PARTY_MODULES>", "^public/(.*)$", "^~/(.*)$", "^[./]"],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true
 };
