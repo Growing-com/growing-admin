@@ -1,21 +1,17 @@
-import GRTable from "@component/base/GRTable";
-import GRText from "@component/base/text/GRText";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRForm from "@component/modules/form/GRForm";
-import GRFormItem from "@component/modules/form/GRFormItem";
+import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRFormInputText from "@component/molecule/form/GRFormInputText";
+import GRFormItem from "@component/molecule/form/GRFormItem";
 import { Alert, Tooltip } from "antd";
 import { ColumnType } from "antd/es/table";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-const OPTION_ATTENDANCE = [
-  { label: "현장", value: "100" },
-  { label: "온라인", value: "200" },
-  { label: "결석", value: "300" }
-];
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 화살표: 선택 가능`;
 type tAttendanceCheckTable = {
-  colunms: any[];
+  colunms?: any[];
 };
 
 type tAttendanceColum = {
@@ -30,8 +26,8 @@ type tAttendanceColum = {
 const DUMP_DATA = [
   {
     cordi: "조예인",
-    leader: "우상욱",
-    name: "이종민",
+    leader: "우상욱1",
+    name: "이종민1",
     grade: "18",
     gender: "남",
     attends: "100",
@@ -39,8 +35,8 @@ const DUMP_DATA = [
   },
   {
     cordi: "조예인",
-    leader: "우상욱",
-    name: "이종민",
+    leader: "우상욱2",
+    name: "이종민2",
     grade: "18",
     gender: "남",
     attends: "100",
@@ -48,8 +44,8 @@ const DUMP_DATA = [
   },
   {
     cordi: "조예인",
-    leader: "우상욱",
-    name: "이종민",
+    leader: "우상욱3",
+    name: "이종민3",
     grade: "18",
     gender: "남",
     attends: "100",
@@ -57,9 +53,8 @@ const DUMP_DATA = [
   }
 ];
 
-const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
-  const [headerComponents, setHeaderComponents] = useState();
-  const { register, handleSubmit, control } = useForm();
+const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
+  const { handleSubmit, control } = useForm();
 
   const columns: ColumnType<tAttendanceColum>[] = useMemo(
     () => [
@@ -74,8 +69,8 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
       },
       {
         title: "이름",
-        dataIndex: "leader",
-        key: "leader",
+        dataIndex: "name",
+        key: "name",
         align: "center",
         fixed: "left",
         width: "5rem"
@@ -121,18 +116,17 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
         key: "attends",
         align: "center",
         fixed: "left",
-        render: () => {
+        render: (_, recode) => {
           return (
             <GRFormItem
-              control={control}
-              fieldName={"attends"}
-              required={true}
               type={"radio"}
-              style={{ justifyContent: "center" }}
+              control={control}
+              fieldName={`attends-${recode.name}`}
+              required={true}
               options={[
-                { label: "출석", value: "100" },
                 { label: "현장", value: "200" },
-                { label: "온라인", value: "300" }
+                { label: "온라인", value: "300" },
+                { label: "결석", value: "100" }
               ]}
             />
           );
@@ -144,39 +138,43 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ colunms }) => {
         key: "extraInfo",
         align: "center",
         fixed: "left",
-        render: () => {
+        render: (_, recode) => {
           return (
-            <GRFormItem
-              control={control}
-              fieldName={"extraInfo"}
-              required={true}
+            <GRFormInputText
               type={"textarea"}
+              control={control}
+              fieldName={`extraInfo-${recode.name}`}
+              required={true}
             />
           );
         }
       }
     ],
-    []
+    [control]
   );
-
-  useEffect(() => {
-    const headerCom = colunms.map(colunm => {
-      return (
-        <GRFlexView key={colunm.key}>
-          <GRText>{colunm.title}</GRText>
-        </GRFlexView>
-      );
-    });
-  }, [colunms]);
 
   const onSubmit: SubmitHandler<FieldValues> = useCallback(_item => {
     console.log("_item", _item);
   }, []);
 
   return (
-    <GRForm onSubmit={handleSubmit(onSubmit)}>
+    <>
       <GRTable data={DUMP_DATA} columns={columns} />
-    </GRForm>
+      <GRFlexView
+        flexDirection={"row"}
+        justifyContent={"flex-end"}
+        margintop={1}
+      >
+        <GRButtonText
+          htmlType={"submit"}
+          marginleft={0.5}
+          size={"large"}
+          onClick={handleSubmit(onSubmit)}
+        >
+          출석 등록
+        </GRButtonText>
+      </GRFlexView>
+    </>
   );
 };
 
