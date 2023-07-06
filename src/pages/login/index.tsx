@@ -48,6 +48,7 @@ const Login = () => {
               아이디
             </GRText>
             <GRTextInput
+              value={userId}
               placeholder={"아이디를 입력해 주세요"}
               onChange={e => setUserId(e.target.value)}
             />
