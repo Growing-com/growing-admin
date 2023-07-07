@@ -63,7 +63,7 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
         if (type === "switch") {
           formItemComponent = (
             <GRView>
-              <GRSwitch {...props} {...field} />
+              <GRSwitch {...field} {...props} checked={field.value} />
             </GRView>
           );
         }
@@ -85,7 +85,7 @@ const GRFormItem = forwardRef<HTMLInputElement, tGRFormItem>(
           </GRFlexView>
         );
       },
-      [type, props, options]
+      [type, props, options, disabled]
     );
 
     return (
