@@ -4,9 +4,10 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import AlertModal from "@component/molecule/modal/AlertModal";
 import { Alert, Tooltip } from "antd";
 import { ColumnType } from "antd/es/table";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 화살표: 선택 가능`;
@@ -55,7 +56,8 @@ const DUMP_DATA = [
 
 const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
   const { handleSubmit, control } = useForm();
-
+  const [open, setOpen] = useState(false);
+  const [description, setDescription] = useState("출석을 등록하시겠습니까?");
   const columns: ColumnType<tAttendanceColum>[] = useMemo(
     () => [
       {
@@ -153,9 +155,17 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
     [control]
   );
 
-  const onSubmit: SubmitHandler<FieldValues> = useCallback(_item => {
-    console.log("_item", _item);
-  }, []);
+  const handleModal = () => {
+    setOpen(!open);
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = useCallback(
+    _item => {
+      console.log("_item", _item);
+      setOpen(!open);
+    },
+    [open]
+  );
 
   return (
     <>
@@ -169,11 +179,17 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
           htmlType={"submit"}
           marginleft={0.5}
           size={"large"}
-          onClick={handleSubmit(onSubmit)}
+          onClick={() => setOpen(!open)}
         >
           출석 등록
         </GRButtonText>
       </GRFlexView>
+      <AlertModal
+        open={open}
+        description={description}
+        onCancelClickButton={handleModal}
+        onOkClickButton={handleModal}
+      />
     </>
   );
 };

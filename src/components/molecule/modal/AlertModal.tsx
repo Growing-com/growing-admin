@@ -11,7 +11,7 @@ type tAlertModal = {
   onOkClickButton?: () => void;
   okButtonText?: string;
   description: string;
-} & tGRModal;
+} & Omit<tGRModal, "onCancel" | "onOk">;
 
 const AlertModal: FC<tAlertModal> = ({
   onCancelClickButton,
@@ -31,6 +31,10 @@ const AlertModal: FC<tAlertModal> = ({
           border-radius: 1rem;
         }
       `}
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      onCancel={() => {}}
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      onOk={() => {}}
     >
       <GRFlexView>
         <GRFlexView>
