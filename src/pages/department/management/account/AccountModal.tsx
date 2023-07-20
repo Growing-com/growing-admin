@@ -1,12 +1,13 @@
-import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { useLeadersQuery } from "api/account/queries/useLeadersQuery";
 import { useRolesQuery } from "api/account/queries/useRolesQuery";
 import { GENDER_OPTIONS, STATUS_OPTIONS } from "config/const";
+import { Dayjs } from "dayjs";
 import { FC, useCallback } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Color } from "styles/colors";
@@ -16,8 +17,22 @@ type tAccountModal = {
   onClick: () => void;
 };
 
+type tAccountForm = {
+  id?: string;
+  name?: string;
+  pasword?: string;
+  phoneNumber?: string;
+  gender?: string;
+  birthday?: Dayjs;
+  grade?: string;
+  duty?: string;
+  leader?: string;
+  role?: string;
+  isActive: boolean;
+};
+
 const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
-  const { control, watch, handleSubmit } = useForm();
+  const { control, watch, handleSubmit } = useForm<tAccountForm>();
 
   // 직분 선택시 리더선택 하는 selectform disable 여부
   const isDisableLeaderSelect = watch("duty") === "cordi";
@@ -34,12 +49,11 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
   }, []);
 
   return (
-    <GRModal
+    <GRFormModal
       open={open}
       onCancel={onClick}
-      onOk={handleSubmit(onClickModalOk)}
+      onSubmit={handleSubmit(onClickModalOk)}
       title={"계정 생성"}
-      modalOkButtonType={"submit"}
       width={"60%"}
       okButtonText={"등록"}
     >
@@ -152,7 +166,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
           />
         </GRFlexView>
       </GRView>
-    </GRModal>
+    </GRFormModal>
   );
 };
 
