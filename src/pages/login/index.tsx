@@ -14,14 +14,15 @@ import GRStylesConfig from "styles/GRStylesConfig";
 const Login = () => {
   const router = useRouter();
   const [userId, setUserId] = useState<string>();
+  const [userPW, setUserPW] = useState<string>();
 
   const onClickLogin = useCallback(() => {
-    if (userId) {
+    if (userId === "admin" && userPW === "0000") {
       router.replace("/department/management/account");
     } else {
       confirm("아이디 입력해주세요.");
     }
-  }, [router, userId]);
+  }, [router, userId, userPW]);
 
   // const onClickChangePassword = useCallback(() => {
   //   router.push("/login/ChangePassword");
@@ -58,8 +59,10 @@ const Login = () => {
               비밀번호
             </GRText>
             <GRTextInput
+              value={userPW}
               placeholder={"비밀번호를 입력해 주세요"}
               type={"password"}
+              onChange={e => setUserPW(e.target.value)}
             />
           </GRView>
         </GRFlexView>
