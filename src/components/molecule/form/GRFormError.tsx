@@ -1,5 +1,5 @@
 import GRText from "@component/atom/text/GRText";
-import { FC, useMemo } from "react";
+import { FC, useCallback } from "react";
 import { FieldValues, UseFormStateReturn } from "react-hook-form";
 import { Color } from "styles/colors";
 
@@ -10,9 +10,9 @@ type tGRFormError = {
 const DEFAULT_ERROR_MESSAGE = "필수 정보입니다" as string;
 
 const GRFormError: FC<tGRFormError> = ({ fieldName, formState }) => {
-  const renderErrorText = useMemo(() => {
+  const renderErrorText = useCallback(() => {
     if (formState.errors[fieldName]?.type === "required") {
-      return formState?.errors[fieldName]?.message !== ""
+      return !!formState?.errors[fieldName]?.message
         ? formState?.errors[fieldName]?.message
         : DEFAULT_ERROR_MESSAGE;
     }
@@ -21,7 +21,7 @@ const GRFormError: FC<tGRFormError> = ({ fieldName, formState }) => {
 
   return (
     <GRText fontSize={"b10"} color={Color.red100}>
-      <>{renderErrorText}</>
+      <>{renderErrorText()}</>
     </GRText>
   );
 };
