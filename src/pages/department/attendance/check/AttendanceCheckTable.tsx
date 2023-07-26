@@ -169,7 +169,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
 
   return (
     <>
-      <GRTable data={DUMP_DATA} columns={columns} />
+      <GRTable rowKey={"name"} data={DUMP_DATA} columns={columns} />
       <GRFlexView
         flexDirection={"row"}
         justifyContent={"flex-end"}

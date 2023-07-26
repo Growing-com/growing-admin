@@ -151,6 +151,7 @@ const AttendanceStatistics = () => {
       <GRContainerView>
         <StatisticsCompareCards />
         <GRTable
+          rowKey={"name"}
           marginbottom={2}
           headerComponent={
             <GRText weight={"bold"} fontSize={"b4"}>
@@ -161,6 +162,7 @@ const AttendanceStatistics = () => {
           data={DATA}
         />
         <GRTable
+          rowKey={"name"}
           headerComponent={
             <GRText weight={"bold"} fontSize={"b4"}>
               🌱 새가족 인원

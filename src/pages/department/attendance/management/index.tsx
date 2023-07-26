@@ -146,6 +146,7 @@ const AttendanceManagementPage: NextPage = () => {
       />
       <GRContainerView>
         <GRTable
+          rowKey={"name"}
           columns={columns}
           data={DATA}
           isHoverTable={false}
