@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import type { SelectProps } from "antd";
 import { Select } from "antd";
-import { CSSProperties, FC } from "react";
+import { CSSProperties, ForwardedRef, forwardRef } from "react";
 import { Color } from "styles/colors";
 import { AreaType } from "styles/css";
 import getMargin from "styles/css/getMargin";
@@ -17,13 +17,10 @@ export type tGRSelect = {
 
 const { Option } = Select;
 
-const GRSelect: FC<tGRSelect> = ({
-  options,
-  mode,
-  height,
-  width,
-  ...props
-}) => {
+const GRSelect = (
+  { options, mode, height, width, ...props }: tGRSelect,
+  _ref: ForwardedRef<HTMLDivElement>
+) => {
   // loading 페이지 개발 후 적용 필요
   if (!options?.length) {
     return <></>;
@@ -49,4 +46,4 @@ const GRSelect: FC<tGRSelect> = ({
   );
 };
 
-export default GRSelect;
+export default forwardRef(GRSelect);

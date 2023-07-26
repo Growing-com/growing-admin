@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Input } from "antd";
 import { InputProps, TextAreaProps } from "antd/es/input";
-import { ChangeEvent, FC, useMemo } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, useMemo } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import { REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN } from "utils/regexp";
 
@@ -15,13 +15,10 @@ export type tGRTextInput = {
   tGetMargin;
 
 const PHONE_NUM_LEN = 13;
-const GRTextInput: FC<tGRTextInput> = ({
-  placeholder,
-  type = "input",
-  onChange,
-  value,
-  ...props
-}) => {
+const GRTextInput = (
+  { placeholder, type = "input", onChange, value, ...props }: tGRTextInput,
+  _ref: ForwardedRef<HTMLDivElement>
+) => {
   const _margin = getMargin(props);
   const _maxLen = useMemo(
     () => (type === "phonenumber" ? PHONE_NUM_LEN : props.maxLength),
@@ -94,4 +91,4 @@ const GRTextInput: FC<tGRTextInput> = ({
   );
 };
 
-export default GRTextInput;
+export default forwardRef(GRTextInput);

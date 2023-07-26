@@ -57,6 +57,7 @@ const GRTable = <GRTableType extends object>({
           ${_margin};
           ${_tableStyles}
         `}
+        {...props}
       />
       {paginationProps && (
         <GRFlexView alignItems={"center"} margintop={1}>

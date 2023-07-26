@@ -1,5 +1,5 @@
 import { Switch, type SwitchProps } from "antd";
-import { FC } from "react";
+import { ForwardedRef, forwardRef } from "react";
 import GRText from "../text/GRText";
 
 export type tGRSwitch = {
@@ -7,13 +7,16 @@ export type tGRSwitch = {
   unCheckedText?: string;
 } & SwitchProps;
 
-const GRSwitch: FC<tGRSwitch> = ({
-  checked,
-  disabled,
-  checkedText = "",
-  unCheckedText = "",
-  ...props
-}) => {
+const GRSwitch = (
+  {
+    checked,
+    disabled,
+    checkedText = "",
+    unCheckedText = "",
+    ...props
+  }: tGRSwitch,
+  _ref: ForwardedRef<HTMLDivElement>
+) => {
   return (
     <Switch
       checkedChildren={<GRText>{checkedText}</GRText>}
@@ -25,4 +28,4 @@ const GRSwitch: FC<tGRSwitch> = ({
   );
 };
 
-export default GRSwitch;
+export default forwardRef(GRSwitch);

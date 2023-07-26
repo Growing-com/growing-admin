@@ -9,12 +9,12 @@ export type tGRModal = {
   okButtonText?: string;
   cancelButtonText?: string;
   showFooter?: boolean;
-  onCancel: (
+  onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
-  onOk: (
+  onOk?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -65,7 +65,7 @@ const GRModal: FC<tGRModal> = ({
   );
 
   const _renderFooter = useMemo(() => {
-    if (footerComponent || !showFooter) return [];
+    if (!!footerComponent || !showFooter) return [];
     return [
       <GRButtonText
         key={"cancel-button"}
@@ -77,7 +77,7 @@ const GRModal: FC<tGRModal> = ({
       <GRButtonText
         key={"ok-button"}
         onClick={onOkClickButton}
-        htmlType={_htmlType}
+        htmlType={"submit"}
       >
         {okButtonText ?? "확인"}
       </GRButtonText>
@@ -88,14 +88,13 @@ const GRModal: FC<tGRModal> = ({
     onCancelClickButton,
     cancelButtonText,
     onOkClickButton,
-    _htmlType,
     okButtonText
   ]);
 
   const renderModalHeader = useCallback(() => {
     if (title) {
       return (
-        <GRView borderBottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
+        <GRView borderbottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
           {title}
         </GRView>
       );
@@ -112,8 +111,8 @@ const GRModal: FC<tGRModal> = ({
       bodyStyle={{
         padding: "1rem"
       }}
-      {...props}
       title={renderModalHeader()}
+      {...props}
     >
       {children}
     </Modal>

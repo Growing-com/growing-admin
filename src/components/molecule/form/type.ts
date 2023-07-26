@@ -18,11 +18,12 @@ export type tFormItemType =
   | "view";
 
 export type tGRFormItem = {
-  control: Control<FieldValues, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: Control<any, unknown>;
   /**@description FieldPath을 작성 예: user.age 해당 값을 submit에서 보내준다. */
   fieldName: string;
   title?: string;
-  type?: tFormItemType;
+  type: tFormItemType;
   options?: tOptions;
   customComponent?: ReactNode;
   /** @description register options */

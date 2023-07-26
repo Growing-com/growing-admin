@@ -1,7 +1,14 @@
 import { css } from "@emotion/react";
 import { DatePicker, type DatePickerProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import { CSSProperties, useCallback, useMemo, useState, type FC } from "react";
+import {
+  CSSProperties,
+  ForwardedRef,
+  forwardRef,
+  useCallback,
+  useMemo,
+  useState
+} from "react";
 
 const DEFAULT_FOMAT = "YYYY-MM-DD";
 
@@ -11,14 +18,10 @@ type tGRDatePicker = {
   onChange?: (date: Dayjs | null) => void;
 } & Omit<DatePickerProps, "onChange">;
 
-const GRDatePicker: FC<tGRDatePicker> = ({
-  height,
-  width,
-  format,
-  onChange,
-  picker,
-  ...props
-}) => {
+const GRDatePicker = (
+  { height, width, format, onChange, picker, ...props }: tGRDatePicker,
+  _ref: ForwardedRef<HTMLDivElement>
+) => {
   const [date, setDate] = useState<Dayjs | null>();
 
   const _format = useMemo(() => {
@@ -58,4 +61,4 @@ const GRDatePicker: FC<tGRDatePicker> = ({
   );
 };
 
-export default GRDatePicker;
+export default forwardRef(GRDatePicker);
