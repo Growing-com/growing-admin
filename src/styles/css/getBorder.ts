@@ -4,21 +4,21 @@ import { Color } from "styles/colors";
 
 export type tGetBorder = {
   borderColor?: CSSProperties["color"];
-  borderTop?: CSSProperties["borderTop"];
-  borderLeft?: CSSProperties["borderLeft"];
-  borderRight?: CSSProperties["borderRight"];
-  borderBottom?: CSSProperties["borderBottom"];
-  marginHorizontal?: CSSProperties["borderLeft"];
-  marginVertical?: CSSProperties["borderRight"];
+  bordertop?: CSSProperties["bordertop"];
+  borderleft?: CSSProperties["borderleft"];
+  borderright?: CSSProperties["borderright"];
+  borderbottom?: CSSProperties["borderbottom"];
+  marginhorizontal?: CSSProperties["borderleft"];
+  marginvertical?: CSSProperties["borderright"];
   borderWidth?: CSSProperties["width"];
 };
 
 const getBorder = ({
   borderColor,
-  borderTop,
-  borderLeft,
-  borderRight,
-  borderBottom,
+  bordertop,
+  borderleft,
+  borderright,
+  borderbottom,
   borderWidth
 }: tGetBorder) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,10 +37,10 @@ const getBorder = ({
     border-color: ${_borderColor};
     border-style: solid;
 
-    border-top: ${_borderWidth(borderTop)};
-    border-right: ${_borderWidth(borderRight)};
-    border-bottom: ${_borderWidth(borderBottom)};
-    border-left: ${_borderWidth(borderLeft)};
+    border-top: ${_borderWidth(bordertop)};
+    border-right: ${_borderWidth(borderright)};
+    border-bottom: ${_borderWidth(borderbottom)};
+    border-left: ${_borderWidth(borderleft)};
   `;
 };
 
