@@ -4,12 +4,12 @@ import { Color } from "styles/colors";
 
 export type tGetBorder = {
   borderColor?: CSSProperties["color"];
-  bordertop?: CSSProperties["bordertop"];
-  borderleft?: CSSProperties["borderleft"];
-  borderright?: CSSProperties["borderright"];
-  borderbottom?: CSSProperties["borderbottom"];
-  marginhorizontal?: CSSProperties["borderleft"];
-  marginvertical?: CSSProperties["borderright"];
+  bordertop?: CSSProperties["borderTop"];
+  borderleft?: CSSProperties["borderLeft"];
+  borderright?: CSSProperties["borderRight"];
+  borderbottom?: CSSProperties["borderBottom"];
+  marginhorizontal?: CSSProperties["borderLeft"];
+  marginvertical?: CSSProperties["borderRight"];
   borderWidth?: CSSProperties["width"];
 };
 

@@ -1,21 +1,27 @@
 import dayjs from "dayjs";
 import * as xlsx from "xlsx";
 
-const EXCEL_HEADER = ["코디", "순장", "이름", "학년", "성별"];
+type tExportExcelOfJson<ExcelDataType> = {
+  data: ExcelDataType[];
+  headerTitle?: string[];
+};
 
-export const ExportExcelOfJson = async <ExcelDataType>(
-  data: ExcelDataType[]
-) => {
+const ExportExcelOfJson = async <ExcelDataType>({
+  data,
+  headerTitle
+}: tExportExcelOfJson<ExcelDataType>) => {
   return await new Promise((resolve, reject) => {
     try {
       if (!data.length) reject(new Error("Data Empty"));
 
       const worksheet = xlsx.utils.json_to_sheet<ExcelDataType>(data);
       // excel 헤더 값 변경
-      EXCEL_HEADER.forEach((x, idx) => {
-        const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
-        worksheet[cellAdd].v = x;
-      });
+      if (headerTitle?.length) {
+        headerTitle?.forEach((x, idx) => {
+          const cellAdd = xlsx.utils.encode_cell({ c: idx, r: 0 });
+          worksheet[cellAdd].v = x;
+        });
+      }
 
       // url 위치 찾아서 hyperlink 로 변경해 주기
       // const urlIndex = EXCEL_HEADER.findIndex(
@@ -38,3 +44,5 @@ export const ExportExcelOfJson = async <ExcelDataType>(
     }
   });
 };
+
+export default ExportExcelOfJson;

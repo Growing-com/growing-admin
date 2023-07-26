@@ -8,7 +8,7 @@ import HeaderView from "@component/molecule/view/HeaderView";
 import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
 import dayjs from "dayjs";
-import { ExportExcelOfJson } from "modules/excel/ExportExcelOfJson";
+import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { NextPage } from "next";
 import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -131,7 +131,7 @@ const AttendanceManagementPage: NextPage = () => {
 
   const onClickExcel = useCallback(async () => {
     try {
-      await ExportExcelOfJson(DATA);
+      await ExportExcelOfJson({ data: DATA });
     } catch (e) {
       console.error("Error", e);
     }
