@@ -32,7 +32,11 @@ type tAccountForm = {
 };
 
 const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
-  const { control, watch, handleSubmit } = useForm<tAccountForm>();
+  const { control, watch, handleSubmit } = useForm<tAccountForm>({
+    defaultValues: {
+      isActive: true
+    }
+  });
 
   // 직분 선택시 리더선택 하는 selectform disable 여부
   const isDisableLeaderSelect = watch("duty") === "cordi";
@@ -75,14 +79,12 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
           <GRFormInputText
-            key={`form-name`}
             title={"이름"}
             fieldName={"name"}
             control={control}
             placeholder={"이름을 작성해 주세요"}
           />
           <GRFormInputText
-            key={`form-pasword`}
             title={"비밀번호"}
             fieldName={"pasword"}
             control={control}
@@ -92,7 +94,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
           <GRFormInputText
-            key={`form-phoneNumber`}
             title={"전화번호"}
             fieldName={"phoneNumber"}
             control={control}
@@ -101,7 +102,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
           />
           <GRFormItem
             type={"radio"}
-            key={`form-gender`}
             title={"성별"}
             fieldName={"gender"}
             control={control}
@@ -111,14 +111,12 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"date"}
-            key={`form-birthday`}
             title={"생년월일"}
             fieldName={"birthday"}
             control={control}
             placeholder={"생년월일을 선택해 주세요"}
           />
           <GRFormInputText
-            key={`form-grade`}
             title={"학년"}
             fieldName={"grade"}
             control={control}
@@ -129,7 +127,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"select"}
-            key={`form-duty`}
             title={"직분"}
             fieldName={"duty"}
             control={control}
@@ -138,7 +135,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
           />
           <GRFormItem
             type={"select"}
-            key={`form-leader`}
             title={"리더"}
             fieldName={"leader"}
             control={control}
@@ -150,7 +146,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"select"}
-            key={`form-role`}
             title={"역할"}
             fieldName={"role"}
             control={control}
@@ -159,7 +154,6 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
           />
           <GRFormItem
             type={"switch"}
-            key={`form-isActive`}
             title={"활성화"}
             fieldName={"isActive"}
             control={control}
