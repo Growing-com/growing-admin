@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAccount, tRole } from "./types";
+import { tAccount, tLoginParam, tRole } from "./types";
 
 export const getAccountList = () => {
   return request<tAccount[]>({
@@ -19,5 +19,13 @@ export const getRoles = () => {
   return request<tRole[]>({
     method: REQUEST_METHOD.GET,
     url: "/roles"
+  });
+};
+
+export const postAccountLogin = (loginData: tLoginParam) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: "api/auth/login",
+    data: loginData
   });
 };
