@@ -24,7 +24,9 @@ axiosInstance.interceptors.request.use(config => {
 });
 
 // 에러 response Type?
-const request = async <ResponseType>(options: AxiosRequestConfig) => {
+const request = async <ResponseType, RequestType = unknown>(
+  options: AxiosRequestConfig<RequestType>
+) => {
   try {
     const { data } = await axiosInstance.request<ResponseType>(options);
     return data;
