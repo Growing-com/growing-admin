@@ -13,3 +13,8 @@ export type tRole = {
   name: string;
   value: string;
 };
+
+export type tLoginParam = {
+  username: string;
+  password: string;
+};
