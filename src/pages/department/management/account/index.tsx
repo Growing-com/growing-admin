@@ -1,22 +1,23 @@
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useAccountsQuery } from "api/account/queries/useAccountsQuery";
-import { tAccount } from "api/account/types";
-import { ROLE_NAME, STATUS_NAME } from "config/const";
+import { useUserListQuery } from "api/user/queries/useUserListQuery";
+import { tAccount } from "api/user/types";
+import { DUTY_NAME, ROLE_NAME, SEX_NAME } from "config/const";
 import { NextPage } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AccountModal from "./AccountModal";
 import ManagementSearch from "./ManagementSearch";
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
 
-  const { data: accountlist } = useAccountsQuery();
-
+  const { data: accountlist } = useUserListQuery();
+  const [searchData, setSearchData] = useState([]);
   const columns: ColumnType<tAccount>[] = [
     {
       title: "이름",
@@ -27,26 +28,31 @@ const ManagementAccountPage: NextPage = () => {
     },
     {
       title: "학년",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "grade",
+      key: "grade",
       align: "center"
     },
     {
       title: "성별",
-      dataIndex: "gender",
-      key: "gender",
-      align: "center"
+      dataIndex: "sex",
+      key: "sex",
+      align: "center",
+      render: (_, item) => {
+        if (!item?.sex) return;
+        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
+      }
     },
     {
       title: "직분",
-      key: "status",
+      key: "duty",
       dataIndex: "tags",
       align: "center",
       render: (_, item) => {
-        if (!item?.status) return;
+        if (!item?.duty) return;
+        const _duty = DUTY_NAME.find(duty => duty.value === item.duty);
         return (
-          <Tag color={STATUS_NAME[item?.status].color} key={item?.status}>
-            {STATUS_NAME[item?.status].name}
+          <Tag color={_duty?.color} key={`duty_key_${_duty?.value}`}>
+            {_duty?.name ?? ""}
           </Tag>
         );
       }
@@ -64,9 +70,10 @@ const ManagementAccountPage: NextPage = () => {
       key: "role",
       align: "center",
       render: (_, item) => {
+        const _role = ROLE_NAME.find(role => role.value === item.role);
         return (
-          <Tag color={"default"} key={item?.role}>
-            {ROLE_NAME[item?.role] ?? ""}
+          <Tag color={"default"} key={_role?.value}>
+            {_role?.label ?? ""}
           </Tag>
         );
       }
@@ -77,9 +84,27 @@ const ManagementAccountPage: NextPage = () => {
     setOpenAccountModal(!openAccountModal);
   }, [openAccountModal]);
 
-  const onClickSearch = useCallback((_searchText: string) => {
-    console.log("text", _searchText);
-  }, []);
+  const onClickSearch = useCallback(
+    (_searchText: string) => {
+      if (accountlist?.length) {
+        const _filterAccount = accountlist.filter(account => {
+          if (
+            account.name.indexOf(_searchText) !== -1 ||
+            account.phoneNumber.indexOf(_searchText) !== -1
+          )
+            return account;
+        });
+        setSearchData(_filterAccount);
+      }
+    },
+    [accountlist]
+  );
+
+  useEffect(() => {
+    if (accountlist) {
+      setSearchData(accountlist);
+    }
+  }, [accountlist]);
 
   return (
     <div>
@@ -100,10 +125,11 @@ const ManagementAccountPage: NextPage = () => {
         <GRTable
           rowKey={"id"}
           columns={columns}
-          data={accountlist}
-          paginationProps={{
-            total: accountlist?.length,
-            pageSize: 3
+          data={searchData}
+          pagination={{
+            total: searchData?.length,
+            pageSize: 5,
+            position: ["bottomCenter"]
           }}
         />
       </GRContainerView>
