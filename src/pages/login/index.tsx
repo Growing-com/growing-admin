@@ -4,7 +4,7 @@ import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
-import { useLoginMutate } from "api/account/mutate/useLoginMutate";
+import { useLoginMutate } from "api/user/mutate/useLoginMutate";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,19 +17,17 @@ const Login = () => {
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
   const { mutateAsync } = useLoginMutate();
-
   const onClickLogin = useCallback(async () => {
-    const result = await mutateAsync({
-      username: userId,
-      password: userPW
-    });
-    console.log("result", result);
-    // if (userId === "admin" && userPW === "0000") {
-    //   router.replace("/department/management/account");
-    // } else {
-    //   confirm("아이디 입력해주세요.");
-    // }
-  }, [mutateAsync, userId, userPW]);
+    if (userId && userPW) {
+      await mutateAsync({
+        username: userId,
+        password: userPW
+      });
+      router.replace("/department/management/account");
+    } else {
+      confirm("아이디 입력해주세요.");
+    }
+  }, [mutateAsync, router, userId, userPW]);
 
   // const onClickChangePassword = useCallback(() => {
   //   router.push("/login/ChangePassword");
