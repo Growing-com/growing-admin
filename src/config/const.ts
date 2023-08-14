@@ -4,37 +4,58 @@ type tStatusName = {
     color: string;
   };
 };
-export const STATUS_NAME: tStatusName = {
-  gansa: {
+
+export type tSex = "MALE" | "FEMALE";
+
+export const SEX_NAME: { [key: string]: string } = {
+  MALE: "남",
+  FEMALE: "여"
+};
+
+export const ATTENDANCE_STATUS = [
+  { label: "출석", value: "ATTEND" },
+  { label: "결석", value: "ABSENT" },
+  { label: "온라인", value: "ONLINE" }
+];
+
+export const DUTY_NAME = [
+  {
+    value: "PASTOR",
+    name: "교역자",
+    color: "purple"
+  },
+  {
+    value: "GANSA",
     name: "간사",
     color: "purple"
   },
-  codi: {
+  {
+    value: "CODY",
     name: "코디",
     color: "red"
   },
-  leader: {
+  {
+    value: "LEADER",
     name: "리더",
     color: "blue"
   },
-  member: {
+  {
+    value: "MEMBER",
     name: "조원",
     color: "green"
   },
-  new_com: {
+  {
+    value: "NEW_COMER",
     name: "새가족",
     color: "gold"
   }
-};
-type tRoleName = {
-  [key: string]: string;
-  codi: string;
-  manager: string;
-};
-export const ROLE_NAME: tRoleName = {
-  codi: "코디",
-  manager: "관리자"
-};
+];
+
+export const ROLE_NAME = [
+  { label: "관리자", value: "ADMIN" },
+  { label: "매니저", value: "MANAGER" },
+  { label: "조원", value: "NORMAL" }
+];
 
 export const STATUS_OPTIONS = [
   { label: "리더", value: "leader" },
@@ -44,6 +65,6 @@ export const STATUS_OPTIONS = [
 ];
 
 export const GENDER_OPTIONS = [
-  { label: "남", value: "M" },
-  { label: "여", value: "W" }
+  { label: "남", value: "MALE" },
+  { label: "여", value: "FEMALE" }
 ];
