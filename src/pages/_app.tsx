@@ -2,7 +2,6 @@ import AuthProvider from "@component/templates/AuthProvider";
 import BaseLayout from "@component/templates/layout/BaseLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProvider } from "antd";
-import initMocks from "mocks";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
@@ -18,7 +17,6 @@ type tMyApp = {
   Component: NextPageWithLayout;
 } & AppProps;
 
-initMocks();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -55,9 +53,3 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
 };
 
 export default MyApp;
-
-export async function getServerSideProps() {
-  return {
-    props: {}
-  };
-}
