@@ -16,7 +16,7 @@ const GRFormError: FC<tGRFormError> = ({ fieldName, formState }) => {
         ? formState?.errors[fieldName]?.message
         : DEFAULT_ERROR_MESSAGE;
     }
-    return "";
+    return <br />;
   }, [fieldName, formState.errors]);
 
   return (
