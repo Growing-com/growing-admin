@@ -7,6 +7,8 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { useCallback } from "react";
 import { Controller } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
+import GRFormError from "./GRFormError";
 import GRFormTitle from "./GRFormTitle";
 import { tGRFormItem, tRenderProps } from "./type";
 
@@ -23,7 +25,7 @@ const GRFormItem = ({
   ...props
 }: tGRFormItem) => {
   const renderFormItems = useCallback(
-    ({ field }: tRenderProps) => {
+    ({ field, formState }: tRenderProps) => {
       let formItemComponent;
 
       if (type === "radio") {
@@ -76,7 +78,7 @@ const GRFormItem = ({
       return (
         <GRFlexView>
           {formItemComponent}
-          {/* <GRFormError fieldName={field.name} formState={formState} /> */}
+          <GRFormError fieldName={field.name} formState={formState} />
         </GRFlexView>
       );
     },
@@ -84,8 +86,13 @@ const GRFormItem = ({
   );
 
   return (
-    <GRFlexView flexDirection={"row"} alignItems={"center"} style={style}>
-      <GRFormTitle title={title} />
+    <GRFlexView
+      flexDirection={"row"}
+      alignItems={"center"}
+      style={style}
+      marginvertical={GRStylesConfig.BASE_MARGIN}
+    >
+      <GRFormTitle title={title} required={required} />
       <Controller
         control={control}
         name={fieldName}

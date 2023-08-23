@@ -2,6 +2,7 @@ import GRTextInput, { tGRTextInput } from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { CSSProperties, useCallback } from "react";
 import { Control, Controller } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
 import GRFormError from "./GRFormError";
 import GRFormTitle from "./GRFormTitle";
 import type { tRenderProps } from "./type";
@@ -39,8 +40,13 @@ const GRFormInputText = ({
   );
 
   return (
-    <GRFlexView flexDirection={"row"} alignItems={"center"} style={style}>
-      <GRFormTitle title={title} />
+    <GRFlexView
+      flexDirection={"row"}
+      alignItems={"center"}
+      style={style}
+      marginvertical={GRStylesConfig.BASE_MARGIN}
+    >
+      <GRFormTitle title={title} required={required} />
       <Controller
         control={control}
         name={fieldName}
