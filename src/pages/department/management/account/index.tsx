@@ -16,7 +16,7 @@ import ManagementSearch from "./ManagementSearch";
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
 
-  const { data: accountlist } = useUserListQuery();
+  const { data: accountlist, refetch } = useUserListQuery();
   const [searchData, setSearchData] = useState([]);
   const columns: ColumnType<tAccount>[] = [
     {
@@ -81,8 +81,9 @@ const ManagementAccountPage: NextPage = () => {
   ];
 
   const onAccountModal = useCallback(() => {
+    refetch();
     setOpenAccountModal(!openAccountModal);
-  }, [openAccountModal]);
+  }, [openAccountModal, refetch]);
 
   const onClickSearch = useCallback(
     (_searchText: string) => {

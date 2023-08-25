@@ -4,11 +4,11 @@ import GRView from "@component/atom/view/GRView";
 import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
-import { useLeadersQuery } from "api/account/queries/useLeadersQuery";
-import { useRolesQuery } from "api/account/queries/useRolesQuery";
-import { GENDER_OPTIONS, STATUS_OPTIONS } from "config/const";
-import { Dayjs } from "dayjs";
-import { FC, useCallback } from "react";
+import { useCreateUserMutate } from "api/user/mutate/useCreateUserMutate";
+import { DUTY_NAME, GENDER_OPTIONS, ROLE_NAME } from "config/const";
+import dayjs, { Dayjs } from "dayjs";
+import Inko from "inko";
+import { FC, useCallback, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Color } from "styles/colors";
 
@@ -23,34 +23,47 @@ type tAccountForm = {
   pasword?: string;
   phoneNumber?: string;
   gender?: string;
-  birthday?: Dayjs;
+  birth?: Dayjs;
   grade?: string;
   duty?: string;
-  leader?: string;
+  teamId?: number;
   role?: string;
   isActive: boolean;
 };
-
+const inko = new Inko();
 const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
+  const { createUserMutate } = useCreateUserMutate();
   const { control, watch, handleSubmit } = useForm<tAccountForm>({
     defaultValues: {
-      isActive: true
+      isActive: true,
+      teamId: 2,
+      birth: dayjs("2000-01-01")
     }
   });
 
+  const DUTY_OPTIONS = useMemo(
+    () => DUTY_NAME.map(duty => ({ label: duty.name, value: duty.value })),
+    []
+  );
   // 직분 선택시 리더선택 하는 selectform disable 여부
   const isDisableLeaderSelect = watch("duty") === "cordi";
-
-  const { data: leaderSelectOptions } = useLeadersQuery();
-  const { data: roleSelectOptions } = useRolesQuery();
 
   const onOkClick = useCallback(() => {
     // onAccountModal?.()
   }, []);
 
-  const onClickModalOk: SubmitHandler<FieldValues> = useCallback(_item => {
-    console.log("_item", _item);
-  }, []);
+  const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
+    _item => {
+      console.log("_item", _item);
+      const _format = {
+        ..._item,
+        username: inko.ko2en(_item.name),
+        birth: dayjs(_item.birth).format("YYYY-MM-DD")
+      };
+      createUserMutate(_format);
+    },
+    [createUserMutate]
+  );
 
   return (
     <GRFormModal
@@ -65,11 +78,12 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
         <GRFlexView flexDirection={"row"}>
           <GRFormInputText
             title={"아이디"}
-            fieldName={"id"}
+            fieldName={"username"}
             control={control}
             type={"input"}
             disabled={true}
             placeholder={"이름을 작성하면 아이디가 작성됩니다"}
+            value={inko.ko2en(watch("name"))}
           />
           <GRFlexView justifyContent={"center"}>
             <GRText color={Color.grey80} marginleft={1} fontSize={"b7"}>
@@ -83,13 +97,15 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             fieldName={"name"}
             control={control}
             placeholder={"이름을 작성해 주세요"}
+            required={true}
           />
           <GRFormInputText
             title={"비밀번호"}
-            fieldName={"pasword"}
+            fieldName={"password"}
             control={control}
             placeholder={"비밀번호를 작성해 주세요"}
             type={"password"}
+            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -98,23 +114,25 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             fieldName={"phoneNumber"}
             control={control}
             placeholder={"- 없이 작성해 주세요"}
-            type={"phonenumber"}
+            required={true}
           />
           <GRFormItem
             type={"radio"}
             title={"성별"}
-            fieldName={"gender"}
+            fieldName={"sex"}
             control={control}
             options={GENDER_OPTIONS}
+            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"date"}
             title={"생년월일"}
-            fieldName={"birthday"}
+            fieldName={"birth"}
             control={control}
             placeholder={"생년월일을 선택해 주세요"}
+            required={true}
           />
           <GRFormInputText
             title={"학년"}
@@ -122,6 +140,7 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
             type={"number"}
+            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -130,17 +149,19 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             title={"직분"}
             fieldName={"duty"}
             control={control}
-            options={STATUS_OPTIONS}
+            options={DUTY_OPTIONS}
             placeholder={"부서에서의 직분을 선택해주세요"}
+            required={true}
           />
           <GRFormItem
             type={"select"}
             title={"리더"}
-            fieldName={"leader"}
+            fieldName={"teamId"}
             control={control}
-            options={leaderSelectOptions}
+            // options={leaderSelectOptions}
             placeholder={"리더를 선택해주세요"}
             disabled={isDisableLeaderSelect}
+            // required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -149,8 +170,9 @@ const AccountModal: FC<tAccountModal> = ({ open, onClick }) => {
             title={"역할"}
             fieldName={"role"}
             control={control}
-            options={roleSelectOptions}
+            options={ROLE_NAME}
             placeholder={"웹에서의 역할을 선택해 주세요"}
+            required={true}
           />
           <GRFormItem
             type={"switch"}
