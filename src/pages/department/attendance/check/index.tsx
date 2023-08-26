@@ -3,6 +3,7 @@ import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import { useGetTermCodyQuery } from "api/term/queries/useGetTermCodyQuery";
 import dayjs, { Dayjs } from "dayjs";
 import { useCallback, useState } from "react";
 import AttendanceCheckTable from "./AttendanceCheckTable";
@@ -11,54 +12,12 @@ const INIT_TAB = "0";
 const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState(INIT_TAB);
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
+  const [selectTeam, setSelectTeam] = useState();
 
-  const DUMP_DATA = [
-    {
-      id: "22",
-      leader: "우상욱",
-      name: "이종민",
-      grade: "18",
-      gender: "M",
-      attendance: [
-        {
-          date: "2023-05-23",
-          attendStatus: "100",
-          infor: "몸이 안좋아서 어제 빠르게 퇴근 했습니다."
-        }
-      ]
-    },
-    {
-      id: "33",
-      leader: "우상욱",
-      name: "아이유",
-      grade: "10",
-      gender: "W",
-      attendance: [
-        {
-          date: "2023-05-23",
-          attendStatus: "100",
-          infor: "몸이 안좋아서 어제 빠르게 퇴근 했습니다."
-        }
-      ]
-    }
-  ];
-
-  const items = [
-    {
-      key: "0",
-      label: "이종민"
-    },
-    {
-      key: "1",
-      label: "조예인"
-    },
-    {
-      key: "2",
-      label: "우상욱"
-    }
-  ];
+  const { data: cordiList } = useGetTermCodyQuery(1);
 
   const onChangeTab = useCallback((_tabIndx: string) => {
+    console.log("_tabIndex", _tabIndx);
     setCurrentTab(_tabIndx);
   }, []);
 
@@ -74,7 +33,7 @@ const AttendanceCheck = () => {
       />
       <GRContainerView>
         <GRTab
-          items={items}
+          items={cordiList}
           defaultActiveKey={currentTab}
           onChange={onChangeTab}
           tabBarExtraContent={
@@ -83,7 +42,7 @@ const AttendanceCheck = () => {
             </GRFlexView>
           }
         />
-        <AttendanceCheckTable />
+        <AttendanceCheckTable currentTab={currentTab} />
       </GRContainerView>
     </>
   );
