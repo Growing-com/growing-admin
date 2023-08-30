@@ -9,7 +9,7 @@ export type tGRTextInput = {
   onChange?: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  type?: "input" | "password" | "textarea" | "number" | "phonenumber";
+  type?: "input" | "password" | "textarea" | "number" | "phoneNumber";
 } & Omit<InputProps, "type"> &
   Omit<TextAreaProps, "onChange"> &
   tGetMargin;
@@ -21,7 +21,7 @@ const GRTextInput = (
 ) => {
   const _margin = getMargin(props);
   const _maxLen = useMemo(
-    () => (type === "phonenumber" ? PHONE_NUM_LEN : props.maxLength),
+    () => (type === "phoneNumber" ? PHONE_NUM_LEN : props.maxLength),
     [props.maxLength, type]
   );
 
@@ -40,7 +40,7 @@ const GRTextInput = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => {
     if (
-      (type === "phonenumber" || type === "number") &&
+      (type === "phoneNumber" || type === "number") &&
       e.target.value &&
       !REGEXP_PHONE_NUM.test(e.target.value)
     ) {
@@ -56,13 +56,13 @@ const GRTextInput = (
   ) => {
     if (
       typeof _value === "string" &&
-      type === "phonenumber" &&
+      type === "phoneNumber" &&
       _value?.length === 11
     ) {
       return _value.replace(REGEXP_PHONE_PATTERN, "$1-$2-$3");
     } else if (
       typeof _value === "string" &&
-      type === "phonenumber" &&
+      type === "phoneNumber" &&
       _value?.length === 13
     ) {
       return (
