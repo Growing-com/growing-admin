@@ -1,18 +1,20 @@
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
+import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRFormInputText from "@component/molecule/form/GRFormInputText";
-import GRFormItem from "@component/molecule/form/GRFormItem";
 import AlertModal from "@component/molecule/modal/AlertModal";
 import { Alert, Tooltip } from "antd";
 import { ColumnType } from "antd/es/table";
+import { useGetTermMembersByCodyQuery } from "api/term/queries/useGetTermMembersByCodyQuery";
+import { SEX_NAME } from "config/const";
 import { FC, useCallback, useMemo, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 화살표: 선택 가능`;
 type tAttendanceCheckTable = {
-  colunms?: any[];
+  dataSource?: any[];
 };
 
 type tAttendanceColum = {
@@ -24,46 +26,20 @@ type tAttendanceColum = {
   extraInfo: string;
 };
 
-const DUMP_DATA = [
-  {
-    cordi: "조예인",
-    leader: "우상욱1",
-    name: "이종민1",
-    grade: "18",
-    gender: "남",
-    attends: "100",
-    extraInfo: "오늘 배가 아파서 참석했지만 도중에 집에 일찍 갔다."
-  },
-  {
-    cordi: "조예인",
-    leader: "우상욱2",
-    name: "이종민2",
-    grade: "18",
-    gender: "남",
-    attends: "100",
-    extraInfo: "오늘 배가 아파서 참석했지만 도중에 집에 일찍 갔다."
-  },
-  {
-    cordi: "조예인",
-    leader: "우상욱3",
-    name: "이종민3",
-    grade: "18",
-    gender: "남",
-    attends: "100",
-    extraInfo: "오늘 배가 아파서 참석했지만 도중에 집에 일찍 갔다."
-  }
-];
-
-const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
-  const { handleSubmit, control } = useForm();
+const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ dataSource }) => {
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState("출석을 등록하시겠습니까?");
+  const { data: cordiMember } = useGetTermMembersByCodyQuery({
+    termId: 1,
+    codyId: 2
+  });
+
   const columns: ColumnType<tAttendanceColum>[] = useMemo(
     () => [
       {
         title: "순장",
-        dataIndex: "cordi",
-        key: "cordi",
+        dataIndex: "leaderName",
+        key: "leaderName",
         align: "center",
         width: "5rem",
         fixed: "left",
@@ -71,8 +47,8 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
       },
       {
         title: "이름",
-        dataIndex: "name",
-        key: "name",
+        dataIndex: "memberName",
+        key: "memberName",
         align: "center",
         fixed: "left",
         width: "5rem"
@@ -87,11 +63,15 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
       },
       {
         title: "성별",
-        dataIndex: "gender",
-        key: "grade",
+        dataIndex: "sex",
+        key: "sex",
         align: "center",
         fixed: "left",
-        width: "5rem"
+        width: "5rem",
+        render: (_, item) => {
+          if (!item?.sex) return;
+          return <GRText>{SEX_NAME[item?.sex]}</GRText>;
+        }
       },
       {
         title: () => {
@@ -120,11 +100,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
         fixed: "left",
         render: (_, recode) => {
           return (
-            <GRFormItem
-              type={"radio"}
-              control={control}
-              fieldName={`attends-${recode.name}`}
-              required={true}
+            <GRRadio
               options={[
                 { label: "현장", value: "200" },
                 { label: "온라인", value: "300" },
@@ -141,18 +117,11 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
         align: "center",
         fixed: "left",
         render: (_, recode) => {
-          return (
-            <GRFormInputText
-              type={"textarea"}
-              control={control}
-              fieldName={`extraInfo-${recode.name}`}
-              required={true}
-            />
-          );
+          return <GRTextInput type={"textarea"} />;
         }
       }
     ],
-    [control]
+    []
   );
 
   const handleModal = () => {
@@ -169,7 +138,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = () => {
 
   return (
     <>
-      <GRTable rowKey={"name"} data={DUMP_DATA} columns={columns} />
+      <GRTable rowKey={"name"} data={cordiMember} columns={columns} />
       <GRFlexView
         flexDirection={"row"}
         justifyContent={"flex-end"}
