@@ -56,3 +56,5 @@ yarn dev
   - 에러 팝업창 만들기
   - api 에러 처리
   - react-query 공통화 작업
+  - sentry
+  - google analytics
