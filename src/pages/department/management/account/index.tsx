@@ -15,6 +15,7 @@ import ManagementSearch from "./ManagementSearch";
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<tAccount>();
 
   const { data: accountlist, refetch } = useUserListQuery();
   const [searchData, setSearchData] = useState([]);
@@ -80,26 +81,34 @@ const ManagementAccountPage: NextPage = () => {
     }
   ];
 
-  const onAccountModal = useCallback(() => {
-    refetch();
-    setOpenAccountModal(!openAccountModal);
-  }, [openAccountModal, refetch]);
-
   const onClickSearch = useCallback(
-    (_searchText: string) => {
-      if (accountlist?.length) {
-        const _filterAccount = accountlist.filter(account => {
+    (_searchText?: string) => {
+      let _filterAccount = accountlist;
+      if (accountlist?.length && _searchText) {
+        _filterAccount = accountlist.filter(account => {
           if (
             account.name.indexOf(_searchText) !== -1 ||
             account.phoneNumber.indexOf(_searchText) !== -1
-          )
+          ) {
             return account;
+          }
+          return null;
         });
-        setSearchData(_filterAccount);
       }
+      setSearchData(_filterAccount);
     },
     [accountlist]
   );
+
+  const onAccountModal = useCallback(() => {
+    setOpenAccountModal(!openAccountModal);
+    setSelectedUser(undefined);
+  }, [openAccountModal]);
+
+  const onClickRow = useCallback(_user => {
+    setSelectedUser(_user);
+    setOpenAccountModal(true);
+  }, []);
 
   useEffect(() => {
     if (accountlist) {
@@ -132,9 +141,16 @@ const ManagementAccountPage: NextPage = () => {
             pageSize: 5,
             position: ["bottomCenter"]
           }}
+          onRow={record => ({
+            onClick: () => onClickRow(record)
+          })}
         />
       </GRContainerView>
-      <AccountModal open={openAccountModal} onClick={onAccountModal} />
+      <AccountModal
+        open={openAccountModal}
+        onClose={onAccountModal}
+        user={selectedUser}
+      />
     </div>
   );
 };
