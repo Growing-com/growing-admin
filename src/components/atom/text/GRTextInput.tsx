@@ -44,7 +44,6 @@ const GRTextInput = (
       e.target.value &&
       !REGEXP_PHONE_NUM.test(e.target.value)
     ) {
-      confirm("숫자만 가능합니다.");
       return;
     }
 
