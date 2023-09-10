@@ -6,6 +6,8 @@ dayjs.extend(weekOfYear);
 dayjs.extend(duration);
 dayjs.extend(weekday);
 
+export const DEFAULT_FOMAT = "YYYY-MM-DD";
+
 const getTime = (date: dayjs.Dayjs | string) => {
   const mille = dayjs().diff(date);
   const D = Math.floor(mille / (1000 * 60 * 60 * 24));
@@ -57,4 +59,4 @@ const getWeekRange = () => {
   return "";
 };
 
-export { getTime, getWeekOfMonth, getTimeLine, getSundayOfMonth };
+export { getSundayOfMonth, getTime, getTimeLine, getWeekOfMonth };
