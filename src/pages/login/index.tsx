@@ -23,10 +23,10 @@ const Login = () => {
         username: userId,
         password: userPW
       });
-      router.replace("/department/management/account");
     } else {
       confirm("아이디 입력해주세요.");
     }
+    router.replace("/department/management/account");
   }, [mutateAsync, router, userId, userPW]);
 
   // const onClickChangePassword = useCallback(() => {
