@@ -1,20 +1,18 @@
 import GRTable from "@component/atom/GRTable";
-import GRButtonText from "@component/atom/button/GRTextButton";
-import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRText from "@component/atom/text/GRText";
-import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import AlertModal from "@component/molecule/modal/AlertModal";
+import GRFormInputText from "@component/molecule/form/GRFormInputText";
+import GRFormItem from "@component/molecule/form/GRFormItem";
 import { Alert, Tooltip } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useGetTermMembersByCodyQuery } from "api/term/queries/useGetTermMembersByCodyQuery";
-import { SEX_NAME } from "config/const";
-import { FC, useCallback, useMemo, useState } from "react";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { ATTENDANCE_STATUS, SEX_NAME } from "config/const";
+import { FC, useMemo } from "react";
+import type { Control, FieldValues } from "react-hook-form";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 화살표: 선택 가능`;
 type tAttendanceCheckTable = {
-  dataSource?: any[];
+  attendanceDataSource: any[];
+  control: Control<FieldValues, any>;
 };
 
 type tAttendanceColum = {
@@ -23,17 +21,14 @@ type tAttendanceColum = {
   name: string;
   grade: string;
   gender: string;
-  extraInfo: string;
+  etc: string;
+  status: string;
 };
 
-const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ dataSource }) => {
-  const [open, setOpen] = useState(false);
-  const [description, setDescription] = useState("출석을 등록하시겠습니까?");
-  const { data: cordiMember } = useGetTermMembersByCodyQuery({
-    termId: 1,
-    codyId: 2
-  });
-
+const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
+  attendanceDataSource,
+  control
+}) => {
   const columns: ColumnType<tAttendanceColum>[] = useMemo(
     () => [
       {
@@ -94,72 +89,59 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({ dataSource }) => {
             </>
           );
         },
-        dataIndex: "attends",
-        key: "attends",
+        dataIndex: "status",
+        key: "status",
         align: "center",
         fixed: "left",
         render: (_, recode) => {
+          // return (
+          //   <GRRadio
+          //     options={[
+          //       { label: "현장", value: "200" },
+          //       { label: "온라인", value: "300" },
+          //       { label: "결석", value: "100" }
+          //     ]}
+          //   />
+          // );
           return (
-            <GRRadio
-              options={[
-                { label: "현장", value: "200" },
-                { label: "온라인", value: "300" },
-                { label: "결석", value: "100" }
-              ]}
+            <GRFormItem
+              type={"radio"}
+              fieldName={`${recode.teamMemberId}.status`}
+              control={control}
+              options={ATTENDANCE_STATUS}
             />
           );
         }
       },
       {
         title: "추가 내용",
-        dataIndex: "extraInfo",
-        key: "extraInfo",
+        dataIndex: "etc",
+        key: "etc",
         align: "center",
         fixed: "left",
         render: (_, recode) => {
-          return <GRTextInput type={"textarea"} />;
+          // return <GRTextInput type={"textarea"} />;
+
+          return (
+            <GRFormInputText
+              fieldName={`${recode.teamMemberId}.etc`}
+              control={control}
+              type={"textarea"}
+              placeholder={"추가 내용 작성해 주세요"}
+            />
+          );
         }
       }
     ],
-    []
-  );
-
-  const handleModal = () => {
-    setOpen(!open);
-  };
-
-  const onSubmit: SubmitHandler<FieldValues> = useCallback(
-    _item => {
-      console.log("_item", _item);
-      setOpen(!open);
-    },
-    [open]
+    [control]
   );
 
   return (
-    <>
-      <GRTable rowKey={"name"} data={cordiMember} columns={columns} />
-      <GRFlexView
-        flexDirection={"row"}
-        justifyContent={"flex-end"}
-        margintop={1}
-      >
-        <GRButtonText
-          htmlType={"submit"}
-          marginleft={0.5}
-          size={"large"}
-          onClick={() => setOpen(!open)}
-        >
-          출석 등록
-        </GRButtonText>
-      </GRFlexView>
-      <AlertModal
-        open={open}
-        description={description}
-        onCancelClickButton={handleModal}
-        onOkClickButton={handleModal}
-      />
-    </>
+    <GRTable
+      rowKey={record => record.teamMemberId}
+      data={attendanceDataSource}
+      columns={columns}
+    />
   );
 };
 
