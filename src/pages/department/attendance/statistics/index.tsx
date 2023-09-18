@@ -3,9 +3,11 @@ import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
+import ExcelButton from "@component/molecule/button/ExcelButton";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Popover } from "antd";
 import { ColumnType } from "antd/es/table";
+import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import StatisticsCompareCards from "./StatisticsCompareCards";
@@ -130,22 +132,34 @@ const AttendanceStatistics = () => {
     setOpenStatisticsModal(!openStatisticsModal);
   }, [openStatisticsModal]);
 
+  const onClickExcel = useCallback(async () => {
+    try {
+      await ExportExcelOfJson({ data: DATA });
+    } catch (e) {
+      console.error("Error", e);
+    }
+  }, []);
+
   return (
     <>
       <HeaderView
         title={"출석 통계"}
         headerComponent={
-          <GRButtonText
-            onClick={onClickStatistics}
-            buttonType={"default"}
-            size={"large"}
-          >
-            <BarChartOutlined
-              rev={undefined}
-              style={{ fontSize: "1rem", marginRight: "0.5rem" }}
-            />
-            그룹별 통계
-          </GRButtonText>
+          <>
+            <GRButtonText
+              onClick={onClickStatistics}
+              buttonType={"default"}
+              size={"large"}
+              marginright={GRStylesConfig.BASE_MARGIN}
+            >
+              <BarChartOutlined
+                rev={undefined}
+                style={{ fontSize: "1rem", marginRight: "0.5rem" }}
+              />
+              그룹별 통계
+            </GRButtonText>
+            <ExcelButton onlyIcon size={"small"} onClickExcel={onClickExcel} />
+          </>
         }
       />
       <GRContainerView>
