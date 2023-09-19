@@ -27,7 +27,7 @@ const AttendancdeCheckSubmitButton = ({ onSubmit }) => {
       </GRButtonText>
       <AlertModal
         open={open}
-        description={"출석 등록"}
+        description={"입력한 출석 내용을 등록하시겠습니까?"}
         onCancelClickButton={handleModal}
         onOkClickButton={onOkClickButton}
       />
