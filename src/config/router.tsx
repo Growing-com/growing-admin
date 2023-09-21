@@ -15,8 +15,8 @@ type tDepartmentAttendanceSubMenu = {
 };
 
 type tDepartmentManagementSubMenu = {
-  key: "management-account";
-  label: "계정 관리";
+  key: "management-account" | "management-newfamily";
+  label: "계정 관리" | "새가족 관리";
   path: string;
 };
 
@@ -43,6 +43,11 @@ export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
     key: "management-account",
     label: "계정 관리",
     path: "management/account"
+  },
+  {
+    key: "management-newfamily",
+    label: "새가족 관리",
+    path: "management/newfamily"
   }
 ];
 
