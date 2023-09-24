@@ -7,7 +7,8 @@ const defaultHeaders = {
 
 export const REQUEST_METHOD = {
   GET: "get",
-  POST: "post"
+  POST: "post",
+  PUT: "put"
 };
 
 const axiosInstance = axios.create({
@@ -16,12 +17,18 @@ const axiosInstance = axios.create({
   ...NetworkConfig.BASE_REQUEST
 });
 
+type AxiosResponseDataForm<T> = {
+  content: T;
+};
+
 // 에러 response Type?
 const request = async <ResponseType, RequestType = unknown>(
   options: AxiosRequestConfig<RequestType>
 ) => {
   try {
-    const { data } = await axiosInstance.request<ResponseType>(options);
+    const { data } = await axiosInstance.request<
+      AxiosResponseDataForm<ResponseType>
+    >(options);
     return data;
   } catch (error: AxiosError) {
     const { response } = error;
