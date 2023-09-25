@@ -42,8 +42,8 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
       },
       {
         title: "이름",
-        dataIndex: "memberName",
-        key: "memberName",
+        dataIndex: "userName",
+        key: "userName",
         align: "center",
         fixed: "left",
         width: "5rem"
@@ -94,19 +94,10 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         align: "center",
         fixed: "left",
         render: (_, recode) => {
-          // return (
-          //   <GRRadio
-          //     options={[
-          //       { label: "현장", value: "200" },
-          //       { label: "온라인", value: "300" },
-          //       { label: "결석", value: "100" }
-          //     ]}
-          //   />
-          // );
           return (
             <GRFormItem
               type={"radio"}
-              fieldName={`${recode.teamMemberId}.status`}
+              fieldName={`${recode.userId}.status`}
               control={control}
               options={ATTENDANCE_STATUS}
             />
@@ -120,11 +111,9 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         align: "center",
         fixed: "left",
         render: (_, recode) => {
-          // return <GRTextInput type={"textarea"} />;
-
           return (
             <GRFormInputText
-              fieldName={`${recode.teamMemberId}.etc`}
+              fieldName={`${recode.userId}.etc`}
               control={control}
               type={"textarea"}
               placeholder={"추가 내용 작성해 주세요"}
@@ -138,7 +127,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
 
   return (
     <GRTable
-      rowKey={record => record.teamMemberId}
+      rowKey={record => record.userId}
       data={attendanceDataSource}
       columns={columns}
     />
