@@ -19,7 +19,6 @@ const GRTab: FC<tGRTab> = ({ items, ...props }) => {
         label: _item.label
       }));
     }
-    return [];
   }, [items]);
 
   return (
