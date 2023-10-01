@@ -6,7 +6,7 @@ import { Color } from "styles/colors";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText from "../text/GRText";
 
-type tButtonSize = "large" | "normal" | "small";
+export type tButtonSize = "large" | "normal" | "small";
 
 type tGRButtonText = {
   style?: CSSProperties;
