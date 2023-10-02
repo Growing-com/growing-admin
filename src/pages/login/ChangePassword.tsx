@@ -13,11 +13,11 @@ const ChangePassword = () => {
 
   const onClickChangePassword = useCallback(() => {
     router.replace("/login");
-  }, []);
+  }, [router]);
 
   const onClickCancel = useCallback(() => {
     router.back();
-  }, []);
+  }, [router]);
 
   return (
     <LoginContainer>
