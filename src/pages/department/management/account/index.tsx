@@ -1,13 +1,13 @@
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import ColumSexRender from "@component/templates/table/ColumSexRender";
 import { Tag } from "antd";
-import { ColumnType } from "antd/es/table";
-import { useUserListQuery } from "api/user/queries/useUserListQuery";
-import { tAccount } from "api/user/types";
-import { DUTY_NAME, ROLE_NAME, SEX_NAME } from "config/const";
+import type { ColumnType } from "antd/es/table";
+import { useUserListQuery } from "api/account/queries/useUserListQuery";
+import type { tAccount } from "api/account/types";
+import { DUTY_NAME, ROLE_NAME } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import AccountModal from "./AccountModal";
@@ -16,32 +16,30 @@ import ManagementSearch from "./ManagementSearch";
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<tAccount>();
+  const [searchData, setSearchData] = useState<tAccount[]>();
 
   const { data: accountlist, refetch } = useUserListQuery();
-  const [searchData, setSearchData] = useState([]);
+
   const columns: ColumnType<tAccount>[] = [
     {
       title: "이름",
       dataIndex: "name",
       key: "name",
-      align: "center",
-      render: text => <a>{text}</a>
+      align: "center"
     },
     {
       title: "학년",
       dataIndex: "grade",
       key: "grade",
-      align: "center"
+      align: "center",
+      sorter: (a, b) => parseInt(a.grade) - parseInt(b.grade)
     },
     {
       title: "성별",
       dataIndex: "sex",
       key: "sex",
       align: "center",
-      render: (_, item) => {
-        if (!item?.sex) return;
-        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-      }
+      render: (_, record) => <ColumSexRender sexData={record.sex} />
     },
     {
       title: "직분",
@@ -59,7 +57,7 @@ const ManagementAccountPage: NextPage = () => {
       }
     },
     {
-      title: "전화 번호",
+      title: "전화번호",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
@@ -105,7 +103,13 @@ const ManagementAccountPage: NextPage = () => {
     setSelectedUser(undefined);
   }, [openAccountModal]);
 
-  const onClickRow = useCallback(_user => {
+  const onRegister = useCallback(() => {
+    setOpenAccountModal(!openAccountModal);
+    setSelectedUser(undefined);
+    refetch();
+  }, [openAccountModal, refetch]);
+
+  const onClickRow = useCallback((_user: tAccount) => {
     setSelectedUser(_user);
     setOpenAccountModal(true);
   }, []);
@@ -117,7 +121,7 @@ const ManagementAccountPage: NextPage = () => {
   }, [accountlist]);
 
   return (
-    <div>
+    <>
       <HeaderView
         title={"계정 관리"}
         headerComponent={
@@ -138,7 +142,7 @@ const ManagementAccountPage: NextPage = () => {
           data={searchData}
           pagination={{
             total: searchData?.length,
-            pageSize: 5,
+            defaultPageSize: 20,
             position: ["bottomCenter"]
           }}
           onRow={record => ({
@@ -149,9 +153,10 @@ const ManagementAccountPage: NextPage = () => {
       <AccountModal
         open={openAccountModal}
         onClose={onAccountModal}
+        onRegister={onRegister}
         user={selectedUser}
       />
-    </div>
+    </>
   );
 };
 
