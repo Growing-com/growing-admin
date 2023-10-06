@@ -1,4 +1,6 @@
-import { tOptions } from "@component/atom/dataEntry/dataEntryType";
+import { tPickerType } from "@component/atom/dataEntry/GRDatePicker";
+import { tOptions } from "@component/atom/dataEntry/type";
+import { tGRTextInputType } from "@component/atom/text/GRTextInput";
 import { CSSProperties, ReactNode } from "react";
 import {
   ControllerFieldState,
@@ -15,7 +17,8 @@ export type tFormItemType =
   | "switch"
   | "custom"
   | "date"
-  | "view";
+  | "view"
+  | "text";
 
 export type tGRFormItem = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +34,9 @@ export type tGRFormItem = {
   style?: CSSProperties;
   placeholder?: string;
   disabled?: boolean;
+  isShow?: boolean;
+  pickerType?: tPickerType;
+  textType?: tGRTextInputType;
 };
 
 export type tRenderProps = {

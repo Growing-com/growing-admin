@@ -1,9 +1,15 @@
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import AlertModal from "@component/molecule/modal/AlertModal";
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
-const AttendancdeCheckSubmitButton = ({ onSubmit }) => {
+type tAttendancdeCheckSubmitButton = {
+  onSubmit: () => void;
+};
+
+const AttendancdeCheckSubmitButton: FC<tAttendancdeCheckSubmitButton> = ({
+  onSubmit
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleModal = useCallback(() => {

@@ -23,7 +23,7 @@ const HeaderView: FC<tHeaderView> = ({
   return (
     <GRFlexView
       borderRadius={GRStylesConfig.BASE_MARGIN}
-      paddinghorizontal={4}
+      paddinghorizontal={3}
       paddingvertical={2}
       marginbottom={GRStylesConfig.BASE_MARGIN}
       backgroundColor="white"

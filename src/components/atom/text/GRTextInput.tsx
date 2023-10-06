@@ -5,11 +5,18 @@ import { ChangeEvent, ForwardedRef, forwardRef, useMemo } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import { REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN } from "utils/regexp";
 
+export type tGRTextInputType =
+  | "input"
+  | "password"
+  | "textarea"
+  | "number"
+  | "phoneNumber";
+
 export type tGRTextInput = {
   onChange?: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  type?: "input" | "password" | "textarea" | "number" | "phoneNumber";
+  type?: tGRTextInputType;
 } & Omit<InputProps, "type"> &
   Omit<TextAreaProps, "onChange"> &
   tGetMargin;
@@ -17,6 +24,7 @@ export type tGRTextInput = {
 const PHONE_NUM_LEN = 13;
 const GRTextInput = (
   { placeholder, type = "input", onChange, value, ...props }: tGRTextInput,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _ref: ForwardedRef<HTMLDivElement>
 ) => {
   const _margin = getMargin(props);

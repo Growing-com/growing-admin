@@ -3,9 +3,10 @@ import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRSwitch from "@component/atom/dataEntry/GRSwitch";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { Controller } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import GRFormError from "./GRFormError";
@@ -22,6 +23,9 @@ const GRFormItem = ({
   type,
   options,
   disabled,
+  isShow = true,
+  textType,
+  pickerType,
   ...props
 }: tGRFormItem) => {
   const renderFormItems = useCallback(
@@ -29,25 +33,23 @@ const GRFormItem = ({
       let formItemComponent;
 
       if (type === "radio") {
-        formItemComponent = <GRRadio {...props} options={options} {...field} />;
+        formItemComponent = (
+          <GRRadio
+            {...props}
+            options={options}
+            {...field}
+            disabled={disabled}
+          />
+        );
       }
 
       if (type === "check") {
-        formItemComponent = (
-          <GRCheck
-            {...props}
-            {...field}
-            onChange={() => {
-              console.log("GRCheck");
-            }}
-          />
-        );
+        formItemComponent = <GRCheck {...props} {...field} />;
       }
 
       if (type === "select") {
         formItemComponent = (
           <GRSelect
-            style={{ flex: 1 }}
             options={options}
             disabled={disabled}
             {...props}
@@ -57,7 +59,6 @@ const GRFormItem = ({
       }
 
       if (type === "switch") {
-        console.log("filed", field);
         formItemComponent = (
           <GRView>
             <GRSwitch {...field} {...props} checked={field.value} />
@@ -67,24 +68,44 @@ const GRFormItem = ({
 
       if (type === "date") {
         formItemComponent = (
-          <GRDatePicker style={{ flex: 1 }} {...props} {...field} />
+          <GRDatePicker
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            pickerType={pickerType}
+            style={{ flex: 1 }}
+            disabled={disabled}
+            {...props}
+            {...field}
+          />
+        );
+      }
+
+      if (type === "text") {
+        formItemComponent = (
+          <GRTextInput
+            type={textType}
+            {...field}
+            {...props}
+            disabled={disabled}
+          />
         );
       }
 
       if (type === "custom") {
-        formItemComponent = <div></div>;
+        formItemComponent = <div {...props} {...field}></div>;
       }
 
-      return (
-        <GRFlexView>
-          {formItemComponent}
-          <GRFormError fieldName={field.name} formState={formState} />
-        </GRFlexView>
-      );
+      if (type)
+        return (
+          <GRFlexView>
+            {formItemComponent}
+            <GRFormError fieldName={field.name} formState={formState} />
+          </GRFlexView>
+        );
     },
-    [type, props, options, disabled]
+    [type, props, options, disabled, pickerType, textType]
   );
-
+  if (!isShow) return <React.Fragment />;
   return (
     <GRFlexView
       flexDirection={"row"}
@@ -92,7 +113,7 @@ const GRFormItem = ({
       style={style}
       marginvertical={GRStylesConfig.BASE_MARGIN}
     >
-      <GRFormTitle title={title} required={required} />
+      {title && <GRFormTitle title={title} required={required} />}
       <Controller
         control={control}
         name={fieldName}

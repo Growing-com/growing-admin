@@ -72,7 +72,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
       <HeaderMenu />
       <Layout>
         <Sider
-          width={"12rem"}
+          // width={"12rem"}
           style={{
             backgroundColor: "white"
           }}
@@ -101,7 +101,7 @@ export default BaseLayout;
 const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
-  padding: 1rem 4rem;
+  padding: 1rem 1.5rem;
   background-color: ${Color.grey160};
 `;
 

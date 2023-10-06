@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, type AxiosError } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import NetworkConfig from "config/NetworkConfig";
 
 const defaultHeaders = {
@@ -30,7 +30,8 @@ const request = async <ResponseType, RequestType = unknown>(
       AxiosResponseDataForm<ResponseType>
     >(options);
     return data;
-  } catch (error: AxiosError) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     const { response } = error;
     const errorResponse = {
       message: response?.data?.message ?? error.message,

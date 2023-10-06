@@ -1,35 +1,27 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRFormInputText from "@component/molecule/form/GRFormInputText";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import ColumSexRender from "@component/templates/table/ColumSexRender";
 import { Alert, Tooltip } from "antd";
 import { ColumnType } from "antd/es/table";
-import { ATTENDANCE_STATUS, SEX_NAME } from "config/const";
+import { tAttendanceCheckItem } from "api/attendance/types";
+import { ATTENDANCE_STATUS } from "config/const";
 import { FC, useMemo } from "react";
 import type { Control, FieldValues } from "react-hook-form";
 
-const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 화살표: 선택 가능`;
-type tAttendanceCheckTable = {
-  attendanceDataSource: any[];
-  control: Control<FieldValues, any>;
-};
+const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;
 
-type tAttendanceColum = {
-  cordi: string;
-  leader: string;
-  name: string;
-  grade: string;
-  gender: string;
-  etc: string;
-  status: string;
+type tAttendanceCheckTable = {
+  attendanceDataSource?: tAttendanceCheckItem[];
+  control: Control<FieldValues, any>;
 };
 
 const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   attendanceDataSource,
   control
 }) => {
-  const columns: ColumnType<tAttendanceColum>[] = useMemo(
+  const columns: ColumnType<tAttendanceCheckItem>[] = useMemo(
     () => [
       {
         title: "순장",
@@ -63,10 +55,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         align: "center",
         fixed: "left",
         width: "5rem",
-        render: (_, item) => {
-          if (!item?.sex) return;
-          return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-        }
+        render: (_, item) => <ColumSexRender sexData={item.sex} />
       },
       {
         title: () => {
@@ -97,7 +86,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
           return (
             <GRFormItem
               type={"radio"}
-              fieldName={`${recode.userId}.status`}
+              fieldName={`${recode.teamMemberId}.status`}
               control={control}
               options={ATTENDANCE_STATUS}
             />
@@ -112,12 +101,15 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         fixed: "left",
         render: (_, recode) => {
           return (
-            <GRFormInputText
-              fieldName={`${recode.userId}.etc`}
-              control={control}
-              type={"textarea"}
-              placeholder={"추가 내용 작성해 주세요"}
-            />
+            <>
+              <GRFormItem
+                type={"text"}
+                textType={"textarea"}
+                fieldName={`${recode?.teamMemberId}.etc`}
+                control={control}
+                placeholder={"추가 내용 작성해 주세요"}
+              />
+            </>
           );
         }
       }
@@ -127,7 +119,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
 
   return (
     <GRTable
-      rowKey={record => record.userId}
+      rowKey={record => record.teamMemberId}
       data={attendanceDataSource}
       columns={columns}
     />

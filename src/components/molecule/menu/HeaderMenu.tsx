@@ -5,18 +5,18 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
+import { useLogoutMutate } from "api/account/mutate/useLogoutMutate";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useCallback } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const HeaderMenu = () => {
-  const router = useRouter();
+  const { logoutMutate } = useLogoutMutate();
 
   const onClickLogout = useCallback(() => {
-    router.replace("/");
-  }, []);
+    logoutMutate();
+  }, [logoutMutate]);
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
@@ -75,8 +75,6 @@ const HeaderMenu = () => {
           <Avatar
             style={{
               backgroundColor: Color.green200,
-              // color:Color.green200,
-              // borderColor:Color.green200,
               marginRight: "6rem"
             }}
             icon={<UserOutlined rev={undefined} />}

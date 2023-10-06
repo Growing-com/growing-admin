@@ -8,10 +8,8 @@ export const useLogoutMutate = () => {
     onError: error => {
       console.log("error", error);
     },
-    onSuccess: _data => {
-      console.log("_data", _data);
-      console.log("_data", _data.headers["set-cookie"]);
-      router.replace("/");
+    onSuccess: () => {
+      router.replace("/login");
     }
   });
   return {

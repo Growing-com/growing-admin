@@ -12,7 +12,7 @@ const customBox = css`
   border-radius: 1rem;
 `;
 
-const StatisticsCompareCards = () => {
+const StatisticsCompareCards = ({ statisticsAttendanceSummaryData }) => {
   return (
     <GRView marginbottom={2}>
       <GRText

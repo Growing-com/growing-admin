@@ -1,4 +1,3 @@
-const Routes = [];
 import { CheckOutlined, TeamOutlined } from "@ant-design/icons";
 
 type tDepartmentMainMenu = {

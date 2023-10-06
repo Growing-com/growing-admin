@@ -1,27 +1,46 @@
 import { css } from "@emotion/react";
 import { DatePicker, type DatePickerProps } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
+import { PickerComponentClass } from "antd/es/date-picker/generatePicker/interface";
 import dayjs, { Dayjs } from "dayjs";
-import {
-  CSSProperties,
-  ForwardedRef,
-  forwardRef,
-  useCallback,
-  useMemo,
-  useState
-} from "react";
+import { CSSProperties, FC, useCallback, useMemo, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
+import GRButtonText from "../button/GRTextButton";
+import GRFlexView from "../view/GRFlexView";
 
-const DEFAULT_FOMAT = "YYYY-MM-DD";
+const { RangePicker } = DatePicker;
 
-type tGRDatePicker = {
+export type tPickerType = "basic" | "range";
+
+type tGRDatePicker<T extends tPickerType> = {
   height?: CSSProperties["height"];
   width?: CSSProperties["width"];
   onChange?: (date: Dayjs | null) => void;
-} & Omit<DatePickerProps, "onChange">;
+  pickerType: T;
+} & (T extends "basic"
+  ? { pickerType: T } & Omit<DatePickerProps, "onChange">
+  : { pickerType: T } & RangePickerProps);
 
-const GRDatePicker = (
-  { height, width, format, onChange, picker, ...props }: tGRDatePicker,
-  _ref: ForwardedRef<HTMLDivElement>
-) => {
+const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
+  height,
+  width,
+  format,
+  onChange,
+  picker,
+  pickerType,
+  ...props
+}) => {
+  const BaseDatePicker = useMemo(
+    () =>
+      (pickerType === "basic"
+        ? DatePicker
+        : RangePicker) as PickerComponentClass<
+        Omit<tGRDatePicker<tPickerType>, "pickerType">
+      >,
+    [pickerType]
+  );
+
   const [date, setDate] = useState<Dayjs | null>();
 
   const _format = useMemo(() => {
@@ -34,10 +53,9 @@ const GRDatePicker = (
       1;
     return picker === "week"
       ? `${dayjs(date).startOf("week").format("YYYY-MM")}-${weekOfMonth}주`
-      : DEFAULT_FOMAT;
+      : DEFAULT_DATE_FOMAT;
   }, [date, format, picker]);
 
-  // onChange?: (value: DateType | null, dateString: string) => void;
   const onChangeDate = useCallback(
     (_date: Dayjs | null) => {
       setDate(_date);
@@ -46,9 +64,25 @@ const GRDatePicker = (
     [onChange]
   );
 
+  const renderExtraFooter = () => {
+    if (picker !== "week") return;
+    return (
+      <GRFlexView
+        alignItems={"center"}
+        marginvertical={GRStylesConfig.BASE_MARGIN}
+      >
+        <GRButtonText
+          buttonType={"default"}
+          onClick={() => onChangeDate(dayjs())}
+        >
+          TODAY
+        </GRButtonText>
+      </GRFlexView>
+    );
+  };
+
   return (
-    <DatePicker
-      value={date}
+    <BaseDatePicker
       css={css`
         width: ${width}rem;
         height: ${height}rem;
@@ -56,9 +90,10 @@ const GRDatePicker = (
       format={_format}
       picker={picker}
       onChange={onChangeDate}
+      renderExtraFooter={renderExtraFooter}
       {...props}
     />
   );
 };
 
-export default forwardRef(GRDatePicker);
+export default GRDatePicker;

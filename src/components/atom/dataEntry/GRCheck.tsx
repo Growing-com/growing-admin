@@ -1,13 +1,12 @@
 import { Checkbox, CheckboxProps } from "antd";
-import { ForwardedRef, forwardRef } from "react";
-import { tOptions } from "./dataEntryType";
+import { tOptions } from "./type";
 
 export type tGRCheck = {
   options?: tOptions;
 } & CheckboxProps;
 
-const GRCheck = ({ options }: tGRCheck, _ref: ForwardedRef<HTMLDivElement>) => {
+const GRCheck = ({ options }: tGRCheck) => {
   return <Checkbox.Group options={options} />;
 };
 
-export default forwardRef(GRCheck);
+export default GRCheck;

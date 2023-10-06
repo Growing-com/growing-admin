@@ -1,6 +1,6 @@
 import { TabPaneProps, Tabs, TabsProps } from "antd";
 import { FC, useMemo } from "react";
-import { tOptions } from "./dataEntry/dataEntryType";
+import { tOptions } from "./dataEntry/type";
 
 type tGRTab = {
   items: tOptions;

@@ -1,10 +1,11 @@
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
-import { useLoginMutate } from "api/user/mutate/useLoginMutate";
+import { useLoginMutate } from "api/account/mutate/useLoginMutate";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,24 +15,27 @@ import GRStylesConfig from "styles/GRStylesConfig";
 
 const Login = () => {
   const router = useRouter();
+
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
+
   const { mutateAsync } = useLoginMutate();
+
   const onClickLogin = useCallback(async () => {
-    if (userId && userPW) {
+    if (!userId || !userPW) {
+      confirm("아이디 입력해주세요.");
+      return;
+    }
+    try {
       await mutateAsync({
         username: userId,
         password: userPW
       });
-    } else {
-      confirm("아이디 입력해주세요.");
+      router.replace("/department/management/account");
+    } catch (error) {
+      GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
     }
-    router.replace("/department/management/account");
   }, [mutateAsync, router, userId, userPW]);
-
-  // const onClickChangePassword = useCallback(() => {
-  //   router.push("/login/ChangePassword");
-  // }, [router]);
 
   useKeyPressEventListener("Enter", () => {
     onClickLogin();

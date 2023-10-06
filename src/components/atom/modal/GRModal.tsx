@@ -32,16 +32,10 @@ const GRModal: FC<tGRModal> = ({
   closable = false,
   onCancel,
   onOk,
-  modalOkButtonType,
   showFooter = true,
   title,
   ...props
 }) => {
-  const _htmlType = useMemo(
-    () => (modalOkButtonType ? modalOkButtonType : "button"),
-    [modalOkButtonType]
-  );
-
   const onCancelClickButton = useCallback(
     (
       e:

@@ -31,10 +31,11 @@ const AlertModal: FC<tAlertModal> = ({
           border-radius: 1rem;
         }
       `}
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onCancel={() => {}}
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onOk={() => {}}
+      footer={[]}
+      // // eslint-disable-next-line @typescript-eslint/no-empty-function
+      // onCancel={() => {}}
+      // // eslint-disable-next-line @typescript-eslint/no-empty-function
+      // onOk={() => {}}
     >
       <GRFlexView>
         <GRFlexView>
@@ -54,6 +55,7 @@ const AlertModal: FC<tAlertModal> = ({
             key={"modal-cancel-button"}
             marginright={2}
             size={"large"}
+            buttonType={"cancel"}
           >
             {cancelButtonText ?? "취소"}
           </GRButtonText>

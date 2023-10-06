@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const useKeyPressEventListener = (
-  keyPressEvent: "Enter" | string,
+  keyPressEvent: "Enter",
   callback: () => void,
   option?: boolean | AddEventListenerOptions | undefined
 ) => {

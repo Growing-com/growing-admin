@@ -1,16 +1,12 @@
 import { Radio, RadioGroupProps } from "antd";
-import { ForwardedRef, forwardRef } from "react";
-import { tOptions } from "./dataEntryType";
+import { tOptions } from "./type";
 
 export type tGRRadio = {
   options?: tOptions;
 } & Omit<RadioGroupProps, "options">;
 
-const GRRadio = (
-  { options, ...props }: tGRRadio,
-  _ref: ForwardedRef<HTMLDivElement>
-) => {
+const GRRadio = ({ options, ...props }: tGRRadio) => {
   return <Radio.Group options={options} {...props} />;
 };
 
-export default forwardRef(GRRadio);
+export default GRRadio;

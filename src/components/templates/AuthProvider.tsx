@@ -1,4 +1,3 @@
-import useAuth from "hooks/auth/useAuth";
 import { FC, ReactNode } from "react";
 
 type tAuthProvider = {
@@ -6,8 +5,7 @@ type tAuthProvider = {
 };
 
 const AuthProvider: FC<tAuthProvider> = ({ children }) => {
-  const { getAuth } = useAuth();
-  console.log("getAuth", getAuth());
+  // const { getAuth } = useAuth();
   return <>{children}</>;
 };
 

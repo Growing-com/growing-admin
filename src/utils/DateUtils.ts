@@ -51,12 +51,4 @@ const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
   return sundays;
 };
 
-/**
- * @description 한주 번위 알려줌
- * @return start: '2022.10.09', end:'2022.10.15'
- */
-const getWeekRange = () => {
-  return "";
-};
-
 export { getSundayOfMonth, getTime, getTimeLine, getWeekOfMonth };

@@ -11,7 +11,7 @@ export function useQueriesLoading() {
     if (queries) {
       setQueryChangedCount(queries.length);
     }
-  }, []);
+  }, [queries]);
 
   useEffect(() => {
     if (
@@ -20,7 +20,7 @@ export function useQueriesLoading() {
     ) {
       setQueryChangedCount(prevState => prevState - 1);
     }
-  });
+  }, [queries, queryChangedCount]);
 
   if (queryChangedCount < 0) {
     return false;

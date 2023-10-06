@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import type { SelectProps } from "antd";
 import { Select } from "antd";
-import { CSSProperties, ForwardedRef, forwardRef } from "react";
+import { CSSProperties } from "react";
 import { Color } from "styles/colors";
 import { AreaType } from "styles/css";
 import getMargin from "styles/css/getMargin";
 import GRText from "../text/GRText";
-import { tOptions } from "./dataEntryType";
+import { tOptions } from "./type";
 
 export type tGRSelect = {
   options?: tOptions;
@@ -17,10 +17,7 @@ export type tGRSelect = {
 
 const { Option } = Select;
 
-const GRSelect = (
-  { options, mode, height, width, ...props }: tGRSelect,
-  _ref: ForwardedRef<HTMLDivElement>
-) => {
+const GRSelect = ({ options, mode, height, width, ...props }: tGRSelect) => {
   // loading 페이지 개발 후 적용 필요
   if (!options?.length) {
     return <></>;
@@ -30,11 +27,12 @@ const GRSelect = (
     <Select
       mode={mode}
       css={css`
-        display: flex;
         width: ${width}rem;
         height: ${height}rem;
         ${_margin};
       `}
+      listItemHeight={10}
+      listHeight={100}
       {...props}
     >
       {options.map((option, index) => (
@@ -46,4 +44,4 @@ const GRSelect = (
   );
 };
 
-export default forwardRef(GRSelect);
+export default GRSelect;

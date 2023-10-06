@@ -1,12 +1,3 @@
-type tStatusName = {
-  [key: string]: {
-    name: string;
-    color: string;
-  };
-};
-
-export type tSex = "MALE" | "FEMALE";
-
 export const SEX_NAME: { [key: string]: string } = {
   MALE: "남",
   FEMALE: "여"

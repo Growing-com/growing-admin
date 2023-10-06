@@ -19,16 +19,12 @@ type tGRButton = {
 } & Omit<ButtonProps, "size"> &
   tGetMargin;
 
-type tType = "default" | "primary";
-
 const GRButton: React.FC<tGRButton> = ({
   children,
   size = "normal",
-  style,
   onClick,
   buttonType = "primary",
   backgroundColor,
-  ghost,
   textColor,
   width,
   height,

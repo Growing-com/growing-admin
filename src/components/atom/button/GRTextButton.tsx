@@ -26,11 +26,9 @@ type tType = "default" | "primary";
 const GRButtonText: React.FC<tGRButtonText> = ({
   size = "normal",
   children,
-  style,
   onClick,
   buttonType = "primary",
   backgroundColor,
-  ghost,
   textColor,
   borderColor,
   width,

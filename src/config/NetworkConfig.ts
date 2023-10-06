@@ -1,13 +1,22 @@
 const DEFAULT_TIMEOUT = 20 * 1000;
 
-const { NODE_ENV, LOCAL_URL, DEV_URL } = process.env;
-
-const BASE_URL = NODE_ENV === "development" ? DEV_URL : LOCAL_URL;
-
+// const BASE_URL = process.env.NEXT_PUBLIC_LOCAL_URL;
+// const BASE_URL = "http://localhost:8080/api";
+// const BASE_URL = "http://13.125.141.167:8080/api";
+const BASE_URL = "https://wsangwook.com/api";
 const NetworkConfig = {
   BASE_REQUEST: {
     baseURL: BASE_URL,
     timeout: DEFAULT_TIMEOUT
+  },
+  // DEV_REQUEST: {
+  //   baseURL: DEV_BASE_URL,
+  //   timeout: DEFAULT_TIMEOUT
+  // },
+  COOKIE_KEYS: {
+    dtsession: "dtsession",
+    accessToken: "accessToken",
+    garageAccessToken: "garageAccessToken"
   }
 };
 

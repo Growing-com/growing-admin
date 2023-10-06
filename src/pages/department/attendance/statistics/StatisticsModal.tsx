@@ -1,29 +1,29 @@
 import GRChart from "@component/atom/GRChart";
 import GRTab from "@component/atom/GRTab";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRModal from "@component/atom/modal/GRModal";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback } from "react";
 
 type tStatisticsModal = {
   onClickStatistics: () => void;
   open: boolean;
 };
 
-const items = [
+const items: tOptions = [
   {
-    key: "0",
+    value: "0",
     label: "학년"
   },
   {
-    key: "1",
+    value: "1",
     label: "나무"
   }
 ];
 
 const StatisticsModal: FC<tStatisticsModal> = ({ open, onClickStatistics }) => {
-  const [currentTab, setCurrentTab] = useState("0");
   const labels = [
     "이종민",
     "홍길동",
@@ -80,10 +80,9 @@ const StatisticsModal: FC<tStatisticsModal> = ({ open, onClickStatistics }) => {
     >
       <GRTab
         items={items}
-        defaultActiveKey={currentTab}
         tabBarExtraContent={
           <GRFlexView alignItems={"flex-start"}>
-            <GRDatePicker picker={"month"} />
+            <GRDatePicker pickerType={"basic"} picker={"month"} />
           </GRFlexView>
         }
       />
