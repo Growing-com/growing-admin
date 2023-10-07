@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import termQuerykeys from "api/term/termQuerykeys";
 import { getTermNewFamily } from "..";
+import termQuerykeys from "../termQuerykeys";
 
 export const useTermNewFamily = ({ termId }: { termId: number }) => {
   return useQuery(

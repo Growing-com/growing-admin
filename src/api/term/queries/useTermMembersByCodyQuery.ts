@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAttendance } from "api/attendance";
-import termQuerykeys from "api/term/termQuerykeys";
+import termQuerykeys from "../termQuerykeys";
 
 export const useTermMembersByCodyQuery = ({
   week,
