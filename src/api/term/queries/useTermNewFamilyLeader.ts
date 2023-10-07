@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTermNewFamilyLeader } from "..";
-import termQueryKeys from "../termQueryKeys";
+import termQueryKeys from "./termQueryKeys";
 
 // GET http://localhost:8080/api/term/{{termId}}/newTeamLeaders
 

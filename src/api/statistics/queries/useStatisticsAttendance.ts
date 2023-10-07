@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getStatisticsAttendance, tGetStatisticsAttendanceParams } from "..";
-import statisticsQueryKeys from "../statisticsQueryKeys";
+import statisticsQueryKeys from "./statisticsQueryKeys";
 
 export const useStatisticsAttendance = (
   params: tGetStatisticsAttendanceParams,

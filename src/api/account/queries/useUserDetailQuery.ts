@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserDetail } from "..";
-import accountQueryKeys from "../accountQueryKeys";
+import accountQueryKeys from "./accountQueryKeys";
 
 export const useUserDetailQuery = (userId?: number) => {
   return useQuery(

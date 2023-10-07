@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRoles } from "..";
-import accountQueryKeys from "../accountQueryKeys";
+import accountQueryKeys from "./accountQueryKeys";
 
 export const useRolesQuery = () => {
   return useQuery(

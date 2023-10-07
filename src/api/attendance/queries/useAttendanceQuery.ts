@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAttendanceSearch } from "..";
-import attendanceQuerykeys from "../attendanceQuerykeys";
 import { tAttendanceSearch } from "../types";
+import attendanceQuerykeys from "./attendanceQuerykeys";
 
 export const useAttendanceQuery = (params?: tAttendanceSearch) => {
   return useQuery(

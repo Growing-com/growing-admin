@@ -3,7 +3,7 @@ import {
   getStatisticsAttendanceSummary,
   tGetStatisticsAttendanceSummaryParams
 } from "..";
-import statisticsQueryKeys from "../statisticsQueryKeys";
+import statisticsQueryKeys from "./statisticsQueryKeys";
 
 export const useStatisticsAttendanceSummaryQuery = (
   params: tGetStatisticsAttendanceSummaryParams

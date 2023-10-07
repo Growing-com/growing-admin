@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTermCody } from "..";
-import termQueryKeys from "../termQueryKeys";
+import termQueryKeys from "./termQueryKeys";
 
 export const useTermCodyQuery = ({ termId }: { termId: number }) => {
   return useQuery(
