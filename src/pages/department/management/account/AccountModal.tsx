@@ -21,16 +21,9 @@ type tAccountModal = {
 };
 
 type tAccountForm = {
-  name: string;
-  sex: string;
-  phoneNumber: string;
   birth: Dayjs;
-  grade: string;
-  teamId: number;
   visitDate: Dayjs;
-  etc: string;
-  isActive: boolean;
-};
+} & Omit<tAccount, "visitDate" | "birth">;
 
 const AccountModal: FC<tAccountModal> = ({
   open,
@@ -67,7 +60,10 @@ const AccountModal: FC<tAccountModal> = ({
         if (isCreate) {
           await createUserMutateAsync(_format);
         } else {
-          await updateUserMutateAsync({ userId: user?.id, data: _format });
+          await updateUserMutateAsync({
+            userId: user?.id,
+            data: _format as tAccount
+          });
         }
         onRegisterModal();
         GRAlert.success("생성 성공");
@@ -141,6 +137,7 @@ const AccountModal: FC<tAccountModal> = ({
           />
           <GRFormItem
             type={"date"}
+            pickerType={"basic"}
             title={"생년월일"}
             fieldName={"birth"}
             control={control}
@@ -159,6 +156,7 @@ const AccountModal: FC<tAccountModal> = ({
             required={true}
           />
           <GRFormItem
+            pickerType={"basic"}
             type={"date"}
             title={"방문일"}
             fieldName={"visitDate"}

@@ -41,7 +41,7 @@ const AttendanceCheck = () => {
     }
   };
 
-  const onSubmitButton = (_item: tAttendance) => {
+  const handleOnSumbitButton = handleSubmit(_item => {
     if (_item) {
       const _attendance = Object.entries(_item).map(
         ([key, value]: [string, any]) => {
@@ -60,7 +60,7 @@ const AttendanceCheck = () => {
         attendances: _attendance as unknown as tAttendance[]
       });
     }
-  };
+  });
 
   useEffect(() => {
     if (cordiSelectItem.length) {
@@ -98,7 +98,7 @@ const AttendanceCheck = () => {
           control={control}
           attendanceDataSource={leaderMember}
         />
-        <AttendancdeCheckSubmitButton onSubmit={handleSubmit(onSubmitButton)} />
+        <AttendancdeCheckSubmitButton onSubmit={handleOnSumbitButton} />
       </GRContainerView>
     </>
   );

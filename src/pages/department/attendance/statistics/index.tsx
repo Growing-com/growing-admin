@@ -24,7 +24,10 @@ const AttendanceStatistics = () => {
       startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
       endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
     });
-
+  console.log(
+    "statisticsAttendanceSummaryData",
+    statisticsAttendanceSummaryData
+  );
   const onClickStatistics = useCallback(() => {
     setOpenStatisticsModal(!openStatisticsModal);
   }, [openStatisticsModal]);
@@ -106,9 +109,7 @@ const AttendanceStatistics = () => {
         }
       />
       <GRContainerView>
-        <StatisticsCompareCards
-          statisticsAttendanceSummaryData={statisticsAttendanceSummaryData}
-        />
+        <StatisticsCompareCards />
         <StatisticsAbsentTable />
         <StatisticsNewFamilyTable />
       </GRContainerView>

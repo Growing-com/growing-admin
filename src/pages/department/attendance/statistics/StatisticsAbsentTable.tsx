@@ -28,7 +28,7 @@ const StatisticsAbsentTable = () => {
     "isAbsent"
   );
 
-  const absentColumns: ColumnType<tAttendanceTable>[] = [
+  const absentColumns: ColumnType<any>[] = [
     {
       title: "코디",
       dataIndex: "cordi",
@@ -100,7 +100,7 @@ const StatisticsAbsentTable = () => {
         </GRText>
       }
       columns={absentColumns}
-      data={statisticsAbsentData}
+      data={statisticsAbsentData as any[]}
     />
   );
 };

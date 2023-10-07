@@ -42,11 +42,15 @@ export type tAccount = {
   /** @description 학년  @example  9, */
   grade: string;
   /** @description 활성화 여부  @example   true, */
-  isActive?: string;
+  isActive?: boolean;
   /** @description 팀 아이디  @example  2 */
   teamId: string;
   /** @description 추가 내용  @example null */
   etc: string | null;
+  id?: number;
+  visitDate?: string;
+  duty?: tDuty;
+  role?: tRole;
 };
 
 export type tRoleResponse = {

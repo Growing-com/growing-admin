@@ -102,6 +102,7 @@ const GRFormItem = ({
             <GRFormError fieldName={field.name} formState={formState} />
           </GRFlexView>
         );
+      return <></>;
     },
     [type, props, options, disabled, pickerType, textType]
   );

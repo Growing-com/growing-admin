@@ -34,6 +34,7 @@ export type tTermNewFamily = {
   /** @description 방문일  @example "2023-08-13" */
   visitDate: string;
   leaderName: string;
+  userId?: number;
 } & Pick<
   tAccount,
   | "teamId"

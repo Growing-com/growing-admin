@@ -30,7 +30,7 @@ export const getRoles = () => {
   });
 };
 
-export const createUser = data => {
+export const createUser = (data: any) => {
   return request<tAccount[]>({
     method: REQUEST_METHOD.POST,
     url: USER_PREFIX,
@@ -39,7 +39,7 @@ export const createUser = data => {
 };
 
 export type tUpdateUserParams = {
-  userId: number;
+  userId?: number;
   data: tAccount;
 };
 

@@ -37,6 +37,8 @@ export type tGRFormItem = {
   isShow?: boolean;
   pickerType?: tPickerType;
   textType?: tGRTextInputType;
+  mode?: "multiple";
+  maxLength?: number;
 };
 
 export type tRenderProps = {

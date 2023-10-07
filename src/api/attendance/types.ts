@@ -27,14 +27,14 @@ export type tAttendanceSearch = {
   endDate: string;
   /** @description 새가족 여부 @example ture */
   isNewOnly?: boolean;
-  /** @description 커서 pagination @example 1 */
-  after: number;
   /** @description 학년 @example 1 */
   grade?: number;
   /** @description 이름 @example  홍길동*/
   name?: string;
   /** @description 코디 아이디 @example 1 */
   codyId?: number;
+  page?: number;
+  size?: number;
 };
 
 export type tAttendance = {

@@ -27,7 +27,7 @@ const StatisticsNewFamilyTable = () => {
     },
     "newFamily"
   );
-  const absentColumns: ColumnType<tAttendanceTable>[] = [
+  const absentColumns: ColumnType<any>[] = [
     {
       title: "코디",
       dataIndex: "cordi",
@@ -98,7 +98,7 @@ const StatisticsNewFamilyTable = () => {
         </GRText>
       }
       columns={absentColumns}
-      data={statisticsNewData}
+      data={statisticsNewData as any[]}
     />
   );
 };

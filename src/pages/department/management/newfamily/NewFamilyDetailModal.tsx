@@ -4,6 +4,7 @@ import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
+import { tAccount } from "api/account/types";
 import { tTermNewFamily } from "api/term/types";
 import { GENDER_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
@@ -46,7 +47,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
       try {
         await updateUserMutateAsync({
           userId: newFamily?.userId,
-          data: _format
+          data: _format as tAccount
         });
         GRAlert.success("수정 성공");
       } catch (e) {
@@ -111,6 +112,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             type={"date"}
             title={"생년월일"}
             fieldName={"birth"}
+            pickerType={"basic"}
             control={control}
             placeholder={"생년월일을 선택해 주세요"}
             disabled={true}
@@ -128,6 +130,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
           />
           <GRFormItem
             type={"date"}
+            pickerType={"basic"}
             title={"방문일"}
             fieldName={"visitDate"}
             control={control}

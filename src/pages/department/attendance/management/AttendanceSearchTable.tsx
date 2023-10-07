@@ -3,31 +3,24 @@ import ColumAttendanceRender from "@component/templates/table/ColumAttendanceRen
 import ColumSexRender from "@component/templates/table/ColumSexRender";
 
 import { ColumnType } from "antd/es/table";
+import { tUseAttendanceQueryResposne } from "api/attendance";
 import { concat } from "lodash";
 
 import { FC, useMemo } from "react";
 
-type tAttendanceTable = {
-  cordi: string;
-  leader: string;
-  name: string;
-  grade: string;
-  gender: string;
-};
-
 type tAttendanceSearchTable = {
-  attendanceList: any[];
+  attendanceList?: tUseAttendanceQueryResposne[];
 };
 
 const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   attendanceList
 }) => {
-  const renderAddDay: ColumnType<tAttendanceTable>[] = () => {
+  const renderAddDay = () => {
     if (!attendanceList?.length) return [];
 
     const _attendanceItems = attendanceList?.[0].attendanceItems;
     if (_attendanceItems?.length) {
-      return _attendanceItems.map(item => {
+      return _attendanceItems.map((item: any) => {
         return {
           title: item.week,
           dataIndex: item.week,
@@ -47,7 +40,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
     return [];
   };
 
-  const columns: ColumnType<tAttendanceTable>[] = useMemo(
+  const columns: ColumnType<tUseAttendanceQueryResposne>[] = useMemo(
     () => [
       {
         title: "코디",
@@ -98,7 +91,10 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   return (
     <GRTable
       rowKey={"name"}
-      columns={concat(columns, renderAddDay())}
+      columns={concat(
+        columns,
+        renderAddDay() as ColumnType<tUseAttendanceQueryResposne>[]
+      )}
       data={attendanceList}
       isHoverTable={false}
       paginationProps={{
