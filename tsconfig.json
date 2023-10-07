@@ -26,6 +26,15 @@
       "@component/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/mocks/handlers.ts"],
+  "include": [
+    "next-env.d.ts",
+    ".eslintrc.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/local.js",
+    "public/mockServiceWorker.js",
+    "src/mocks/handlers.ts"
+  ],
   "exclude": ["node_modules"]
 }
