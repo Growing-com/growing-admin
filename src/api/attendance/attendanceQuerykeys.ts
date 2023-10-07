@@ -1,5 +1,5 @@
-const attendanceQueryKeys = {
+const attendanceQuerykeys = {
   ATTENDACNE: "attendance"
 };
 
-export default attendanceQueryKeys;
+export default attendanceQuerykeys;

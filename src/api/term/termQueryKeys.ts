@@ -1,4 +1,4 @@
-const termQueryKeys = {
+const termQuerykeys = {
   TERM: "term",
   /** 텀 코디 */
   TERM_CORDI: "term_cordi",
@@ -12,4 +12,4 @@ const termQueryKeys = {
   TERM_STATISTICS: "statistics"
 };
 
-export default termQueryKeys;
+export default termQuerykeys;

@@ -1,4 +1,4 @@
-const accountQueryKeys = {
+const accountQuerykeys = {
   ACCOUNT: "account",
   ACCOUNT_DETAIL: "account_detail",
   ACCOUNT_LEADERS: "account_leaders",
@@ -6,4 +6,4 @@ const accountQueryKeys = {
   ACCOUNT_LOGIN: "account_login"
 };
 
-export default accountQueryKeys;
+export default accountQuerykeys;

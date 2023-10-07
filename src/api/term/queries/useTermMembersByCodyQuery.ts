@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAttendance } from "api/attendance";
-import termQueryKeys from "../termQuerykeys";
+import termQuerykeys from "../termQuerykeys";
 
 export const useTermMembersByCodyQuery = ({
   week,
@@ -10,7 +10,7 @@ export const useTermMembersByCodyQuery = ({
   codyId?: number;
 }) => {
   return useQuery(
-    [termQueryKeys.MEMBERS_BY_CODY, week, codyId],
+    [termQuerykeys.MEMBERS_BY_CODY, week, codyId],
     async () => {
       if (codyId) {
         return await getAttendance({ week, codyId });
