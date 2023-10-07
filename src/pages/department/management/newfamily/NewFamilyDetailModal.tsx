@@ -33,8 +33,8 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   const { updateUserMutateAsync } = useUserMutate();
 
   const onCloseModal = useCallback(() => {
-    reset();
     onClose?.();
+    reset();
   }, [onClose, reset]);
 
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
@@ -50,12 +50,13 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
           data: _format as tAccount
         });
         GRAlert.success("수정 성공");
+        onCloseModal();
       } catch (e) {
         console.log("Error", e);
         GRAlert.error("수정 실패, 다시 한번 시도해 주세요");
       }
     },
-    [newFamily?.userId, updateUserMutateAsync]
+    [newFamily?.userId, onCloseModal, updateUserMutateAsync]
   );
 
   useEffect(() => {

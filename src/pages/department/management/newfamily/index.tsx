@@ -16,7 +16,7 @@ import NewFamilyDetailModal from "./NewFamilyDetailModal";
 const ManagementNewFamilyPage: NextPage = () => {
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
 
-  const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
+  const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
 
   const columns: ColumnType<tTermNewFamily>[] = [
     {
@@ -86,9 +86,13 @@ const ManagementNewFamilyPage: NextPage = () => {
     }
   ];
 
-  const onClickRow = useCallback((_newFamily?: tTermNewFamily) => {
-    setSelectedNewFamily(_newFamily);
-  }, []);
+  const onClickRow = useCallback(
+    (_newFamily?: tTermNewFamily) => {
+      refetch();
+      setSelectedNewFamily(_newFamily);
+    },
+    [refetch]
+  );
 
   return (
     <>
