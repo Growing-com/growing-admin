@@ -1,9 +1,9 @@
 import { useQuery } from "hooks/queries/useQuery";
 import { getUserList } from "..";
-import accountQuerykeys from "../accountQuerykeys";
+import accountQueryKeys from "../accountQueryKeys";
 
 export const useUserListQuery = () => {
-  return useQuery([accountQuerykeys.ACCOUNT], async () => await getUserList(), {
+  return useQuery([accountQueryKeys.ACCOUNT], async () => await getUserList(), {
     select: data => data.content
   });
 };

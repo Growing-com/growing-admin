@@ -3,13 +3,13 @@ import {
   getStatisticsAttendanceSummary,
   tGetStatisticsAttendanceSummaryParams
 } from "..";
-import statisticsQuerykeys from "../statisticsQuerykeys";
+import statisticsQueryKeys from "../statisticsQueryKeys";
 
 export const useStatisticsAttendanceSummaryQuery = (
   params: tGetStatisticsAttendanceSummaryParams
 ) => {
   return useQuery(
-    [statisticsQuerykeys.STATISTICS_BASE],
+    [statisticsQueryKeys.STATISTICS_BASE],
     async () => await getStatisticsAttendanceSummary(params),
     {
       select: _data => _data.content,
