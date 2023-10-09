@@ -10,10 +10,18 @@ import { FC, useMemo } from "react";
 
 type tAttendanceSearchTable = {
   attendanceList?: tUseAttendanceQueryResposne[];
+  attendanceListSize?: number;
+  attendanceListTotal?: number;
+  attendanceListPage?: number;
+  onChangePage: (page: number, pageSize: number) => void;
 };
 
 const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
-  attendanceList
+  attendanceList,
+  attendanceListSize,
+  attendanceListTotal,
+  onChangePage,
+  attendanceListPage
 }) => {
   const renderAddDay = () => {
     if (!attendanceList?.length) return [];
@@ -98,8 +106,10 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
       data={attendanceList}
       isHoverTable={false}
       paginationProps={{
-        total: 100,
-        defaultPageSize: 10
+        total: attendanceListTotal,
+        defaultPageSize: attendanceListSize,
+        onChange: onChangePage,
+        current: attendanceListPage
       }}
       scroll={{ x: 1300 }}
     />

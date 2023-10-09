@@ -19,6 +19,8 @@ const axiosInstance = axios.create({
 
 type AxiosResponseDataForm<T> = {
   content: T;
+  totalPages?: number;
+  size: number;
 };
 
 // 에러 response Type?

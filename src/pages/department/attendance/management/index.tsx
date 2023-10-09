@@ -44,7 +44,6 @@ const AttendanceManagementPage: NextPage = () => {
       searchType: "name"
     }
   });
-
   const { data: attendanceList } = useAttendanceQuery(filter);
 
   const convertParam = (_filter: {
@@ -72,8 +71,8 @@ const AttendanceManagementPage: NextPage = () => {
     setFilter({
       startDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FOMAT),
       endDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FOMAT),
-      page: 0,
-      size: 20,
+      page: 1,
+      size: 10,
       ...convertParam(_filter)
     });
   });
@@ -96,6 +95,19 @@ const AttendanceManagementPage: NextPage = () => {
   const onClickSearch = useCallback(() => {
     onSubmit();
   }, [onSubmit]);
+
+  const onChangeAttendancePagination = useCallback(
+    (page: number, pageSize: number) => {
+      if (filter) {
+        setFilter({
+          ...filter,
+          size: pageSize,
+          page
+        });
+      }
+    },
+    [filter]
+  );
 
   useKeyPressEventListener("Enter", () => {
     onSubmit();
@@ -181,7 +193,13 @@ const AttendanceManagementPage: NextPage = () => {
         }
       />
       <GRContainerView>
-        <AttendanceSearchTable attendanceList={attendanceList} />
+        <AttendanceSearchTable
+          attendanceList={attendanceList?.content}
+          attendanceListSize={attendanceList?.size}
+          attendanceListTotal={attendanceList?.totalPages}
+          attendanceListPage={filter?.page}
+          onChangePage={onChangeAttendancePagination}
+        />
       </GRContainerView>
     </>
   );

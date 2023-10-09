@@ -1,12 +1,13 @@
 import { BarChartOutlined, FileExcelOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Dropdown } from "antd";
-import { useStatisticsAttendanceSummaryQuery } from "api/statistics/queries/useStatisticsAttendanceSummaryQuery";
+import { useAttendanceBenchMutate } from "api/statistics/mutate/useAttendanceBenchMutate";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import StatisticsAbsentTable from "./StatisticsAbsentTable";
@@ -14,20 +15,16 @@ import StatisticsCompareCards from "./StatisticsCompareCards";
 import StatisticsModal from "./StatisticsModal";
 import StatisticsNewFamilyTable from "./StatisticsNewFamilyTable";
 
-const LAST_SUNDAY = 0;
-const THIS_SUNDAY = 7;
+export type tStatisticsAttendanceExcelOption =
+  | "personalAttendance"
+  | "leaderAttendance"
+  | "managerAttendance"
+  | "gradeAttendance";
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
-  const { data: statisticsAttendanceSummaryData } =
-    useStatisticsAttendanceSummaryQuery({
-      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
-    });
-  console.log(
-    "statisticsAttendanceSummaryData",
-    statisticsAttendanceSummaryData
-  );
+  const { mutateAsync: benchMutate } = useAttendanceBenchMutate();
+
   const onClickStatistics = useCallback(() => {
     setOpenStatisticsModal(!openStatisticsModal);
   }, [openStatisticsModal]);
@@ -57,20 +54,61 @@ const AttendanceStatistics = () => {
   //   );
   // };
 
+  const onClickExcel = useCallback((_title: string) => {
+    console.log("titel", _title);
+  }, []);
+
   const items = [
     {
-      key: "1",
+      key: "personalAttendance",
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          1st menu item
-        </a>
+        <GRText onClick={() => onClickExcel("personalAttendance")}>텀</GRText>
+      )
+    },
+    {
+      key: "leaderAttendance",
+      label: (
+        <GRText onClick={() => onClickExcel("leaderAttendance")}>
+          순모임별
+        </GRText>
+      )
+    },
+    {
+      key: "managerAttendance",
+      label: (
+        <GRText onClick={() => onClickExcel("managerAttendance")}>
+          나무별
+        </GRText>
+      )
+    },
+    {
+      key: "gradeAttendance",
+      label: (
+        <GRText onClick={() => onClickExcel("gradeAttendance")}>학년</GRText>
       )
     }
   ];
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await benchMutate({
+          name: "termAttendanceJob",
+          jobParameters: {
+            requestDate: dayjs().weekday(0).format(DEFAULT_DATE_FOMAT)
+          }
+        });
+        await benchMutate({
+          name: "weeklyAttendanceJob",
+          jobParameters: {
+            termId: 1
+          }
+        });
+      } catch (e) {
+      } finally {
+      }
+    })();
+  }, [benchMutate]);
 
   return (
     <>
@@ -80,7 +118,7 @@ const AttendanceStatistics = () => {
           <>
             <GRButtonText
               onClick={onClickStatistics}
-              buttonType={"default"}
+              buttonType={"primary"}
               size={"large"}
               marginright={GRStylesConfig.BASE_MARGIN}
             >
@@ -91,18 +129,20 @@ const AttendanceStatistics = () => {
               그룹별 통계
             </GRButtonText>
             <GRView>
-              <Dropdown.Button
+              <Dropdown
                 menu={{
                   items
                 }}
-                placement="bottomLeft"
+                placement={"bottom"}
                 arrow
               >
-                <FileExcelOutlined
-                  rev={undefined}
-                  style={{ fontSize: "1rem", marginRight: "0.3rem" }}
-                />
-              </Dropdown.Button>
+                <GRButtonText buttonType={"default"} size={"small"}>
+                  <FileExcelOutlined
+                    rev={undefined}
+                    style={{ fontSize: "1rem", marginRight: "0.3rem" }}
+                  />
+                </GRButtonText>
+              </Dropdown>
             </GRView>
             {/* <ExcelButton onlyIcon size={"small"} onClickExcel={onClickExcel} /> */}
           </>

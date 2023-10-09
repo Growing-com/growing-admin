@@ -48,3 +48,51 @@ export const getTermStatistics = (startDate: string, endDate: string) => {
     }
   });
 };
+
+type tPostNewFamilyLineUpData = {
+  teamId: number;
+  teamMemberId: number;
+  data: {
+    /**  @example 11, */
+    plantTeamId: number;
+    /**  @example "2023-10-13", */
+    lineupDate: string;
+    /**  @example 9 */
+    gradeAtFirstVisit: number;
+  };
+};
+
+export const postNewFamilyLineUp = ({
+  teamId,
+  teamMemberId,
+  data
+}: tPostNewFamilyLineUpData) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `team/${teamId}/teamMember/${teamMemberId}/lineup`,
+    data
+  });
+};
+
+type tPostNewFamilyLineOutData = {
+  teamId: number;
+  teamMemberId: number;
+  data: {
+    /**  @example "2023-10-13", */
+    lineupDate: string;
+    /**  @example 9 */
+    gradeAtFirstVisit: number;
+  };
+};
+
+export const postNewFamilyLineOut = ({
+  teamId,
+  teamMemberId,
+  data
+}: tPostNewFamilyLineOutData) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `team/${teamId}/teamMember/${teamMemberId}/lineout`,
+    data
+  });
+};

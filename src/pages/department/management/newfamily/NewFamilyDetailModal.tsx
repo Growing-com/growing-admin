@@ -1,15 +1,21 @@
 import GRAlert from "@component/atom/alert/GRAlert";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
+import { Alert } from "antd";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { tAccount } from "api/account/types";
 import { tTermNewFamily } from "api/term/types";
 import { GENDER_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
-import { FC, useCallback, useEffect } from "react";
+import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
+import { FC, useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 
 type tNewFamilyDetailModal = {
@@ -28,9 +34,16 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   onClose,
   newFamily
 }) => {
+  const [newFamilySelectedLeaderId, setNewFamilySelectedLeaderId] =
+    useState<number>();
+  const [disableSelectNewFamily, setDisableSelectNewFamily] =
+    useState<boolean>(false);
+
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
   const { updateUserMutateAsync } = useUserMutate();
+  const { newFamilyLeaderOption } = useTermInfoOptionQueries();
+  // const { mutateAsync: newFamilyLineUpMutateAsync } = useNewFamilyLineUp();
 
   const onCloseModal = useCallback(() => {
     onClose?.();
@@ -52,12 +65,34 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         GRAlert.success("수정 성공");
         onCloseModal();
       } catch (e) {
-        console.log("Error", e);
         GRAlert.error("수정 실패, 다시 한번 시도해 주세요");
       }
     },
     [newFamily?.userId, onCloseModal, updateUserMutateAsync]
   );
+
+  const onChangeNewFamilySelect = useCallback((_newFamilyLeader: number) => {
+    setNewFamilySelectedLeaderId(_newFamilyLeader);
+  }, []);
+
+  const onClickLineUpButton = useCallback(async () => {
+    if (!newFamilySelectedLeaderId) {
+      GRAlert.error("새가족 리더를 선택해주세요");
+      return;
+    }
+    try {
+      if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
+        // await newFamilyLineUpMutateAsync({
+        //   teamId,
+        //   teamMemberId,
+        //   data
+        // });
+        setDisableSelectNewFamily(true);
+      }
+    } catch (e) {
+      GRAlert.error("라인업 오류");
+    }
+  }, [newFamilySelectedLeaderId]);
 
   useEffect(() => {
     if (newFamily) {
@@ -138,6 +173,34 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             placeholder={"방문일을 선택해 주세요"}
             disabled={true}
           />
+        </GRFlexView>
+        <GRFlexView flexDirection={"row"}>
+          <GRFlexView flexDirection={"row"}>
+            <GRFormTitle title={"라인업"} />
+            <GRSelect
+              style={{ flex: 1 }}
+              value={newFamilySelectedLeaderId}
+              options={newFamilyLeaderOption}
+              onChange={onChangeNewFamilySelect}
+              placeholder={"새가족 리더를 선택해주세요"}
+              disabled={disableSelectNewFamily}
+            />
+            <GRButtonText
+              marginleft={GRStylesConfig.BASE_MARGIN}
+              onClick={onClickLineUpButton}
+            >
+              라인업
+            </GRButtonText>
+          </GRFlexView>
+          <GRFlexView>
+            <Alert
+              type={"warning"}
+              message={"새가족 라인업을 진행하면 변경 불가능합니다"}
+              style={{ backgroundColor: "white" }}
+              showIcon
+              banner={true}
+            />
+          </GRFlexView>
         </GRFlexView>
         <GRFlexView>
           <GRFormItem

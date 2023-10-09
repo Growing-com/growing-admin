@@ -51,4 +51,24 @@ const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
   return sundays;
 };
 
-export { getSundayOfMonth, getTime, getTimeLine, getWeekOfMonth };
+const LAST_MONDAY = -6; // 저번주 월요일
+const LAST_SUNDAY = 0; // 저번주 일요일
+const THIS_MONDAY = 1; // 이번주 월요일
+const THIS_SUNDAY = 7; // 이번주 일요일
+
+const getWeekDataFromToday = () => {
+  return {
+    lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
+    lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+    thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FOMAT),
+    thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
+  };
+};
+
+export {
+  getSundayOfMonth,
+  getTime,
+  getTimeLine,
+  getWeekDataFromToday,
+  getWeekOfMonth
+};

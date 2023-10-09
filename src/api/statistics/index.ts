@@ -8,10 +8,24 @@ export type tGetStatisticsAttendanceSummaryParams = {
   endDate: string;
 };
 
+type tGetStatisticsAttendanceSummaryResponse = {
+  femaleAttendance: number;
+  femaleRegistered: number;
+  maleAttendance: number;
+  maleRegistered: number;
+  newComerAttendance: number;
+  newComerRegistered: number;
+  newVisited: number;
+  totalAbsent: number;
+  totalAttendance: number;
+  totalOnline: number;
+  totalRegistered: number;
+};
+
 export const getStatisticsAttendanceSummary = (
   params: tGetStatisticsAttendanceSummaryParams
 ) => {
-  return request({
+  return request<tGetStatisticsAttendanceSummaryResponse[]>({
     method: REQUEST_METHOD.GET,
     url: `${STATISTICS_PREFIX}/attendanceSummary`,
     params
