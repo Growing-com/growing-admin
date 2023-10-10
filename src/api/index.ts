@@ -20,6 +20,7 @@ const axiosInstance = axios.create({
 type AxiosResponseDataForm<T> = {
   content: T;
   totalPages?: number;
+  totalElements?: number;
   size: number;
 };
 
