@@ -85,7 +85,10 @@ const Login = () => {
             margintop={1}
           >
             <GRButtonText buttonType={"text"} width={"100%"}>
-              <Link href={`${process.env.OPEN_KAKAO}`} target={"_blank"}>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_OPEN_KAKAO}`}
+                target={"_blank"}
+              >
                 카카오 문의
               </Link>
             </GRButtonText>
