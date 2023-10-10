@@ -36,8 +36,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
 }) => {
   const [newFamilySelectedLeaderId, setNewFamilySelectedLeaderId] =
     useState<number>();
-  const [disableSelectNewFamily, setDisableSelectNewFamily] =
-    useState<boolean>(false);
+  const [disableSelectNewFamily] = useState<boolean>(false);
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
@@ -76,23 +75,24 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   }, []);
 
   const onClickLineUpButton = useCallback(async () => {
+    console.log("newFamily", newFamily);
     if (!newFamilySelectedLeaderId) {
       GRAlert.error("새가족 리더를 선택해주세요");
       return;
     }
-    try {
-      if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
-        // await newFamilyLineUpMutateAsync({
-        //   teamId,
-        //   teamMemberId,
-        //   data
-        // });
-        setDisableSelectNewFamily(true);
-      }
-    } catch (e) {
-      GRAlert.error("라인업 오류");
-    }
-  }, [newFamilySelectedLeaderId]);
+    // try {
+    //   if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
+    //     // await newFamilyLineUpMutateAsync({
+    //     //   teamId,
+    //     //   teamMemberId,
+    //     //   data
+    //     // });
+    //     setDisableSelectNewFamily(true);
+    //   }
+    // } catch (e) {
+    //   GRAlert.error("라인업 오류");
+    // }
+  }, [newFamily, newFamilySelectedLeaderId]);
 
   useEffect(() => {
     if (newFamily) {
