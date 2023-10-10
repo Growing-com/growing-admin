@@ -26,6 +26,7 @@ const GRFormItem = ({
   isShow = true,
   textType,
   pickerType,
+  defaultValue,
   ...props
 }: tGRFormItem) => {
   const renderFormItems = useCallback(
@@ -35,10 +36,10 @@ const GRFormItem = ({
       if (type === "radio") {
         formItemComponent = (
           <GRRadio
-            {...props}
             options={options}
-            {...field}
             disabled={disabled}
+            {...field}
+            {...props}
           />
         );
       }
@@ -52,8 +53,8 @@ const GRFormItem = ({
           <GRSelect
             options={options}
             disabled={disabled}
-            {...props}
             {...field}
+            {...props}
           />
         );
       }
@@ -74,8 +75,8 @@ const GRFormItem = ({
             pickerType={pickerType}
             style={{ flex: 1 }}
             disabled={disabled}
-            {...props}
             {...field}
+            {...props}
           />
         );
       }
@@ -92,7 +93,7 @@ const GRFormItem = ({
       }
 
       if (type === "custom") {
-        formItemComponent = <div {...props} {...field}></div>;
+        formItemComponent = <div {...field} {...props}></div>;
       }
 
       if (type)
@@ -120,6 +121,7 @@ const GRFormItem = ({
         name={fieldName}
         render={renderFormItems}
         rules={{ required: required }}
+        defaultValue={defaultValue}
       />
     </GRFlexView>
   );

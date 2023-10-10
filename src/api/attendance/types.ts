@@ -57,7 +57,7 @@ export type tAttendanceItem = {
   /** @description  @example 7 */
   attendanceId: number;
   /** @description  @example "12341" */
-  etc: string;
+  etc?: string;
   /** @description  @example "ATTEND" */
   status: tAttendanceStatus;
   /** @description  @example "2023-09-17" */

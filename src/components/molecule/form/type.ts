@@ -39,6 +39,7 @@ export type tGRFormItem = {
   textType?: tGRTextInputType;
   mode?: "multiple";
   maxLength?: number;
+  defaultValue?: any;
 };
 
 export type tRenderProps = {
