@@ -18,7 +18,7 @@ export const useAttendanceQuery = (params?: tAttendanceSearch) => {
       select: _data => {
         return {
           content: _data?.content,
-          totalPages: _data?.totalPages,
+          total: _data?.totalElements,
           size: _data?.size
         };
       }

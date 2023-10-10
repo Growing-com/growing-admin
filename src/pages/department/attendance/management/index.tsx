@@ -196,7 +196,7 @@ const AttendanceManagementPage: NextPage = () => {
         <AttendanceSearchTable
           attendanceList={attendanceList?.content}
           attendanceListSize={attendanceList?.size}
-          attendanceListTotal={attendanceList?.totalPages}
+          attendanceListTotal={attendanceList?.total}
           attendanceListPage={filter?.page}
           onChangePage={onChangeAttendancePagination}
         />
