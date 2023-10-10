@@ -29,7 +29,6 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         key: "leaderName",
         align: "center",
         width: "5rem",
-        fixed: "left",
         render: _value => <GRText>{_value}</GRText>
       },
       {
@@ -37,7 +36,6 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "userName",
         key: "userName",
         align: "center",
-        fixed: "left",
         width: "5rem"
       },
       {
@@ -45,7 +43,6 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "grade",
         key: "grade",
         align: "center",
-        fixed: "left",
         width: "5rem"
       },
       {
@@ -53,7 +50,6 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "sex",
         key: "sex",
         align: "center",
-        fixed: "left",
         width: "5rem",
         render: (_, item) => <ColumSexRender sexData={item.sex} />
       },
@@ -81,14 +77,14 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "status",
         key: "status",
         align: "center",
-        fixed: "left",
         render: (_, recode) => {
           return (
             <GRFormItem
               type={"radio"}
-              fieldName={`${recode.teamMemberId}.status`}
+              fieldName={`${recode?.teamMemberId}.status`}
               control={control}
               options={ATTENDANCE_STATUS}
+              defaultValue={recode.status}
             />
           );
         }
@@ -98,7 +94,6 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "etc",
         key: "etc",
         align: "center",
-        fixed: "left",
         render: (_, recode) => {
           return (
             <>
@@ -108,6 +103,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
                 fieldName={`${recode?.teamMemberId}.etc`}
                 control={control}
                 placeholder={"추가 내용 작성해 주세요"}
+                defaultValue={recode.etc}
               />
             </>
           );

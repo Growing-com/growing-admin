@@ -1,4 +1,5 @@
 import GRTab from "@component/atom/GRTab";
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -20,7 +21,7 @@ const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState<number>();
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
 
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
 
   const { cordiSelectItem } = useAccountTermInfos();
 
@@ -31,34 +32,44 @@ const AttendanceCheck = () => {
 
   const { mutate: attendanceCheckMutate } = useAttendanceCheckMutate();
 
-  const onChangeTab = useCallback((_tabIndx: string) => {
-    setCurrentTab(parseInt(_tabIndx));
-  }, []);
+  const onChangeTab = useCallback(
+    (_tabIndx: string) => {
+      reset();
+      setCurrentTab(parseInt(_tabIndx));
+    },
+    [reset]
+  );
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
+      reset();
       setFilterDate(_date);
     }
   };
 
   const handleOnSumbitButton = handleSubmit(_item => {
     if (_item) {
-      const _attendance = Object.entries(_item).map(
-        ([key, value]: [string, any]) => {
-          return {
-            teamMemberId: key,
-            teamId: currentTab,
-            status: ATTENDANCE_STATUS.find(
-              _status => _status.value === value.status
-            )?.value,
-            etc: value?.etc ?? ""
-          };
-        }
-      );
-      attendanceCheckMutate({
-        week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
-        attendances: _attendance as unknown as tAttendance[]
-      });
+      try {
+        const _attendance = Object.entries(_item).map(
+          ([key, value]: [string, any]) => {
+            if (!value.status) throw new Error("출석을 모두 선택해 주세요");
+            return {
+              teamMemberId: key,
+              teamId: currentTab,
+              status: ATTENDANCE_STATUS.find(
+                _status => _status.value === value.status
+              )?.value,
+              etc: value?.etc ?? ""
+            };
+          }
+        );
+        attendanceCheckMutate({
+          week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
+          attendances: _attendance as unknown as tAttendance[]
+        });
+      } catch (e: any) {
+        GRAlert.error(e?.message ?? "Error");
+      }
     }
   });
 

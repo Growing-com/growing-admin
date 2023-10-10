@@ -17,6 +17,17 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   const currentStatus = ATTENDANCE_STATUS.find(
     status => status.value === attendanceStatus
   );
+  if (!contentEtc.length) {
+    return (
+      <GRButtonText buttonType={"default"} disabled={true}>
+        <PlusCircleOutlined
+          rev={undefined}
+          style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
+        />
+        <GRText>{currentStatus?.label ?? " "}</GRText>
+      </GRButtonText>
+    );
+  }
 
   return (
     <Popover content={contentEtc} trigger={"click"}>
