@@ -1,15 +1,13 @@
 import { BarChartOutlined, FileExcelOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Dropdown } from "antd";
 import { useAttendanceBenchMutate } from "api/statistics/mutate/useAttendanceBenchMutate";
-import dayjs from "dayjs";
+import { useStatisticsAttendanceExcelQuery } from "api/statistics/queries/useStatisticsAttendanceExcelQuery";
 import { useCallback, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import StatisticsAbsentTable from "./StatisticsAbsentTable";
 import StatisticsCompareCards from "./StatisticsCompareCards";
 import StatisticsModal from "./StatisticsModal";
@@ -19,11 +17,18 @@ export type tStatisticsAttendanceExcelOption =
   | "personalAttendance"
   | "leaderAttendance"
   | "managerAttendance"
-  | "gradeAttendance";
+  | "gradeAttendance"
+  | undefined;
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
+  const [excelOption, setExcelOption] =
+    useState<tStatisticsAttendanceExcelOption>();
+
   const { mutateAsync: benchMutate } = useAttendanceBenchMutate();
+  const { data: excelData } = useStatisticsAttendanceExcelQuery({
+    options: excelOption
+  });
 
   const onClickStatistics = useCallback(() => {
     setOpenStatisticsModal(!openStatisticsModal);
@@ -54,37 +59,64 @@ const AttendanceStatistics = () => {
   //   );
   // };
 
-  const onClickExcel = useCallback((_title: string) => {
-    console.log("titel", _title);
-  }, []);
+  const onClickExcel = useCallback(
+    (_downloadExcelOption?: tStatisticsAttendanceExcelOption) => {
+      if (_downloadExcelOption) {
+        setExcelOption(_downloadExcelOption);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (excelData) {
+      console.log("excelData", excelData);
+    }
+  }, [excelData]);
 
   const items = [
     {
       key: "personalAttendance",
       label: (
-        <GRText onClick={() => onClickExcel("personalAttendance")}>텀</GRText>
+        <GRButtonText
+          buttonType={"default"}
+          onClick={() => onClickExcel("personalAttendance")}
+        >
+          텀
+        </GRButtonText>
       )
     },
     {
       key: "leaderAttendance",
       label: (
-        <GRText onClick={() => onClickExcel("leaderAttendance")}>
+        <GRButtonText
+          buttonType={"default"}
+          onClick={() => onClickExcel("leaderAttendance")}
+        >
           순모임별
-        </GRText>
+        </GRButtonText>
       )
     },
     {
       key: "managerAttendance",
       label: (
-        <GRText onClick={() => onClickExcel("managerAttendance")}>
+        <GRButtonText
+          buttonType={"default"}
+          onClick={() => onClickExcel("managerAttendance")}
+        >
           나무별
-        </GRText>
+        </GRButtonText>
       )
     },
     {
       key: "gradeAttendance",
       label: (
-        <GRText onClick={() => onClickExcel("gradeAttendance")}>학년</GRText>
+        <GRButtonText
+          buttonType={"default"}
+          onClick={() => onClickExcel("gradeAttendance")}
+        >
+          학년
+        </GRButtonText>
       )
     }
   ];
@@ -92,12 +124,6 @@ const AttendanceStatistics = () => {
   useEffect(() => {
     (async () => {
       try {
-        await benchMutate({
-          name: "termAttendanceJob",
-          jobParameters: {
-            requestDate: dayjs().weekday(0).format(DEFAULT_DATE_FOMAT)
-          }
-        });
         await benchMutate({
           name: "weeklyAttendanceJob",
           jobParameters: {
@@ -117,7 +143,9 @@ const AttendanceStatistics = () => {
         headerComponent={
           <>
             <GRButtonText
-              onClick={onClickStatistics}
+              onClick={() => {
+                console.log("Empty");
+              }}
               buttonType={"primary"}
               size={"large"}
               marginright={GRStylesConfig.BASE_MARGIN}

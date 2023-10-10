@@ -3,14 +3,18 @@ import { tStatisticsAttendanceExcelOption } from "pages/department/attendance/st
 import { getStatisticsAttendanceExcel } from "..";
 import statisticsQueryKeys from "./statisticsQueryKeys";
 
-export const useStatisticsAttendanceExcelQuery = (
-  options?: tStatisticsAttendanceExcelOption
-) => {
+type tUseStatisticsAttendanceExcelQuery = {
+  options?: tStatisticsAttendanceExcelOption;
+};
+
+export const useStatisticsAttendanceExcelQuery = ({
+  options
+}: tUseStatisticsAttendanceExcelQuery) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_ATTENDANCE_EXCEL],
+    [statisticsQueryKeys.STATISTICS_ATTENDANCE_EXCEL, options],
     async () => {
       if (options) {
-        await getStatisticsAttendanceExcel({
+        return await getStatisticsAttendanceExcel({
           termId: 1,
           options
         });
