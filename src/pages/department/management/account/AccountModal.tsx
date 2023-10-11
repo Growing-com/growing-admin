@@ -34,7 +34,7 @@ const AccountModal: FC<tAccountModal> = ({
   const isCreate = useMemo(() => !user?.id, [user?.id]);
 
   const { data: userInfo } = useUserDetailQuery(user?.id);
-  const { newFamilyLeaderOption } = useTermInfoOptionQueries();
+  const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
   const { createUserMutateAsync, updateUserMutateAsync } = useUserMutate();
 
   const { control, handleSubmit, reset } = useForm<tAccountForm>();
@@ -171,7 +171,7 @@ const AccountModal: FC<tAccountModal> = ({
             title={"리더"}
             fieldName={"teamId"}
             control={control}
-            options={newFamilyLeaderOption}
+            options={newFamilyLeaderOptions}
             placeholder={"리더를 선택해주세요"}
           />
           <GRFormItem

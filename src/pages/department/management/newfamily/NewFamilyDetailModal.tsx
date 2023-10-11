@@ -9,6 +9,7 @@ import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { Alert } from "antd";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { tAccount } from "api/account/types";
+import { useNewFamilyLineUp } from "api/term/mutate/useNewFamilyLineUp";
 import { tTermNewFamily } from "api/term/types";
 import { GENDER_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
@@ -34,15 +35,16 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   onClose,
   newFamily
 }) => {
-  const [newFamilySelectedLeaderId, setNewFamilySelectedLeaderId] =
-    useState<number>();
+  const [selectedLeaderId, setselectedLeaderId] = useState<number>();
   const [disableSelectNewFamily] = useState<boolean>(false);
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
   const { updateUserMutateAsync } = useUserMutate();
-  const { newFamilyLeaderOption } = useTermInfoOptionQueries();
-  // const { mutateAsync: newFamilyLineUpMutateAsync } = useNewFamilyLineUp();
+  const { termCordyOptions, termLeaderOptions, setSelectedCodyId } =
+    useTermInfoOptionQueries();
+
+  const { mutateAsync: newFamilyLineUpMutateAsync } = useNewFamilyLineUp();
 
   const onCloseModal = useCallback(() => {
     onClose?.();
@@ -70,29 +72,41 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     [newFamily?.userId, onCloseModal, updateUserMutateAsync]
   );
 
-  const onChangeNewFamilySelect = useCallback((_newFamilyLeader: number) => {
-    setNewFamilySelectedLeaderId(_newFamilyLeader);
+  const onChangeLeaderSelect = useCallback((_leaderId: number) => {
+    setselectedLeaderId(_leaderId);
   }, []);
+
+  const onChangeCordySelect = useCallback(
+    (_cordy: number) => {
+      setSelectedCodyId(_cordy);
+      setselectedLeaderId(undefined);
+    },
+    [setSelectedCodyId]
+  );
 
   const onClickLineUpButton = useCallback(async () => {
     console.log("newFamily", newFamily);
-    if (!newFamilySelectedLeaderId) {
-      GRAlert.error("새가족 리더를 선택해주세요");
+    if (!selectedLeaderId) {
+      GRAlert.error("리더와 코디를 선택해주세요");
       return;
     }
-    // try {
-    //   if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
-    //     // await newFamilyLineUpMutateAsync({
-    //     //   teamId,
-    //     //   teamMemberId,
-    //     //   data
-    //     // });
-    //     setDisableSelectNewFamily(true);
-    //   }
-    // } catch (e) {
-    //   GRAlert.error("라인업 오류");
-    // }
-  }, [newFamily, newFamilySelectedLeaderId]);
+    try {
+      if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
+        // await newFamilyLineUpMutateAsync({
+        //   teamId: newFamily?.teamId,
+        //   teamMemberId: newFamily?.teamId,
+        //   data: {
+        //     plantTeamId
+        //     lineupDate
+        //     gradeAtFirstVisit
+        //   }
+        // });
+        setDisableSelectNewFamily(true);
+      }
+    } catch (e) {
+      GRAlert.error("라인업 오류");
+    }
+  }, [newFamily, setselectedLeaderId]);
 
   useEffect(() => {
     if (newFamily) {
@@ -175,32 +189,36 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
-          <GRFlexView flexDirection={"row"}>
-            <GRFormTitle title={"라인업"} />
-            <GRSelect
-              style={{ flex: 1 }}
-              value={newFamilySelectedLeaderId}
-              options={newFamilyLeaderOption}
-              onChange={onChangeNewFamilySelect}
-              placeholder={"새가족 리더를 선택해주세요"}
-              disabled={disableSelectNewFamily}
-            />
-            <GRButtonText
-              marginleft={GRStylesConfig.BASE_MARGIN}
-              onClick={onClickLineUpButton}
-            >
-              라인업
-            </GRButtonText>
-          </GRFlexView>
-          <GRFlexView>
-            <Alert
-              type={"warning"}
-              message={"새가족 라인업을 진행하면 변경 불가능합니다"}
-              style={{ backgroundColor: "white" }}
-              showIcon
-              banner={true}
-            />
-          </GRFlexView>
+          <GRFormTitle title={"라인업"} />
+          <GRSelect
+            style={{ flex: 1 }}
+            marginright={GRStylesConfig.BASE_MARGIN}
+            options={termCordyOptions}
+            onChange={onChangeCordySelect}
+            placeholder={"코디 선택해주세요"}
+            disabled={disableSelectNewFamily}
+          />
+          <GRSelect
+            style={{ flex: 1 }}
+            value={selectedLeaderId}
+            options={termLeaderOptions}
+            onChange={onChangeLeaderSelect}
+            placeholder={"리더를 선택해주세요"}
+            disabled={disableSelectNewFamily}
+          />
+          <GRButtonText
+            marginleft={GRStylesConfig.BASE_MARGIN}
+            onClick={onClickLineUpButton}
+          >
+            라인업
+          </GRButtonText>
+          <Alert
+            type={"warning"}
+            message={"라인업을 진행하면 변경 불가능합니다"}
+            style={{ backgroundColor: "white" }}
+            showIcon
+            banner={true}
+          />
         </GRFlexView>
         <GRFlexView>
           <GRFormItem

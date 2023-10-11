@@ -17,13 +17,6 @@ export const getTermMemberByCodyId = (termId: number, codyId: number) => {
   });
 };
 
-export const getTermLeaderByCodyId = (termId: number, codyId: number) => {
-  return request<tTermCody[]>({
-    method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/cody/${codyId}/leaders`
-  });
-};
-
 export const getTermNewFamily = (termId: number) => {
   return request<tTermNewFamily[]>({
     method: REQUEST_METHOD.GET,
