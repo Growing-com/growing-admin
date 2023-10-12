@@ -64,8 +64,8 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
     if (leaderByCodyIsSuccess && !!leaderByCody?.length) {
       setTermLeaderOptions(
         leaderByCody.map(_termCordy => ({
-          value: _termCordy.userId,
-          label: _termCordy.name
+          value: _termCordy.teamMemberId,
+          label: _termCordy.memberName
         }))
       );
     }
@@ -75,6 +75,7 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
     newFamilyLeaderOptions,
     termCordyOptions,
     termLeaderOptions,
+    selectedCodyId,
     setSelectedCodyId
   };
 };

@@ -40,11 +40,11 @@ export type tAccount = {
   /** @description 생년월일  @example  "1996-10-16", */
   birth: string;
   /** @description 학년  @example  9, */
-  grade: string;
+  grade: number;
   /** @description 활성화 여부  @example   true, */
   isActive?: boolean;
   /** @description 팀 아이디  @example  2 */
-  teamId: string;
+  teamId: number;
   /** @description 추가 내용  @example null */
   etc: string | null;
   id?: number;
