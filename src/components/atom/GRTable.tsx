@@ -11,6 +11,8 @@ type tGRTable<T> = {
   headerComponent?: ReactNode;
   isHoverTable?: boolean;
   data?: Array<T>;
+  fontSize?: number;
+  headerFontSize?: number;
 } & tGetMargin &
   TableProps<T>;
 
@@ -26,6 +28,8 @@ const GRTable = <GRTableType extends object>({
   scroll,
   headerComponent,
   isHoverTable = true,
+  fontSize = 0.8,
+  headerFontSize = 0.7,
   ...props
 }: tGRTable<GRTableType>) => {
   const _margin = getMargin(props);
@@ -39,8 +43,20 @@ const GRTable = <GRTableType extends object>({
       .ant-table-tbody > tr.ant-table-row:hover > td {
         background: ${!isHoverTable && `white !important`};
       }
+
+      .ant-table table {
+        font-size: ${fontSize}rem;
+      }
+      .ant-table-thead {
+        tr {
+          .ant-table-cell {
+            font-size: ${fontSize}rem;
+            padding: ${headerFontSize}rem;
+          }
+        }
+      }
     `,
-    [isHoverTable]
+    [fontSize, isHoverTable]
   );
 
   return (
