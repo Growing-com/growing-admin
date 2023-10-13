@@ -6,6 +6,7 @@ import { ConfigProvider } from "antd";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import Script from "next/script";
 import { ReactElement, ReactNode } from "react";
 import { Color } from "styles/colors";
 import "styles/globals.css";
@@ -37,6 +38,17 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
         <meta property="description" content="환영합니다 그로잉입니다." />
         <meta property="og:description" content="환영합니다 그로잉입니다." />
       </Head>
+      {/*  Google tag (gtag.js) */}
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-9MRD9LGEVY" />
+      <Script id={"google-analytics"}>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-9MRD9LGEVY');
+        `}
+      </Script>
       <ConfigProvider
         theme={{
           token: {
