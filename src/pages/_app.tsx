@@ -37,18 +37,18 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
         <title>Growing</title>
         <meta property="description" content="환영합니다 그로잉입니다." />
         <meta property="og:description" content="환영합니다 그로잉입니다." />
-      </Head>
-      {/*  Google tag (gtag.js) */}
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-9MRD9LGEVY" />
-      <Script id={"google-analytics"}>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        {/*  Google tag (gtag.js) */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-9MRD9LGEVY" />
+        <Script id={"google-analytics"}>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-          gtag('config', 'G-9MRD9LGEVY');
-        `}
-      </Script>
+            gtag('config', 'G-9MRD9LGEVY');
+          `}
+        </Script>
+      </Head>
       <ConfigProvider
         theme={{
           token: {
