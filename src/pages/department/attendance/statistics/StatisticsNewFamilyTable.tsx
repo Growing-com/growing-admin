@@ -5,6 +5,7 @@ import ColumSexRender from "@component/templates/table/ColumSexRender";
 import { ColumnType } from "antd/es/table";
 import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
 import dayjs from "dayjs";
+import { useCallback } from "react";
 import { DEFAULT_DATE_FOMAT, getWeekDataFromToday } from "utils/DateUtils";
 
 const LAST_SUNDAY = 0;
@@ -83,12 +84,13 @@ const StatisticsNewFamilyTable = () => {
       )
     }
   ];
+  const onClickExcel = useCallback(() => {}, []);
 
   return (
     <GRTable
       rowKey={"name"}
       headerComponent={
-        <GRText weight={"bold"} fontSize={"b4"}>
+        <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
           🌱 새가족 인원
         </GRText>
       }

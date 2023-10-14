@@ -7,8 +7,8 @@ import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText from "../text/GRText";
 
 export type tButtonSize = "large" | "normal" | "small";
-
-type tGRButtonText = {
+export type tButtonType = "default" | "primary" | "cancel" | "text" | "custom";
+export type tGRButtonText = {
   style?: CSSProperties;
   isTextButton?: boolean;
   backgroundColor?: CSSProperties["backgroundColor"];
@@ -17,7 +17,7 @@ type tGRButtonText = {
   size?: tButtonSize;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
-  buttonType?: "default" | "primary" | "cancel" | "text" | "custom";
+  buttonType?: tButtonType;
 } & Omit<ButtonProps, "size" | "type"> &
   tGetMargin;
 

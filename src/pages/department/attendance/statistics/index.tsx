@@ -1,4 +1,4 @@
-import { BarChartOutlined, FileExcelOutlined } from "@ant-design/icons";
+import { FileExcelOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
@@ -7,7 +7,6 @@ import { Dropdown } from "antd";
 import { useAttendanceBenchMutate } from "api/statistics/mutate/useAttendanceBenchMutate";
 import { useStatisticsAttendanceExcelQuery } from "api/statistics/queries/useStatisticsAttendanceExcelQuery";
 import { useCallback, useEffect, useState } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
 import StatisticsAbsentTable from "./StatisticsAbsentTable";
 import StatisticsCompareCards from "./StatisticsCompareCards";
 import StatisticsModal from "./StatisticsModal";
@@ -76,48 +75,46 @@ const AttendanceStatistics = () => {
 
   const items = [
     {
-      key: "personalAttendance",
-      label: (
-        <GRButtonText
-          buttonType={"default"}
-          onClick={() => onClickExcel("personalAttendance")}
-        >
-          텀
-        </GRButtonText>
-      )
+      key: "term",
+      label: "텀",
+      children: [
+        {
+          key: "personalAttendance",
+          label: "출결",
+          onClick: () => onClickExcel("personalAttendance")
+        },
+        {
+          key: "leaderAttendance",
+          label: "순모임별",
+          onClick: () => onClickExcel("leaderAttendance")
+        },
+        {
+          key: "managerAttendance",
+          label: "나무별",
+          onClick: () => onClickExcel("managerAttendance")
+        },
+        {
+          key: "gradeAttendance",
+          label: "학년",
+          onClick: () => onClickExcel("gradeAttendance")
+        }
+      ]
     },
     {
-      key: "leaderAttendance",
-      label: (
-        <GRButtonText
-          buttonType={"default"}
-          onClick={() => onClickExcel("leaderAttendance")}
-        >
-          순모임별
-        </GRButtonText>
-      )
-    },
-    {
-      key: "managerAttendance",
-      label: (
-        <GRButtonText
-          buttonType={"default"}
-          onClick={() => onClickExcel("managerAttendance")}
-        >
-          나무별
-        </GRButtonText>
-      )
-    },
-    {
-      key: "gradeAttendance",
-      label: (
-        <GRButtonText
-          buttonType={"default"}
-          onClick={() => onClickExcel("gradeAttendance")}
-        >
-          학년
-        </GRButtonText>
-      )
+      key: "week",
+      label: "지난주",
+      children: [
+        {
+          key: "absentAttendance",
+          label: "결석 인원",
+          onClick: () => onClickExcel("absentAttendance")
+        },
+        {
+          key: "newFamilyAttendance",
+          label: "새가족 인원",
+          onClick: () => onClickExcel("newFamilyAttendance")
+        }
+      ]
     }
   ];
 
@@ -142,7 +139,7 @@ const AttendanceStatistics = () => {
         title={"출석 통계"}
         headerComponent={
           <>
-            <GRButtonText
+            {/* <GRButtonText
               onClick={() => {
                 console.log("Empty");
               }}
@@ -155,7 +152,7 @@ const AttendanceStatistics = () => {
                 style={{ fontSize: "1rem", marginRight: "0.5rem" }}
               />
               그룹별 통계
-            </GRButtonText>
+            </GRButtonText> */}
             <GRView>
               <Dropdown
                 menu={{
@@ -164,15 +161,15 @@ const AttendanceStatistics = () => {
                 placement={"bottom"}
                 arrow
               >
-                <GRButtonText buttonType={"default"} size={"small"}>
+                <GRButtonText buttonType={"default"} size={"large"}>
                   <FileExcelOutlined
                     rev={undefined}
                     style={{ fontSize: "1rem", marginRight: "0.3rem" }}
                   />
+                  엑셀 다운
                 </GRButtonText>
               </Dropdown>
             </GRView>
-            {/* <ExcelButton onlyIcon size={"small"} onClickExcel={onClickExcel} /> */}
           </>
         }
       />
