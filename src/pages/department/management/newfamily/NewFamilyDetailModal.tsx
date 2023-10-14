@@ -113,27 +113,23 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     if (!lineUpDate) {
       return GRAlert.error("라인업 날짜를 선택해주세요");
     }
+    if (!newFamily) return;
+
     if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
       newFamilyLineUpMutate({
-        teamId: newFamily.teamId,
-        teamMemberId: newFamily.teamMemberId,
+        teamId: newFamily?.teamId,
+        teamMemberId: newFamily?.teamMemberId,
         data: {
           plantTeamId: selectedLeaderId,
           lineupDate: dayjs(lineUpDate).format(DEFAULT_DATE_FOMAT),
-          gradeAtFirstVisit: newFamily.grade
+          gradeAtFirstVisit: newFamily?.grade
         }
       });
     }
-  }, [
-    lineUpDate,
-    newFamily.grade,
-    newFamily.teamId,
-    newFamily.teamMemberId,
-    newFamilyLineUpMutate,
-    selectedLeaderId
-  ]);
+  }, [lineUpDate, newFamily, newFamilyLineUpMutate, selectedLeaderId]);
 
   const onClickLineOut = useCallback(() => {
+    if (!newFamily) return;
     if (
       confirm(
         "라인 아웃 후 다시 라인업은 불가능합니다. 그래도 진행하시겠습니까?"
@@ -145,16 +141,11 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         teamMemberId: newFamily.teamMemberId,
         data: {
           lineoutDate: dayjs().format(DEFAULT_DATE_FOMAT),
-          gradeAtFirstVisit: newFamily.grade
+          gradeAtFirstVisit: newFamily?.grade
         }
       });
     }
-  }, [
-    newFamily.grade,
-    newFamily.teamId,
-    newFamily.teamMemberId,
-    newFamilyLineOutMutate
-  ]);
+  }, [newFamily, newFamilyLineOutMutate]);
 
   useEffect(() => {
     if (newFamily) {
