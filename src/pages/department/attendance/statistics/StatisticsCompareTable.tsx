@@ -3,25 +3,21 @@ import GRText from "@component/atom/text/GRText";
 import ColumAttendanceRender from "@component/templates/table/ColumAttendanceRender";
 import ColumSexRender from "@component/templates/table/ColumSexRender";
 import { ColumnType } from "antd/es/table";
-import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
-import dayjs from "dayjs";
-import { useCallback } from "react";
-import { DEFAULT_DATE_FOMAT, getWeekDataFromToday } from "utils/DateUtils";
+import { tGetStatisticsAttendanceResponse } from "api/statistics";
+import { getWeekDataFromToday } from "utils/DateUtils";
 
-const LAST_SUNDAY = 0;
-const THIS_SUNDAY = 7;
+type tStatisticsCompareTable = {
+  headerTitle: string;
+  data?: tGetStatisticsAttendanceResponse[];
+};
 
-const StatisticsNewFamilyTable = () => {
-  const { data: statisticsNewData } = useStatisticsAttendance(
-    {
-      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
-      isNewOnly: true
-    },
-    "newFamily"
-  );
+const StatisticsCompareTable = ({
+  headerTitle,
+  data
+}: tStatisticsCompareTable) => {
   const { lastSunday, thisSunday } = getWeekDataFromToday();
-  const absentColumns: ColumnType<any>[] = [
+
+  const absentColumns: ColumnType<tGetStatisticsAttendanceResponse>[] = [
     {
       title: "코디",
       dataIndex: "managerName",
@@ -52,7 +48,8 @@ const StatisticsNewFamilyTable = () => {
       key: "grade",
       align: "center",
       fixed: "left",
-      width: "5rem"
+      width: "5rem",
+      sorter: (a, b) => a.grade - b.grade
     },
     {
       title: "성별",
@@ -84,20 +81,26 @@ const StatisticsNewFamilyTable = () => {
       )
     }
   ];
-  const onClickExcel = useCallback(() => {}, []);
 
   return (
     <GRTable
       rowKey={"name"}
+      marginbottom={2}
       headerComponent={
-        <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
-          🌱 새가족 인원
+        <GRText
+          weight={"bold"}
+          fontSize={"b4"}
+          marginright={0.5}
+          marginbottom={1}
+        >
+          {headerTitle}
         </GRText>
       }
       columns={absentColumns}
-      data={statisticsNewData as any[]}
+      data={data}
+      scroll={{ y: 200 }}
     />
   );
 };
 
-export default StatisticsNewFamilyTable;
+export default StatisticsCompareTable;

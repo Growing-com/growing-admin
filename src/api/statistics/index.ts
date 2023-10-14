@@ -41,10 +41,20 @@ export type tGetStatisticsAttendanceParams = {
   isNewOnly?: boolean;
 };
 
+export type tGetStatisticsAttendanceResponse = {
+  attendanceItems: tAttendanceItem[];
+  grade: number;
+  leaderName: string;
+  managerName: string;
+  sex: tSex;
+  userId: number;
+  userName: string;
+};
+
 export const getStatisticsAttendance = (
   params: tGetStatisticsAttendanceParams
 ) => {
-  return request({
+  return request<tGetStatisticsAttendanceResponse[]>({
     method: REQUEST_METHOD.GET,
     url: `${STATISTICS_PREFIX}/attendance`,
     params

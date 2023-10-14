@@ -61,11 +61,7 @@ const StatisticsCompareCards = () => {
 
   return (
     <GRView marginbottom={2}>
-      <GRText
-        weight={"bold"}
-        fontSize={"b4"}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-      >
+      <GRText weight={"bold"} fontSize={"b4"} marginbottom={1}>
         ⚡️ 지난주 대비
       </GRText>
       <GRFlexView flexDirection={"row"} marginbottom={1}>

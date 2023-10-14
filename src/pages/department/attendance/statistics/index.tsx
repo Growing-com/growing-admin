@@ -5,19 +5,26 @@ import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Dropdown } from "antd";
 import { useAttendanceBenchMutate } from "api/statistics/mutate/useAttendanceBenchMutate";
+import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
 import { useStatisticsAttendanceExcelQuery } from "api/statistics/queries/useStatisticsAttendanceExcelQuery";
+import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
-import StatisticsAbsentTable from "./StatisticsAbsentTable";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import StatisticsCompareCards from "./StatisticsCompareCards";
+import StatisticsCompareTable from "./StatisticsCompareTable";
 import StatisticsModal from "./StatisticsModal";
-import StatisticsNewFamilyTable from "./StatisticsNewFamilyTable";
 
 export type tStatisticsAttendanceExcelOption =
   | "personalAttendance"
   | "leaderAttendance"
   | "managerAttendance"
   | "gradeAttendance"
+  | "absentAttendance"
+  | "newFamilyAttendance"
   | undefined;
+
+const LAST_SUNDAY = 0;
+const THIS_SUNDAY = 7;
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
@@ -28,6 +35,24 @@ const AttendanceStatistics = () => {
   const { data: excelData } = useStatisticsAttendanceExcelQuery({
     options: excelOption
   });
+
+  const { data: statisticsAbsentData } = useStatisticsAttendance(
+    {
+      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      isAbsent: true
+    },
+    "isAbsent"
+  );
+
+  const { data: statisticsNewData } = useStatisticsAttendance(
+    {
+      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      isNewOnly: true
+    },
+    "newFamily"
+  );
 
   const onClickStatistics = useCallback(() => {
     setOpenStatisticsModal(!openStatisticsModal);
@@ -175,8 +200,14 @@ const AttendanceStatistics = () => {
       />
       <GRContainerView>
         <StatisticsCompareCards />
-        <StatisticsAbsentTable />
-        <StatisticsNewFamilyTable />
+        <StatisticsCompareTable
+          headerTitle={"🐏 결석 인원"}
+          data={statisticsAbsentData}
+        />
+        <StatisticsCompareTable
+          headerTitle={"🌱 새가족 인원"}
+          data={statisticsNewData}
+        />
       </GRContainerView>
       <StatisticsModal
         onClickStatistics={onClickStatistics}
