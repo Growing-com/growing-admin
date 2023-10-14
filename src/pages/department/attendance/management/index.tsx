@@ -44,7 +44,7 @@ const AttendanceManagementPage: NextPage = () => {
       searchType: "name"
     }
   });
-  const { data: attendanceList } = useAttendanceQuery(filter);
+  const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
 
   const convertParam = (_filter: {
     rangeDate?: dayjs.Dayjs[];
@@ -194,6 +194,7 @@ const AttendanceManagementPage: NextPage = () => {
       />
       <GRContainerView>
         <AttendanceSearchTable
+          isLoading={isFetching}
           attendanceList={attendanceList?.content}
           attendanceListSize={attendanceList?.size}
           attendanceListTotal={attendanceList?.total}

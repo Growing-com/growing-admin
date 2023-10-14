@@ -14,8 +14,7 @@ export type tGRFormModal = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
-  title?: string;
-} & Omit<ModalProps, "onOk" | "onCancel" | "title">;
+} & Omit<ModalProps, "onOk" | "onCancel">;
 
 const GRFormModal: FC<tGRFormModal> = ({
   children,

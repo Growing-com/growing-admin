@@ -20,8 +20,7 @@ export type tGRModal = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   modalOkButtonType?: "submit" | "button" | "reset";
-  title?: string;
-} & Omit<ModalProps, "onOk" | "onCancel" | "title">;
+} & Omit<ModalProps, "onOk" | "onCancel">;
 
 const GRModal: FC<tGRModal> = ({
   children,

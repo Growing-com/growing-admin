@@ -1,24 +1,32 @@
-import GRButton from "@component/base/button/GRButton";
-import GRFlexView from "@component/base/view/GRFlexView";
-import GRView from "@component/base/view/GRView";
+import GRButton from "@component/atom/button/GRButton";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
 
-type tBaseLayout = {};
+type tBaseLayout = {
+  children: ReactNode;
+};
+
+export type tMenuInfo = {
+  key: string;
+  keyPath: string[];
+  domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+};
 
 const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
-  const [menu, setMenu] = useState([]);
+  const [menu, setMenu] = useState<any[]>([]);
   const router = useRouter();
 
   const onSelectMenu = useCallback(
-    async e => {
+    async (e: tMenuInfo) => {
       const newPath = e.key.replace("-", "/");
       router.push(`/department/${newPath}`);
     },
@@ -41,7 +49,7 @@ const BaseLayout: React.FC<tBaseLayout> = ({ children }) => {
           />
         </GRView>
         <GRFlexView justifyContent={"flex-start"} flexDirection={"row"}>
-          <GRButton type={"link"} textColor={Color.green200} onClick={() => {}}>
+          <GRButton type={"link"} textColor={Color.green200}>
             부서
           </GRButton>
           <GRButton

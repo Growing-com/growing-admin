@@ -13,6 +13,7 @@ type tGRTable<T> = {
   data?: Array<T>;
   fontSize?: number;
   headerFontSize?: number;
+  isLoading?: boolean;
 } & tGetMargin &
   TableProps<T>;
 
@@ -29,7 +30,8 @@ const GRTable = <GRTableType extends object>({
   headerComponent,
   isHoverTable = true,
   fontSize = 0.8,
-  headerFontSize = 0.7,
+  headerFontSize = 0.8,
+  isLoading = false,
   ...props
 }: tGRTable<GRTableType>) => {
   const _margin = getMargin(props);
@@ -50,13 +52,13 @@ const GRTable = <GRTableType extends object>({
       .ant-table-thead {
         tr {
           .ant-table-cell {
-            font-size: ${fontSize}rem;
-            padding: ${headerFontSize}rem;
+            font-size: ${headerFontSize}rem;
+            padding: 0.5rem;
           }
         }
       }
     `,
-    [fontSize, isHoverTable]
+    [fontSize, headerFontSize, isHoverTable]
   );
 
   return (
@@ -65,10 +67,12 @@ const GRTable = <GRTableType extends object>({
         {headerComponent}
       </GRView>
       <Table
+        loading={isLoading}
         columns={columns}
         dataSource={data ?? []}
         pagination={pagination}
         scroll={scroll ?? BASE_SCROLL}
+        showSorterTooltip={false}
         css={css`
           ${_margin};
           ${_tableStyles}

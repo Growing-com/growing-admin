@@ -14,6 +14,7 @@ type tAttendanceSearchTable = {
   attendanceListTotal?: number;
   attendanceListPage?: number;
   onChangePage: (page: number, pageSize: number) => void;
+  isLoading?: boolean;
 };
 
 const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
@@ -21,7 +22,8 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   attendanceListSize,
   attendanceListTotal,
   onChangePage,
-  attendanceListPage
+  attendanceListPage,
+  isLoading
 }) => {
   const renderAddDay = () => {
     if (!attendanceList?.length) return [];
@@ -112,6 +114,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         current: attendanceListPage
       }}
       scroll={{ x: 1300 }}
+      isLoading={isLoading}
     />
   );
 };

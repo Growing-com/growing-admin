@@ -25,7 +25,7 @@ const AttendanceCheck = () => {
 
   const { cordiSelectItem } = useAccountTermInfos();
 
-  const { data: attendanceCheckData } = useAttendanceCheckQuery({
+  const { data: attendanceCheckData, isFetching } = useAttendanceCheckQuery({
     week: filterDate?.format(DEFAULT_DATE_FOMAT),
     codyId: currentTab
   });
@@ -106,6 +106,7 @@ const AttendanceCheck = () => {
           }
         />
         <AttendanceCheckTable
+          isLoading={isFetching}
           control={control}
           attendanceDataSource={attendanceCheckData}
         />

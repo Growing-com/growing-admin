@@ -15,11 +15,13 @@ const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * �
 type tAttendanceCheckTable = {
   attendanceDataSource?: tAttendanceCheckItem[];
   control: Control<FieldValues, any>;
+  isLoading?: boolean;
 };
 
 const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   attendanceDataSource,
-  control
+  control,
+  isLoading
 }) => {
   const columns: ColumnType<tAttendanceCheckItem>[] = useMemo(
     () => [
@@ -64,7 +66,11 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
                 <GRFlexView alignItems={"center"}>
                   <Alert
                     showIcon
-                    message={"출석"}
+                    message={
+                      <GRText weight={"bold"} fontSize={"b7"}>
+                        출석
+                      </GRText>
+                    }
                     type={"info"}
                     banner={true}
                     style={{ backgroundColor: "transparent" }}
@@ -115,6 +121,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
 
   return (
     <GRTable
+      isLoading={isLoading}
       rowKey={record => record.teamMemberId}
       data={attendanceDataSource}
       columns={columns}
