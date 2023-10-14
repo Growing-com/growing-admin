@@ -32,7 +32,7 @@ const ManagementAccountPage: NextPage = () => {
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      sorter: (a, b) => parseInt(a.grade) - parseInt(b.grade)
+      sorter: (a, b) => a.grade - b.grade
     },
     {
       title: "성별",
