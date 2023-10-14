@@ -11,6 +11,7 @@ type tUseTermInfoOptionQueries = () => {
   termCordyOptions: tOptions;
   termLeaderOptions: tOptions;
   setSelectedCodyId: Dispatch<SetStateAction<number | undefined>>;
+  selectedCodyId?: number;
 };
 export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
   const [newFamilyLeaderOptions, setNewFamilyLeaderOptions] =
@@ -64,8 +65,8 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
     if (leaderByCodyIsSuccess && !!leaderByCody?.length) {
       setTermLeaderOptions(
         leaderByCody.map(_termCordy => ({
-          value: _termCordy.teamMemberId,
-          label: _termCordy.memberName
+          value: _termCordy.teamId,
+          label: _termCordy.leaderName
         }))
       );
     }

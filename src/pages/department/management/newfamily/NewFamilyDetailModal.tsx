@@ -2,6 +2,7 @@ import GRAlert from "@component/atom/alert/GRAlert";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
+import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -9,6 +10,7 @@ import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { tAccount } from "api/account/types";
+import { useNewFamilyLineOut } from "api/term/mutate/useNewFamilyLineOut";
 import { useNewFamilyLineUp } from "api/term/mutate/useNewFamilyLineUp";
 import { tTermNewFamily } from "api/term/types";
 import { GENDER_OPTIONS } from "config/const";
@@ -50,14 +52,19 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     selectedCodyId,
     setSelectedCodyId
   } = useTermInfoOptionQueries();
-  const { mutateAsync: newFamilyLineUpMutateAsync } = useNewFamilyLineUp();
-
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
   const onCloseModal = useCallback(() => {
     onClose?.();
     reset();
   }, [onClose, reset]);
+
+  const { mutate: newFamilyLineUpMutate } = useNewFamilyLineUp({
+    onClose: onCloseModal
+  });
+  const { mutate: newFamilyLineOutMutate } = useNewFamilyLineOut({
+    onClose: onCloseModal
+  });
 
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
     async _item => {
@@ -98,7 +105,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     [setSelectedCodyId]
   );
 
-  const onClickLineUpButton = useCallback(async () => {
+  const onClickLineUpButton = useCallback(() => {
     if (!selectedLeaderId) {
       return GRAlert.error("리더와 코디를 선택해주세요");
     }
@@ -106,22 +113,48 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     if (!lineUpDate) {
       return GRAlert.error("라인업 날짜를 선택해주세요");
     }
-    try {
-      if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
-        await newFamilyLineUpMutateAsync({
-          teamId: newFamily.teamId,
-          teamMemberId: newFamily.teamId,
-          data: {
-            plantTeamId: selectedLeaderId,
-            lineupDate: dayjs(lineUpDate).format(DEFAULT_DATE_FOMAT),
-            gradeAtFirstVisit: newFamily.grade
-          }
-        });
-      }
-    } catch (e) {
-      GRAlert.error("라인업 오류");
+    if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
+      newFamilyLineUpMutate({
+        teamId: newFamily.teamId,
+        teamMemberId: newFamily.teamMemberId,
+        data: {
+          plantTeamId: selectedLeaderId,
+          lineupDate: dayjs(lineUpDate).format(DEFAULT_DATE_FOMAT),
+          gradeAtFirstVisit: newFamily.grade
+        }
+      });
     }
-  }, [lineUpDate, newFamily, newFamilyLineUpMutateAsync, selectedLeaderId]);
+  }, [
+    lineUpDate,
+    newFamily.grade,
+    newFamily.teamId,
+    newFamily.teamMemberId,
+    newFamilyLineUpMutate,
+    selectedLeaderId
+  ]);
+
+  const onClickLineOut = useCallback(() => {
+    if (
+      confirm(
+        "라인 아웃 후 다시 라인업은 불가능합니다. 그래도 진행하시겠습니까?"
+      )
+    ) {
+      newFamilyLineOutMutate({
+        teamId: newFamily.teamId,
+
+        teamMemberId: newFamily.teamMemberId,
+        data: {
+          lineoutDate: dayjs().format(DEFAULT_DATE_FOMAT),
+          gradeAtFirstVisit: newFamily.grade
+        }
+      });
+    }
+  }, [
+    newFamily.grade,
+    newFamily.teamId,
+    newFamily.teamMemberId,
+    newFamilyLineOutMutate
+  ]);
 
   useEffect(() => {
     if (newFamily) {
@@ -141,7 +174,14 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
       open={open}
       onCancel={onCloseModal}
       onSubmit={handleSubmit(onClickModalOk)}
-      title={"새가족 상세"}
+      title={
+        <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+          <GRText weight={"bold"}>새가족 상세</GRText>
+          <GRButtonText danger onClick={onClickLineOut}>
+            라인 아웃
+          </GRButtonText>
+        </GRFlexView>
+      }
       width={"60%"}
       okButtonText={"수정"}
     >

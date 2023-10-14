@@ -8,18 +8,10 @@ export type tTermCody = {
 };
 
 export type tTermLeader = {
-  /** @description 학년 @example 1 */
-  grade: number;
   /** @description 팀 리더 이름  @example "강성혁" */
   leaderName: string;
-  /** @description 팀 멤버  @example "조예진" */
-  memberName: string;
-  /** @description 성별  @example "FEMALE" */
-  sex: tSex;
   /** @description 팀 id  @example 2 */
   teamId: number;
-  /** @description: 팀 멤버 id  @example 80 */
-  teamMemberId: number;
 };
 
 export type tTermMember = {
@@ -50,6 +42,7 @@ export type tTermNewFamily = {
   visitDate: string;
   leaderName: string;
   userId?: number;
+  teamMemberId: number;
 } & Pick<
   tAccount,
   | "teamId"

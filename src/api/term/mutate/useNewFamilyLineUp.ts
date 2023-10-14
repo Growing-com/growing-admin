@@ -1,10 +1,19 @@
+import GRAlert from "@component/atom/alert/GRAlert";
 import { useMutation } from "@tanstack/react-query";
 import { postNewFamilyLineUp } from "..";
 
-export const useNewFamilyLineUp = () => {
+type tUseNewFamilyLineUp = {
+  onClose: () => void;
+};
+
+export const useNewFamilyLineUp = ({ onClose }: tUseNewFamilyLineUp) => {
   return useMutation(postNewFamilyLineUp, {
-    onError: error => {
-      console.log("error", error);
+    onError: () => {
+      GRAlert.error("라인 업 실패");
+    },
+    onSuccess: () => {
+      GRAlert.success("라인 업 완료");
+      onClose();
     }
   });
 };

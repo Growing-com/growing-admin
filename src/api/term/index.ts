@@ -13,7 +13,7 @@ export const getTermCody = (termId: number) => {
 export const getTermMemberByCodyId = (termId: number, codyId: number) => {
   return request<tTermLeader[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/cody/${codyId}/members`
+    url: `${TERM_PREFIX}/${termId}/cody/${codyId}/leaders`
   });
 };
 
@@ -72,7 +72,7 @@ type tPostNewFamilyLineOutData = {
   teamMemberId: number;
   data: {
     /**  @example "2023-10-13", */
-    lineupDate: string;
+    lineoutDate: string;
     /**  @example 9 */
     gradeAtFirstVisit: number;
   };
