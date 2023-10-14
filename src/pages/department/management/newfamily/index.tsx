@@ -76,7 +76,8 @@ const ManagementNewFamilyPage: NextPage = () => {
       title: "새가족 순장",
       dataIndex: "newTeamLeaderName",
       key: "newTeamLeaderName",
-      align: "center"
+      align: "center",
+      width: "6rem"
     },
     {
       title: "추가 내용",
@@ -155,6 +156,11 @@ const ManagementNewFamilyPage: NextPage = () => {
           rowKey={"id"}
           columns={columns}
           data={newFamilyData}
+          pagination={{
+            total: newFamilyData?.length,
+            defaultPageSize: 20,
+            position: ["bottomCenter"]
+          }}
         />
       </GRContainerView>
       {selectedNewFamily && (
