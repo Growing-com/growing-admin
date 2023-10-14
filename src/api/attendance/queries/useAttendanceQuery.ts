@@ -5,7 +5,7 @@ import attendanceQuerykeys from "./attendanceQuerykeys";
 
 export const useAttendanceQuery = (params?: tAttendanceSearch) => {
   return useQuery(
-    [attendanceQuerykeys.ATTENDACNE, params],
+    [attendanceQuerykeys.ATTENDANCE, params],
     async () => {
       if (params) {
         return await getAttendanceSearch({

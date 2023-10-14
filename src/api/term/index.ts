@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import type { tTermCody, tTermNewFamily } from "./types";
+import type { tTermCody, tTermLeader, tTermNewFamily } from "./types";
 
 const TERM_PREFIX = "/term";
 
@@ -11,16 +11,9 @@ export const getTermCody = (termId: number) => {
 };
 
 export const getTermMemberByCodyId = (termId: number, codyId: number) => {
-  return request<tTermCody[]>({
+  return request<tTermLeader[]>({
     method: REQUEST_METHOD.GET,
     url: `${TERM_PREFIX}/${termId}/cody/${codyId}/members`
-  });
-};
-
-export const getTermLeaderByCodyId = (termId: number, codyId: number) => {
-  return request<tTermCody[]>({
-    method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/cody/${codyId}/leaders`
   });
 };
 

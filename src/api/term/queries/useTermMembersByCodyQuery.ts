@@ -1,23 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAttendance } from "api/attendance";
+import { getTermMemberByCodyId } from "..";
 import termQueryKeys from "./termQueryKeys";
 
 export const useTermMembersByCodyQuery = ({
-  week,
+  termId,
   codyId
 }: {
-  week: string;
+  termId: number;
   codyId?: number;
 }) => {
   return useQuery(
-    [termQueryKeys.MEMBERS_BY_CODY, week, codyId],
+    [termQueryKeys.MEMBERS_BY_CODY],
     async () => {
       if (codyId) {
-        return await getAttendance({ week, codyId });
+        return await getTermMemberByCodyId(termId, codyId);
       }
     },
     {
-      enabled: !!week && !!codyId,
+      enabled: !!codyId,
       staleTime: Infinity,
       select: _data => _data?.content
     }

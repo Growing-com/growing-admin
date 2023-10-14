@@ -1,5 +1,6 @@
 const attendanceQuerykeys = {
-  ATTENDACNE: "attendance"
+  ATTENDANCE: "attendance",
+  ATTENDANCE_CHECK: "attendance_check"
 };
 
 export default attendanceQuerykeys;

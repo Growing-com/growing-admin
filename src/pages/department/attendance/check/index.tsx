@@ -5,8 +5,8 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { useAttendanceCheckMutate } from "api/attendance/mutate/useAttendanceCheckMutate";
+import { useAttendanceCheckQuery } from "api/attendance/queries/useAttendanceCheckQuery";
 import { tAttendance } from "api/attendance/types";
-import { useTermMembersByCodyQuery } from "api/term/queries/useTermMembersByCodyQuery";
 import { ATTENDANCE_STATUS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import useAccountTermInfos from "hooks/domain/term/useAccountTermInfos";
@@ -25,7 +25,7 @@ const AttendanceCheck = () => {
 
   const { cordiSelectItem } = useAccountTermInfos();
 
-  const { data: leaderMember } = useTermMembersByCodyQuery({
+  const { data: attendanceCheckData } = useAttendanceCheckQuery({
     week: filterDate?.format(DEFAULT_DATE_FOMAT),
     codyId: currentTab
   });
@@ -107,7 +107,7 @@ const AttendanceCheck = () => {
         />
         <AttendanceCheckTable
           control={control}
-          attendanceDataSource={leaderMember}
+          attendanceDataSource={attendanceCheckData}
         />
         <AttendancdeCheckSubmitButton onSubmit={handleOnSumbitButton} />
       </GRContainerView>

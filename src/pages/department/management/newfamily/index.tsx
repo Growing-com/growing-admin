@@ -4,6 +4,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import ColumPopoverRender from "@component/templates/table/ColumPopoverRender";
+import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
@@ -12,6 +13,11 @@ import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import { Color } from "styles/colors";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
+
+const LINE_STAUTS = {
+  lineout: { name: "라인아웃", color: "red" },
+  lineup: { name: "라인업", color: "green" }
+};
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
@@ -48,26 +54,24 @@ const ManagementNewFamilyPage: NextPage = () => {
       title: "생년월일",
       key: "birth",
       dataIndex: "birth",
-      align: "center"
+      align: "center",
+      width: "8rem"
     },
     {
       title: "전화번호",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
-      align: "center"
-    },
-    {
-      title: "등반일",
-      dataIndex: "lineupDate",
-      key: "lineupDate",
-      align: "center"
+      align: "center",
+      width: "8rem"
     },
     {
       title: "방문일",
       dataIndex: "visitDate",
       key: "visitDate",
-      align: "center"
+      align: "center",
+      width: "8rem"
     },
+
     {
       title: "새가족 순장",
       dataIndex: "newTeamLeaderName",
@@ -79,10 +83,44 @@ const ManagementNewFamilyPage: NextPage = () => {
       dataIndex: "etc",
       key: "etc",
       align: "center",
+      width: "8rem",
       onCell: () => ({ onClick: e => e.stopPropagation() }),
       render: (_, record) => (
         <ColumPopoverRender content={record?.etc} label={"내용"} />
       )
+    },
+    {
+      title: "등반일",
+      dataIndex: "lineupDate",
+      key: "lineupDate",
+      align: "center"
+    },
+    {
+      title: "라인업 / 날짜",
+      align: "center",
+      render: (_, record) => {
+        if (!record.lineoutDate && !record.lineupDate) return "";
+        const lineStatus = record.lineoutDate
+          ? LINE_STAUTS.lineout
+          : LINE_STAUTS.lineup;
+        const date = record.lineoutDate
+          ? record.lineoutDate
+          : record.lineupDate;
+        return (
+          <GRView>
+            <Tag color={lineStatus.color} key={`${lineStatus.name}-line`}>
+              {lineStatus.name}
+            </Tag>
+            <GRText fontSize={"b9"}>-</GRText>
+            <GRText fontSize={"b9"}>{date}</GRText>
+          </GRView>
+        );
+      }
+    },
+    {
+      title: "등반 순장",
+      align: "center",
+      dataIndex: "firstPlantLeaderName"
     }
   ];
 
@@ -117,16 +155,15 @@ const ManagementNewFamilyPage: NextPage = () => {
           rowKey={"id"}
           columns={columns}
           data={newFamilyData}
-          pagination={{
-            position: ["bottomCenter"]
-          }}
         />
       </GRContainerView>
-      <NewFamilyDetailModal
-        open={!!selectedNewFamily}
-        newFamily={selectedNewFamily}
-        onClose={onClickRow}
-      />
+      {selectedNewFamily && (
+        <NewFamilyDetailModal
+          open={!!selectedNewFamily}
+          newFamily={selectedNewFamily}
+          onClose={onClickRow}
+        />
+      )}
     </>
   );
 };

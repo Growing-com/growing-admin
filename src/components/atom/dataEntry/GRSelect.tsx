@@ -18,10 +18,6 @@ export type tGRSelect = {
 const { Option } = Select;
 
 const GRSelect = ({ options, mode, height, width, ...props }: tGRSelect) => {
-  // loading 페이지 개발 후 적용 필요
-  if (!options?.length) {
-    return <></>;
-  }
   const _margin = getMargin(props);
   return (
     <Select
@@ -35,7 +31,7 @@ const GRSelect = ({ options, mode, height, width, ...props }: tGRSelect) => {
       listHeight={100}
       {...props}
     >
-      {options.map((option, index) => (
+      {options?.map((option, index) => (
         <Option key={`${option.label}_${index}`} value={option.value}>
           <GRText color={Color.grey60}>{option.label}</GRText>
         </Option>
