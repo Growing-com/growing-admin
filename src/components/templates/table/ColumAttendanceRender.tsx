@@ -17,7 +17,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   const currentStatus = ATTENDANCE_STATUS.find(
     status => status.value === attendanceStatus
   );
-  if (!contentEtc.length) {
+  if (!contentEtc) {
     return (
       <GRButtonText buttonType={"default"} disabled={true}>
         <PlusCircleOutlined
