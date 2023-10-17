@@ -65,3 +65,10 @@ export const postAccountLogout = () => {
     url: "/auth/logout"
   });
 };
+
+export const getUserInfo = () => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${USER_PREFIX}/myInfo`
+  });
+};
