@@ -1,10 +1,9 @@
 import GRTable from "@component/atom/GRTable";
-import ColumAttendanceRender from "@component/templates/table/ColumAttendanceRender";
-import ColumSexRender from "@component/templates/table/ColumSexRender";
+import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 
 import { ColumnType } from "antd/es/table";
 import { tUseAttendanceQueryResposne } from "api/attendance";
-import { concat } from "lodash";
 
 import { FC, useMemo } from "react";
 
@@ -25,31 +24,6 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   attendanceListPage,
   isLoading
 }) => {
-  const renderAddDay = () => {
-    if (!attendanceList?.length) return [];
-
-    const _attendanceItems = attendanceList?.[0].attendanceItems;
-    if (_attendanceItems?.length) {
-      return _attendanceItems.map((item: any) => {
-        return {
-          title: item.week,
-          dataIndex: item.week,
-          key: item.week,
-          align: "center",
-          render: () => {
-            return (
-              <ColumAttendanceRender
-                attendanceStatus={item.status}
-                contentEtc={item.etc}
-              />
-            );
-          }
-        };
-      });
-    }
-    return [];
-  };
-
   const columns: ColumnType<tUseAttendanceQueryResposne>[] = useMemo(
     () => [
       {
@@ -93,18 +67,19 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         fixed: "left",
         width: "5rem",
         render: (_, record) => <ColumSexRender sexData={record.sex} />
+      },
+      {
+        ...(ColumDateTitleAttendanceRender({
+          attendanceList
+        }) as tUseAttendanceQueryResposne)
       }
     ],
-    []
+    [attendanceList]
   );
-
   return (
     <GRTable
       rowKey={"name"}
-      columns={concat(
-        columns,
-        renderAddDay() as ColumnType<tUseAttendanceQueryResposne>[]
-      )}
+      columns={columns}
       data={attendanceList}
       isHoverTable={false}
       paginationProps={{

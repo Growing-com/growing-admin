@@ -7,13 +7,14 @@ import { ATTENDANCE_STATUS } from "config/const";
 import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 type tColumAttendanceRender = {
-  attendanceStatus: tAttendanceStatus;
-  contentEtc: string;
+  attendanceStatus?: tAttendanceStatus;
+  contentEtc?: string;
 };
 const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   attendanceStatus,
   contentEtc
 }) => {
+  if (!attendanceStatus) return <></>;
   const currentStatus = ATTENDANCE_STATUS.find(
     status => status.value === attendanceStatus
   );

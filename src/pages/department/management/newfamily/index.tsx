@@ -2,9 +2,9 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
+import ColumPopoverRender from "@component/molecule/table/ColumPopoverRender";
 import HeaderView from "@component/molecule/view/HeaderView";
-import ColumPopoverRender from "@component/templates/table/ColumPopoverRender";
-import { Tag } from "antd";
+import { Divider, Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
@@ -97,7 +97,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       align: "center"
     },
     {
-      title: "라인업 / 날짜",
+      title: "라인업 | 날짜",
       align: "center",
       render: (_, record) => {
         if (!record.lineoutDate && !record.lineupDate) return "";
@@ -112,7 +112,7 @@ const ManagementNewFamilyPage: NextPage = () => {
             <Tag color={lineStatus.color} key={`${lineStatus.name}-line`}>
               {lineStatus.name}
             </Tag>
-            <GRText fontSize={"b9"}>-</GRText>
+            <Divider type={"vertical"} />
             <GRText fontSize={"b9"}>{date}</GRText>
           </GRView>
         );
@@ -153,7 +153,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           onRow={record => ({
             onClick: () => onClickRow(record)
           })}
-          rowKey={"id"}
+          rowKey={"userId"}
           columns={columns}
           data={newFamilyData}
           pagination={{
@@ -161,6 +161,7 @@ const ManagementNewFamilyPage: NextPage = () => {
             defaultPageSize: 20,
             position: ["bottomCenter"]
           }}
+          scroll={{ x: 1300 }}
         />
       </GRContainerView>
       {selectedNewFamily && (
