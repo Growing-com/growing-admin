@@ -4,7 +4,6 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { Dropdown } from "antd";
-import { useAttendanceBenchMutate } from "api/statistics/mutate/useAttendanceBenchMutate";
 import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
 import { useStatisticsAttendanceExcelQuery } from "api/statistics/queries/useStatisticsAttendanceExcelQuery";
 import dayjs from "dayjs";
@@ -31,7 +30,7 @@ const AttendanceStatistics = () => {
   const [excelOption, setExcelOption] =
     useState<tStatisticsAttendanceExcelOption>();
 
-  const { mutateAsync: benchMutate } = useAttendanceBenchMutate();
+  // const { mutateAsync: benchMutate } = useAttendanceBenchMutate();
   const { data: excelData } = useStatisticsAttendanceExcelQuery({
     options: excelOption
   });
@@ -142,21 +141,6 @@ const AttendanceStatistics = () => {
       ]
     }
   ];
-
-  useEffect(() => {
-    (async () => {
-      try {
-        await benchMutate({
-          name: "weeklyAttendanceJob",
-          jobParameters: {
-            termId: 1
-          }
-        });
-      } catch (e) {
-      } finally {
-      }
-    })();
-  }, [benchMutate]);
 
   return (
     <>

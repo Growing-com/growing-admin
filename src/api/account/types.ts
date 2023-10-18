@@ -51,6 +51,7 @@ export type tAccount = {
   visitDate?: string;
   duty?: tDuty;
   role?: tRole;
+  termId?: number;
 };
 
 export type tRoleResponse = {

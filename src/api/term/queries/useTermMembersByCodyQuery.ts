@@ -10,7 +10,7 @@ export const useTermMembersByCodyQuery = ({
   codyId?: number;
 }) => {
   return useQuery(
-    [termQueryKeys.MEMBERS_BY_CODY],
+    [termQueryKeys.MEMBERS_BY_CODY, codyId],
     async () => {
       if (codyId) {
         return await getTermMemberByCodyId(termId, codyId);
@@ -18,7 +18,6 @@ export const useTermMembersByCodyQuery = ({
     },
     {
       enabled: !!codyId,
-      staleTime: Infinity,
       select: _data => _data?.content
     }
   );

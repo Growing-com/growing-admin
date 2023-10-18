@@ -1,84 +1,92 @@
 import GRTab from "@component/atom/GRTab";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRSelect from "@component/atom/dataEntry/GRSelect";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { useAttendanceCheckMutate } from "api/attendance/mutate/useAttendanceCheckMutate";
 import { useAttendanceCheckQuery } from "api/attendance/queries/useAttendanceCheckQuery";
-import { tAttendance } from "api/attendance/types";
-import { ATTENDANCE_STATUS } from "config/const";
+import { tAttendance, tAttendanceCheckItem } from "api/attendance/types";
 import dayjs, { Dayjs } from "dayjs";
 import useAccountTermInfos from "hooks/domain/term/useAccountTermInfos";
+import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { head } from "lodash";
 import { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import AttendancdeCheckSubmitButton from "./AttendancdeCheckSubmitButton";
 import AttendanceCheckTable from "./AttendanceCheckTable";
 
 const AttendanceCheck = () => {
-  const [currentTab, setCurrentTab] = useState<number>();
+  const [currentTab, setCurrentTab] = useState<tOptions>();
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
-
-  const { control, handleSubmit, reset } = useForm();
+  const [checkData, setCheckData] = useState<tAttendanceCheckItem[]>();
 
   const { cordiSelectItem } = useAccountTermInfos();
+  const { setSelectedCodyId, termLeaderOptions, selectedCodyId } =
+    useTermInfoOptionQueries();
 
   const { data: attendanceCheckData, isFetching } = useAttendanceCheckQuery({
     week: filterDate?.format(DEFAULT_DATE_FOMAT),
-    codyId: currentTab
+    codyId: selectedCodyId
   });
 
-  const { mutate: attendanceCheckMutate } = useAttendanceCheckMutate();
+  const { mutateAsync: attendanceCheckMutate } = useAttendanceCheckMutate();
 
   const onChangeTab = useCallback(
     (_tabIndx: string) => {
-      reset();
-      setCurrentTab(parseInt(_tabIndx));
+      const leaderName = termLeaderOptions.find(
+        leader => leader.value === _tabIndx
+      );
+      setCurrentTab(leaderName);
     },
-    [reset]
+    [termLeaderOptions]
   );
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
-      reset();
       setFilterDate(_date);
     }
   };
 
-  const handleOnSumbitButton = handleSubmit(_item => {
-    if (_item) {
-      try {
-        const _attendance = Object.entries(_item).map(
-          ([key, value]: [string, any]) => {
-            if (!value.status) throw new Error("출석을 모두 선택해 주세요");
-            return {
-              teamMemberId: key,
-              teamId: currentTab,
-              status: ATTENDANCE_STATUS.find(
-                _status => _status.value === value.status
-              )?.value,
-              etc: value?.etc ?? ""
-            };
-          }
-        );
-        attendanceCheckMutate({
-          week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
-          attendances: _attendance as unknown as tAttendance[]
-        });
-      } catch (e: any) {
-        GRAlert.error(e?.message ?? "Error");
-      }
-    }
-  });
+  const onChangeSelectCordi = useCallback(
+    (_selectCordi: number) => {
+      setSelectedCodyId(_selectCordi);
+    },
+    [setSelectedCodyId]
+  );
 
   useEffect(() => {
-    if (cordiSelectItem.length) {
-      const _initCordi = head(cordiSelectItem);
-      setCurrentTab(_initCordi?.value as number);
+    if (termLeaderOptions) {
+      const leaderName = head(termLeaderOptions);
+      setCurrentTab(leaderName);
     }
-  }, [cordiSelectItem]);
+  }, [termLeaderOptions]);
+
+  useEffect(() => {
+    let _findAttendance = attendanceCheckData;
+    if (currentTab?.label) {
+      _findAttendance = attendanceCheckData?.filter(
+        checkData => checkData.leaderName === currentTab.label
+      );
+    }
+    setCheckData(_findAttendance);
+  }, [attendanceCheckData, currentTab]);
+
+  const handleOnSubmitButton = useCallback(
+    async (_attendance: tAttendance[]) => {
+      try {
+        await attendanceCheckMutate({
+          week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
+          attendances: _attendance
+        });
+      } catch (e: any) {
+        GRAlert.error("출석 체크 실패, 다시 시도해주세요");
+      }
+    },
+    [attendanceCheckMutate, filterDate]
+  );
 
   return (
     <>
@@ -88,14 +96,25 @@ const AttendanceCheck = () => {
           .weekday(4)
           .format(
             DEFAULT_DATE_FOMAT
-          )} 수요일 00:00 까지 출석 체크가 가능합니다.`}
+          )} 수요일 00:00 까지 출석 체크 부탁드립니다.`}
       />
       <GRContainerView>
         <GRTab
-          items={cordiSelectItem}
+          items={termLeaderOptions}
           onChange={onChangeTab}
           tabBarExtraContent={
-            <GRFlexView alignItems={"flex-start"}>
+            <GRFlexView
+              alignItems={"flex-start"}
+              flexDirection={"row"}
+              marginbottom={GRStylesConfig.BASE_MARGIN}
+            >
+              <GRSelect
+                marginright={GRStylesConfig.BASE_MARGIN}
+                style={{ width: "8rem" }}
+                options={cordiSelectItem}
+                onChange={onChangeSelectCordi}
+                placeholder={"코디 선택"}
+              />
               <GRDatePicker
                 pickerType={"basic"}
                 picker={"week"}
@@ -113,10 +132,9 @@ const AttendanceCheck = () => {
         />
         <AttendanceCheckTable
           isLoading={isFetching}
-          control={control}
-          attendanceDataSource={attendanceCheckData}
+          attendanceDataSource={checkData}
+          onSubmit={handleOnSubmitButton}
         />
-        <AttendancdeCheckSubmitButton onSubmit={handleOnSumbitButton} />
       </GRContainerView>
     </>
   );

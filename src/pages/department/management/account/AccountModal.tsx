@@ -54,7 +54,8 @@ const AccountModal: FC<tAccountModal> = ({
       const _format = {
         ..._item,
         birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT),
-        visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
+        visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT),
+        termId: 1
       };
       try {
         if (isCreate) {

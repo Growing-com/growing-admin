@@ -1,28 +1,71 @@
 import GRTable from "@component/atom/GRTable";
+import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRFormItem from "@component/molecule/form/GRFormItem";
-import ColumSexRender from "@component/templates/table/ColumSexRender";
-import { Alert, Tooltip } from "antd";
+import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import { Alert, Tooltip, type RadioChangeEvent } from "antd";
 import { ColumnType } from "antd/es/table";
-import { tAttendanceCheckItem } from "api/attendance/types";
+import { tAttendance, tAttendanceCheckItem } from "api/attendance/types";
 import { ATTENDANCE_STATUS } from "config/const";
-import { FC, useMemo } from "react";
-import type { Control, FieldValues } from "react-hook-form";
+import {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
+import AttendancdeCheckSubmitButton from "./AttendancdeCheckSubmitButton";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;
 
 type tAttendanceCheckTable = {
   attendanceDataSource?: tAttendanceCheckItem[];
-  control: Control<FieldValues, any>;
   isLoading?: boolean;
+  onSubmit: (_attendance: tAttendance[]) => void;
 };
 
 const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   attendanceDataSource,
-  control,
-  isLoading
+  isLoading,
+  onSubmit
 }) => {
+  const [formResult, setFormResult] = useState<tAttendanceCheckItem[]>([]);
+
+  const insertDataInFormResult = useCallback(
+    (_teamMemberId: number, key: string, value: any) => {
+      const _formResult = formResult.map(result => {
+        if (_teamMemberId === result.teamMemberId) {
+          return {
+            ...result,
+            [key]: value
+          };
+        }
+        return result;
+      });
+      setFormResult(_formResult);
+    },
+    [formResult]
+  );
+
+  const onChangeAttendStatus = useCallback(
+    (_teamMemberId: number, e: RadioChangeEvent) => {
+      insertDataInFormResult(_teamMemberId, "status", e.target.value);
+    },
+    [insertDataInFormResult]
+  );
+
+  const onChangeAttendEtc = useCallback(
+    (
+      _teamMemberId: number,
+      e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      insertDataInFormResult(_teamMemberId, "etc", e.target.value);
+    },
+    [insertDataInFormResult]
+  );
+
   const columns: ColumnType<tAttendanceCheckItem>[] = useMemo(
     () => [
       {
@@ -83,49 +126,61 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "status",
         key: "status",
         align: "center",
-        render: (_, recode) => {
-          return (
-            <GRFormItem
-              type={"radio"}
-              fieldName={`${recode?.teamMemberId}.status`}
-              control={control}
-              options={ATTENDANCE_STATUS}
-              defaultValue={recode.status}
-            />
-          );
-        }
+        render: (_, recode) => (
+          <GRRadio
+            options={ATTENDANCE_STATUS}
+            onChange={_status =>
+              onChangeAttendStatus(recode.teamMemberId, _status)
+            }
+            value={recode.status}
+          />
+        )
       },
       {
         title: "추가 내용",
         dataIndex: "etc",
         key: "etc",
         align: "center",
-        render: (_, recode) => {
-          return (
-            <>
-              <GRFormItem
-                type={"text"}
-                textType={"textarea"}
-                fieldName={`${recode?.teamMemberId}.etc`}
-                control={control}
-                placeholder={"추가 내용 작성해 주세요"}
-                defaultValue={recode.etc}
-              />
-            </>
-          );
-        }
+        render: (_, recode) => (
+          <GRTextInput
+            value={recode.etc}
+            type={"textarea"}
+            onChange={_etc => onChangeAttendEtc(recode.teamMemberId, _etc)}
+          />
+        )
       }
     ],
-    [control]
+    [onChangeAttendEtc, onChangeAttendStatus]
   );
 
+  const handleOnSubmitButton = () => {
+    const _attendForm = formResult.map(form => {
+      return {
+        teamMemberId: form.teamMemberId,
+        status: form.status,
+        teamId: form.teamId,
+        etc: form.etc
+      };
+    });
+    onSubmit(_attendForm);
+  };
+
+  useEffect(() => {
+    if (attendanceDataSource) {
+      setFormResult(attendanceDataSource);
+    }
+  }, [attendanceDataSource]);
+
   return (
-    <GRTable
-      isLoading={isLoading}
-      rowKey={record => record.teamMemberId}
-      data={attendanceDataSource}
-      columns={columns}
-    />
+    <>
+      <GRTable
+        isLoading={isLoading}
+        rowKey={record => record.teamMemberId}
+        data={formResult}
+        columns={columns}
+      />
+      <AttendancdeCheckSubmitButton onSubmit={handleOnSubmitButton} />
+    </>
   );
 };
 

@@ -64,6 +64,24 @@ export type tAttendanceItem = {
   week: string;
 };
 
+export type tAttendanceCheckListItem = {
+  //** 7, */
+  managerId: number;
+  //** "유지현", */
+  managerName: string;
+  //** "강성혁", */
+  leaderName: string;
+  //** "한예찬", */
+  userName: string;
+  //** "MALE", */
+  sex: tSex;
+  //** 2, */
+  grade: number;
+  //** "010-2832-6075", */
+  phoneNumber: string;
+  attendanceItems: tAttendanceItem[];
+};
+
 export type tAttendanceCheckItem = {
   /**  "강성혁", */
   leaderName: string;
@@ -83,4 +101,5 @@ export type tAttendanceCheckItem = {
   week: string;
   /**  "" */
   etc: string;
+  teamId: number;
 };

@@ -44,7 +44,7 @@ const AlertModal: FC<tAlertModal> = ({
             alignItems={"center"}
             style={{ minHeight: "7rem" }}
           >
-            <GRText fontSize={"b2"} weight={"bold"}>
+            <GRText fontSize={"b4"} weight={"bold"}>
               {description ?? ""}
             </GRText>
           </GRFlexView>
