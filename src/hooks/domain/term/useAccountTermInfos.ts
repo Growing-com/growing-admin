@@ -3,7 +3,7 @@ import { useTermCodyQuery } from "api/term/queries/useTermCodyQuery";
 import { useEffect, useState } from "react";
 
 const useAccountTermInfos = () => {
-  const [cordiSelectItem, setCordiSelectItem] = useState<tOptions>([]);
+  const [cordiSelectItem, setCordiSelectItem] = useState<tOptions[]>([]);
 
   const { data: cordiList, isSuccess } = useTermCodyQuery({ termId: 1 });
 

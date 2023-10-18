@@ -12,7 +12,7 @@ type tStatisticsModal = {
   open: boolean;
 };
 
-const items: tOptions = [
+const items: tOptions[] = [
   {
     value: "0",
     label: "학년"

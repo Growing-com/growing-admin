@@ -3,7 +3,7 @@ import { FC, useMemo } from "react";
 import { tOptions } from "./dataEntry/type";
 
 type tGRTab = {
-  items: tOptions;
+  items: tOptions[];
 } & Omit<TabsProps, "items">;
 
 type tTab = {
@@ -19,6 +19,7 @@ const GRTab: FC<tGRTab> = ({ items, ...props }) => {
         label: _item.label
       }));
     }
+    return [];
   }, [items]);
 
   return (

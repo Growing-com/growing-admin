@@ -9,7 +9,7 @@ import GRText from "../text/GRText";
 import { tOptions } from "./type";
 
 export type tGRSelect = {
-  options?: tOptions;
+  options?: tOptions[];
   height?: CSSProperties["height"];
   width?: CSSProperties["width"];
 } & Omit<SelectProps, "options"> &

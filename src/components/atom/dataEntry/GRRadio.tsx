@@ -2,7 +2,7 @@ import { Radio, RadioGroupProps } from "antd";
 import { tOptions } from "./type";
 
 export type tGRRadio = {
-  options?: tOptions;
+  options?: tOptions[];
 } & Omit<RadioGroupProps, "options">;
 
 const GRRadio = ({ options, ...props }: tGRRadio) => {

@@ -5,21 +5,21 @@ import { useTermNewFamilyLeader } from "api/term/queries/useTermNewFamilyLeader"
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const INIT_TERM_ID = 1;
-const INIT_OPTIONS = [] as tOptions;
+const INIT_OPTIONS = [] as tOptions[];
 type tUseTermInfoOptionQueries = () => {
-  newFamilyLeaderOptions: tOptions;
-  termCordyOptions: tOptions;
-  termLeaderOptions: tOptions;
+  newFamilyLeaderOptions: tOptions[];
+  termCordyOptions: tOptions[];
+  termLeaderOptions: tOptions[];
   setSelectedCodyId: Dispatch<SetStateAction<number | undefined>>;
   selectedCodyId?: number;
 };
 export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
   const [newFamilyLeaderOptions, setNewFamilyLeaderOptions] =
-    useState<tOptions>(INIT_OPTIONS);
+    useState<tOptions[]>(INIT_OPTIONS);
   const [termCordyOptions, setTermCordyOptions] =
-    useState<tOptions>(INIT_OPTIONS);
+    useState<tOptions[]>(INIT_OPTIONS);
   const [termLeaderOptions, setTermLeaderOptions] =
-    useState<tOptions>(INIT_OPTIONS);
+    useState<tOptions[]>(INIT_OPTIONS);
 
   const [selectedCodyId, setSelectedCodyId] = useState<number>();
 
@@ -62,7 +62,7 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
   }, [termCody, termCodyIsSuccess]);
 
   useEffect(() => {
-    if (leaderByCodyIsSuccess && !!leaderByCody?.length) {
+    if (leaderByCodyIsSuccess && leaderByCody?.length) {
       setTermLeaderOptions(
         leaderByCody.map(_termCordy => ({
           value: _termCordy.teamId,
@@ -70,7 +70,7 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
         }))
       );
     }
-  }, [leaderByCody, leaderByCodyIsSuccess, termCody, termCodyIsSuccess]);
+  }, [leaderByCody, leaderByCodyIsSuccess]);
 
   return {
     newFamilyLeaderOptions,

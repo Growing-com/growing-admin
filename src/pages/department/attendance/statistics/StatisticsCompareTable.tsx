@@ -1,7 +1,7 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
-import ColumAttendanceRender from "@component/templates/table/ColumAttendanceRender";
-import ColumSexRender from "@component/templates/table/ColumSexRender";
+import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
+import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { ColumnType } from "antd/es/table";
 import { tGetStatisticsAttendanceResponse } from "api/statistics";
 import { getWeekDataFromToday } from "utils/DateUtils";

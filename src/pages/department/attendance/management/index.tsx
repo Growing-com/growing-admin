@@ -16,6 +16,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import AttendanceSearchTable from "./AttendanceSearchTable";
+
 const SEARCH_OPTION = [
   {
     label: "이름",

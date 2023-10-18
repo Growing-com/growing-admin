@@ -1,8 +1,8 @@
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
+import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
-import ColumSexRender from "@component/templates/table/ColumSexRender";
 import { Tag } from "antd";
 import type { ColumnType } from "antd/es/table";
 import { useUserListQuery } from "api/account/queries/useUserListQuery";

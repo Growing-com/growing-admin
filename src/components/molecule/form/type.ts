@@ -27,7 +27,7 @@ export type tGRFormItem = {
   fieldName: string;
   title?: string;
   type: tFormItemType;
-  options?: tOptions;
+  options?: tOptions[];
   customComponent?: ReactNode;
   /** @description register options */
   required?: boolean;

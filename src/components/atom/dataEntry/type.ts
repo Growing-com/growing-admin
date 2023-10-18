@@ -1,4 +1,4 @@
-export type tOptions = Array<{
+export type tOptions = {
   label: string;
   value: string | number;
-}>;
+};
