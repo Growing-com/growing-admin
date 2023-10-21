@@ -8,7 +8,7 @@ import {
   TAB_MENU,
   tDepartmentMainMenu
 } from "config/router";
-import { includes } from "lodash";
+import { head, includes } from "lodash";
 import { useRouter } from "next/router";
 import {
   useCallback,
@@ -75,7 +75,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
       setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
-
+  // router.replace("/department/management/account");
   useEffect(() => {
     const _mainMenu = [] as tDepartmentMainMenu[];
     if (userInfo && !!userInfo?.role) {
@@ -87,8 +87,11 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
           _mainMenu.push(menu);
         }
       });
+      setMainMenu(_mainMenu);
+      const _firstPath = head(_mainMenu)?.children[0].path;
+      router.replace(`/department/${_firstPath}`);
     }
-    setMainMenu(_mainMenu);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   return (
