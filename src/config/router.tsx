@@ -1,6 +1,6 @@
 import { CheckOutlined, TeamOutlined } from "@ant-design/icons";
 
-type tDepartmentMainMenu = {
+export type tDepartmentMainMenu = {
   key: "management" | "attendance";
   label: "관리" | "출석";
   children: tDepartmentManagementSubMenu[] | tDepartmentAttendanceSubMenu[];
@@ -70,5 +70,16 @@ export const TAB_MENU = [
   {
     key: "department",
     children: DEPARTMENT_MAIN_MENU
+  }
+];
+
+export const DUTY_MENU = [
+  {
+    key: "MANAGER",
+    value: ["attendance"]
+  },
+  {
+    key: "ADMIN",
+    value: ["management", "attendance"]
   }
 ];

@@ -1,7 +1,14 @@
 import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { DEPARTMENT_MAIN_MENU, TAB_MENU } from "config/router";
+import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
+import {
+  DEPARTMENT_MAIN_MENU,
+  DUTY_MENU,
+  TAB_MENU,
+  tDepartmentMainMenu
+} from "config/router";
+import { includes } from "lodash";
 import { useRouter } from "next/router";
 import {
   useCallback,
@@ -33,22 +40,24 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   const [tabMenu] = useState(TAB_MENU[0].key);
   const [defaultOpen, setDefaultOpen] = useState<string[]>();
+  const [openMainMenu, openMetMainMenu] = useState<string[]>();
   const [defaultSelected, setDefaultSelected] = useState<string[]>();
+  const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
+  const [mainMenu, setMainMenu] = useState<tDepartmentMainMenu[]>([]);
 
-  const [mainMenu, setMainMenu] = useState<string[]>();
-  const [subMenu, setSubMenu] = useState<string[]>();
+  const { data: userInfo } = useUserInfoQuery();
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
       const newPath = info.key.replace("-", "/");
-      setSubMenu([info.key]);
+      setSelectedSubMenu([info.key]);
       router.push(`/department/${newPath}`);
     },
     [router]
   );
 
   const onOpenChange = (keys: string[]) => {
-    setMainMenu(keys);
+    openMetMainMenu(keys);
   };
 
   useEffect(() => {
@@ -62,10 +71,25 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   useLayoutEffect(() => {
     if (router.pathname) {
       const _path = router.pathname.split("/");
-      setMainMenu([_path[2]]);
-      setSubMenu([`${_path[2]}-${_path[3]}`]);
+      openMetMainMenu([_path[2]]);
+      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
+
+  useEffect(() => {
+    const _mainMenu = [] as tDepartmentMainMenu[];
+    if (userInfo && !!userInfo?.role) {
+      const _findMenuByRole = DUTY_MENU.find(
+        duty => duty.key === userInfo?.role
+      );
+      DEPARTMENT_MAIN_MENU.forEach(menu => {
+        if (includes(_findMenuByRole?.value, menu.key)) {
+          _mainMenu.push(menu);
+        }
+      });
+    }
+    setMainMenu(_mainMenu);
+  }, [userInfo]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -79,11 +103,11 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
         >
           <BaseLayoutMenu
             mode={"inline"}
-            items={DEPARTMENT_MAIN_MENU}
+            items={mainMenu}
             defaultOpenKeys={defaultOpen}
             defaultSelectedKeys={defaultSelected}
-            selectedKeys={subMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
-            openKeys={mainMenu} // 열리게 되는 sub menu
+            selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
+            openKeys={openMainMenu} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
             onOpenChange={onOpenChange}
           />
