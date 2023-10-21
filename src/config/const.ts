@@ -55,7 +55,7 @@ export const STATUS_OPTIONS = [
   { label: "조원", value: "normal" }
 ];
 
-export const GENDER_OPTIONS = [
+export const SEX_OPTIONS = [
   { label: "남", value: "MALE" },
   { label: "여", value: "FEMALE" }
 ];

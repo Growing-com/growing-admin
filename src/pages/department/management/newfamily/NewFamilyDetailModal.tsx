@@ -13,7 +13,7 @@ import { tAccount } from "api/account/types";
 import { useNewFamilyLineOut } from "api/term/mutate/useNewFamilyLineOut";
 import { useNewFamilyLineUp } from "api/term/mutate/useNewFamilyLineUp";
 import { tTermNewFamily } from "api/term/types";
-import { GENDER_OPTIONS } from "config/const";
+import { SEX_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
@@ -192,7 +192,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             title={"성별"}
             fieldName={"sex"}
             control={control}
-            options={GENDER_OPTIONS}
+            options={SEX_OPTIONS}
             disabled={true}
           />
         </GRFlexView>

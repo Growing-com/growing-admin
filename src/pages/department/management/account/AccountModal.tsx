@@ -6,7 +6,7 @@ import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { useUserDetailQuery } from "api/account/queries/useUserDetailQuery";
 import type { tAccount } from "api/account/types";
-import { GENDER_OPTIONS } from "config/const";
+import { SEX_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { FC, useCallback, useEffect, useMemo } from "react";
@@ -121,7 +121,7 @@ const AccountModal: FC<tAccountModal> = ({
             title={"성별"}
             fieldName={"sex"}
             control={control}
-            options={GENDER_OPTIONS}
+            options={SEX_OPTIONS}
             required={true}
           />
         </GRFlexView>
