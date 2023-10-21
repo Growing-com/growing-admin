@@ -3,20 +3,20 @@ import GRText from "@component/atom/text/GRText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 import { ColumnType } from "antd/es/table";
-import { tGetStatisticsAttendanceResponse } from "api/statistics";
+import { tAttendanceCheckListItem } from "api/attendance/types";
 import { useMemo } from "react";
 import { koreanSorter, numberSorter } from "utils/sorter";
 
 type tStatisticsCompareTable = {
   headerTitle: string;
-  dataSource?: tGetStatisticsAttendanceResponse[];
+  dataSource?: tAttendanceCheckListItem[];
 };
 
 const StatisticsCompareTable = ({
   headerTitle,
   dataSource
 }: tStatisticsCompareTable) => {
-  const absentColumns: ColumnType<tGetStatisticsAttendanceResponse>[] = useMemo(
+  const absentColumns: ColumnType<tAttendanceCheckListItem>[] = useMemo(
     () => [
       {
         title: "코디",
@@ -64,7 +64,7 @@ const StatisticsCompareTable = ({
       {
         ...(ColumDateTitleAttendanceRender({
           attendanceList: dataSource
-        }) as tGetStatisticsAttendanceResponse)
+        }) as tAttendanceCheckListItem)
       }
     ],
     [dataSource]

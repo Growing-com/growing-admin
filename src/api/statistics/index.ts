@@ -1,7 +1,6 @@
 import { REQUEST_METHOD, request } from "api";
-import { tSex } from "api/account/types";
-import { tAttendanceItem } from "api/attendance/types";
-import { tStatisticsAttendanceExcelOption } from "pages/department/attendance/statistics";
+import { tAttendanceCheckListItem } from "api/attendance/types";
+import { tStatisticsAttendanceExcelOption } from "./queries/useStatisticsAttendanceExcelQuery";
 
 const STATISTICS_PREFIX = "/statistics";
 
@@ -41,20 +40,10 @@ export type tGetStatisticsAttendanceParams = {
   isNewOnly?: boolean;
 };
 
-export type tGetStatisticsAttendanceResponse = {
-  attendanceItems: tAttendanceItem[];
-  grade: number;
-  leaderName: string;
-  managerName: string;
-  sex: tSex;
-  userId: number;
-  userName: string;
-};
-
 export const getStatisticsAttendance = (
   params: tGetStatisticsAttendanceParams
 ) => {
-  return request<tGetStatisticsAttendanceResponse[]>({
+  return request<tAttendanceCheckListItem[]>({
     method: REQUEST_METHOD.GET,
     url: `${STATISTICS_PREFIX}/attendance`,
     params
@@ -85,29 +74,11 @@ export type tGetStatisticsAttendanceExcelParams = {
   options: tStatisticsAttendanceExcelOption;
 };
 
-export type tGetStatisticsAttendanceExcelResponse = {
-  //** 7, */
-  managerId: number;
-  //** "유지현", */
-  managerName: string;
-  //** "강성혁", */
-  leaderName: string;
-  //** "한예찬", */
-  userName: string;
-  //** "MALE", */
-  sex: tSex;
-  //** 2, */
-  grade: number;
-  //** "010-2832-6075", */
-  phoneNumber: string;
-  attendanceItems: tAttendanceItem[];
-};
-
 export const getStatisticsAttendanceExcel = ({
   termId,
   options
 }: tGetStatisticsAttendanceExcelParams) => {
-  return request<tGetStatisticsAttendanceExcelResponse[]>({
+  return request<tAttendanceCheckListItem[]>({
     method: REQUEST_METHOD.GET,
     url: `${STATISTICS_PREFIX}/term/${termId}/${options}`
   });

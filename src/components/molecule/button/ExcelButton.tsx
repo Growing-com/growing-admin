@@ -5,7 +5,6 @@ import GRButtonText, {
   tButtonType,
   tGRButtonText
 } from "@component/atom/button/GRTextButton";
-import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { useCallback } from "react";
 
 type tExcelButton = {
@@ -36,9 +35,9 @@ const ExcelButton = ({
     }
 
     try {
-      await ExportExcelOfJson({
-        data
-      });
+      // await ExportExcelOfJson({
+      //   data
+      // });
       onClickExcel();
     } catch (e) {
       return GRAlert.error("엑셀 추출 실패 했습니다");

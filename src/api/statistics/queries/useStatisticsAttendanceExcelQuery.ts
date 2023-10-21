@@ -1,7 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { tStatisticsAttendanceExcelOption } from "pages/department/attendance/statistics";
 import { getStatisticsAttendanceExcel } from "..";
 import statisticsQueryKeys from "./statisticsQueryKeys";
+
+export type tStatisticsAttendanceExcelOption =
+  | "personalAttendance"
+  | "leaderAttendance"
+  | "managerAttendance"
+  | "gradeAttendance"
+  | undefined;
 
 type tUseStatisticsAttendanceExcelQuery = {
   options?: tStatisticsAttendanceExcelOption;
@@ -21,7 +27,8 @@ export const useStatisticsAttendanceExcelQuery = ({
       }
     },
     {
-      enabled: !!options
+      enabled: !!options,
+      select: data => data?.content
     }
   );
 };
