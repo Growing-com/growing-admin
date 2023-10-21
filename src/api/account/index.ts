@@ -67,8 +67,8 @@ export const postAccountLogout = () => {
 };
 
 export const getUserInfo = () => {
-  return request({
-    method: REQUEST_METHOD.POST,
+  return request<tAccount>({
+    method: REQUEST_METHOD.GET,
     url: `${USER_PREFIX}/myInfo`
   });
 };

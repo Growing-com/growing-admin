@@ -7,7 +7,7 @@ import { Tag } from "antd";
 import type { ColumnType } from "antd/es/table";
 import { useUserListQuery } from "api/account/queries/useUserListQuery";
 import type { tAccount } from "api/account/types";
-import { DUTY_NAME, ROLE_NAME } from "config/const";
+import { DUTY, ROLE } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import AccountModal from "./AccountModal";
@@ -48,10 +48,10 @@ const ManagementAccountPage: NextPage = () => {
       align: "center",
       render: (_, item) => {
         if (!item?.duty) return;
-        const _duty = DUTY_NAME.find(duty => duty.value === item.duty);
+        const _duty = DUTY.find(duty => duty.key === item.duty);
         return (
-          <Tag color={_duty?.color} key={`duty_key_${_duty?.value}`}>
-            {_duty?.name ?? ""}
+          <Tag color={_duty?.color} key={`duty_key_${_duty?.key}`}>
+            {_duty?.value ?? ""}
           </Tag>
         );
       }
@@ -69,10 +69,10 @@ const ManagementAccountPage: NextPage = () => {
       key: "role",
       align: "center",
       render: (_, item) => {
-        const _role = ROLE_NAME.find(role => role.value === item.role);
+        const _role = ROLE.find(role => role.key === item.role);
         return (
-          <Tag color={"default"} key={_role?.value}>
-            {_role?.label ?? ""}
+          <Tag color={"default"} key={_role?.key}>
+            {_role?.value ?? ""}
           </Tag>
         );
       }

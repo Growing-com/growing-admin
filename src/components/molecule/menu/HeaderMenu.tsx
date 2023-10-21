@@ -6,13 +6,31 @@ import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
 import { useLogoutMutate } from "api/account/mutate/useLogoutMutate";
+import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
+import { DUTY, ROLE } from "config/const";
 import Image from "next/image";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const HeaderMenu = () => {
   const { logoutMutate } = useLogoutMutate();
+  const { data: userInfo } = useUserInfoQuery();
+
+  const DUTY_NAME = useMemo(
+    () => DUTY.find(duty => duty?.key === userInfo?.duty)?.value ?? "",
+    [userInfo?.duty]
+  );
+
+  const GRADE_NAME = useMemo(
+    () => (userInfo?.grade ? `${userInfo?.grade}학년` : ""),
+    [userInfo?.grade]
+  );
+
+  const ROLE_NAME = useMemo(
+    () => ROLE.find(role => role?.key === userInfo?.role)?.value ?? "",
+    [userInfo?.role]
+  );
 
   const onClickLogout = useCallback(() => {
     logoutMutate();
@@ -44,17 +62,19 @@ const HeaderMenu = () => {
           content={() => (
             <GRView width={10}>
               <GRText weight={"bold"} fontSize={"b4"}>
-                이종민
+                {userInfo?.name}
               </GRText>
               <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
-                <GRText fontSize={"b7"}>18학년 리더</GRText>
+                <GRText fontSize={"b7"}>
+                  {GRADE_NAME} | {DUTY_NAME}
+                </GRText>
                 <GRText
                   fontSize={"b7"}
                   weight={"bold"}
                   color={Color.grey80}
                   marginleft={GRStylesConfig.BASE_MARGIN}
                 >
-                  관리자
+                  {ROLE_NAME}
                 </GRText>
               </GRFlexView>
               <GRFlexView

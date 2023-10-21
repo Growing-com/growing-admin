@@ -9,43 +9,43 @@ export const ATTENDANCE_STATUS = [
   { label: "온라인", value: "ONLINE" }
 ];
 
-export const DUTY_NAME = [
+export const DUTY = [
   {
-    value: "PASTOR",
-    name: "교역자",
+    key: "PASTOR",
+    value: "교역자",
     color: "purple"
   },
   {
-    value: "GANSA",
-    name: "간사",
+    key: "GANSA",
+    value: "간사",
     color: "purple"
   },
   {
-    value: "CODY",
-    name: "코디",
+    key: "CODY",
+    value: "코디",
     color: "red"
   },
   {
-    value: "LEADER",
-    name: "리더",
+    key: "LEADER",
+    value: "리더",
     color: "blue"
   },
   {
-    value: "MEMBER",
-    name: "조원",
+    key: "MEMBER",
+    value: "조원",
     color: "green"
   },
   {
-    value: "NEW_COMER",
-    name: "새가족",
+    key: "NEW_COMER",
+    value: "새가족",
     color: "gold"
   }
 ];
 
-export const ROLE_NAME = [
-  { label: "관리자", value: "ADMIN" },
-  { label: "매니저", value: "MANAGER" },
-  { label: "조원", value: "NORMAL" }
+export const ROLE = [
+  { value: "관리자", key: "ADMIN" },
+  { value: "매니저", key: "MANAGER" },
+  { value: "조원", key: "NORMAL" }
 ];
 
 export const STATUS_OPTIONS = [
