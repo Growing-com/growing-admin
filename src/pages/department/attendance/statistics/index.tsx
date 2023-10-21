@@ -186,11 +186,11 @@ const AttendanceStatistics = () => {
         <StatisticsCompareCards />
         <StatisticsCompareTable
           headerTitle={"🐏 결석 인원"}
-          data={statisticsAbsentData}
+          dataSource={statisticsAbsentData}
         />
         <StatisticsCompareTable
           headerTitle={"🌱 새가족 인원"}
-          data={statisticsNewData}
+          dataSource={statisticsNewData}
         />
       </GRContainerView>
       <StatisticsModal

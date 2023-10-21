@@ -16,6 +16,7 @@ import {
   useMemo,
   useState
 } from "react";
+import { koreanSorter, numberSorter } from "utils/sorter";
 import AttendancdeCheckSubmitButton from "./AttendancdeCheckSubmitButton";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;
@@ -81,14 +82,16 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         dataIndex: "userName",
         key: "userName",
         align: "center",
-        width: "5rem"
+        width: "5rem",
+        sorter: (a, b) => koreanSorter(a.userName, b.userName)
       },
       {
         title: "학년",
         dataIndex: "grade",
         key: "grade",
         align: "center",
-        width: "5rem"
+        width: "5rem",
+        sorter: (a, b) => numberSorter(a.grade, b.grade)
       },
       {
         title: "성별",
