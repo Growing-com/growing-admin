@@ -3,6 +3,13 @@ import type { tTermCody, tTermLeader, tTermNewFamily } from "./types";
 
 const TERM_PREFIX = "/term";
 
+export const getTermInfo = () => {
+  return request<tTermCody[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${TERM_PREFIX}`
+  });
+};
+
 export const getTermCody = (termId: number) => {
   return request<tTermCody[]>({
     method: REQUEST_METHOD.GET,
