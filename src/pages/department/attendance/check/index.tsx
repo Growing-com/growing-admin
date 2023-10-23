@@ -82,7 +82,7 @@ const AttendanceCheck = () => {
           attendances: _attendance
         });
       } catch (e: any) {
-        GRAlert.error("출석 체크 실패, 다시 시도해주세요");
+        GRAlert.error(`출석 체크 실패, 다시 시도해주세요 ${e?.message ?? ""}`);
       }
     },
     [attendanceCheckMutate, filterDate]
