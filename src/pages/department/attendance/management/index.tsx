@@ -70,8 +70,8 @@ const AttendanceManagementPage: NextPage = () => {
   const onSubmit = handleSubmit(_filter => {
     const { rangeDate } = _filter;
     setFilter({
-      startDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FOMAT),
-      endDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FOMAT),
+      startDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FOMAT),
       page: 1,
       size: 10,
       ...convertParam(_filter)
