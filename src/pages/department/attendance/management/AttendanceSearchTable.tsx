@@ -27,7 +27,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   const columns: ColumnType<tUseAttendanceQueryResposne>[] = useMemo(
     () => [
       {
-        title: "코디",
+        title: "나무",
         dataIndex: "managerName",
         key: "managerName",
         align: "center",

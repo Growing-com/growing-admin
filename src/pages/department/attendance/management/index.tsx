@@ -23,7 +23,7 @@ const SEARCH_OPTION = [
     value: "name"
   },
   {
-    label: "코디",
+    label: "나무",
     value: "cordi"
   },
   {

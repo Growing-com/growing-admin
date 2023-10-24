@@ -107,7 +107,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
 
   const onClickLineUpButton = useCallback(() => {
     if (!selectedLeaderId) {
-      return GRAlert.error("리더와 코디를 선택해주세요");
+      return GRAlert.error("리더와 나무를 선택해주세요");
     }
 
     if (!lineUpDate) {
@@ -250,7 +250,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
                 value={selectedCodyId}
                 options={termCordyOptions}
                 onChange={onChangeCordySelect}
-                placeholder={"코디 선택해주세요"}
+                placeholder={"나무 선택해주세요"}
                 disabled={isLineUp}
               />
               <GRSelect

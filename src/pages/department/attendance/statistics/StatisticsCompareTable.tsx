@@ -19,7 +19,7 @@ const StatisticsCompareTable = ({
   const absentColumns: ColumnType<tAttendanceCheckListItem>[] = useMemo(
     () => [
       {
-        title: "코디",
+        title: "나무",
         dataIndex: "managerName",
         key: "managerName",
         align: "center",

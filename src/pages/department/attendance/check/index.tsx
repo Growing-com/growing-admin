@@ -113,7 +113,7 @@ const AttendanceCheck = () => {
                 style={{ width: "8rem" }}
                 options={cordiSelectItem}
                 onChange={onChangeSelectCordi}
-                placeholder={"코디 선택"}
+                placeholder={"나무 선택"}
               />
               <GRDatePicker
                 pickerType={"basic"}
