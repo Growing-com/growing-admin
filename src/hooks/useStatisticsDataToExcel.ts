@@ -45,7 +45,7 @@ export const useStatisticsDataToExcel = () => {
 
       let _totalRegistered = 0;
       const _date = attendanceItems.reduce((acc: any, item) => {
-        _totalRegistered = item.totalAttendance;
+        _totalRegistered = item.totalRegistered;
         acc[item.week] = item?.totalAttendance;
         return acc;
       }, {});
