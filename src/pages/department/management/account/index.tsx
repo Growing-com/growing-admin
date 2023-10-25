@@ -85,8 +85,8 @@ const ManagementAccountPage: NextPage = () => {
       if (accountlist?.length && _searchText) {
         _filterAccount = accountlist.filter(account => {
           if (
-            account.name.indexOf(_searchText) !== -1 ||
-            account.phoneNumber.indexOf(_searchText) !== -1
+            account.name?.indexOf(_searchText) !== -1 ||
+            account.phoneNumber?.indexOf(_searchText) !== -1
           ) {
             return account;
           }
