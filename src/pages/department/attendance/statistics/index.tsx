@@ -10,7 +10,7 @@ import StatisticsExcelPopover from "./StatisticsExcelPopover";
 import StatisticsModal from "./StatisticsModal";
 
 const LAST_SUNDAY = 0;
-const THIS_SUNDAY = 7;
+const THIS_SUNDAY = -7;
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
