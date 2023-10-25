@@ -41,7 +41,7 @@ const AttendanceManagementPage: NextPage = () => {
 
   const { control, watch, handleSubmit } = useForm({
     defaultValues: {
-      rangeDate: [dayjs(), dayjs().subtract(1, "M")],
+      rangeDate: [dayjs().subtract(1, "M"), dayjs()],
       searchType: "name"
     }
   });
@@ -86,8 +86,6 @@ const AttendanceManagementPage: NextPage = () => {
         return "이름으로 검색하세요";
       case "grade":
         return "학년으로 검색하세요";
-      case "cordi":
-        return "검색하고 코디을 선택해 주세요";
       default:
         return "검색어를 작성해 주세요";
     }
