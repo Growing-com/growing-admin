@@ -26,7 +26,7 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
     useState<tStatisticsAttendanceExcelOption>();
   const [openExcelDropdown, setOpenExcelDropdown] = useState(false);
 
-  const [handleAttendanceDataToExcel] = useStatisticsDataToExcel();
+  const [handleStatisticsDataToExcel] = useStatisticsDataToExcel();
 
   const { data: excelData } = useStatisticsAttendanceExcelQuery({
     options: excelOption
@@ -35,7 +35,7 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
   const handleExportData = useCallback(
     async (filename: string, _dataSource?: tAttendanceCheckListItem[]) => {
       if (_dataSource?.length) {
-        return await handleAttendanceDataToExcel(
+        return await handleStatisticsDataToExcel(
           filename,
           "attendance",
           _dataSource
@@ -43,7 +43,7 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
       }
       GRAlert.error("엑셀 추출할 데이터가 없습니다");
     },
-    [handleAttendanceDataToExcel]
+    [handleStatisticsDataToExcel]
   );
 
   const items = [
@@ -120,11 +120,11 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
             _fileName = "텀 출결 정보";
             break;
         }
-        await handleAttendanceDataToExcel(_fileName, statisticsName, excelData);
+        await handleStatisticsDataToExcel(_fileName, statisticsName, excelData);
         setExcelOption(undefined);
       }
     })();
-  }, [excelData, excelOption, handleAttendanceDataToExcel]);
+  }, [excelData, excelOption, handleStatisticsDataToExcel]);
 
   return (
     <GRView>
