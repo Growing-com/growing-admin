@@ -8,7 +8,10 @@ import {
   tStatisticsAttendanceExcelOption,
   useStatisticsAttendanceExcelQuery
 } from "api/statistics/queries/useStatisticsAttendanceExcelQuery";
-import { useAttendanceExcel } from "hooks/useAttendanceExcel";
+import {
+  tStatisticsName,
+  useStatisticsDataToExcel
+} from "hooks/useStatisticsDataToExcel";
 import { FC, useCallback, useEffect, useState } from "react";
 
 type tStatisticsExcelPopover = {
@@ -23,7 +26,7 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
     useState<tStatisticsAttendanceExcelOption>();
   const [openExcelDropdown, setOpenExcelDropdown] = useState(false);
 
-  const [handleAttendanceDataToExcel] = useAttendanceExcel();
+  const [handleAttendanceDataToExcel] = useStatisticsDataToExcel();
 
   const { data: excelData } = useStatisticsAttendanceExcelQuery({
     options: excelOption
@@ -32,7 +35,11 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
   const handleExportData = useCallback(
     async (filename: string, _dataSource?: tAttendanceCheckListItem[]) => {
       if (_dataSource?.length) {
-        return await handleAttendanceDataToExcel(filename, _dataSource);
+        return await handleAttendanceDataToExcel(
+          filename,
+          "attendance",
+          _dataSource
+        );
       }
       GRAlert.error("엑셀 추출할 데이터가 없습니다");
     },
@@ -94,21 +101,26 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
     (async () => {
       if (excelOption && !!excelData?.length) {
         let _fileName = "출석 정보";
+        let statisticsName = "attendance" as tStatisticsName;
         switch (excelOption) {
           case "gradeAttendance":
+            statisticsName = "grade";
             _fileName = "텀 학년별 정보";
             break;
           case "leaderAttendance":
+            statisticsName = "leader";
             _fileName = "텀 순모임별 정보";
             break;
           case "managerAttendance":
+            statisticsName = "manager";
             _fileName = "텀 나무별 정보";
             break;
           case "personalAttendance":
+            statisticsName = "attendance";
             _fileName = "텀 출결 정보";
             break;
         }
-        await handleAttendanceDataToExcel(_fileName, excelData);
+        await handleAttendanceDataToExcel(_fileName, statisticsName, excelData);
         setExcelOption(undefined);
       }
     })();

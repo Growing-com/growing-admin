@@ -56,12 +56,21 @@ export type tAttendanceCheck = {
 export type tAttendanceItem = {
   /** @description  @example 7 */
   attendanceId: number;
-  /** @description  @example "12341" */
+  /** @description 출석 사유  @example "12341" */
   etc?: string;
-  /** @description  @example "ATTEND" */
+  /** @description 출석 상태  @example "ATTEND" */
   status: tAttendanceStatus;
-  /** @description  @example "2023-09-17" */
+  /** @description 통계 날짜  @example "2023-09-17" */
   week: string;
+};
+
+export type tStatisticsItem = {
+  /** @description 통계 날짜 @example "2023-09-17" */
+  week: string;
+  /** @description 재적 @example 20 */
+  totalRegistered: number;
+  /** @description 통계 숫자 @example 20 */
+  totalAttendance: number;
 };
 
 export type tAttendanceCheckListItem = {
@@ -80,6 +89,14 @@ export type tAttendanceCheckListItem = {
   //** "010-2832-6075", */
   phoneNumber: string;
   attendanceItems: tAttendanceItem[];
+};
+
+export type tStatisticsCheckListItem = {
+  //** "유지현", */
+  managerName: string;
+  //** 2, */
+  grade: number;
+  attendanceItems: tStatisticsItem[];
 };
 
 export type tAttendanceCheckItem = {
