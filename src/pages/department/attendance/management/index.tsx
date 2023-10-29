@@ -89,7 +89,7 @@ const AttendanceManagementPage: NextPage = () => {
       default:
         return "검색어를 작성해 주세요";
     }
-  }, [watch]);
+  }, [watch("searchType")]);
 
   const onClickSearch = useCallback(() => {
     onSubmit();
@@ -166,7 +166,7 @@ const AttendanceManagementPage: NextPage = () => {
                   fieldName={"codyId"}
                   control={control}
                   options={cordiSelectItem}
-                  placeholder={"코디를 선택해주세요"}
+                  placeholder={"나무를 선택해주세요"}
                   isShow={watch("searchType") === "cordi"}
                 />
                 <GRFormItem
