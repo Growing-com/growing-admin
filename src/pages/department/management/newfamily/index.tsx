@@ -91,10 +91,9 @@ const ManagementNewFamilyPage: NextPage = () => {
       )
     },
     {
-      title: "등반일",
-      dataIndex: "lineupDate",
-      key: "lineupDate",
-      align: "center"
+      title: "등반 순장",
+      align: "center",
+      dataIndex: "firstPlantLeaderName"
     },
     {
       title: "라인업 | 날짜",
@@ -117,11 +116,6 @@ const ManagementNewFamilyPage: NextPage = () => {
           </GRView>
         );
       }
-    },
-    {
-      title: "등반 순장",
-      align: "center",
-      dataIndex: "firstPlantLeaderName"
     }
   ];
 
