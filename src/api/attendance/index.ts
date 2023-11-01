@@ -19,7 +19,7 @@ export const getAttendance = (params: tAttendanceCheckParam) => {
 
 export type tUseAttendanceQueryResposne = {
   attendanceItems: tAttendanceItem[];
-} & Omit<tUser, "grade" | "leaderName" | "userId" | "userName">;
+} & tUser;
 
 export const getAttendanceSearch = (params: tAttendanceSearch) => {
   return request<tUseAttendanceQueryResposne[]>({

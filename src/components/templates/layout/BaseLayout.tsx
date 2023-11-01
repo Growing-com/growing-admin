@@ -1,14 +1,8 @@
 import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
-import {
-  DEPARTMENT_MAIN_MENU,
-  DUTY_MENU,
-  TAB_MENU,
-  tDepartmentMainMenu
-} from "config/router";
-import { head, includes } from "lodash";
+import { TAB_MENU } from "config/router";
+import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
   useCallback,
@@ -17,6 +11,7 @@ import {
   useState,
   type FC
 } from "react";
+import menuStore from "store/clientStore/menuStore";
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
@@ -38,14 +33,15 @@ type tBaseLayout = {
 const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const router = useRouter();
 
+  const { menu: mainMenu } = menuStore();
+
+  const [handleRouterCheck] = useLogin();
+
   const [tabMenu] = useState(TAB_MENU[0].key);
   const [defaultOpen, setDefaultOpen] = useState<string[]>();
   const [openMainMenu, openMetMainMenu] = useState<string[]>();
   const [defaultSelected, setDefaultSelected] = useState<string[]>();
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
-  const [mainMenu, setMainMenu] = useState<tDepartmentMainMenu[]>([]);
-
-  const { data: userInfo } = useUserInfoQuery();
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
@@ -75,31 +71,16 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
       setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
-  // router.replace("/department/management/account");
+
   useEffect(() => {
-    const _mainMenu = [] as tDepartmentMainMenu[];
-    if (userInfo && !!userInfo?.role) {
-      const _findMenuByRole = DUTY_MENU.find(
-        duty => duty.key === userInfo?.role
-      );
-      DEPARTMENT_MAIN_MENU.forEach(menu => {
-        if (includes(_findMenuByRole?.value, menu.key)) {
-          _mainMenu.push(menu);
-        }
-      });
-      setMainMenu(_mainMenu);
-      const _firstPath = head(_mainMenu)?.children[0].path;
-      router.replace(`/department/${_firstPath}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+    handleRouterCheck();
+  }, [handleRouterCheck]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <HeaderMenu />
       <Layout>
         <Sider
-          // width={"12rem"}
           style={{
             backgroundColor: "white"
           }}

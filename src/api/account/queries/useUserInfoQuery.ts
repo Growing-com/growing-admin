@@ -7,7 +7,7 @@ export const useUserInfoQuery = () => {
     [accountQueryKeys.ACCOUNT_INFO],
     async () => await getUserInfo(),
     {
-      enabled: true,
+      enabled: false,
       staleTime: Infinity,
       select: data => data.content
     }

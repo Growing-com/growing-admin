@@ -6,12 +6,12 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
-import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
+import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 const Login = () => {
@@ -20,8 +20,8 @@ const Login = () => {
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
 
-  const { mutateAsync, isSuccess } = useLoginMutate();
-  const { refetch } = useUserInfoQuery();
+  const { mutateAsync } = useLoginMutate();
+  const [handleRouterCheck] = useLogin();
 
   const onClickLogin = useCallback(async () => {
     if (!userId || !userPW) {
@@ -33,23 +33,15 @@ const Login = () => {
         username: userId,
         password: userPW
       });
+      await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
     }
-  }, [mutateAsync, userId, userPW]);
+  }, [mutateAsync, userId, userPW, handleRouterCheck]);
 
   useKeyPressEventListener("Enter", () => {
     onClickLogin();
   });
-
-  useEffect(() => {
-    (async () => {
-      if (isSuccess) {
-        await refetch();
-        router.replace("/department/management/account");
-      }
-    })();
-  }, [isSuccess, refetch, router]);
 
   return (
     <LoginContainer>
