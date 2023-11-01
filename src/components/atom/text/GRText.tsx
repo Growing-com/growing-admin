@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import type { CSSProperties, FC } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 
-type tFontSizeType =
+export type tFontSizeType =
   | "h1"
   | "h2"
   | "h3"
