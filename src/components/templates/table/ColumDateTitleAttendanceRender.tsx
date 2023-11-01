@@ -36,7 +36,7 @@ const ColumDateTitleAttendanceRender = <DataType extends object>({
   };
 
   return {
-    title: "날짜",
+    title: "출석 날짜",
     align: "center",
     children: renderAddDay(attendanceList)
   };
