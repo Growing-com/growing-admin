@@ -1,10 +1,12 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
+import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 import { ColumnType } from "antd/es/table";
 import { tAttendanceCheckListItem } from "api/attendance/types";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { koreanSorter, numberSorter } from "utils/sorter";
 
 type tStatisticsCompareTable = {
@@ -16,6 +18,12 @@ const StatisticsCompareTable = ({
   headerTitle,
   dataSource
 }: tStatisticsCompareTable) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const onClickLinkText = useCallback(() => {
+    setOpenModal(pre => !pre);
+  }, []);
+
   const absentColumns: ColumnType<tAttendanceCheckListItem>[] = useMemo(
     () => [
       {
@@ -41,7 +49,10 @@ const StatisticsCompareTable = ({
         align: "center",
         fixed: "left",
         width: "5rem",
-        sorter: (a, b) => koreanSorter(a.userName, b.userName)
+        sorter: (a, b) => koreanSorter(a.userName, b.userName),
+        render: (_, recode) => (
+          <ColumLinkText text={recode.userName} onClick={onClickLinkText} />
+        )
       },
       {
         title: "학년",
@@ -71,23 +82,26 @@ const StatisticsCompareTable = ({
   );
 
   return (
-    <GRTable
-      rowKey={"name"}
-      marginbottom={2}
-      headerComponent={
-        <GRText
-          weight={"bold"}
-          fontSize={"b4"}
-          marginright={0.5}
-          marginbottom={1}
-        >
-          {headerTitle}
-        </GRText>
-      }
-      columns={absentColumns}
-      data={dataSource}
-      scroll={{ y: 200 }}
-    />
+    <>
+      <GRTable
+        rowKey={"name"}
+        marginbottom={2}
+        headerComponent={
+          <GRText
+            weight={"bold"}
+            fontSize={"b4"}
+            marginright={0.5}
+            marginbottom={1}
+          >
+            {headerTitle}
+          </GRText>
+        }
+        columns={absentColumns}
+        data={dataSource}
+        scroll={{ y: 200 }}
+      />
+      <UserHistoryModal open={openModal} onClose={onClickLinkText} />
+    </>
   );
 };
 

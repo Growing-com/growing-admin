@@ -1,11 +1,13 @@
 import GRTable from "@component/atom/GRTable";
+import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 
 import { ColumnType } from "antd/es/table";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 
-import { FC, useMemo } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 
 type tAttendanceSearchTable = {
   attendanceList?: tUseAttendanceQueryResposne[];
@@ -24,6 +26,14 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   attendanceListPage,
   isLoading
 }) => {
+  const [selectUserId, setSelectUserId] = useState<number>();
+  const onClickLinkText = useCallback(
+    (_recode?: tUseAttendanceQueryResposne) => {
+      setSelectUserId(_recode?.userId);
+    },
+    []
+  );
+
   const columns: ColumnType<tUseAttendanceQueryResposne>[] = useMemo(
     () => [
       {
@@ -49,7 +59,13 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         key: "userName",
         align: "center",
         fixed: "left",
-        width: "5rem"
+        width: "8rem",
+        render: (_, recode) => (
+          <ColumLinkText
+            text={recode.userName}
+            onClick={() => onClickLinkText(recode)}
+          />
+        )
       },
       {
         title: "학년",
@@ -76,21 +92,31 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
     ],
     [attendanceList]
   );
+
   return (
-    <GRTable
-      rowKey={"name"}
-      columns={columns}
-      data={attendanceList}
-      isHoverTable={false}
-      paginationProps={{
-        total: attendanceListTotal,
-        defaultPageSize: attendanceListSize,
-        onChange: onChangePage,
-        current: attendanceListPage
-      }}
-      scroll={{ x: 1300 }}
-      isLoading={isLoading}
-    />
+    <>
+      <GRTable
+        rowKey={"name"}
+        columns={columns}
+        data={attendanceList}
+        isHoverTable={false}
+        paginationProps={{
+          total: attendanceListTotal,
+          defaultPageSize: attendanceListSize,
+          onChange: onChangePage,
+          current: attendanceListPage
+        }}
+        scroll={{ x: 1300 }}
+        isLoading={isLoading}
+      />
+      {selectUserId && (
+        <UserHistoryModal
+          open={!!selectUserId}
+          onClose={onClickLinkText}
+          userId={selectUserId}
+        />
+      )}
+    </>
   );
 };
 
