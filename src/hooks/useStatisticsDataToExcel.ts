@@ -4,7 +4,7 @@ import {
   tStatisticsCheckListItem
 } from "api/attendance/types";
 import { ATTENDANCE_STATUS, SEX_OPTIONS } from "config/const";
-import { isArray } from "lodash";
+import { isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 
 export type tStatisticsName = "leader" | "manager" | "attendance" | "grade";
@@ -50,8 +50,10 @@ export const useStatisticsDataToExcel = () => {
         return acc;
       }, {});
       return {
-        ...(attendInfo?.managerName && { managerName: attendInfo.managerName }),
-        ...(attendInfo?.grade && { grade: attendInfo.grade }),
+        ...(!isUndefined(attendInfo?.managerName) && {
+          managerName: attendInfo.managerName
+        }),
+        ...(!isUndefined(attendInfo?.grade) && { grade: attendInfo.grade }),
         totalRegistered: _totalRegistered,
         ..._date
       };
