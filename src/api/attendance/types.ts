@@ -120,3 +120,19 @@ export type tAttendanceCheckItem = {
   etc: string;
   teamId: number;
 };
+
+export type tAttendUser = {
+  userId: number;
+  name: string;
+};
+
+export type tAttendanceProgress = {
+  /** @description 출석 체크 1명도 없는 리더 이름 목록 */
+  notProgressedLeaders: tAttendUser[];
+  /** @description 출석체크 완료 인원 */
+  totalProgressed: number;
+  /** @description 재적인원 */
+  totalRegistered: number;
+  /** @description  출석 체크 상황 알아본 날짜 @example "2023-11-05"*/
+  week: string;
+};

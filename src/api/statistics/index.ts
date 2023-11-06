@@ -1,5 +1,8 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAttendanceCheckListItem } from "api/attendance/types";
+import {
+  tAttendanceCheckListItem,
+  tAttendanceProgress
+} from "api/attendance/types";
 import { tStatisticsAttendanceExcelOption } from "./queries/useStatisticsAttendanceExcelQuery";
 
 export type tGetStatisticsAttendanceSummaryParams = {
@@ -82,7 +85,7 @@ export const getStatisticsAttendanceExcel = ({
   });
 };
 
-type tGetStatisticsAttendanceProgressParams = {
+export type tGetStatisticsAttendanceProgressParams = {
   termId: number;
   week: string;
 };
@@ -91,9 +94,9 @@ export const getStatisticsAttendanceProgress = ({
   termId,
   week
 }: tGetStatisticsAttendanceProgressParams) => {
-  return request<tAttendanceCheckListItem[]>({
+  return request<tAttendanceProgress>({
     method: REQUEST_METHOD.GET,
-    url: `/statistics/term/${termId}attendanceProgress`,
+    url: `/statistics/term/${termId}/attendanceProgress`,
     params: { week }
   });
 };
