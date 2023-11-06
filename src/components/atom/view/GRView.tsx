@@ -16,6 +16,7 @@ export type tGRView = {
   height?: CSSProperties["height"];
   style?: CSSProperties;
   customCss?: SerializedStyles;
+  onClick?: () => void;
 } & tGetMargin &
   tGetBorder;
 

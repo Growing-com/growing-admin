@@ -78,7 +78,7 @@ const StatisticsCompareTable = ({
         }) as tAttendanceCheckListItem)
       }
     ],
-    [dataSource]
+    [dataSource, onClickLinkText]
   );
 
   return (
