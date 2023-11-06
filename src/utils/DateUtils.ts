@@ -58,19 +58,13 @@ const LAST_SUNDAY = 0; // 저번주 일요일
 const THIS_MONDAY = 1; // 이번주 월요일
 const THIS_SUNDAY = 7; // 이번주 일요일
 
-const getWeekDataFromToday = () => {
-  return {
-    lastlastMonday: dayjs()
-      .weekday(LAST_LAST_MONDAY)
-      .format(DEFAULT_DATE_FOMAT),
-    lastlastSunday: dayjs()
-      .weekday(LAST_LAST_SUNDAY)
-      .format(DEFAULT_DATE_FOMAT),
-    lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
-    lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-    thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FOMAT),
-    thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
-  };
+const getWeekDataFromToday = {
+  lastlastMonday: dayjs().weekday(LAST_LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
+  lastlastSunday: dayjs().weekday(LAST_LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+  lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
+  lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+  thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FOMAT),
+  thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
 };
 
 export {

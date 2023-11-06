@@ -1,24 +1,20 @@
 import GRContainerView from "@component/atom/view/GRContainerView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
-import dayjs from "dayjs";
 import { useCallback, useState } from "react";
-import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
+import { getWeekDataFromToday } from "utils/DateUtils";
 import StatisticsCompareCards from "./StatisticsCompareCards";
 import StatisticsCompareTable from "./StatisticsCompareTable";
 import StatisticsExcelPopover from "./StatisticsExcelPopover";
 import StatisticsModal from "./StatisticsModal";
-
-const LAST_SUNDAY = 0;
-const THIS_SUNDAY = -7;
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
 
   const { data: statisticsAbsentData } = useStatisticsAttendance(
     {
-      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      startDate: getWeekDataFromToday.lastlastMonday,
+      endDate: getWeekDataFromToday.lastSunday,
       isAbsent: true
     },
     "isAbsent"
@@ -26,8 +22,8 @@ const AttendanceStatistics = () => {
 
   const { data: statisticsNewData } = useStatisticsAttendance(
     {
-      startDate: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-      endDate: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
+      startDate: getWeekDataFromToday.lastlastMonday,
+      endDate: getWeekDataFromToday.lastSunday,
       isNewOnly: true
     },
     "newFamily"
