@@ -1,18 +1,17 @@
 import { REQUEST_METHOD, request } from "api";
 import type { tAccount, tLoginParam, tRoleResponse } from "./types";
-export const USER_PREFIX = "/user";
 
 export const getUserList = () => {
   return request<tAccount[]>({
     method: REQUEST_METHOD.GET,
-    url: `${USER_PREFIX}`
+    url: `/user`
   });
 };
 
 export const getUserDetail = (userId?: number) => {
   return request<tAccount>({
     method: REQUEST_METHOD.GET,
-    url: `${USER_PREFIX}/${userId}`
+    url: `/user/${userId}`
   });
 };
 
@@ -33,7 +32,7 @@ export const getRoles = () => {
 export const createUser = (data: any) => {
   return request<tAccount[]>({
     method: REQUEST_METHOD.POST,
-    url: USER_PREFIX,
+    url: "/user",
     data
   });
 };
@@ -46,7 +45,7 @@ export type tUpdateUserParams = {
 export const updateUser = ({ userId, data }: tUpdateUserParams) => {
   return request<tAccount[]>({
     method: REQUEST_METHOD.PUT,
-    url: `${USER_PREFIX}/${userId}`,
+    url: `/user/${userId}`,
     data
   });
 };
@@ -69,6 +68,6 @@ export const postAccountLogout = () => {
 export const getUserInfo = () => {
   return request<tAccount>({
     method: REQUEST_METHOD.GET,
-    url: `${USER_PREFIX}/myInfo`
+    url: `/user/myInfo`
   });
 };

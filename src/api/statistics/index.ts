@@ -2,8 +2,6 @@ import { REQUEST_METHOD, request } from "api";
 import { tAttendanceCheckListItem } from "api/attendance/types";
 import { tStatisticsAttendanceExcelOption } from "./queries/useStatisticsAttendanceExcelQuery";
 
-const STATISTICS_PREFIX = "/statistics";
-
 export type tGetStatisticsAttendanceSummaryParams = {
   startDate: string;
   endDate: string;
@@ -28,7 +26,7 @@ export const getStatisticsAttendanceSummary = (
 ) => {
   return request<tGetStatisticsAttendanceSummaryResponse[]>({
     method: REQUEST_METHOD.GET,
-    url: `${STATISTICS_PREFIX}/attendanceSummary`,
+    url: `/statistics/attendanceSummary`,
     params
   });
 };
@@ -45,7 +43,7 @@ export const getStatisticsAttendance = (
 ) => {
   return request<tAttendanceCheckListItem[]>({
     method: REQUEST_METHOD.GET,
-    url: `${STATISTICS_PREFIX}/attendance`,
+    url: `/statistics/attendance`,
     params
   });
 };
@@ -80,6 +78,22 @@ export const getStatisticsAttendanceExcel = ({
 }: tGetStatisticsAttendanceExcelParams) => {
   return request<tAttendanceCheckListItem[]>({
     method: REQUEST_METHOD.GET,
-    url: `${STATISTICS_PREFIX}/term/${termId}/${options}`
+    url: `/statistics/term/${termId}/${options}`
+  });
+};
+
+type tGetStatisticsAttendanceProgressParams = {
+  termId: number;
+  week: string;
+};
+
+export const getStatisticsAttendanceProgress = ({
+  termId,
+  week
+}: tGetStatisticsAttendanceProgressParams) => {
+  return request<tAttendanceCheckListItem[]>({
+    method: REQUEST_METHOD.GET,
+    url: `/statistics/term/${termId}attendanceProgress`,
+    params: { week }
   });
 };

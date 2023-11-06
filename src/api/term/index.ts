@@ -1,40 +1,38 @@
 import { REQUEST_METHOD, request } from "api";
 import type { tTermCody, tTermLeader, tTermNewFamily } from "./types";
 
-const TERM_PREFIX = "/term";
-
 export const getTermInfo = () => {
   return request<tTermCody[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}`
+    url: `/term`
   });
 };
 
 export const getTermCody = (termId: number) => {
   return request<tTermCody[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/cody`
+    url: `/term/${termId}/cody`
   });
 };
 
 export const getTermMemberByCodyId = (termId: number, codyId: number) => {
   return request<tTermLeader[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/cody/${codyId}/leaders`
+    url: `/term/${termId}/cody/${codyId}/leaders`
   });
 };
 
 export const getTermNewFamily = (termId: number) => {
   return request<tTermNewFamily[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/newComers`
+    url: `/term/${termId}/newComers`
   });
 };
 
 export const getTermNewFamilyLeader = (termId: number) => {
   return request<tTermNewFamily[]>({
     method: REQUEST_METHOD.GET,
-    url: `${TERM_PREFIX}/${termId}/newTeamLeaders`
+    url: `/term/${termId}/newTeamLeaders`
   });
 };
 
