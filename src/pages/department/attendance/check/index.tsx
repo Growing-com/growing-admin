@@ -58,6 +58,12 @@ const AttendanceCheck = () => {
   );
 
   useEffect(() => {
+    if (cordiSelectItem.length) {
+      setSelectedCodyId(Number(head(cordiSelectItem)?.value));
+    }
+  }, [cordiSelectItem, setSelectedCodyId]);
+
+  useEffect(() => {
     if (termLeaderOptions) {
       const leaderName = head(termLeaderOptions);
       setCurrentTab(leaderName);
@@ -113,6 +119,7 @@ const AttendanceCheck = () => {
                 style={{ width: "8rem" }}
                 options={cordiSelectItem}
                 onChange={onChangeSelectCordi}
+                value={selectedCodyId}
                 placeholder={"나무 선택"}
               />
               <GRDatePicker
