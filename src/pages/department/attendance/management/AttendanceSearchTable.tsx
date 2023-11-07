@@ -90,7 +90,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         }) as tUseAttendanceQueryResposne)
       }
     ],
-    [attendanceList]
+    [attendanceList, onClickLinkText]
   );
 
   return (
