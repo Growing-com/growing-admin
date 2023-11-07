@@ -18,10 +18,10 @@ const StatisticsCompareTable = ({
   headerTitle,
   dataSource
 }: tStatisticsCompareTable) => {
-  const [openModal, setOpenModal] = useState(false);
+  const [selectUserId, setSelectUserId] = useState<number>();
 
-  const onClickLinkText = useCallback(() => {
-    setOpenModal(pre => !pre);
+  const onClickLinkText = useCallback((_recode?: tAttendanceCheckListItem) => {
+    setSelectUserId(_recode?.userId);
   }, []);
 
   const absentColumns: ColumnType<tAttendanceCheckListItem>[] = useMemo(
@@ -51,7 +51,10 @@ const StatisticsCompareTable = ({
         width: "5rem",
         sorter: (a, b) => koreanSorter(a.userName, b.userName),
         render: (_, recode) => (
-          <ColumLinkText text={recode.userName} onClick={onClickLinkText} />
+          <ColumLinkText
+            text={recode.userName}
+            onClick={() => onClickLinkText(recode)}
+          />
         )
       },
       {
@@ -96,11 +99,16 @@ const StatisticsCompareTable = ({
             {headerTitle}
           </GRText>
         }
+        isHoverTable={false}
         columns={absentColumns}
         data={dataSource}
         scroll={{ y: 200 }}
       />
-      <UserHistoryModal open={openModal} onClose={onClickLinkText} />
+      <UserHistoryModal
+        open={!!selectUserId}
+        onClose={onClickLinkText}
+        userId={selectUserId}
+      />
     </>
   );
 };
