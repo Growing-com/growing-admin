@@ -89,6 +89,7 @@ export type tAttendanceCheckListItem = {
   //** "010-2832-6075", */
   phoneNumber: string;
   attendanceItems: tAttendanceItem[];
+  userId?: number;
 };
 
 export type tStatisticsCheckListItem = {
