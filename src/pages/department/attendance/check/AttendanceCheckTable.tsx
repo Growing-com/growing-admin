@@ -181,6 +181,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         rowKey={record => record.teamMemberId}
         data={formResult}
         columns={columns}
+        isHoverTable={false}
       />
       <AttendancdeCheckSubmitButton onSubmit={handleOnSubmitButton} />
     </>
