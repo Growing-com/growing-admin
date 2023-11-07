@@ -1,14 +1,11 @@
 import GRModal from "@component/atom/modal/GRModal";
-import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import GRFormItem from "@component/molecule/form/GRFormItem";
+import { Descriptions } from "antd";
 import { useUserDetailQuery } from "api/account/queries/useUserDetailQuery";
 import type { tAccount } from "api/account/types";
-import { SEX_OPTIONS } from "config/const";
-import dayjs, { Dayjs } from "dayjs";
-import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
-import { FC, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
+import { FC, useCallback, useEffect, useState } from "react";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 
 type tUserHistoryModal = {
   userId?: number;
@@ -16,128 +13,54 @@ type tUserHistoryModal = {
   onClose: () => void;
 };
 
-type tAccountForm = {
-  birth: Dayjs;
-  visitDate: Dayjs;
+type tUserHistoryInfo = {
+  birth: string;
 } & Omit<tAccount, "visitDate" | "birth">;
 
 const UserHistoryModal: FC<tUserHistoryModal> = ({ open, onClose, userId }) => {
-  const { data: userInfo } = useUserDetailQuery(userId);
-  const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
+  const { data: user } = useUserDetailQuery(userId);
 
-  const { control, reset } = useForm<tAccountForm>();
+  const [userInfo, setUserInfo] = useState<tUserHistoryInfo | undefined>();
 
   const onCloseModal = useCallback(() => {
     onClose?.();
-    reset();
-  }, [onClose, reset]);
+    setUserInfo(Object.assign({}));
+  }, [onClose]);
 
   useEffect(() => {
-    if (userInfo) {
-      reset({
-        ...userInfo,
-        birth: dayjs(userInfo.birth),
-        visitDate: userInfo?.visitDate ? dayjs(userInfo?.visitDate) : undefined
+    if (user) {
+      setUserInfo({
+        ...user,
+        birth: dayjs(user.birth).format(DEFAULT_DATE_FOMAT)
       });
     }
-  }, [reset, userInfo]);
+  }, [user]);
 
   return (
     <GRModal
+      title={"계정 정보"}
       open={open}
       onCancel={onCloseModal}
-      title={"계정 정보"}
       width={"60%"}
+      footer={[]}
     >
-      <GRView flexDirection={"row"}>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            disabled={true}
-            type={"text"}
-            textType={"input"}
-            title={"이름"}
-            fieldName={"name"}
-            control={control}
-            placeholder={"이름을 작성해 주세요"}
-            required={true}
-          />
-          <GRFormItem
-            disabled={true}
-            type={"radio"}
-            title={"성별"}
-            fieldName={"sex"}
-            control={control}
-            options={SEX_OPTIONS}
-            required={true}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            disabled={true}
-            type={"text"}
-            textType={"input"}
-            title={"전화번호"}
-            fieldName={"phoneNumber"}
-            control={control}
-            placeholder={"- 없이 작성해 주세요"}
-            required={true}
-            maxLength={11}
-          />
-          <GRFormItem
-            disabled={true}
-            type={"date"}
-            pickerType={"basic"}
-            title={"생년월일"}
-            fieldName={"birth"}
-            control={control}
-            placeholder={"생년월일을 선택해 주세요"}
-            required={true}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            disabled={true}
-            type={"text"}
-            textType={"number"}
-            title={"학년"}
-            fieldName={"grade"}
-            control={control}
-            placeholder={"학년 숫자만 작성해주세요"}
-            required={true}
-          />
-          <GRFormItem
-            disabled={true}
-            pickerType={"basic"}
-            type={"date"}
-            title={"방문일"}
-            fieldName={"visitDate"}
-            control={control}
-            placeholder={"방문일을 선택해 주세요"}
-            required={true}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            disabled={true}
-            type={"select"}
-            title={"리더"}
-            fieldName={"teamId"}
-            control={control}
-            options={newFamilyLeaderOptions}
-            placeholder={"리더를 선택해주세요"}
-          />
-        </GRFlexView>
-        <GRFlexView>
-          <GRFormItem
-            disabled={true}
-            type={"text"}
-            textType={"textarea"}
-            title={"추가 내용"}
-            fieldName={"etc"}
-            control={control}
-            placeholder={"추가 내용이 있으면 작성해 주세요"}
-          />
-        </GRFlexView>
+      <GRView>
+        <Descriptions bordered>
+          <Descriptions.Item label={"이름"}>{userInfo?.name}</Descriptions.Item>
+          <Descriptions.Item label={"성별"}>{userInfo?.sex}</Descriptions.Item>
+          <Descriptions.Item label={"전화번호"} span={2}>
+            {userInfo?.phoneNumber}
+          </Descriptions.Item>
+          <Descriptions.Item label={"생년월일"}>
+            {userInfo?.birth}
+          </Descriptions.Item>
+          <Descriptions.Item label={"학년"} span={2}>
+            {userInfo?.grade}
+          </Descriptions.Item>
+          <Descriptions.Item label={"추가 내용"}>
+            {userInfo?.etc}
+          </Descriptions.Item>
+        </Descriptions>
       </GRView>
     </GRModal>
   );
