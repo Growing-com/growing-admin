@@ -1,12 +1,16 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
+import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
-import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 import { ColumnType } from "antd/es/table";
-import { tAttendanceCheckListItem } from "api/attendance/types";
+import {
+  tAttendanceCheckListItem,
+  tAttendanceItem
+} from "api/attendance/types";
 import { useCallback, useMemo, useState } from "react";
+import { getWeekDataFromToday } from "utils/DateUtils";
 import { koreanSorter, numberSorter } from "utils/sorter";
 
 type tStatisticsCompareTable = {
@@ -76,12 +80,45 @@ const StatisticsCompareTable = ({
         render: (_, record) => <ColumSexRender sexData={record.sex} />
       },
       {
-        ...(ColumDateTitleAttendanceRender({
-          attendanceList: dataSource
-        }) as tAttendanceCheckListItem)
+        title: "출석 날짜",
+        align: "center",
+        children: [
+          {
+            title: getWeekDataFromToday.lastlastSunday,
+            dataIndex: "attendanceItems",
+            align: "center",
+            render: (record: tAttendanceItem[]) => {
+              const findData = record.find(
+                r => r.week === getWeekDataFromToday.lastlastSunday
+              );
+              return (
+                <ColumAttendanceRender
+                  attendanceStatus={findData?.status}
+                  contentEtc={findData?.etc}
+                />
+              );
+            }
+          },
+          {
+            title: getWeekDataFromToday.lastSunday,
+            dataIndex: "attendanceItems",
+            align: "center",
+            render: (record: tAttendanceItem[]) => {
+              const findData = record.find(
+                r => r.week === getWeekDataFromToday.lastSunday
+              );
+              return (
+                <ColumAttendanceRender
+                  attendanceStatus={findData?.status}
+                  contentEtc={findData?.etc}
+                />
+              );
+            }
+          }
+        ]
       }
     ],
-    [dataSource, onClickLinkText]
+    [onClickLinkText]
   );
 
   return (

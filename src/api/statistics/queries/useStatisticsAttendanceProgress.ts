@@ -10,7 +10,7 @@ export const useStatisticsAttendanceProgressQuery = ({
   week
 }: tGetStatisticsAttendanceProgressParams) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_ATTENDANCE_PROGRESS],
+    [statisticsQueryKeys.STATISTICS_ATTENDANCE_PROGRESS, week],
     async () => await getStatisticsAttendanceProgress({ termId, week }),
     {
       select: data => data?.content
