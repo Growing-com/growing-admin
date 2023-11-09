@@ -22,7 +22,7 @@ const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState<tOptions>();
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
   const [checkData, setCheckData] = useState<tAttendanceCheckItem[]>();
-
+  const [isLoading, setIsLoading] = useState(false);
   const { cordiSelectItem } = useAccountTermInfos();
   const { setSelectedCodyId, termLeaderOptions, selectedCodyId } =
     useTermInfoOptionQueries();
@@ -82,6 +82,7 @@ const AttendanceCheck = () => {
 
   const handleOnSubmitButton = useCallback(
     async (_attendance: tAttendance[]) => {
+      setIsLoading(true);
       try {
         await attendanceCheckMutate({
           week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
@@ -89,6 +90,8 @@ const AttendanceCheck = () => {
         });
       } catch (e: any) {
         GRAlert.error(`출석 체크 실패, 다시 시도해주세요 ${e?.message ?? ""}`);
+      } finally {
+        setTimeout(() => setIsLoading(false), 500);
       }
     },
     [attendanceCheckMutate, filterDate]
@@ -138,7 +141,7 @@ const AttendanceCheck = () => {
           }
         />
         <AttendanceCheckTable
-          isLoading={isFetching}
+          isLoading={isFetching || isLoading}
           attendanceDataSource={checkData}
           onSubmit={handleOnSubmitButton}
         />
