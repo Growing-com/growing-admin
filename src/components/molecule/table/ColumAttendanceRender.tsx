@@ -1,4 +1,4 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import { Popover } from "antd";
@@ -14,7 +14,18 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   attendanceStatus,
   contentEtc
 }) => {
-  if (!attendanceStatus) return <></>;
+  if (!attendanceStatus) {
+    return (
+      <GRButtonText buttonType={"default"} style={{ cursor: "default" }}>
+        <MinusCircleOutlined
+          rev={undefined}
+          style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
+        />
+        <GRText>미완료</GRText>
+      </GRButtonText>
+    );
+  }
+
   const currentStatus = ATTENDANCE_STATUS.find(
     status => status.value === attendanceStatus
   );
@@ -37,7 +48,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
           rev={undefined}
           style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
         />
-        <GRText>{currentStatus?.label ?? " "}</GRText>
+        <GRText>{currentStatus?.label ?? ""}</GRText>
       </GRButtonText>
     </Popover>
   );
