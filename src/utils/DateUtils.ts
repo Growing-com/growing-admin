@@ -51,20 +51,25 @@ const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
   return sundays;
 };
 
-const LAST_LAST_MONDAY = -12; // 저저번주 월요일
-const LAST_LAST_SUNDAY = -7; // 저저번주 일요일
-const LAST_MONDAY = -6; // 저번주 월요일
-const LAST_SUNDAY = 0; // 저번주 일요일
+const LAST_LAST_MONDAY = -12; // 지지난주 월요일
+const LAST_LAST_SUNDAY = -7; // 지지난주 일요일
+const LAST_MONDAY = -6; // 지난주 월요일
+const LAST_SUNDAY = 0; // 지난주 일요일
+const LAST_SATURDAY = -1; // 지난주 토요일
 const THIS_MONDAY = 1; // 이번주 월요일
 const THIS_SUNDAY = 7; // 이번주 일요일
+const THIS_SATURDAY = 6; // 이번주 토요일
 
 const getWeekDataFromToday = {
+  today: dayjs().format(DEFAULT_DATE_FOMAT),
   lastlastMonday: dayjs().weekday(LAST_LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
   lastlastSunday: dayjs().weekday(LAST_LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
   lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
   lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
+  lastSaturday: dayjs().weekday(LAST_SATURDAY).format(DEFAULT_DATE_FOMAT),
   thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FOMAT),
-  thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT)
+  thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
+  thisSaturday: dayjs().weekday(THIS_SATURDAY).format(DEFAULT_DATE_FOMAT)
 };
 
 export {
