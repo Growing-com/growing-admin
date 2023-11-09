@@ -37,7 +37,7 @@ const request = async <ResponseType, RequestType = unknown>(
     const { response } = error;
     if (response.data.status === 401) {
       window.location.replace("/login");
-      return;
+      throw new Error(response?.data?.message);
     }
     const errorResponse = {
       message: response?.data?.message ?? error.message,
