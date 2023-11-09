@@ -18,7 +18,7 @@ const useLogin = () => {
     if (!userInfo) {
       await refetch();
     }
-  }, [userInfo]);
+  }, [refetch, userInfo]);
 
   useEffect(() => {
     (async () => {
@@ -35,10 +35,12 @@ const useLogin = () => {
         });
 
         const _firstPath = head(_mainMenu)?.children[0].path;
-        router.replace(`/department/${_firstPath}`);
+        if (router.pathname.localeCompare(`/login`) === 0) {
+          router.replace(`/department/${_firstPath}`);
+        }
       }
     })();
-  }, [userInfo, mainMenu]);
+  }, [userInfo, mainMenu, router, addMenu]);
 
   return [handleRouterCheck];
 };

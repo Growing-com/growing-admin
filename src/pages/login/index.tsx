@@ -10,13 +10,10 @@ import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 const Login = () => {
-  const router = useRouter();
-
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
 

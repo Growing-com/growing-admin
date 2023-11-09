@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
 import NetworkConfig from "config/NetworkConfig";
-
 const defaultHeaders = {
   "Content-Type": "application/json"
 };
@@ -36,6 +35,10 @@ const request = async <ResponseType, RequestType = unknown>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const { response } = error;
+    if (response.data.status === 401) {
+      window.location.replace("/login");
+      return;
+    }
     const errorResponse = {
       message: response?.data?.message ?? error.message,
       code: response?.data?.status
