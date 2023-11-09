@@ -63,7 +63,8 @@ export const useStatisticsDataToExcel = () => {
   const handleStatisticsDataToExcel = async (
     fileName: string,
     statisticsName: tStatisticsName,
-    _attendData: any[]
+    _attendData: any[],
+    isDate?: boolean
   ) => {
     if (!_attendData?.length || !isArray(_attendData)) {
       return GRAlert.error("엑셀로 변환할 출석 데이터가 없습니다");
@@ -94,7 +95,8 @@ export const useStatisticsDataToExcel = () => {
     return await ExportExcelOfJson({
       fileName,
       headerTitle,
-      data: rowData
+      data: rowData,
+      isDate
     });
   };
 

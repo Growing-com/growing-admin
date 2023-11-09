@@ -6,12 +6,14 @@ type tExportExcelOfJson<ExcelDataType> = {
   /** @description json 키 값 순서대로 들어가야 합니다. @example ["이름","","학년"]  */
   headerTitle?: string[];
   fileName: string;
+  isDate?: boolean;
 };
 
 const ExportExcelOfJson = async <ExcelDataType>({
   data,
   headerTitle,
-  fileName
+  fileName,
+  isDate = false
 }: tExportExcelOfJson<ExcelDataType>) => {
   return await new Promise((resolve, reject) => {
     try {
@@ -35,8 +37,12 @@ const ExportExcelOfJson = async <ExcelDataType>({
 
       const workbook = xlsx.utils.book_new();
       xlsx.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-      const today = dayjs().format("YYYY-MM-DD_HH-mm-ss");
-      xlsx.writeFile(workbook, `${fileName}_${today}.xlsx`);
+      if (isDate) {
+        xlsx.writeFile(workbook, `${fileName}.xlsx`);
+      } else {
+        const today = dayjs().format("YYYY-MM-DD_HH-mm-ss");
+        xlsx.writeFile(workbook, `${fileName}_${today}.xlsx`);
+      }
       resolve(true);
     } catch (error) {
       reject(error);

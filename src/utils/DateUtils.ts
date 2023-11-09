@@ -7,6 +7,7 @@ dayjs.extend(duration);
 dayjs.extend(weekday);
 
 export const DEFAULT_DATE_FOMAT = "YYYY-MM-DD";
+export const DEFAULT_EXCEL_DATE_FOMAT = "YYYY-MM-DD_HH-mm-ss";
 
 const getTime = (date: dayjs.Dayjs | string) => {
   const mille = dayjs().diff(date);
