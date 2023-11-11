@@ -25,7 +25,6 @@ const ExcelButton = ({
   buttonType = "default",
   ...props
 }: tExcelButton) => {
-  console.log("statisticsAbsentData", data);
   const handleExcelButton = useCallback(async () => {
     if (!isExportData) {
       return onClickExcel();

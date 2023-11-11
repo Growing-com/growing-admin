@@ -46,7 +46,7 @@ export const useStatisticsDataToExcel = () => {
         ...(newAttend.userName && { userName: newAttend.userName }),
         grade: newAttend.grade,
         phoneNumber: newAttend.phoneNumber,
-        sex: SEX_OPTIONS.find(gender => gender)?.label,
+        sex: SEX_OPTIONS.find(_sex => _sex.value === attend.sex)?.label,
         ..._date
       };
     });
@@ -59,10 +59,11 @@ export const useStatisticsDataToExcel = () => {
     return attendData.map(attend => {
       const { attendanceItems, ...attendInfo } = attend;
 
-      const _totalRegistered = 0;
       const _date = _weeks.reduce((acc: any, week) => {
         const _findOne = attendanceItems.find(item => item.week === week);
-        acc[week] = _findOne?.totalAttendance ? _findOne?.totalAttendance : "";
+        acc[week] = _findOne?.totalAttendance
+          ? `${_findOne?.totalAttendance}/${_findOne?.totalRegistered}`
+          : "";
         return acc;
       }, {});
 
@@ -78,9 +79,8 @@ export const useStatisticsDataToExcel = () => {
           phoneNumber: attendInfo.phoneNumber
         }),
         ...(!isUndefined(attendInfo?.sex) && {
-          sex: SEX_OPTIONS.find(gender => gender)?.label
+          sex: SEX_OPTIONS.find(_sex => _sex.value === attendInfo.sex)?.label
         }),
-        totalRegistered: _totalRegistered,
         ..._date
       };
     });
@@ -106,15 +106,15 @@ export const useStatisticsDataToExcel = () => {
         break;
       case "leader": // 순모임 별
         rowData = convertStatisticsDataToExcelData(_attendData);
-        headerTitle = ["나무", "순장", "학년", "전화번호", "성별", "재적"];
+        headerTitle = ["나무", "순장", "학년", "전화번호", "성별"];
         break;
       case "manager": // 나무 별
         rowData = convertStatisticsDataToExcelData(_attendData);
-        headerTitle = ["나무", "재적"];
+        headerTitle = ["나무"];
         break;
       case "grade": // 학년 별
         rowData = convertStatisticsDataToExcelData(_attendData);
-        headerTitle = ["학년", "재적"];
+        headerTitle = ["학년"];
         break;
     }
 
