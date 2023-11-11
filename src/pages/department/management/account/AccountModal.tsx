@@ -86,7 +86,10 @@ const AccountModal: FC<tAccountModal> = ({
     if (userInfo && !isCreate) {
       reset({
         ...userInfo,
-        birth: dayjs(userInfo.birth),
+        birth:
+          userInfo.birth && userInfo?.birth !== "1970-01-01"
+            ? dayjs(userInfo.birth)
+            : undefined,
         visitDate:
           userInfo?.visitDate && userInfo?.visitDate !== "1970-01-01"
             ? dayjs(userInfo?.visitDate)
@@ -94,8 +97,7 @@ const AccountModal: FC<tAccountModal> = ({
       });
     } else {
       reset({
-        isActive: true,
-        birth: dayjs("2000-01-01")
+        isActive: true
       });
     }
   }, [isCreate, reset, userInfo]);
@@ -160,7 +162,7 @@ const AccountModal: FC<tAccountModal> = ({
             placeholder={"학년 숫자만 작성해주세요"}
             required={true}
           />
-          <GRFormItem
+          {/* <GRFormItem
             pickerType={"basic"}
             type={"date"}
             title={"방문일"}
@@ -168,18 +170,7 @@ const AccountModal: FC<tAccountModal> = ({
             control={control}
             placeholder={"방문일을 선택해 주세요"}
             required={true}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            type={"select"}
-            title={"리더"}
-            fieldName={"teamId"}
-            control={control}
-            options={newFamilyLeaderOptions}
-            disabled={!isCreate}
-            placeholder={"리더를 선택해주세요"}
-          />
+          /> */}
           <GRFormItem
             type={"switch"}
             title={"활성화"}
@@ -187,6 +178,17 @@ const AccountModal: FC<tAccountModal> = ({
             control={control}
             isShow={!isCreate}
           />
+        </GRFlexView>
+        <GRFlexView flexDirection={"row"}>
+          {/* <GRFormItem
+            type={"select"}
+            title={"리더"}
+            fieldName={"teamId"}
+            control={control}
+            options={newFamilyLeaderOptions}
+            disabled={!isCreate}
+            placeholder={"리더를 선택해주세요"}
+          /> */}
         </GRFlexView>
         <GRFlexView>
           <GRFormItem
