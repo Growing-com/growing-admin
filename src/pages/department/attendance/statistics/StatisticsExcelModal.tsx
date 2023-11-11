@@ -1,5 +1,4 @@
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -16,7 +15,7 @@ import {
 } from "hooks/useStatisticsDataToExcel";
 import { FC, useCallback, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { DEFAULT_DATE_FOMAT, DEFAULT_EXCEL_DATE_FOMAT } from "utils/DateUtils";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import { calculatePercentage } from "utils/indext";
 
 type tStatisticsExcelModal = {
@@ -64,10 +63,6 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
   useEffect(() => {
     (async () => {
       if (excelOption && !!excelData?.length) {
-        const weekOfMonth =
-          Number(dayjs(selectWeek).format("w")) -
-          Number(dayjs(selectWeek).startOf("M").format("w")) +
-          1;
         let _fileName = "출석";
         let statisticsName = "attendance" as tStatisticsName;
         switch (excelOption) {
@@ -88,16 +83,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             _fileName = `텀 출결`;
             break;
         }
-        await handleStatisticsDataToExcel(
-          `${_fileName} ${dayjs(selectWeek)
-            .startOf("week")
-            .format("YYYY-MM")}-${weekOfMonth}주_${dayjs().format(
-            DEFAULT_EXCEL_DATE_FOMAT
-          )}`,
-          statisticsName,
-          excelData,
-          true
-        );
+        await handleStatisticsDataToExcel(_fileName, statisticsName, excelData);
         setExcelOption(undefined);
       }
     })();
@@ -112,12 +98,6 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
       title={
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
           <GRText weight={"bold"}>엑셀 다운</GRText>
-          <GRDatePicker
-            pickerType={"basic"}
-            picker={"week"}
-            value={selectWeek}
-            onChange={onChangeWeek}
-          />
         </GRFlexView>
       }
     >
