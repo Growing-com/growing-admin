@@ -63,7 +63,7 @@ const ManagementAccountPage: NextPage = () => {
       width: "15rem"
     },
     {
-      title: "역할",
+      title: "비고",
       dataIndex: "role",
       key: "role",
       align: "center",

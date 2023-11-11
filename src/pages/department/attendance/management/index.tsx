@@ -83,7 +83,7 @@ const AttendanceManagementPage: NextPage = () => {
   const renderPlaceHolder = useMemo(() => {
     switch (watch("searchType")) {
       case "name":
-        return "이름으로 검색하세요";
+        return "이름으로 검색하세요. 예) 홍, 홍길, 홍길동";
       case "grade":
         return "학년으로 검색하세요";
       default:
