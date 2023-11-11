@@ -14,11 +14,11 @@ import {
 } from "hooks/useStatisticsDataToExcel";
 import { FC, useCallback, useEffect, useState } from "react";
 
-type tStatisticsExcelPopover = {
+type tStatisticsExcelDropdown = {
   newFamilyAttendanceData?: tAttendanceCheckListItem[];
   absentAttendanceData?: tAttendanceCheckListItem[];
 };
-const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
+const StatisticsExcelDropdown: FC<tStatisticsExcelDropdown> = ({
   newFamilyAttendanceData,
   absentAttendanceData
 }) => {
@@ -150,4 +150,4 @@ const StatisticsExcelPopover: FC<tStatisticsExcelPopover> = ({
   );
 };
 
-export default StatisticsExcelPopover;
+export default StatisticsExcelDropdown;

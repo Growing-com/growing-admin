@@ -62,6 +62,10 @@ export type tAttendanceItem = {
   status: tAttendanceStatus;
   /** @description 통계 날짜  @example "2023-09-17" */
   week: string;
+  /** @description 재적 @example 20 */
+  totalRegistered?: number;
+  /** @description 통계 숫자 @example 20 */
+  totalAttendance?: number;
 };
 
 export type tStatisticsItem = {

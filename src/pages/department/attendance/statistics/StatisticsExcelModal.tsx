@@ -64,34 +64,36 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
   useEffect(() => {
     (async () => {
       if (excelOption && !!excelData?.length) {
-        let _fileName = "출석 정보";
+        const weekOfMonth =
+          Number(dayjs(selectWeek).format("w")) -
+          Number(dayjs(selectWeek).startOf("M").format("w")) +
+          1;
+        let _fileName = "출석";
         let statisticsName = "attendance" as tStatisticsName;
         switch (excelOption) {
           case "gradeAttendance":
             statisticsName = "grade";
-            _fileName = `텀 학년별 정보 `;
+            _fileName = `텀 학년별 `;
             break;
           case "leaderAttendance":
             statisticsName = "leader";
-            _fileName = `텀 순모임별 정보 ${selectWeek.format(
-              DEFAULT_EXCEL_DATE_FOMAT
-            )}`;
+            _fileName = `텀 순모임별`;
             break;
           case "managerAttendance":
             statisticsName = "manager";
-            _fileName = `텀 나무별 정보 ${selectWeek.format(
-              DEFAULT_EXCEL_DATE_FOMAT
-            )}`;
+            _fileName = `텀 나무별`;
             break;
           case "personalAttendance":
             statisticsName = "attendance";
-            _fileName = `텀 출결 정보 ${selectWeek.format(
-              DEFAULT_EXCEL_DATE_FOMAT
-            )}`;
+            _fileName = `텀 출결`;
             break;
         }
         await handleStatisticsDataToExcel(
-          _fileName,
+          `${_fileName} ${dayjs(selectWeek)
+            .startOf("week")
+            .format("YYYY-MM")}-${weekOfMonth}주_${dayjs().format(
+            DEFAULT_EXCEL_DATE_FOMAT
+          )}`,
           statisticsName,
           excelData,
           true

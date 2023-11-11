@@ -1,8 +1,5 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import {
-  tAttendanceCheckListItem,
-  tStatisticsCheckListItem
-} from "api/attendance/types";
+import { tAttendanceCheckListItem } from "api/attendance/types";
 import { ATTENDANCE_STATUS, SEX_OPTIONS } from "config/const";
 import { isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
@@ -10,18 +7,36 @@ import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 export type tStatisticsName = "leader" | "manager" | "attendance" | "grade";
 
 export const useStatisticsDataToExcel = () => {
+  const filterWeeks = (attendData: tAttendanceCheckListItem[]) => {
+    const weeks = [] as string[];
+    attendData.forEach(attend => {
+      const { attendanceItems } = attend;
+      attendanceItems.forEach(item => {
+        if (!weeks.includes(item.week)) {
+          weeks.push(item.week);
+        }
+      });
+    });
+    return weeks;
+  };
   const convertAttendanceDataToExcelData = (
     attendData: tAttendanceCheckListItem[]
   ) => {
+    const _weeks = filterWeeks(attendData);
     return attendData.map(attend => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { attendanceItems, managerId, sex, ...newAttend } = attend;
 
-      const _date = attendanceItems.reduce((acc: any, item) => {
-        const _status = ATTENDANCE_STATUS.find(
-          status => status.value === item.status
-        );
-        acc[item.week] = _status?.label;
+      const _date = _weeks.reduce((acc: any, week) => {
+        const item = attendanceItems.find(item => item.week === week);
+        if (item) {
+          const _status = ATTENDANCE_STATUS.find(
+            status => status.value === item?.status
+          );
+          acc[week] = _status?.label;
+        } else {
+          acc[week] = "";
+        }
         return acc;
       }, {});
 
@@ -38,22 +53,33 @@ export const useStatisticsDataToExcel = () => {
   };
 
   const convertStatisticsDataToExcelData = (
-    attendData: tStatisticsCheckListItem[]
+    attendData: tAttendanceCheckListItem[]
   ) => {
+    const _weeks = filterWeeks(attendData);
     return attendData.map(attend => {
       const { attendanceItems, ...attendInfo } = attend;
 
-      let _totalRegistered = 0;
-      const _date = attendanceItems.reduce((acc: any, item) => {
-        _totalRegistered = item.totalRegistered;
-        acc[item.week] = item?.totalAttendance;
+      const _totalRegistered = 0;
+      const _date = _weeks.reduce((acc: any, week) => {
+        const _findOne = attendanceItems.find(item => item.week === week);
+        acc[week] = _findOne?.totalAttendance ? _findOne?.totalAttendance : "";
         return acc;
       }, {});
+
       return {
         ...(!isUndefined(attendInfo?.managerName) && {
           managerName: attendInfo.managerName
         }),
+        ...(!isUndefined(attendInfo?.leaderName) && {
+          leaderName: attendInfo.leaderName
+        }),
         ...(!isUndefined(attendInfo?.grade) && { grade: attendInfo.grade }),
+        ...(!isUndefined(attendInfo?.phoneNumber) && {
+          phoneNumber: attendInfo.phoneNumber
+        }),
+        ...(!isUndefined(attendInfo?.sex) && {
+          sex: SEX_OPTIONS.find(gender => gender)?.label
+        }),
         totalRegistered: _totalRegistered,
         ..._date
       };
@@ -79,8 +105,8 @@ export const useStatisticsDataToExcel = () => {
         headerTitle = ["나무", "순장", "이름", "학년", "전화번호", "성별"];
         break;
       case "leader": // 순모임 별
-        rowData = convertAttendanceDataToExcelData(_attendData);
-        headerTitle = ["나무", "순장", "학년", "전화번호", "성별"];
+        rowData = convertStatisticsDataToExcelData(_attendData);
+        headerTitle = ["나무", "순장", "학년", "전화번호", "성별", "재적"];
         break;
       case "manager": // 나무 별
         rowData = convertStatisticsDataToExcelData(_attendData);
