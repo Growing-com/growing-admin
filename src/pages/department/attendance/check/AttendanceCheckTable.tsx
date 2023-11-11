@@ -3,6 +3,7 @@ import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { Alert, Tooltip, type RadioChangeEvent } from "antd";
 import { ColumnType } from "antd/es/table";
@@ -145,11 +146,16 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         key: "etc",
         align: "center",
         render: (_, recode) => (
-          <GRTextInput
-            value={recode.etc}
-            type={"textarea"}
-            onChange={_etc => onChangeAttendEtc(recode.teamMemberId, _etc)}
-          />
+          <GRView>
+            <GRTextInput
+              style={{
+                height: "2.1rem"
+              }}
+              value={recode.etc}
+              type={"textarea"}
+              onChange={_etc => onChangeAttendEtc(recode.teamMemberId, _etc)}
+            />
+          </GRView>
         )
       }
     ],
