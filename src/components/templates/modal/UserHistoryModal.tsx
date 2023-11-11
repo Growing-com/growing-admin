@@ -52,7 +52,9 @@ const UserHistoryModal: FC<tUserHistoryModal> = ({ open, onClose, userId }) => {
             {userInfo?.phoneNumber}
           </Descriptions.Item>
           <Descriptions.Item label={"생년월일"}>
-            {userInfo?.birth}
+            {userInfo?.birth !== "1970-01-01"
+              ? dayjs(userInfo?.birth).format(DEFAULT_DATE_FOMAT)
+              : "-"}
           </Descriptions.Item>
           <Descriptions.Item label={"학년"} span={2}>
             {userInfo?.grade}
