@@ -4,6 +4,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { css } from "@emotion/react";
 import { useStatisticsAttendanceSummaryQuery } from "api/statistics/queries/useStatisticsAttendanceSummaryQuery";
+import { useTermUserStatistics } from "api/term/queries/useTermUserStatistics";
 import { useCallback } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
@@ -17,6 +18,12 @@ const customBox = css`
 `;
 
 const StatisticsCompareCards = () => {
+  const { data: statisticsUserSummaryData } = useTermUserStatistics({
+    week: getWeekDataFromToday.lastSunday
+  });
+  const { data: statisticsUserLastSummaryData } = useTermUserStatistics({
+    week: getWeekDataFromToday.lastlastSunday
+  });
   const { data: statisticsAttendanceSummaryData } =
     useStatisticsAttendanceSummaryQuery({
       startDate: getWeekDataFromToday.lastSunday,
@@ -68,14 +75,14 @@ const StatisticsCompareCards = () => {
           </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
             <GRText fontSize={"h6"}>
-              {statisticsAttendanceSummaryData?.totalRegistered}
+              {statisticsUserSummaryData?.totalRegistered}
               <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
                 명
               </GRText>
             </GRText>
             {renderRate(
-              statisticsAttendanceSummaryData?.totalRegistered,
-              statisticsAttendanceLastSummaryData?.totalRegistered
+              statisticsUserSummaryData?.totalRegistered,
+              statisticsUserLastSummaryData?.totalRegistered
             )}
           </GRFlexView>
           {/* <GRText
@@ -118,14 +125,14 @@ const StatisticsCompareCards = () => {
           </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
             <GRText fontSize={"h6"}>
-              {statisticsAttendanceSummaryData?.newComerRegistered}
+              {statisticsUserSummaryData?.totalNewRegistered}
               <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
                 명
               </GRText>
             </GRText>
             {renderRate(
-              statisticsAttendanceSummaryData?.newComerRegistered,
-              statisticsAttendanceLastSummaryData?.newComerRegistered
+              statisticsUserSummaryData?.totalNewRegistered,
+              statisticsUserLastSummaryData?.totalNewRegistered
             )}
           </GRFlexView>
           {/* <GRText

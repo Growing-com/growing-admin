@@ -8,6 +8,23 @@ export const getTermInfo = () => {
   });
 };
 
+type getTermUserStatisticsResponse = {
+  /** 새등록 인원 */
+  totalNewRegistered: number;
+  /** 전체 인원 */
+  totalRegistered: number;
+};
+
+export const getTermUserStatistics = (week: string) => {
+  return request<getTermUserStatisticsResponse>({
+    method: REQUEST_METHOD.GET,
+    url: `/term/totalUser`,
+    params: {
+      week
+    }
+  });
+};
+
 export const getTermCody = (termId: number) => {
   return request<tTermCody[]>({
     method: REQUEST_METHOD.GET,

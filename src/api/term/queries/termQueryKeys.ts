@@ -9,7 +9,9 @@ const termQueryKeys = {
   /** 텀 새가족 리더 */
   NEW_FAMILY_LEADER: "new_family_leader",
   /** 텀 주차 통계 */
-  TERM_STATISTICS: "statistics"
+  TERM_STATISTICS: "statistics",
+  /** 텀 유저 통계 정보 */
+  TERM_USER_STATISTICS: "term_user_statistics"
 };
 
 export default termQueryKeys;
