@@ -44,8 +44,8 @@ export const DUTY = [
 
 export const ROLE = [
   { value: "관리자", key: "ADMIN" },
-  { value: "매니저", key: "MANAGER" },
-  { value: "조원", key: "NORMAL" }
+  { value: "코디", key: "MANAGER" }
+  // { value: "조원", key: "NORMAL" }
 ];
 
 export const STATUS_OPTIONS = [
