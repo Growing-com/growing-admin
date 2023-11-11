@@ -87,7 +87,10 @@ const AccountModal: FC<tAccountModal> = ({
       reset({
         ...userInfo,
         birth: dayjs(userInfo.birth),
-        visitDate: userInfo?.visitDate ? dayjs(userInfo?.visitDate) : undefined
+        visitDate:
+          userInfo?.visitDate && userInfo?.visitDate !== "1970-01-01"
+            ? dayjs(userInfo?.visitDate)
+            : undefined
       });
     } else {
       reset({
@@ -174,6 +177,7 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"teamId"}
             control={control}
             options={newFamilyLeaderOptions}
+            disabled={!isCreate}
             placeholder={"리더를 선택해주세요"}
           />
           <GRFormItem

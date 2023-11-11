@@ -1,4 +1,5 @@
 import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
@@ -12,6 +13,7 @@ import { SEX_NAME } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
 import { Color } from "styles/colors";
+import AccountModal from "../account/AccountModal";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
 
 const LINE_STAUTS = {
@@ -21,6 +23,7 @@ const LINE_STAUTS = {
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
+  const [openAccountModal, setOpenAccountModal] = useState(false);
 
   const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
 
@@ -127,9 +130,30 @@ const ManagementNewFamilyPage: NextPage = () => {
     [refetch]
   );
 
+  const onAccountModal = useCallback(() => {
+    setOpenAccountModal(!openAccountModal);
+  }, [openAccountModal]);
+
+  const onRegister = useCallback(() => {
+    setOpenAccountModal(!openAccountModal);
+    refetch();
+  }, [openAccountModal, refetch]);
+
   return (
     <>
-      <HeaderView title={"새가족 관리"} titleInfo={"현재 텀 새가족 리스트"} />
+      <HeaderView
+        title={"새가족 관리"}
+        titleInfo={"현재 텀 새가족 리스트"}
+        headerComponent={
+          <GRButtonText
+            onClick={onAccountModal}
+            buttonType={"default"}
+            size={"large"}
+          >
+            새가족 생성
+          </GRButtonText>
+        }
+      />
       <GRContainerView>
         <GRTable
           headerComponent={
@@ -165,6 +189,11 @@ const ManagementNewFamilyPage: NextPage = () => {
           onClose={onClickRow}
         />
       )}
+      <AccountModal
+        open={openAccountModal}
+        onClose={onAccountModal}
+        onRegister={onRegister}
+      />
     </>
   );
 };

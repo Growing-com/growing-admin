@@ -1,5 +1,4 @@
 import GRTable from "@component/atom/GRTable";
-import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
@@ -124,15 +123,15 @@ const ManagementAccountPage: NextPage = () => {
     <>
       <HeaderView
         title={"계정 관리"}
-        headerComponent={
-          <GRButtonText
-            onClick={onAccountModal}
-            buttonType={"default"}
-            size={"large"}
-          >
-            계정 생성
-          </GRButtonText>
-        }
+        // headerComponent={
+        //   <GRButtonText
+        //     onClick={onAccountModal}
+        //     buttonType={"default"}
+        //     size={"large"}
+        //   >
+        //     계정 생성
+        //   </GRButtonText>
+        // }
         subComponent={<ManagementSearch onClickSearch={onClickSearch} />}
       />
       <GRContainerView>
