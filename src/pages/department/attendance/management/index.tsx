@@ -89,6 +89,7 @@ const AttendanceManagementPage: NextPage = () => {
       default:
         return "검색어를 작성해 주세요";
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("searchType")]);
 
   const onClickSearch = useCallback(() => {
