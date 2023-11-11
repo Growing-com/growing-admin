@@ -92,8 +92,7 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
       onChange={onChangeDate}
       renderExtraFooter={renderExtraFooter}
       disabledDate={(current: Dayjs) => {
-        const customDate = dayjs().format(DEFAULT_DATE_FOMAT);
-        return current && current > dayjs(customDate, DEFAULT_DATE_FOMAT);
+        return current && current.valueOf() > Date.now();
       }}
       {...props}
     />
