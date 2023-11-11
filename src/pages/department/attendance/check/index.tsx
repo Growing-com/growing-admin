@@ -130,12 +130,6 @@ const AttendanceCheck = () => {
                 picker={"week"}
                 defaultValue={filterDate}
                 onChange={onChangeWeek}
-                disabledDate={current => {
-                  const customDate = dayjs().format(DEFAULT_DATE_FOMAT);
-                  return (
-                    current && current > dayjs(customDate, DEFAULT_DATE_FOMAT)
-                  );
-                }}
               />
             </GRFlexView>
           }

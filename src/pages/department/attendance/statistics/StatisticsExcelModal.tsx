@@ -107,27 +107,31 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
       onCancel={onCancelClick}
       open={open}
       showFooter={false}
+      title={
+        <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+          <GRText weight={"bold"}>엑셀 다운</GRText>
+          <GRDatePicker
+            pickerType={"basic"}
+            picker={"week"}
+            value={selectWeek}
+            onChange={onChangeWeek}
+          />
+        </GRFlexView>
+      }
     >
       <GRFlexView paddinghorizontal={GRStylesConfig.HORIZONTAL_PADDING}>
-        <GRFlexView
-          flexDirection={"row"}
-          marginbottom={GRStylesConfig.BASE_MARGIN}
-        >
-          <GRFlexView marginright={GRStylesConfig.BASE_MARGIN}>
+        <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+          <GRFlexView
+            flexDirection={"row"}
+            marginright={GRStylesConfig.BASE_MARGIN}
+          >
             <GRText>출석체크 완료율</GRText>
+          </GRFlexView>
+          <GRFlexView marginleft={GRStylesConfig.BASE_MARGIN}>
             <Progress
               percent={Number(attendParcent)}
               size={"small"}
               status={"active"}
-            />
-          </GRFlexView>
-          <GRFlexView marginleft={GRStylesConfig.BASE_MARGIN}>
-            <GRText>출력 날짜</GRText>
-            <GRDatePicker
-              pickerType={"basic"}
-              picker={"week"}
-              value={selectWeek}
-              onChange={onChangeWeek}
             />
           </GRFlexView>
         </GRFlexView>
