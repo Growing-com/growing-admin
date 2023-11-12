@@ -149,7 +149,6 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"birth"}
             control={control}
             placeholder={"생년월일을 선택해 주세요"}
-            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
