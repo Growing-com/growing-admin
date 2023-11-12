@@ -32,8 +32,8 @@ const HeaderMenu = () => {
     [userInfo?.role]
   );
 
-  const onClickLogout = useCallback(() => {
-    logoutMutate();
+  const onClickLogout = useCallback(async () => {
+    await logoutMutate();
   }, [logoutMutate]);
 
   return (
