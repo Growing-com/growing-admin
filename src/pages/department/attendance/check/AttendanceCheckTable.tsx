@@ -1,4 +1,5 @@
 import GRTable from "@component/atom/GRTable";
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
@@ -163,15 +164,22 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   );
 
   const handleOnSubmitButton = () => {
-    const _attendForm = formResult.map(form => {
-      return {
-        teamMemberId: form.teamMemberId,
-        status: form.status,
-        teamId: form.teamId,
-        etc: form.etc
-      };
-    });
-    onSubmit(_attendForm);
+    try {
+      const _attendForm = formResult.map(form => {
+        if (!form.status) {
+          throw new Error("출석은 모두 선택 해야 합니다");
+        }
+        return {
+          teamMemberId: form.teamMemberId,
+          status: form.status,
+          teamId: form.teamId,
+          etc: form.etc
+        };
+      });
+      onSubmit(_attendForm);
+    } catch (e: any) {
+      GRAlert.error(e?.message ?? "출석 체크 오류");
+    }
   };
 
   useEffect(() => {
