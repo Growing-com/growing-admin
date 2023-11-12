@@ -58,21 +58,27 @@ const ManagementNewFamilyPage: NextPage = () => {
       key: "birth",
       dataIndex: "birth",
       align: "center",
-      width: "8rem"
+      width: "8rem",
+      render: (_, record) => {
+        return record?.birth !== "1970-01-01" ? record?.birth : "-";
+      }
     },
     {
       title: "전화번호",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "8rem"
+      width: "10rem"
     },
     {
       title: "방문일",
       dataIndex: "visitDate",
       key: "visitDate",
       align: "center",
-      width: "8rem"
+      width: "8rem",
+      render: (_, record) => {
+        return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
+      }
     },
 
     {

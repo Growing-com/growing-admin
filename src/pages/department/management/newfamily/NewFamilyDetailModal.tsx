@@ -70,9 +70,11 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     async _item => {
       const _format = {
         ..._item,
-        birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT),
-        visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
+        birth: _item.birth && dayjs(_item.birth).format(DEFAULT_DATE_FOMAT),
+        visitDate:
+          _item.visitDate && dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
       };
+
       try {
         await updateUserMutateAsync({
           userId: newFamily?.userId,
@@ -151,8 +153,14 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     if (newFamily) {
       reset({
         ...newFamily,
-        birth: dayjs(newFamily.birth),
-        visitDate: dayjs(newFamily.visitDate)
+        birth:
+          newFamily.birth && newFamily?.birth !== "1970-01-01"
+            ? dayjs(newFamily.birth)
+            : undefined,
+        visitDate:
+          newFamily?.visitDate && newFamily?.visitDate !== "1970-01-01"
+            ? dayjs(newFamily?.visitDate)
+            : undefined
       });
       setLineUpDate(undefined);
       setSelectedCodyId(undefined);
@@ -214,7 +222,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             pickerType={"basic"}
             control={control}
             placeholder={"생년월일을 선택해 주세요"}
-            disabled={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -234,7 +241,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"visitDate"}
             control={control}
             placeholder={"방문일을 선택해 주세요"}
-            disabled={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
