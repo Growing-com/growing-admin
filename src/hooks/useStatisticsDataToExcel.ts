@@ -1,7 +1,8 @@
 import GRAlert from "@component/atom/alert/GRAlert";
 import { tAttendanceCheckListItem } from "api/attendance/types";
 import { ATTENDANCE_STATUS, SEX_OPTIONS } from "config/const";
-import { isArray, isUndefined } from "lodash";
+import dayjs from "dayjs";
+import { concat, isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 
 export type tStatisticsName = "leader" | "manager" | "attendance" | "grade";
@@ -17,17 +18,18 @@ export const useStatisticsDataToExcel = () => {
         }
       });
     });
+    weeks.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
     return weeks;
   };
   const convertAttendanceDataToExcelData = (
-    attendData: tAttendanceCheckListItem[]
+    attendData: tAttendanceCheckListItem[],
+    weeks: string[]
   ) => {
-    const _weeks = filterWeeks(attendData);
     return attendData.map(attend => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { attendanceItems, managerId, sex, ...newAttend } = attend;
 
-      const _date = _weeks.reduce((acc: any, week) => {
+      const _date = weeks.reduce((acc: any, week) => {
         const item = attendanceItems.find(item => item.week === week);
         if (item) {
           const _status = ATTENDANCE_STATUS.find(
@@ -53,13 +55,13 @@ export const useStatisticsDataToExcel = () => {
   };
 
   const convertStatisticsDataToExcelData = (
-    attendData: tAttendanceCheckListItem[]
+    attendData: tAttendanceCheckListItem[],
+    weeks: string[]
   ) => {
-    const _weeks = filterWeeks(attendData);
     return attendData.map(attend => {
       const { attendanceItems, ...attendInfo } = attend;
 
-      const _date = _weeks.reduce((acc: any, week) => {
+      const _date = weeks.reduce((acc: any, week) => {
         const _findOne = attendanceItems.find(item => item.week === week);
         acc[week] = _findOne?.totalAttendance
           ? `${_findOne?.totalAttendance}/${_findOne?.totalRegistered}`
@@ -97,30 +99,30 @@ export const useStatisticsDataToExcel = () => {
     }
     let rowData = [];
     let headerTitle = [];
-
+    const _weeks = filterWeeks(_attendData);
     /** @description headerTitle 데이터의 순서에 따라서 들어가기 때문에 헤더 순서가 중요 하다  */
     switch (statisticsName) {
       case "attendance": // 출결
-        rowData = convertAttendanceDataToExcelData(_attendData);
+        rowData = convertAttendanceDataToExcelData(_attendData, _weeks);
         headerTitle = ["나무", "순장", "이름", "학년", "전화번호", "성별"];
         break;
       case "leader": // 순모임 별
-        rowData = convertStatisticsDataToExcelData(_attendData);
+        rowData = convertStatisticsDataToExcelData(_attendData, _weeks);
         headerTitle = ["나무", "순장", "학년", "전화번호", "성별"];
         break;
       case "manager": // 나무 별
-        rowData = convertStatisticsDataToExcelData(_attendData);
+        rowData = convertStatisticsDataToExcelData(_attendData, _weeks);
         headerTitle = ["나무"];
         break;
       case "grade": // 학년 별
-        rowData = convertStatisticsDataToExcelData(_attendData);
+        rowData = convertStatisticsDataToExcelData(_attendData, _weeks);
         headerTitle = ["학년"];
         break;
     }
 
     return await ExportExcelOfJson({
       fileName,
-      headerTitle,
+      headerTitle: concat(headerTitle, _weeks),
       data: rowData,
       isDate
     });
