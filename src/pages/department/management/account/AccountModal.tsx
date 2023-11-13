@@ -138,9 +138,9 @@ const AccountModal: FC<tAccountModal> = ({
             title={"전화번호"}
             fieldName={"phoneNumber"}
             control={control}
-            placeholder={"- 없이 작성해 주세요"}
+            placeholder={"-를 넣어주세요. 예) 010-1234-5678"}
             required={true}
-            maxLength={11}
+            maxLength={13}
           />
           <GRFormItem
             type={"date"}
