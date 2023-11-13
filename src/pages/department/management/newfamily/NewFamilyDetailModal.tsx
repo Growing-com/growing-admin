@@ -162,7 +162,9 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             ? dayjs(newFamily?.visitDate)
             : undefined
       });
-      setLineUpDate(undefined);
+      setLineUpDate(
+        newFamily?.lineupDate ? dayjs(newFamily?.lineupDate) : undefined
+      );
       setSelectedCodyId(undefined);
       setSelectedLeaderId(undefined);
     }
