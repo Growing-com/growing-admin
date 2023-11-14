@@ -177,7 +177,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           onRow={record => ({
             onClick: () => onClickRow(record)
           })}
-          rowKey={"userId"}
+          rowKey={"teamId"}
           columns={columns}
           data={newFamilyData}
           pagination={{
