@@ -36,13 +36,15 @@ export type tTermNewFamily = {
   lineoutDate: string;
   /** @description 라인업 날짜 (등반일) @example "2023-08-13" */
   lineupDate: string;
-  /** @description 텀 리더 @example "이승현" */
+  /** @description 텀 리더 @example "홍길동" */
   newTeamLeaderName: string;
   /** @description 방문일  @example "2023-08-13" */
   visitDate: string;
   leaderName: string;
   userId?: number;
   teamMemberId: number;
+  /** @description 텀 코디 이름  @example "홍길동" */
+  firstPlantManagerName: string;
 } & Pick<
   tAccount,
   | "teamId"

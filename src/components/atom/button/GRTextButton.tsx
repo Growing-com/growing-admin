@@ -37,6 +37,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
   height,
   textSize,
   textWeight,
+  disabled,
   ...props
 }) => {
   const _margin = getMargin(props);
@@ -61,6 +62,11 @@ const GRButtonText: React.FC<tGRButtonText> = ({
       backgroundColor,
       borderColor
     };
+    if (disabled) {
+      buttonProps.textColor = Color.grey80;
+      buttonProps.backgroundColor = Color.white;
+      return buttonProps;
+    }
     switch (buttonType) {
       case "custom":
         buttonProps.type = "default";
@@ -83,7 +89,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         break;
     }
     return buttonProps;
-  }, [backgroundColor, borderColor, buttonType, textColor]);
+  }, [backgroundColor, borderColor, buttonType, disabled, textColor]);
 
   return (
     <ButtonCompon
@@ -98,6 +104,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         height: ${_height};
         border-color: ${_buttonTypeColor.borderColor};
       `}
+      disabled={disabled}
       {...props}
     >
       <GRText

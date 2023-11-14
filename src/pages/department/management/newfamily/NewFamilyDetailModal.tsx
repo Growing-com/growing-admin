@@ -3,6 +3,7 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -41,8 +42,15 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
 
   const isLineUp = useMemo(
-    () => !!newFamily?.firstPlantLeaderName || !!newFamily?.lineoutDate,
-    [newFamily?.firstPlantLeaderName, newFamily?.lineoutDate]
+    () =>
+      !!newFamily?.firstPlantLeaderName ||
+      !!newFamily?.lineoutDate ||
+      !!newFamily.firstPlantManagerName,
+    [
+      newFamily?.firstPlantLeaderName,
+      newFamily.firstPlantManagerName,
+      newFamily?.lineoutDate
+    ]
   );
 
   const { updateUserMutateAsync } = useUserMutate();
@@ -252,23 +260,35 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
               flexDirection={"row"}
               marginbottom={GRStylesConfig.BASE_MARGIN}
             >
-              <GRSelect
-                style={{ flex: 1 }}
-                marginright={GRStylesConfig.BASE_MARGIN}
-                value={selectedCodyId}
-                options={termCordyOptions}
-                onChange={onChangeCordySelect}
-                placeholder={"나무 선택해주세요"}
-                disabled={isLineUp}
-              />
-              <GRSelect
-                style={{ flex: 1 }}
-                value={selectedLeaderId}
-                options={termLeaderOptions}
-                onChange={onChangeLeaderSelect}
-                placeholder={"리더를 선택해주세요"}
-                disabled={isLineUp}
-              />
+              {isLineUp ? (
+                <GRTextInput
+                  marginright={GRStylesConfig.BASE_MARGIN}
+                  disabled
+                  value={newFamily.firstPlantManagerName}
+                />
+              ) : (
+                <GRSelect
+                  style={{ flex: 1 }}
+                  marginright={GRStylesConfig.BASE_MARGIN}
+                  value={selectedCodyId}
+                  options={termCordyOptions}
+                  onChange={onChangeCordySelect}
+                  placeholder={"나무 선택해주세요"}
+                  disabled={isLineUp}
+                />
+              )}
+              {isLineUp ? (
+                <GRTextInput disabled value={newFamily.firstPlantLeaderName} />
+              ) : (
+                <GRSelect
+                  style={{ flex: 1 }}
+                  value={selectedLeaderId}
+                  options={termLeaderOptions}
+                  onChange={onChangeLeaderSelect}
+                  placeholder={"리더를 선택해주세요"}
+                  disabled={isLineUp}
+                />
+              )}
             </GRFlexView>
             <GRDatePicker
               value={lineUpDate}
@@ -279,6 +299,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             />
           </GRFlexView>
           <GRButtonText
+            disabled={isLineUp}
             marginleft={GRStylesConfig.BASE_MARGIN}
             onClick={onClickLineUpButton}
           >
