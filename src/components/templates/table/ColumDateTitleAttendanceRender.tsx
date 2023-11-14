@@ -1,40 +1,23 @@
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
-import {
-  tAttendanceCheckListItem,
-  tAttendanceItem
-} from "api/attendance/types";
-import dayjs from "dayjs";
+import { tAttendanceItem } from "api/attendance/types";
 import { head } from "lodash";
 type tColumDateTitleAttendanceRender<T> = {
   attendanceList?: T[];
+  weeks: string[];
 };
 const ColumDateTitleAttendanceRender = <DataType extends object>({
-  attendanceList
+  attendanceList,
+  weeks
 }: tColumDateTitleAttendanceRender<DataType>) => {
   if (!attendanceList?.length) return {};
-
-  const filterWeeks = (attendData: tAttendanceCheckListItem[]) => {
-    const weeks = [] as string[];
-    attendData.forEach(attend => {
-      const { attendanceItems } = attend;
-      attendanceItems.forEach(item => {
-        if (item.week && !weeks.includes(item.week)) {
-          weeks.push(item.week);
-        }
-      });
-    });
-    weeks.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
-    return weeks;
-  };
 
   const renderAddDay = (list: any[]) => {
     if (!list?.length) return [];
 
     const _attendanceItems = head(list);
-    const _weeks = filterWeeks(list);
 
     if (_attendanceItems?.attendanceItems?.length) {
-      return _weeks.map(week => {
+      return weeks.map(week => {
         return {
           title: week,
           dataIndex: "attendanceItems",
@@ -44,6 +27,7 @@ const ColumDateTitleAttendanceRender = <DataType extends object>({
             const findData = record.find(r => r.week === week);
             return (
               <ColumAttendanceRender
+                key={`${week}-${findData?.attendanceId}`}
                 attendanceStatus={findData?.status}
                 contentEtc={findData?.etc}
               />

@@ -194,6 +194,7 @@ const AttendanceManagementPage: NextPage = () => {
       />
       <GRContainerView>
         <AttendanceSearchTable
+          filter={filter}
           isLoading={isFetching}
           attendanceList={attendanceList?.content}
           attendanceListSize={attendanceList?.size}

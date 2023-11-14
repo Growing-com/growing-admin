@@ -6,10 +6,13 @@ import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDate
 
 import { ColumnType } from "antd/es/table";
 import { tUseAttendanceQueryResposne } from "api/attendance";
+import { tAttendanceSearch } from "api/attendance/types";
 
 import { FC, useCallback, useMemo, useState } from "react";
+import { getSundayRangeDate } from "utils/DateUtils";
 
 type tAttendanceSearchTable = {
+  filter?: tAttendanceSearch;
   attendanceList?: tUseAttendanceQueryResposne[];
   attendanceListSize?: number;
   attendanceListTotal?: number;
@@ -19,6 +22,7 @@ type tAttendanceSearchTable = {
 };
 
 const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
+  filter,
   attendanceList,
   attendanceListSize,
   attendanceListTotal,
@@ -27,6 +31,11 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
   isLoading
 }) => {
   const [selectUserId, setSelectUserId] = useState<number>();
+  const searchWeek = useMemo(
+    () => getSundayRangeDate(filter?.startDate, filter?.endDate),
+    [filter]
+  );
+
   const onClickLinkText = useCallback(
     (_recode?: tUseAttendanceQueryResposne) => {
       setSelectUserId(_recode?.userId);
@@ -86,17 +95,18 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
       },
       {
         ...(ColumDateTitleAttendanceRender({
-          attendanceList
+          attendanceList,
+          weeks: searchWeek
         }) as tUseAttendanceQueryResposne)
       }
     ],
-    [attendanceList, onClickLinkText]
+    [attendanceList, onClickLinkText, searchWeek]
   );
 
   return (
     <>
       <GRTable
-        rowKey={"name"}
+        rowKey={"userName"}
         columns={columns}
         data={attendanceList}
         isHoverTable={false}

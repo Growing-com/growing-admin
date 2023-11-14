@@ -52,6 +52,22 @@ const getSundayOfMonth = (_date?: dayjs.Dayjs | string) => {
   return sundays;
 };
 
+const getSundayRangeDate = (_startDate?: string, _endDate?: string) => {
+  if (!_startDate || !_endDate) return [];
+  const week = [] as string[];
+  const startDate = dayjs(_startDate);
+  const endDate = dayjs(_endDate);
+  let currentDay = startDate;
+  while (currentDay.isBefore(endDate) || currentDay.isSame(endDate, "day")) {
+    if (currentDay.day() === 0) {
+      const sundayStart = currentDay.startOf("day");
+      week.push(sundayStart.format(DEFAULT_DATE_FOMAT));
+    }
+    currentDay = currentDay.add(1, "day");
+  }
+  return week;
+};
+
 const LAST_LAST_MONDAY = -12; // 지지난주 월요일
 const LAST_LAST_SUNDAY = -7; // 지지난주 일요일
 const LAST_MONDAY = -6; // 지난주 월요일
@@ -75,6 +91,7 @@ const getWeekDataFromToday = {
 
 export {
   getSundayOfMonth,
+  getSundayRangeDate,
   getTime,
   getTimeLine,
   getWeekDataFromToday,
