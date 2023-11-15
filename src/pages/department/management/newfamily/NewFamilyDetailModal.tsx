@@ -14,7 +14,7 @@ import { tAccount } from "api/account/types";
 import { useNewFamilyLineOut } from "api/term/mutate/useNewFamilyLineOut";
 import { useNewFamilyLineUp } from "api/term/mutate/useNewFamilyLineUp";
 import { tTermNewFamily } from "api/term/types";
-import { SEX_OPTIONS } from "config/const";
+import { SEX_OPTIONS, TeamType } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
@@ -45,10 +45,10 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     () =>
       !!newFamily?.firstPlantLeaderName ||
       !!newFamily?.lineoutDate ||
-      !!newFamily.firstPlantManagerName,
+      !!newFamily?.firstPlantManagerName,
     [
       newFamily?.firstPlantLeaderName,
-      newFamily.firstPlantManagerName,
+      newFamily?.firstPlantManagerName,
       newFamily?.lineoutDate
     ]
   );
@@ -59,7 +59,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     termLeaderOptions,
     selectedCodyId,
     setSelectedCodyId
-  } = useTermInfoOptionQueries();
+  } = useTermInfoOptionQueries(TeamType.NEW);
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
   const onCloseModal = useCallback(() => {
@@ -264,7 +264,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
                 <GRTextInput
                   marginright={GRStylesConfig.BASE_MARGIN}
                   disabled
-                  value={newFamily.firstPlantManagerName}
+                  value={newFamily?.firstPlantManagerName ?? ""}
                 />
               ) : (
                 <GRSelect
@@ -278,7 +278,10 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
                 />
               )}
               {isLineUp ? (
-                <GRTextInput disabled value={newFamily.firstPlantLeaderName} />
+                <GRTextInput
+                  disabled
+                  value={newFamily?.firstPlantLeaderName ?? ""}
+                />
               ) : (
                 <GRSelect
                   style={{ flex: 1 }}

@@ -1,3 +1,5 @@
+import { tTeamType } from "api/term/types";
+
 export const SEX_NAME: { [key: string]: string } = {
   MALE: "남",
   FEMALE: "여"
@@ -59,3 +61,14 @@ export const SEX_OPTIONS = [
   { label: "남", value: "MALE" },
   { label: "여", value: "FEMALE" }
 ];
+
+export const TeamType: Record<tTeamType, tTeamType> = {
+  /** @description 등불 */
+  LAMP: "LAMP",
+  /** @description 나무모임 */
+  TREE: "TREE",
+  /** @description 순모임 */
+  PLANT: "PLANT",
+  /** @description 새가족 */
+  NEW: "NEW"
+};

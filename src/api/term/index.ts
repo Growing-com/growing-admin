@@ -47,7 +47,7 @@ export const getTermNewFamily = (termId: number) => {
 };
 
 export const getTermNewFamilyLeader = (termId: number) => {
-  return request<tTermNewFamily[]>({
+  return request<tTermLeader[]>({
     method: REQUEST_METHOD.GET,
     url: `/term/${termId}/newTeamLeaders`
   });

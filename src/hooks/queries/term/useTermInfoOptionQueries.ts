@@ -2,18 +2,19 @@ import { tOptions } from "@component/atom/dataEntry/type";
 import { useTermCodyQuery } from "api/term/queries/useTermCodyQuery";
 import { useTermMembersByCodyQuery } from "api/term/queries/useTermMembersByCodyQuery";
 import { useTermNewFamilyLeader } from "api/term/queries/useTermNewFamilyLeader";
+import { tTeamType } from "api/term/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const INIT_TERM_ID = 1;
 const INIT_OPTIONS = [] as tOptions[];
-type tUseTermInfoOptionQueries = () => {
+type tUseTermInfoOptionQueries = (teamType?: tTeamType) => {
   newFamilyLeaderOptions: tOptions[];
   termCordyOptions: tOptions[];
   termLeaderOptions: tOptions[];
   setSelectedCodyId: Dispatch<SetStateAction<number | undefined>>;
   selectedCodyId?: number;
 };
-export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
+export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = teamType => {
   const [newFamilyLeaderOptions, setNewFamilyLeaderOptions] =
     useState<tOptions[]>(INIT_OPTIONS);
   const [termCordyOptions, setTermCordyOptions] =
@@ -63,14 +64,18 @@ export const useTermInfoOptionQueries: tUseTermInfoOptionQueries = () => {
 
   useEffect(() => {
     if (leaderByCodyIsSuccess && leaderByCody?.length) {
-      setTermLeaderOptions(
-        leaderByCody.map(_termCordy => ({
-          value: _termCordy.teamId,
-          label: _termCordy.leaderName
-        }))
-      );
+      const _leaderByCody = [] as tOptions[];
+      leaderByCody.forEach(_termCordy => {
+        if (_termCordy.teamType !== teamType) {
+          _leaderByCody.push({
+            value: _termCordy.teamId,
+            label: _termCordy.leaderName
+          });
+        }
+      });
+      setTermLeaderOptions(_leaderByCody);
     }
-  }, [leaderByCody, leaderByCodyIsSuccess]);
+  }, [leaderByCody, leaderByCodyIsSuccess, teamType]);
 
   return {
     newFamilyLeaderOptions,
