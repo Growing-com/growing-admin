@@ -9,7 +9,7 @@ export type tDepartmentMainMenu = {
 
 type tDepartmentAttendanceSubMenu = {
   key: "attendance-management" | "attendance-check" | "attendance-statistics";
-  label: "출석 체크" | "출석 통계" | "출석 관리";
+  label: "출석 체크" | "출석 통계" | "출석 열람";
   path: string;
 };
 
@@ -22,7 +22,7 @@ type tDepartmentManagementSubMenu = {
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
     key: "attendance-management",
-    label: "출석 관리",
+    label: "출석 열람",
     path: "attendance/management"
   },
   {
