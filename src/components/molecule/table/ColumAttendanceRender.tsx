@@ -42,7 +42,13 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   }
 
   return (
-    <Popover content={contentEtc} trigger={"click"}>
+    <Popover
+      content={contentEtc}
+      trigger={"click"}
+      overlayStyle={{
+        width: "20rem"
+      }}
+    >
       <GRButtonText buttonType={"default"}>
         <PlusCircleOutlined
           rev={undefined}

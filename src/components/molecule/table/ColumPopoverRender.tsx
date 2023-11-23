@@ -12,7 +12,13 @@ type tColumPopoverRender = {
 
 const ColumPopoverRender: FC<tColumPopoverRender> = ({ content, label }) => {
   return (
-    <Popover content={content ?? ""} trigger={"click"}>
+    <Popover
+      content={content ?? ""}
+      trigger={"click"}
+      overlayStyle={{
+        width: "20rem"
+      }}
+    >
       <GRButtonText buttonType={"default"} disabled={!content}>
         <PlusCircleOutlined
           rev={undefined}
