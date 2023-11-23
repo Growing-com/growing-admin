@@ -5,15 +5,15 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import ColumPopoverRender from "@component/molecule/table/ColumPopoverRender";
 import HeaderView from "@component/molecule/view/HeaderView";
+import SearchBar from "@component/templates/SearchBar";
 import { Divider, Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { SEX_NAME } from "config/const";
 import { NextPage } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
-import AccountModal from "../account/AccountModal";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
 
 const LINE_STAUTS = {
@@ -23,7 +23,10 @@ const LINE_STAUTS = {
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
-  const [openAccountModal, setOpenAccountModal] = useState(false);
+  const [openNewFamilyModal, setOpenNewFamilyModal] = useState(false);
+  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+    tTermNewFamily[]
+  >([]);
 
   const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
 
@@ -132,18 +135,51 @@ const ManagementNewFamilyPage: NextPage = () => {
     (_newFamily?: tTermNewFamily) => {
       refetch();
       setSelectedNewFamily(_newFamily);
+      setOpenNewFamilyModal(true);
     },
     [refetch]
   );
 
-  const onAccountModal = useCallback(() => {
-    setOpenAccountModal(!openAccountModal);
-  }, [openAccountModal]);
+  const onCloseNewFamilyModal = useCallback(() => {
+    setOpenNewFamilyModal(!openNewFamilyModal);
+    setSelectedNewFamily(undefined);
+  }, [openNewFamilyModal]);
+
+  const onClickCreateNewFamilyModal = useCallback(() => {
+    setOpenNewFamilyModal(!openNewFamilyModal);
+  }, [openNewFamilyModal]);
 
   const onRegister = useCallback(() => {
-    setOpenAccountModal(!openAccountModal);
+    setOpenNewFamilyModal(!openNewFamilyModal);
     refetch();
-  }, [openAccountModal, refetch]);
+  }, [openNewFamilyModal, refetch]);
+
+  const onClickSearch = useCallback(
+    (_searchText?: string) => {
+      if (newFamilyData?.length) {
+        let _filterNewFamily = newFamilyData;
+        if (newFamilyData?.length && _searchText) {
+          _filterNewFamily = newFamilyData.filter(newFamily => {
+            if (
+              newFamily.name?.indexOf(_searchText) !== -1 ||
+              newFamily.phoneNumber?.indexOf(_searchText) !== -1
+            ) {
+              return newFamily;
+            }
+            return null;
+          });
+        }
+        setFilteredNewFailyData(_filterNewFamily);
+      }
+    },
+    [newFamilyData]
+  );
+
+  useEffect(() => {
+    if (newFamilyData) {
+      setFilteredNewFailyData(newFamilyData);
+    }
+  }, [newFamilyData]);
 
   return (
     <>
@@ -152,52 +188,48 @@ const ManagementNewFamilyPage: NextPage = () => {
         titleInfo={"현재 텀 새가족 리스트"}
         headerComponent={
           <GRButtonText
-            onClick={onAccountModal}
+            onClick={onClickCreateNewFamilyModal}
             buttonType={"default"}
             size={"large"}
           >
-            새가족 생성
+            새가족 등록
           </GRButtonText>
         }
+        subComponent={<SearchBar onClickSearch={onClickSearch} />}
       />
       <GRContainerView>
         <GRTable
+          rowKey={"name"}
           headerComponent={
             <GRView>
               <GRText weight={"bold"}>새가족 리스트</GRText>
               <GRText color={Color.grey60}>
                 (
                 <GRText weight={"bold"} color={Color.green200}>
-                  총 {newFamilyData?.length ?? 0}건
+                  {filteredNewFailyData?.length ?? 0} 건
                 </GRText>
-                )
+                <GRText marginhorizontal={"0.3"}>|</GRText>
+                <GRText>{newFamilyData?.length ?? 0} 건</GRText>)
               </GRText>
             </GRView>
           }
           onRow={record => ({
             onClick: () => onClickRow(record)
           })}
-          rowKey={"teamId"}
           columns={columns}
-          data={newFamilyData}
+          data={filteredNewFailyData}
           pagination={{
-            total: newFamilyData?.length,
-            defaultPageSize: 20,
+            total: filteredNewFailyData?.length,
+            defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           scroll={{ x: 1300 }}
         />
       </GRContainerView>
-      {selectedNewFamily && (
-        <NewFamilyDetailModal
-          open={!!selectedNewFamily}
-          newFamily={selectedNewFamily}
-          onClose={onClickRow}
-        />
-      )}
-      <AccountModal
-        open={openAccountModal}
-        onClose={onAccountModal}
+      <NewFamilyDetailModal
+        open={openNewFamilyModal}
+        newFamily={selectedNewFamily}
+        onClose={onCloseNewFamilyModal}
         onRegister={onRegister}
       />
     </>

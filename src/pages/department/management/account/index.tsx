@@ -2,6 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
+import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import type { ColumnType } from "antd/es/table";
 import { useUserListQuery } from "api/account/queries/useUserListQuery";
@@ -10,7 +11,6 @@ import { DUTY, ROLE } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import AccountModal from "./AccountModal";
-import ManagementSearch from "./ManagementSearch";
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);
@@ -132,7 +132,7 @@ const ManagementAccountPage: NextPage = () => {
         //     계정 생성
         //   </GRButtonText>
         // }
-        subComponent={<ManagementSearch onClickSearch={onClickSearch} />}
+        subComponent={<SearchBar onClickSearch={onClickSearch} />}
       />
       <GRContainerView>
         <GRTable
