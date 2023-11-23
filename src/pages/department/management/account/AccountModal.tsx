@@ -169,14 +169,6 @@ const AccountModal: FC<tAccountModal> = ({
             control={control}
             placeholder={"방문일을 선택해 주세요"}
             required={true}
-            isShow={isCreate}
-          />
-          <GRFormItem
-            type={"switch"}
-            title={"활성화"}
-            fieldName={"isActive"}
-            control={control}
-            isShow={!isCreate}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -190,6 +182,13 @@ const AccountModal: FC<tAccountModal> = ({
             isShow={isCreate}
             placeholder={"리더를 선택해주세요"}
           />
+          {/* <GRFormItem
+            type={"switch"}
+            title={"활성화"}
+            fieldName={"isActive"}
+            control={control}
+            isShow={!isCreate}
+          /> */}
         </GRFlexView>
         <GRFlexView>
           <GRFormItem
