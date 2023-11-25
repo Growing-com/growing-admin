@@ -41,7 +41,11 @@ const GRTable = <GRTableType extends object>({
       thead:hover {
         background: ${!isHoverTable && `#20293c !important`};
       }
-
+      .ant-table-cell {
+      }
+      .ant-table-tbody > tr > td {
+        padding: 0.6rem;
+      }
       .ant-table-tbody > tr.ant-table-row:hover > td {
         background: ${!isHoverTable && `white !important`};
       }
