@@ -4,6 +4,7 @@ import accountQueryKeys from "./accountQueryKeys";
 
 export const useUserListQuery = () => {
   return useQuery([accountQueryKeys.ACCOUNT], async () => await getUserList(), {
-    select: data => data.content
+    select: data => data.content,
+    staleTime: Infinity
   });
 };
