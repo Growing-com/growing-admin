@@ -5,7 +5,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import { css } from "@emotion/react";
 import { FC } from "react";
 
-type tAlertModal = {
+type tGRAlertModal = {
   onCancelClickButton?: () => void;
   cancelButtonText?: string;
   onOkClickButton?: () => void;
@@ -13,7 +13,7 @@ type tAlertModal = {
   description: string;
 } & Omit<tGRModal, "onCancel" | "onOk">;
 
-const AlertModal: FC<tAlertModal> = ({
+const GRAlertModal: FC<tGRAlertModal> = ({
   onCancelClickButton,
   cancelButtonText,
   onOkClickButton,
@@ -72,4 +72,4 @@ const AlertModal: FC<tAlertModal> = ({
   );
 };
 
-export default AlertModal;
+export default GRAlertModal;

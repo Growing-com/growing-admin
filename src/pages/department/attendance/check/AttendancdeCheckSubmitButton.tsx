@@ -1,6 +1,6 @@
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import AlertModal from "@component/molecule/modal/AlertModal";
+import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import { FC, useCallback, useState } from "react";
 
 type tAttendancdeCheckSubmitButton = {
@@ -31,7 +31,7 @@ const AttendancdeCheckSubmitButton: FC<tAttendancdeCheckSubmitButton> = ({
       >
         출석 등록
       </GRButtonText>
-      <AlertModal
+      <GRAlertModal
         open={open}
         description={"입력한 출석 내용을 등록하시겠습니까?"}
         onCancelClickButton={handleModal}
