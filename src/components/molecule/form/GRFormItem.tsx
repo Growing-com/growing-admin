@@ -19,7 +19,7 @@ const GRFormItem = ({
   fieldName,
   title,
   required = false,
-  style,
+  containStyle,
   type,
   options,
   disabled,
@@ -112,8 +112,8 @@ const GRFormItem = ({
     <GRFlexView
       flexDirection={"row"}
       alignItems={"center"}
-      style={style}
       marginvertical={GRStylesConfig.BASE_MARGIN}
+      style={containStyle}
     >
       {title && <GRFormTitle title={title} required={required} />}
       <Controller

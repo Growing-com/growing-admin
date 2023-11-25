@@ -40,6 +40,7 @@ export type tGRFormItem = {
   mode?: "multiple";
   maxLength?: number;
   defaultValue?: any;
+  containStyle?: CSSProperties;
 };
 
 export type tRenderProps = {

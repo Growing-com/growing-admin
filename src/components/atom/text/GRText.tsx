@@ -82,6 +82,7 @@ const TextComponent = styled.span<tGRTextSpan>`
   color: ${p => p?.color ?? "#222222"};
   font-weight: ${p => p?.weight ?? "normal"};
   margin: ${p => p?.margin ?? ""};
+  white-space: pre-wrap;
 `;
 
 const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {

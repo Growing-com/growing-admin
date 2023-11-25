@@ -89,8 +89,6 @@ const GRTextInput = (
       value={renderValue(value)}
       maxLength={_maxLen}
       css={css`
-        display: flex;
-        flex: 1;
         ${_margin}
       `}
       {...props}
