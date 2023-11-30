@@ -1,4 +1,4 @@
-import { MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import { Popover } from "antd";
@@ -17,10 +17,6 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   if (!attendanceStatus) {
     return (
       <GRButtonText buttonType={"default"} style={{ cursor: "default" }}>
-        <MinusCircleOutlined
-          rev={undefined}
-          style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
-        />
         <GRText>미완료</GRText>
       </GRButtonText>
     );
