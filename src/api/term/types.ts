@@ -57,4 +57,6 @@ export type tTermNewFamily = {
   | "phoneNumber"
   | "sex"
   | "etc"
+  | "updatedBy"
+  | "updatedAt"
 >;

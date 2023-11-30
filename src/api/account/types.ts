@@ -53,6 +53,8 @@ export type tAccount = {
   role?: tRole;
   termId?: number;
   visitTermId?: number;
+  updatedBy: string;
+  updatedAt: string;
 };
 
 export type tRoleResponse = {

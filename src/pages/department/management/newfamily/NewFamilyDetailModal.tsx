@@ -1,31 +1,29 @@
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
-import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRText from "@component/atom/text/GRText";
-import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
-import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { tAccount } from "api/account/types";
 import { useNewFamilyLineOut } from "api/term/mutate/useNewFamilyLineOut";
-import { useNewFamilyLineUp } from "api/term/mutate/useNewFamilyLineUp";
 import { tTermNewFamily } from "api/term/types";
-import { SEX_OPTIONS, TeamType } from "config/const";
+import { SEX_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
+import NewFamilyDetailLineUp from "./NewFamilyDetailLineUp";
 
 type tNewFamilyDetailModal = {
-  newFamily: tTermNewFamily;
+  newFamily?: tTermNewFamily;
   open: boolean;
   onClose: () => void;
+  onRegister: () => void;
 };
 
 type tNewFamilyForm = {
@@ -33,14 +31,22 @@ type tNewFamilyForm = {
   birth: Dayjs;
 } & Omit<tTermNewFamily, "visitDate" | "birth">;
 
+const emptyValues = {
+  name: "",
+  sex: "MALE",
+  phoneNumber: "",
+  birth: "",
+  visitDate: "",
+  etc: ""
+} as unknown as tNewFamilyForm;
+
 const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   open,
   onClose,
-  newFamily
+  newFamily,
+  onRegister
 }) => {
-  const [lineUpDate, setLineUpDate] = useState<Dayjs>();
-  const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
-
+  const isCreate = useMemo(() => !newFamily?.userId, [newFamily?.userId]);
   const isLineUp = useMemo(
     () =>
       !!newFamily?.firstPlantLeaderName ||
@@ -53,25 +59,26 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     ]
   );
 
-  const { updateUserMutateAsync } = useUserMutate();
-  const {
-    termCordyOptions,
-    termLeaderOptions,
-    selectedCodyId,
-    setSelectedCodyId
-  } = useTermInfoOptionQueries(TeamType.NEW);
-  const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
+  const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
+  const { createUserMutateAsync, updateUserMutateAsync } = useUserMutate();
+  const { control, handleSubmit, reset } = useForm<tNewFamilyForm>({
+    defaultValues: {
+      ...emptyValues
+    }
+  });
+
+  const onRegisterModal = useCallback(() => {
+    onRegister?.();
+    reset({ ...emptyValues });
+  }, [onRegister, reset]);
 
   const onCloseModal = useCallback(() => {
     onClose?.();
-    reset();
+    reset({ ...emptyValues });
   }, [onClose, reset]);
 
-  const { mutate: newFamilyLineUpMutate } = useNewFamilyLineUp({
-    onClose: onCloseModal
-  });
   const { mutate: newFamilyLineOutMutate } = useNewFamilyLineOut({
-    onClose: onCloseModal
+    onClose: onRegisterModal
   });
 
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
@@ -82,61 +89,29 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         visitDate:
           _item.visitDate && dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
       };
-
       try {
-        await updateUserMutateAsync({
-          userId: newFamily?.userId,
-          data: _format as tAccount
-        });
-        GRAlert.success("수정 성공");
-        onCloseModal();
+        if (isCreate) {
+          await createUserMutateAsync(_format);
+        } else {
+          await updateUserMutateAsync({
+            userId: newFamily?.userId,
+            data: _format as tAccount
+          });
+        }
+        GRAlert.success(isCreate ? "생성 성공" : "수정 성공");
+        onRegister();
       } catch (e) {
         GRAlert.error("수정 실패, 다시 한번 시도해 주세요");
       }
     },
-    [newFamily?.userId, onCloseModal, updateUserMutateAsync]
+    [
+      createUserMutateAsync,
+      isCreate,
+      newFamily?.userId,
+      onRegister,
+      updateUserMutateAsync
+    ]
   );
-
-  const onChangeLeaderSelect = useCallback((_leaderId: number) => {
-    setSelectedLeaderId(_leaderId);
-  }, []);
-
-  const onChangeLineUpDate = useCallback((_lineUpdDate: Dayjs | null) => {
-    if (_lineUpdDate) {
-      setLineUpDate(_lineUpdDate);
-    }
-  }, []);
-
-  const onChangeCordySelect = useCallback(
-    (_cordy: number) => {
-      setSelectedCodyId(_cordy);
-      setSelectedLeaderId(undefined);
-    },
-    [setSelectedCodyId]
-  );
-
-  const onClickLineUpButton = useCallback(() => {
-    if (!selectedLeaderId) {
-      return GRAlert.error("리더와 나무를 선택해주세요");
-    }
-
-    if (!lineUpDate) {
-      return GRAlert.error("라인업 날짜를 선택해주세요");
-    }
-    if (!newFamily) return;
-
-    if (confirm("라인업 후에 변경 불가능합니다, 진행하시겠습니까?")) {
-      newFamilyLineUpMutate({
-        teamId: newFamily?.teamId,
-        teamMemberId: newFamily?.teamMemberId,
-        data: {
-          plantTeamId: selectedLeaderId,
-          lineupDate: dayjs(lineUpDate).format(DEFAULT_DATE_FOMAT),
-          gradeAtFirstVisit: newFamily?.grade
-        }
-      });
-    }
-  }, [lineUpDate, newFamily, newFamilyLineUpMutate, selectedLeaderId]);
 
   const onClickLineOut = useCallback(() => {
     if (!newFamily) return;
@@ -147,7 +122,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     ) {
       newFamilyLineOutMutate({
         teamId: newFamily.teamId,
-
         teamMemberId: newFamily.teamMemberId,
         data: {
           lineoutDate: dayjs().format(DEFAULT_DATE_FOMAT),
@@ -158,7 +132,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   }, [newFamily, newFamilyLineOutMutate]);
 
   useEffect(() => {
-    if (newFamily) {
+    if (!!newFamily?.userId) {
       reset({
         ...newFamily,
         birth:
@@ -170,13 +144,10 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             ? dayjs(newFamily?.visitDate)
             : undefined
       });
-      setLineUpDate(
-        newFamily?.lineupDate ? dayjs(newFamily?.lineupDate) : undefined
-      );
-      setSelectedCodyId(undefined);
-      setSelectedLeaderId(undefined);
+    } else {
+      reset();
     }
-  }, [newFamily, reset, setSelectedCodyId]);
+  }, [newFamily, reset]);
 
   return (
     <GRFormModal
@@ -185,14 +156,19 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
       onSubmit={handleSubmit(onClickModalOk)}
       title={
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-          <GRText weight={"bold"}>새가족 상세</GRText>
-          <GRButtonText danger onClick={onClickLineOut}>
-            라인 아웃
-          </GRButtonText>
+          <GRText weight={"bold"}>
+            {isCreate ? "새가족 등록" : "새가족 상세"}
+          </GRText>
+          {!isCreate && (
+            <GRButtonText danger onClick={onClickLineOut}>
+              라인 아웃
+            </GRButtonText>
+          )}
         </GRFlexView>
       }
       width={"60%"}
-      okButtonText={"수정"}
+      okButtonText={isCreate ? "등록" : "수정"}
+      maskClosable={false}
     >
       <GRView flexDirection={"row"}>
         <GRFlexView flexDirection={"row"}>
@@ -203,7 +179,8 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"name"}
             control={control}
             placeholder={"이름을 작성해 주세요"}
-            disabled={true}
+            disabled={!isCreate}
+            required={true}
           />
           <GRFormItem
             type={"radio"}
@@ -211,7 +188,8 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"sex"}
             control={control}
             options={SEX_OPTIONS}
-            disabled={true}
+            disabled={!isCreate}
+            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -223,7 +201,8 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"- 없이 작성해 주세요"}
             maxLength={11}
-            disabled={true}
+            disabled={!isCreate}
+            required={true}
           />
           <GRFormItem
             type={"date"}
@@ -242,7 +221,8 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"grade"}
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
-            disabled={true}
+            disabled={!isCreate}
+            required={true}
           />
           <GRFormItem
             type={"date"}
@@ -253,64 +233,30 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             placeholder={"방문일을 선택해 주세요"}
           />
         </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormTitle title={"라인업"} />
-          <GRFlexView>
-            <GRFlexView
-              flexDirection={"row"}
-              marginbottom={GRStylesConfig.BASE_MARGIN}
-            >
-              {isLineUp ? (
-                <GRTextInput
-                  marginright={GRStylesConfig.BASE_MARGIN}
-                  disabled
-                  value={newFamily?.firstPlantManagerName ?? ""}
-                />
-              ) : (
-                <GRSelect
-                  style={{ flex: 1 }}
-                  marginright={GRStylesConfig.BASE_MARGIN}
-                  value={selectedCodyId}
-                  options={termCordyOptions}
-                  onChange={onChangeCordySelect}
-                  placeholder={"나무 선택해주세요"}
-                  disabled={isLineUp}
-                />
-              )}
-              {isLineUp ? (
-                <GRTextInput
-                  disabled
-                  value={newFamily?.firstPlantLeaderName ?? ""}
-                />
-              ) : (
-                <GRSelect
-                  style={{ flex: 1 }}
-                  value={selectedLeaderId}
-                  options={termLeaderOptions}
-                  onChange={onChangeLeaderSelect}
-                  placeholder={"리더를 선택해주세요"}
-                  disabled={isLineUp}
-                />
-              )}
-            </GRFlexView>
-            <GRDatePicker
-              value={lineUpDate}
-              pickerType={"basic"}
-              placeholder={"라인업 날짜를 선택해주세요"}
-              onChange={onChangeLineUpDate}
-              disabled={isLineUp}
-            />
-          </GRFlexView>
-          <GRButtonText
-            disabled={isLineUp}
-            marginleft={GRStylesConfig.BASE_MARGIN}
-            onClick={onClickLineUpButton}
-          >
-            라인업
-          </GRButtonText>
-        </GRFlexView>
+        {isCreate ? (
+          <GRFormItem
+            type={"select"}
+            title={"리더"}
+            fieldName={"teamId"}
+            control={control}
+            options={newFamilyLeaderOptions}
+            disabled={!isCreate}
+            isShow={isCreate}
+            placeholder={"새가족 리더를 선택해주세요"}
+            required={true}
+          />
+        ) : (
+          <NewFamilyDetailLineUp
+            isLineUp={isLineUp}
+            newFamily={newFamily}
+            onCloseModal={onRegisterModal}
+          />
+        )}
         <GRFlexView>
           <GRFormItem
+            style={{
+              height: "8rem"
+            }}
             type={"text"}
             textType={"textarea"}
             title={"추가 내용"}
@@ -318,6 +264,17 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"추가 내용이 있으면 작성해 주세요"}
           />
+        </GRFlexView>
+        <GRFlexView
+          alignItems={"end"}
+          marginbottom={GRStylesConfig.BASE_MARGIN}
+        >
+          <GRText fontSize={"b8"} color={Color.grey80} weight={"bold"}>
+            {newFamily?.updatedBy &&
+              `최종 수정자 ${newFamily?.updatedBy} (${dayjs(
+                newFamily?.updatedAt
+              ).format(DEFAULT_DATE_FOMAT)})`}
+          </GRText>
         </GRFlexView>
       </GRView>
     </GRFormModal>
