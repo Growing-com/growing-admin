@@ -33,6 +33,7 @@ const GRModal: FC<tGRModal> = ({
   onOk,
   showFooter = true,
   title,
+  maskClosable = true,
   ...props
 }) => {
   const onCancelClickButton = useCallback(
@@ -101,6 +102,7 @@ const GRModal: FC<tGRModal> = ({
       onCancel={onCancelClickButton}
       closable={closable}
       footer={_renderFooter}
+      maskClosable={maskClosable}
       bodyStyle={{
         padding: "1rem"
       }}
