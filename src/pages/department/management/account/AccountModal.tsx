@@ -1,4 +1,5 @@
 import GRAlert from "@component/atom/alert/GRAlert";
+import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -11,6 +12,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 
 type tAccountModal = {
@@ -32,7 +35,6 @@ const AccountModal: FC<tAccountModal> = ({
   onRegister
 }) => {
   const isCreate = useMemo(() => !user?.id, [user?.id]);
-
   const { data: userInfo } = useUserDetailQuery(user?.id);
   const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
   const { createUserMutateAsync, updateUserMutateAsync } = useUserMutate();
@@ -41,20 +43,22 @@ const AccountModal: FC<tAccountModal> = ({
 
   const onCloseModal = useCallback(() => {
     onClose?.();
-    reset();
-  }, [onClose, reset]);
+  }, [onClose]);
 
   const onRegisterModal = useCallback(() => {
     onRegister?.();
-    reset();
-  }, [onRegister, reset]);
+  }, [onRegister]);
 
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
     async _item => {
       const _format = {
         ..._item,
-        birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT),
-        visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT),
+        ...(_item?.birth && {
+          birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT)
+        }),
+        ...(_item?.visitDate && {
+          visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
+        }),
         termId: 1,
         visitTermId: 1
       };
@@ -68,7 +72,7 @@ const AccountModal: FC<tAccountModal> = ({
           });
         }
         onRegisterModal();
-        GRAlert.success("생성 성공");
+        GRAlert.success(isCreate ? "생성 성공" : "수정 성공");
       } catch (e) {
         GRAlert.error(`전화번호 및 이름이 중복 될수 있으니 확인 부탁드립니다`);
       }
@@ -95,10 +99,6 @@ const AccountModal: FC<tAccountModal> = ({
             ? dayjs(userInfo?.visitDate)
             : undefined
       });
-    } else {
-      reset({
-        isActive: true
-      });
     }
   }, [isCreate, reset, userInfo]);
 
@@ -110,6 +110,7 @@ const AccountModal: FC<tAccountModal> = ({
       title={isCreate ? "계정 생성" : "계정 수정"}
       width={"60%"}
       okButtonText={isCreate ? "등록" : "수정"}
+      maskClosable={false}
     >
       <GRView flexDirection={"row"}>
         <GRFlexView flexDirection={"row"}>
@@ -168,7 +169,6 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"visitDate"}
             control={control}
             placeholder={"방문일을 선택해 주세요"}
-            required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -198,7 +198,21 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"etc"}
             control={control}
             placeholder={"추가 내용이 있으면 작성해 주세요"}
+            style={{
+              height: "8rem"
+            }}
           />
+        </GRFlexView>
+        <GRFlexView
+          alignItems={"end"}
+          marginbottom={GRStylesConfig.BASE_MARGIN}
+        >
+          <GRText fontSize={"b8"} color={Color.grey80} weight={"bold"}>
+            {user?.updatedBy &&
+              `최종 수정자 ${user?.updatedBy} (${dayjs(user?.updatedAt).format(
+                DEFAULT_DATE_FOMAT
+              )})`}
+          </GRText>
         </GRFlexView>
       </GRView>
     </GRFormModal>
