@@ -14,11 +14,12 @@ import { SEX_NAME } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
+import { koreanSorter } from "utils/sorter";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
 
 const LINE_STAUTS = {
   lineout: { name: "라인아웃", color: "red" },
-  lineup: { name: "라인업", color: "green" }
+  lineup: { name: "등반", color: "green" }
 };
 
 const ManagementNewFamilyPage: NextPage = () => {
@@ -105,10 +106,13 @@ const ManagementNewFamilyPage: NextPage = () => {
     {
       title: "등반 순장",
       align: "center",
-      dataIndex: "firstPlantLeaderName"
+      dataIndex: "firstPlantLeaderName",
+      width: "8rem",
+      sorter: (a, b) =>
+        koreanSorter(a.firstPlantLeaderName, b.firstPlantLeaderName)
     },
     {
-      title: "라인업 | 날짜",
+      title: "등반 | 날짜",
       align: "center",
       render: (_, record) => {
         if (!record.lineoutDate && !record.lineupDate) return "";
@@ -131,14 +135,10 @@ const ManagementNewFamilyPage: NextPage = () => {
     }
   ];
 
-  const onClickRow = useCallback(
-    (_newFamily?: tTermNewFamily) => {
-      refetch();
-      setSelectedNewFamily(_newFamily);
-      setOpenNewFamilyModal(true);
-    },
-    [refetch]
-  );
+  const onClickRow = useCallback((_newFamily?: tTermNewFamily) => {
+    setSelectedNewFamily(_newFamily);
+    setOpenNewFamilyModal(true);
+  }, []);
 
   const onCloseNewFamilyModal = useCallback(() => {
     setOpenNewFamilyModal(!openNewFamilyModal);

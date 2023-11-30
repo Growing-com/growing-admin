@@ -96,7 +96,7 @@ const StatisticsCompareCards = () => {
         </GRFlexView>
         <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            결석율
+            출석인원 ( 출석 + 온라인 )
           </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
             <GRText fontSize={"h6"}>
@@ -146,13 +146,13 @@ const StatisticsCompareCards = () => {
         </GRFlexView>
         <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            새가족 출석율
+            새가족 출석인원
           </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
             <GRText fontSize={"h6"}>
               {statisticsAttendanceSummaryData?.newComerAttendance}
               <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
-                %
+                명
               </GRText>
             </GRText>
             {renderRate(

@@ -55,11 +55,11 @@ const AttendanceManagementPage: NextPage = () => {
   }) => {
     switch (_filter?.searchType) {
       case "name":
-        return { name: _filter.keyword };
+        return { name: _filter?.keyword };
       case "cordi":
-        return { codyId: _filter.codyId.join(",") };
+        return { codyId: _filter?.codyId.join(",") };
       case "grade":
-        return { grade: _filter.keyword };
+        return { grade: _filter?.keyword };
       case "newFamily":
         return { isNewOnly: true };
       default:
@@ -116,7 +116,7 @@ const AttendanceManagementPage: NextPage = () => {
   return (
     <>
       <HeaderView
-        title={"출석 관리"}
+        title={"출석 열람"}
         subComponent={
           <GRFlexView flexDirection={"row"}>
             <GRFlexView>
