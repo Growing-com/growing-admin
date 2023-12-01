@@ -21,9 +21,9 @@ type tDepartmentManagementSubMenu = {
 
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
-    key: "attendance-management",
-    label: "출석 열람",
-    path: "attendance/management"
+    key: "attendance-check",
+    label: "출석 체크",
+    path: "attendance/check"
   },
   {
     key: "attendance-statistics",
@@ -31,9 +31,9 @@ const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
     path: "attendance/statistics"
   },
   {
-    key: "attendance-check",
-    label: "출석 체크",
-    path: "attendance/check"
+    key: "attendance-management",
+    label: "출석 열람",
+    path: "attendance/management"
   }
 ];
 
