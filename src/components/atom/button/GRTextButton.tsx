@@ -87,6 +87,8 @@ const GRButtonText: React.FC<tGRButtonText> = ({
       case "text":
         buttonProps.textColor = Color.green200;
         break;
+      default:
+        return;
     }
     return buttonProps;
   }, [backgroundColor, borderColor, buttonType, disabled, textColor]);

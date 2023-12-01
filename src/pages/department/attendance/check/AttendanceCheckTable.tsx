@@ -142,7 +142,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         )
       },
       {
-        title: "추가 내용",
+        title: "기타 사항",
         dataIndex: "etc",
         key: "etc",
         align: "center",

@@ -72,7 +72,7 @@ const AttendanceStatistics = () => {
           dataSource={statisticsAbsentData}
         />
         <StatisticsCompareTable
-          headerTitle={"🌱 새가족 인원"}
+          headerTitle={"🌱 새가족반 출결"}
           dataSource={statisticsNewData}
         />
       </GRContainerView>

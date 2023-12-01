@@ -45,7 +45,7 @@ export type tAccount = {
   isActive?: boolean;
   /** @description 팀 아이디  @example  2 */
   teamId: number;
-  /** @description 추가 내용  @example null */
+  /** @description 기타 사항  @example null */
   etc: string | null;
   id?: number;
   visitDate?: string;

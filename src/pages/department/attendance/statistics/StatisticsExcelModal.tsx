@@ -97,7 +97,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
       showFooter={false}
       title={
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-          <GRText weight={"bold"}>엑셀 다운</GRText>
+          <GRText weight={"bold"}>엑셀 다운로드</GRText>
         </GRFlexView>
       }
     >
@@ -107,7 +107,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             flexDirection={"row"}
             marginright={GRStylesConfig.BASE_MARGIN}
           >
-            <GRText>출석체크 완료율</GRText>
+            <GRText>이번 주 출석체크 완료율</GRText>
           </GRFlexView>
           <GRFlexView marginleft={GRStylesConfig.BASE_MARGIN}>
             <Progress
@@ -121,10 +121,9 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
           <GRButtonText
             marginvertical={GRStylesConfig.BASE_MARGIN}
             onClick={() => setExcelOption("personalAttendance")}
-            buttonType={"default"}
             block
           >
-            출결
+            전체 출결
           </GRButtonText>
           <GRButtonText
             marginvertical={GRStylesConfig.BASE_MARGIN}
@@ -132,7 +131,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             buttonType={"default"}
             block
           >
-            순모임별
+            순모임별 통계
           </GRButtonText>
           <GRButtonText
             marginvertical={GRStylesConfig.BASE_MARGIN}
@@ -140,7 +139,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             buttonType={"default"}
             block
           >
-            나무별
+            나무별 통계
           </GRButtonText>
           <GRButtonText
             marginvertical={GRStylesConfig.BASE_MARGIN}
@@ -148,7 +147,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             buttonType={"default"}
             block
           >
-            학년
+            학년별 통계
           </GRButtonText>
         </GRFlexView>
       </GRFlexView>

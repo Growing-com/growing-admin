@@ -236,7 +236,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         {isCreate ? (
           <GRFormItem
             type={"select"}
-            title={"리더"}
+            title={"새가족 순장"}
             fieldName={"teamId"}
             control={control}
             options={newFamilyLeaderOptions}
@@ -259,7 +259,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             }}
             type={"text"}
             textType={"textarea"}
-            title={"추가 내용"}
+            title={"기타 사항"}
             fieldName={"etc"}
             control={control}
             placeholder={"추가 내용이 있으면 작성해 주세요"}

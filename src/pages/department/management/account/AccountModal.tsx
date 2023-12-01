@@ -107,7 +107,7 @@ const AccountModal: FC<tAccountModal> = ({
       open={open}
       onCancel={onCloseModal}
       onSubmit={handleSubmit(onClickModalOk)}
-      title={isCreate ? "계정 생성" : "계정 수정"}
+      title={isCreate ? "계정 생성" : "상세 정보"}
       width={"60%"}
       okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
@@ -194,7 +194,7 @@ const AccountModal: FC<tAccountModal> = ({
           <GRFormItem
             type={"text"}
             textType={"textarea"}
-            title={"추가 내용"}
+            title={"기타 사항"}
             fieldName={"etc"}
             control={control}
             placeholder={"추가 내용이 있으면 작성해 주세요"}

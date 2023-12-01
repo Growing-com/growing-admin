@@ -3,6 +3,7 @@ import GRView from "@component/atom/view/GRView";
 import { Descriptions } from "antd";
 import { useUserDetailQuery } from "api/account/queries/useUserDetailQuery";
 import type { tAccount } from "api/account/types";
+import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { FC, useCallback, useEffect, useState } from "react";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
@@ -38,7 +39,7 @@ const UserHistoryModal: FC<tUserHistoryModal> = ({ open, onClose, userId }) => {
 
   return (
     <GRModal
-      title={"계정 정보"}
+      title={"정보"}
       open={open}
       onCancel={onCloseModal}
       width={"60%"}
@@ -47,7 +48,9 @@ const UserHistoryModal: FC<tUserHistoryModal> = ({ open, onClose, userId }) => {
       <GRView>
         <Descriptions bordered>
           <Descriptions.Item label={"이름"}>{userInfo?.name}</Descriptions.Item>
-          <Descriptions.Item label={"성별"}>{userInfo?.sex}</Descriptions.Item>
+          <Descriptions.Item label={"성별"}>
+            {userInfo?.sex && SEX_NAME[userInfo?.sex]}
+          </Descriptions.Item>
           <Descriptions.Item label={"전화번호"} span={2}>
             {userInfo?.phoneNumber}
           </Descriptions.Item>
@@ -59,7 +62,7 @@ const UserHistoryModal: FC<tUserHistoryModal> = ({ open, onClose, userId }) => {
           <Descriptions.Item label={"학년"} span={2}>
             {userInfo?.grade}
           </Descriptions.Item>
-          <Descriptions.Item label={"추가 내용"}>
+          <Descriptions.Item label={"기타 사항"}>
             {userInfo?.etc}
           </Descriptions.Item>
         </Descriptions>

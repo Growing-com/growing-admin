@@ -6,7 +6,6 @@ import GRView from "@component/atom/view/GRView";
 import ColumPopoverRender from "@component/molecule/table/ColumPopoverRender";
 import HeaderView from "@component/molecule/view/HeaderView";
 import SearchBar from "@component/templates/SearchBar";
-import { Divider, Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
@@ -37,7 +36,8 @@ const ManagementNewFamilyPage: NextPage = () => {
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      sorter: (a, b) => koreanSorter(a.name, b.name)
     },
     {
       title: "학년",
@@ -93,7 +93,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       width: "6rem"
     },
     {
-      title: "추가 내용",
+      title: "기타 사항",
       dataIndex: "etc",
       key: "etc",
       align: "center",
@@ -112,25 +112,15 @@ const ManagementNewFamilyPage: NextPage = () => {
         koreanSorter(a.firstPlantLeaderName, b.firstPlantLeaderName)
     },
     {
-      title: "등반 | 날짜",
+      title: "등반일",
       align: "center",
+      width: "8rem",
       render: (_, record) => {
         if (!record.lineoutDate && !record.lineupDate) return "";
-        const lineStatus = record.lineoutDate
-          ? LINE_STAUTS.lineout
-          : LINE_STAUTS.lineup;
         const date = record.lineoutDate
           ? record.lineoutDate
           : record.lineupDate;
-        return (
-          <GRView>
-            <Tag color={lineStatus.color} key={`${lineStatus.name}-line`}>
-              {lineStatus.name}
-            </Tag>
-            <Divider type={"vertical"} />
-            <GRText fontSize={"b9"}>{date}</GRText>
-          </GRView>
-        );
+        return <GRText weight={"bold"}>{date}</GRText>;
       }
     }
   ];
@@ -206,10 +196,10 @@ const ManagementNewFamilyPage: NextPage = () => {
               <GRText color={Color.grey60}>
                 (
                 <GRText weight={"bold"} color={Color.green200}>
-                  {filteredNewFailyData?.length ?? 0} 건
+                  {filteredNewFailyData?.length ?? 0} 명
                 </GRText>
                 <GRText marginhorizontal={"0.3"}>|</GRText>
-                <GRText>{newFamilyData?.length ?? 0} 건</GRText>)
+                <GRText>{newFamilyData?.length ?? 0} 명</GRText>)
               </GRText>
             </GRView>
           }
