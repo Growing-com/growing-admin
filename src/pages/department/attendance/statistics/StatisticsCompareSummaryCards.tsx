@@ -17,7 +17,7 @@ const customBox = css`
   border-radius: 1rem;
 `;
 
-const StatisticsCompareCards = () => {
+const StatisticsCompareSummaryCards = () => {
   const { data: statisticsUserSummaryData } = useTermUserStatistics({
     week: getWeekDataFromToday.lastSunday
   });
@@ -174,4 +174,4 @@ const StatisticsCompareCards = () => {
   );
 };
 
-export default StatisticsCompareCards;
+export default StatisticsCompareSummaryCards;

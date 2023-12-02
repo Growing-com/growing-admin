@@ -194,12 +194,13 @@ const ManagementNewFamilyPage: NextPage = () => {
             <GRView>
               <GRText weight={"bold"}>새가족 리스트</GRText>
               <GRText color={Color.grey60}>
-                (
                 <GRText weight={"bold"} color={Color.green200}>
                   {filteredNewFailyData?.length ?? 0} 명
                 </GRText>
-                <GRText marginhorizontal={"0.3"}>|</GRText>
-                <GRText>{newFamilyData?.length ?? 0} 명</GRText>)
+                <GRText marginhorizontal={"0.3"}>/</GRText>
+                <GRText fontSize={"b8"} color={Color.grey80}>
+                  총 {newFamilyData?.length ?? 0} 명
+                </GRText>
               </GRText>
             </GRView>
           }

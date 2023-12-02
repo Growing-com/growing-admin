@@ -1,5 +1,11 @@
+import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
+import GRAlert from "@component/atom/alert/GRAlert";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
+import ExcelButton from "@component/molecule/button/ExcelButton";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
@@ -9,21 +15,31 @@ import {
   tAttendanceCheckListItem,
   tAttendanceItem
 } from "api/attendance/types";
-import { useCallback, useMemo, useState } from "react";
+import { useStatisticsDataToExcel } from "hooks/useStatisticsDataToExcel";
+import { Dictionary, groupBy } from "lodash";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Color } from "styles/colors";
 import { getWeekDataFromToday } from "utils/DateUtils";
 import { koreanSorter, numberSorter } from "utils/sorter";
 
 type tStatisticsCompareTable = {
   headerTitle: string;
   dataSource?: tAttendanceCheckListItem[];
+  isUseTab?: boolean;
 };
 
 const StatisticsCompareTable = ({
   headerTitle,
-  dataSource
+  dataSource,
+  isUseTab = false
 }: tStatisticsCompareTable) => {
   const [selectUserId, setSelectUserId] = useState<number>();
-
+  const [managerTabItems, setManagerTabItems] = useState<tOptions[]>([]);
+  const [statisticsDatasource, setStatisticsDatasource] =
+    useState<tAttendanceCheckListItem[]>();
+  const [groupByStatisticsDatasource, setGroupByStatisticsDatasource] =
+    useState<Dictionary<tAttendanceCheckListItem[]>>();
+  const [handleStatisticsDataToExcel] = useStatisticsDataToExcel();
   const onClickLinkText = useCallback((_recode?: tAttendanceCheckListItem) => {
     setSelectUserId(_recode?.userId);
   }, []);
@@ -121,24 +137,85 @@ const StatisticsCompareTable = ({
     [onClickLinkText]
   );
 
+  const onClickExcel = useCallback(async () => {
+    try {
+      if (!dataSource?.length) {
+        throw new Error("추출 데이터가 없습니다");
+      }
+      await handleStatisticsDataToExcel(headerTitle, "attendance", dataSource);
+      return GRAlert.success("엑셀 추출 성공");
+    } catch (e) {
+      GRAlert.error("엑셀 추출 실패");
+    }
+  }, [dataSource, handleStatisticsDataToExcel, headerTitle]);
+
+  const onChangeTab = useCallback(
+    (_tabValue: string) => {
+      if (groupByStatisticsDatasource) {
+        const _managerdatasource = groupByStatisticsDatasource[_tabValue];
+        setStatisticsDatasource(_managerdatasource);
+      }
+    },
+    [groupByStatisticsDatasource]
+  );
+
+  useEffect(() => {
+    if (isUseTab) {
+      const _groupByManager = groupBy(dataSource, "managerName");
+      const _tabItem = Object.keys(_groupByManager).map(manager => ({
+        label: manager,
+        value: manager
+      }));
+      const initTab = _tabItem[0];
+      setGroupByStatisticsDatasource(_groupByManager);
+      setManagerTabItems(_tabItem);
+      setStatisticsDatasource(_groupByManager[initTab?.value]);
+    } else {
+      setStatisticsDatasource(dataSource);
+    }
+  }, [dataSource, isUseTab]);
+
   return (
     <>
+      <GRText
+        weight={"bold"}
+        fontSize={"b4"}
+        marginright={0.5}
+        marginbottom={1}
+      >
+        {headerTitle}
+      </GRText>
       <GRTable
-        rowKey={"name"}
+        rowKey={"userName"}
         marginbottom={2}
         headerComponent={
-          <GRText
-            weight={"bold"}
-            fontSize={"b4"}
-            marginright={0.5}
-            marginbottom={1}
-          >
-            {headerTitle}
-          </GRText>
+          <GRView>
+            <GRTab items={managerTabItems} onChange={onChangeTab} />
+            <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+              <GRView>
+                <GRText weight={"bold"}>리스트 </GRText>
+                <GRText color={Color.grey60}>
+                  <GRText weight={"bold"} color={Color.green200}>
+                    {statisticsDatasource?.length ?? 0} 명
+                  </GRText>
+                  <GRText marginhorizontal={"0.3"}>/</GRText>
+                  <GRText fontSize={"b8"} color={Color.grey80}>
+                    {" "}
+                    총 {dataSource?.length ?? 0} 명
+                  </GRText>
+                </GRText>
+              </GRView>
+              <ExcelButton
+                size={"normal"}
+                buttonType={"primary"}
+                onClickExcel={onClickExcel}
+              />
+            </GRFlexView>
+          </GRView>
         }
         isHoverTable={false}
         columns={absentColumns}
-        data={dataSource}
+        data={statisticsDatasource}
         scroll={{ y: 200 }}
       />
       <UserHistoryModal

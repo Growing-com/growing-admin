@@ -5,7 +5,7 @@ import HeaderView from "@component/molecule/view/HeaderView";
 import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
 import { useCallback, useState } from "react";
 import { getWeekDataFromToday } from "utils/DateUtils";
-import StatisticsCompareCards from "./StatisticsCompareCards";
+import StatisticsCompareSummaryCards from "./StatisticsCompareSummaryCards";
 import StatisticsCompareTable from "./StatisticsCompareTable";
 import StatisticsExcelModal from "./StatisticsExcelModal";
 import StatisticsModal from "./StatisticsModal";
@@ -66,13 +66,14 @@ const AttendanceStatistics = () => {
         }
       />
       <GRContainerView>
-        <StatisticsCompareCards />
+        <StatisticsCompareSummaryCards />
         <StatisticsCompareTable
           headerTitle={"🐏 결석 인원"}
           dataSource={statisticsAbsentData}
+          isUseTab={true}
         />
         <StatisticsCompareTable
-          headerTitle={"🌱 새가족반 출결"}
+          headerTitle={"🌱 새가족반 결석 인원"}
           dataSource={statisticsNewData}
         />
       </GRContainerView>
