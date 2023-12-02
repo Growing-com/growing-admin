@@ -2,7 +2,7 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import { Progress } from "antd";
+import { Alert, Progress, Tooltip } from "antd";
 import {
   tStatisticsAttendanceExcelOption,
   useStatisticsAttendanceExcelQuery
@@ -13,7 +13,7 @@ import {
   tStatisticsName,
   useStatisticsDataToExcel
 } from "hooks/useStatisticsDataToExcel";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import { calculatePercentage } from "utils/indext";
@@ -53,6 +53,11 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
     attendanceProgress?.totalProgressed,
     attendanceProgress?.totalRegistered
   ).toFixed(0);
+  const noAttendanceUser = useMemo(() => {
+    return attendanceProgress?.notProgressedLeaders
+      .map(leader => leader.name)
+      .join(", ");
+  }, [attendanceProgress?.notProgressedLeaders]);
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
@@ -103,19 +108,40 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
     >
       <GRFlexView paddinghorizontal={GRStylesConfig.HORIZONTAL_PADDING}>
         <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-          <GRFlexView
-            flexDirection={"row"}
-            marginright={GRStylesConfig.BASE_MARGIN}
+          <Tooltip
+            overlayStyle={{ whiteSpace: "pre-line" }}
+            title={
+              noAttendanceUser?.length
+                ? `미완료 나무:\n ${noAttendanceUser}`
+                : "한번도 체크 안한 리더는 없습니다"
+            }
+            defaultOpen
+            placement="top"
           >
-            <GRText>이번 주 출석체크 완료율</GRText>
-          </GRFlexView>
-          <GRFlexView marginleft={GRStylesConfig.BASE_MARGIN}>
-            <Progress
-              percent={Number(attendParcent)}
-              size={"small"}
-              status={"active"}
-            />
-          </GRFlexView>
+            <GRFlexView
+              flexDirection={"row"}
+              marginright={GRStylesConfig.BASE_MARGIN}
+            >
+              <Alert
+                showIcon
+                message={
+                  <GRText weight={"bold"} fontSize={"b7"}>
+                    이번 주 출석체크 완료율
+                  </GRText>
+                }
+                type={"info"}
+                banner={true}
+                style={{ backgroundColor: "transparent" }}
+              />
+            </GRFlexView>
+            <GRFlexView marginleft={GRStylesConfig.BASE_MARGIN}>
+              <Progress
+                percent={Number(attendParcent)}
+                size={"small"}
+                status={"active"}
+              />
+            </GRFlexView>
+          </Tooltip>
         </GRFlexView>
         <GRFlexView>
           <GRButtonText
