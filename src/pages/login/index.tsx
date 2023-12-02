@@ -8,10 +8,14 @@ import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
+import getConfig from "next/config";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactElement, useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
+
+const { publicRuntimeConfig } = getConfig();
 
 const Login = () => {
   const [userId, setUserId] = useState<string>();
@@ -98,6 +102,12 @@ const Login = () => {
             >
               비밀번호 변경
             </GRButtonText> */}
+          </GRFlexView>
+          <GRFlexView alignItems={"center"}>
+            <GRText fontSize={"b8"} color={Color.grey80}>
+              {publicRuntimeConfig?.version ?? ""}
+              
+            </GRText>
           </GRFlexView>
         </GRFlexView>
       </GRView>

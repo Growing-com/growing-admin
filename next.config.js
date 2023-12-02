@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { version } = require("./package.json");
+
 module.exports = {
   eslint: {
     ignoreDuringBuilds: true
+  },
+  publicRuntimeConfig: {
+    version
   },
   reactStrictMode: false,
   swcMinify: true,
@@ -21,7 +27,6 @@ module.exports = {
   }
 };
 
-
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
@@ -35,7 +40,7 @@ module.exports = withSentryConfig(
     // Suppresses source map uploading logs during build
     silent: true,
     org: "growing-9x",
-    project: "javascript-nextjs",
+    project: "javascript-nextjs"
   },
   {
     // For all available options, see:
@@ -54,6 +59,6 @@ module.exports = withSentryConfig(
     hideSourceMaps: true,
 
     // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
+    disableLogger: true
   }
 );
