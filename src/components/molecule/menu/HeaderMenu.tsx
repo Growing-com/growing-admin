@@ -1,4 +1,4 @@
-import { UserOutlined } from "@ant-design/icons";
+import { NotificationOutlined, UserOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -9,6 +9,7 @@ import { useLogoutMutate } from "api/account/mutate/useLogoutMutate";
 import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
 import { DUTY, ROLE } from "config/const";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
@@ -56,50 +57,66 @@ const HeaderMenu = () => {
             부서
           </GRText>
         </GRFlexView>
-        <Popover
-          placement="bottom"
-          trigger={"click"}
-          content={() => (
-            <GRView width={10}>
-              <GRText weight={"bold"} fontSize={"b4"}>
-                {userInfo?.name}
-              </GRText>
-              <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
-                <GRText fontSize={"b7"}>
-                  {GRADE_NAME} | {DUTY_NAME}
-                </GRText>
-                <GRText
-                  fontSize={"b7"}
-                  weight={"bold"}
-                  color={Color.grey80}
-                  marginleft={GRStylesConfig.BASE_MARGIN}
-                >
-                  {ROLE_NAME}
-                </GRText>
-              </GRFlexView>
-              <GRFlexView
-                alignItems={"flex-end"}
-                margintop={GRStylesConfig.BASE_MARGIN}
-              >
-                <GRButtonText
-                  width={"100%"}
-                  buttonType={"default"}
-                  onClick={onClickLogout}
-                >
-                  로그아웃
-                </GRButtonText>
-              </GRFlexView>
-            </GRView>
-          )}
-        >
+        <GRFlexView flexDirection="row" justifyContent={"end"}>
           <Avatar
             style={{
-              backgroundColor: Color.green200,
-              marginRight: "6rem"
+              marginRight: "1rem",
+              backgroundColor: Color.green200
             }}
-            icon={<UserOutlined rev={undefined} />}
+            icon={
+              <Link
+                href={`${process.env.NEXT_PUBLIC_ANNOUNCEMENT}`}
+                target={"_blank"}
+              >
+                <NotificationOutlined rev={undefined} />
+              </Link>
+            }
           />
-        </Popover>
+          <Popover
+            placement="bottom"
+            trigger={"click"}
+            content={() => (
+              <GRView width={10}>
+                <GRText weight={"bold"} fontSize={"b4"}>
+                  {userInfo?.name}
+                </GRText>
+                <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
+                  <GRText fontSize={"b7"}>
+                    {GRADE_NAME} | {DUTY_NAME}
+                  </GRText>
+                  <GRText
+                    fontSize={"b7"}
+                    weight={"bold"}
+                    color={Color.grey80}
+                    marginleft={GRStylesConfig.BASE_MARGIN}
+                  >
+                    {ROLE_NAME}
+                  </GRText>
+                </GRFlexView>
+                <GRFlexView
+                  alignItems={"flex-end"}
+                  margintop={GRStylesConfig.BASE_MARGIN}
+                >
+                  <GRButtonText
+                    width={"100%"}
+                    buttonType={"default"}
+                    onClick={onClickLogout}
+                  >
+                    로그아웃
+                  </GRButtonText>
+                </GRFlexView>
+              </GRView>
+            )}
+          >
+            <Avatar
+              style={{
+                backgroundColor: Color.green200,
+                marginRight: "6rem"
+              }}
+              icon={<UserOutlined rev={undefined} />}
+            />
+          </Popover>
+        </GRFlexView>
       </GRFlexView>
     </Header>
   );
