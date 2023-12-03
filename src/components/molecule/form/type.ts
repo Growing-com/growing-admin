@@ -41,6 +41,8 @@ export type tGRFormItem = {
   maxLength?: number;
   defaultValue?: any;
   containStyle?: CSSProperties;
+  showSearch?: boolean;
+  optionFilterProp?: string;
 };
 
 export type tRenderProps = {

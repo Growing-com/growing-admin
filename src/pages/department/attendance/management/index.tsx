@@ -169,6 +169,8 @@ const AttendanceManagementPage: NextPage = () => {
                   options={cordiSelectItem}
                   placeholder={"나무를 선택해주세요"}
                   isShow={watch("searchType") === "cordi"}
+                  showSearch
+                  optionFilterProp={"label"}
                 />
                 <GRFormItem
                   type={"text"}
