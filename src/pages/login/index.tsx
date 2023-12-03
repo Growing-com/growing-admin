@@ -105,8 +105,7 @@ const Login = () => {
           </GRFlexView>
           <GRFlexView alignItems={"center"}>
             <GRText fontSize={"b8"} color={Color.grey80}>
-              {publicRuntimeConfig?.version ?? ""}
-              
+              {`v${publicRuntimeConfig?.version}` ?? ""}
             </GRText>
           </GRFlexView>
         </GRFlexView>
