@@ -30,7 +30,6 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
   const [selectWeek, setSelectWeek] = useState<Dayjs>(dayjs());
   const [excelOption, setExcelOption] =
     useState<tStatisticsAttendanceExcelOption>();
-
   const [handleStatisticsDataToExcel] = useStatisticsDataToExcel();
 
   const { data: excelData } = useStatisticsAttendanceExcelQuery({
@@ -115,8 +114,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
                 ? `미완료 나무:\n ${noAttendanceUser}`
                 : "한번도 체크 안한 리더는 없습니다"
             }
-            defaultOpen
-            placement="top"
+            placement={"top"}
           >
             <GRFlexView
               flexDirection={"row"}
