@@ -75,6 +75,7 @@ const AttendanceStatistics = () => {
         <StatisticsCompareTable
           headerTitle={"🌱 새가족반 결석 인원"}
           dataSource={statisticsNewData}
+          isUseTab={true}
         />
       </GRContainerView>
       <StatisticsModal

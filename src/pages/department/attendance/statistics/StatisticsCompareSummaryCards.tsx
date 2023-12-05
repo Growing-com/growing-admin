@@ -38,10 +38,19 @@ const StatisticsCompareSummaryCards = () => {
 
   const renderRate = useCallback((thisRange?: number, lastRange?: number) => {
     const isMinus = (thisRange ?? 0) - (lastRange ?? 0);
+    if (isMinus === 0) {
+      return (
+        <GRView margin={GRStylesConfig.BASE_MARGIN}>
+          <GRText fontSize={"b8"} color={Color.grey60} weight={"bold"}>
+            - {isMinus}
+          </GRText>
+        </GRView>
+      );
+    }
     if (isMinus < 0) {
       return (
         <GRView margin={GRStylesConfig.BASE_MARGIN}>
-          <GRText fontSize={"b8"} color={Color.red100} weight={"bold"}>
+          <GRText fontSize={"b8"} color={Color.blue100} weight={"bold"}>
             <ArrowDownOutlined rev={undefined} /> {isMinus}
           </GRText>
         </GRView>
@@ -49,8 +58,8 @@ const StatisticsCompareSummaryCards = () => {
     }
     return (
       <GRView margin={GRStylesConfig.BASE_MARGIN}>
-        <GRText fontSize={"b8"} color={Color.blue100} weight={"bold"}>
-          <ArrowUpOutlined rev={undefined} /> +{isMinus}
+        <GRText fontSize={"b8"} color={Color.red100} weight={"bold"}>
+          <ArrowUpOutlined rev={undefined} />+{isMinus}
         </GRText>
       </GRView>
     );
@@ -96,18 +105,24 @@ const StatisticsCompareSummaryCards = () => {
         </GRFlexView>
         <GRFlexView padding={1} marginright={1} css={customBox}>
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            출석인원 ( 출석 + 온라인 )
+            출석인원
+          </GRText>
+          <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+            ( 출석 + 온라인 )
           </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
             <GRText fontSize={"h6"}>
-              {statisticsAttendanceSummaryData?.totalAttendance}
+              {Number(statisticsAttendanceSummaryData?.totalAttendance) +
+                Number(statisticsAttendanceSummaryData?.totalOnline)}
               <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
                 명
               </GRText>
             </GRText>
             {renderRate(
-              statisticsAttendanceSummaryData?.totalAttendance,
-              statisticsAttendanceLastSummaryData?.totalAttendance
+              Number(statisticsAttendanceSummaryData?.totalAttendance) +
+                Number(statisticsAttendanceSummaryData?.totalOnline),
+              Number(statisticsAttendanceLastSummaryData?.totalAttendance) +
+                Number(statisticsAttendanceLastSummaryData?.totalOnline)
             )}
           </GRFlexView>
           {/* <GRText
@@ -148,17 +163,42 @@ const StatisticsCompareSummaryCards = () => {
           <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
             새가족 출석인원
           </GRText>
+          <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+            ( 출석 인원 / 새가족 전체 )
+          </GRText>
           <GRFlexView flexDirection={"row"} alignItems={"end"}>
-            <GRText fontSize={"h6"}>
-              {statisticsAttendanceSummaryData?.newComerAttendance}
-              <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
-                명
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"}>
+                {statisticsAttendanceSummaryData?.newComerAttendance}
+                <GRText
+                  fontSize={"b5"}
+                  marginleft={GRStylesConfig.BASE_PADDING}
+                >
+                  명
+                </GRText>
               </GRText>
-            </GRText>
-            {renderRate(
-              statisticsAttendanceSummaryData?.newComerAttendance,
-              statisticsAttendanceLastSummaryData?.newComerAttendance
-            )}
+              {renderRate(
+                statisticsAttendanceSummaryData?.newComerAttendance,
+                statisticsAttendanceLastSummaryData?.newComerAttendance
+              )}
+            </GRFlexView>
+            <GRText fontSize={"h6"}>/ </GRText>
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"}>
+                {statisticsAttendanceSummaryData?.newComerRegistered}
+                <GRText
+                  fontSize={"b5"}
+                  marginleft={GRStylesConfig.BASE_PADDING}
+                >
+                  명
+                </GRText>
+              </GRText>
+
+              {renderRate(
+                statisticsAttendanceSummaryData?.newComerRegistered,
+                statisticsAttendanceLastSummaryData?.newComerRegistered
+              )}
+            </GRFlexView>
           </GRFlexView>
           {/* <GRText
               fontSize={"b7"}
