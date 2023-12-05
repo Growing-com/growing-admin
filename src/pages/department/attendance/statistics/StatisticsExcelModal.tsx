@@ -86,6 +86,10 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             statisticsName = "attendance";
             _fileName = `텀 출결`;
             break;
+          case "newFamilyAttendance":
+            statisticsName = "newFamily";
+            _fileName = `텀 새가족`;
+            break;
         }
         await handleStatisticsDataToExcel(_fileName, statisticsName, excelData);
         setExcelOption(undefined);
@@ -148,6 +152,13 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
             block
           >
             전체 출결
+          </GRButtonText>
+          <GRButtonText
+            marginvertical={GRStylesConfig.BASE_MARGIN}
+            onClick={() => setExcelOption("newFamilyAttendance")}
+            block
+          >
+            새가족 출결
           </GRButtonText>
           <GRButtonText
             marginvertical={GRStylesConfig.BASE_MARGIN}

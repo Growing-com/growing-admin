@@ -7,6 +7,7 @@ export type tStatisticsAttendanceExcelOption =
   | "leaderAttendance"
   | "managerAttendance"
   | "gradeAttendance"
+  | "newFamilyAttendance"
   | undefined;
 
 type tUseStatisticsAttendanceExcelQuery = {

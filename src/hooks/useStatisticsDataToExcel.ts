@@ -5,7 +5,12 @@ import dayjs from "dayjs";
 import { concat, isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 
-export type tStatisticsName = "leader" | "manager" | "attendance" | "grade";
+export type tStatisticsName =
+  | "leader"
+  | "manager"
+  | "attendance"
+  | "grade"
+  | "newFamily";
 
 export const useStatisticsDataToExcel = () => {
   const filterWeeks = (attendData: tAttendanceCheckListItem[]) => {
@@ -117,6 +122,10 @@ export const useStatisticsDataToExcel = () => {
       case "grade": // 학년 별
         rowData = convertStatisticsDataToExcelData(_attendData, _weeks);
         headerTitle = ["학년"];
+        break;
+      case "newFamily": // 새가족 별
+        rowData = convertAttendanceDataToExcelData(_attendData, _weeks);
+        headerTitle = ["나무", "순장", "이름", "학년", "전화번호", "성별"];
         break;
     }
 
