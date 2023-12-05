@@ -1,5 +1,5 @@
 import { SerializedStyles, css } from "@emotion/react";
-import type { CSSProperties, DOMAttributes, FC, ReactNode } from "react";
+import type { CSSProperties, FC, HTMLAttributes, ReactNode } from "react";
 import { Color } from "styles/colors";
 import { AreaType } from "styles/css";
 import getMargin from "styles/css/getMargin";
@@ -19,7 +19,7 @@ type tGRFlexView = {
   style?: CSSProperties;
   css?: SerializedStyles;
 } & AreaType &
-  DOMAttributes<"div">;
+  HTMLAttributes<HTMLDivElement>;
 
 const GRFlexView: FC<tGRFlexView> = ({
   children,
