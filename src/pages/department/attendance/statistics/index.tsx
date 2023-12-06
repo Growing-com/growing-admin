@@ -71,11 +71,13 @@ const AttendanceStatistics = () => {
           headerTitle={"🐏 결석 인원"}
           dataSource={statisticsAbsentData}
           isUseTab={true}
+          infoMessage={"2주 안에 한번이라도 결석한 인원"}
         />
         <StatisticsCompareTable
           headerTitle={"🌱 새가족반 결석 인원"}
           dataSource={statisticsNewData}
           isUseTab={true}
+          infoMessage={"2주 안에 한번이라도 결석한 인원"}
         />
       </GRContainerView>
       <StatisticsModal
