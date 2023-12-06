@@ -35,7 +35,7 @@ const ExcelButton = ({
           marginRight: !onlyIcon ? "0.3rem" : "0rem"
         }}
       />
-      {!onlyIcon && "엑셀 다운"}
+      {!onlyIcon && (size === "normal" ? "엑셀" : "엑셀 다운")}
     </GRButtonText>
   );
 };

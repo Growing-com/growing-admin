@@ -181,9 +181,9 @@ const StatisticsCompareSummaryCards = () => {
                 statisticsAttendanceSummaryData?.newComerAttendance,
                 statisticsAttendanceLastSummaryData?.newComerAttendance
               )}
-            </GRFlexView>
-            <GRText fontSize={"h6"}>/ </GRText>
-            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"} marginright={GRStylesConfig.BASE_MARGIN}>
+                /
+              </GRText>
               <GRText fontSize={"h6"}>
                 {statisticsAttendanceSummaryData?.newComerRegistered}
                 <GRText
