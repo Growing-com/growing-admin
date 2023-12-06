@@ -1,10 +1,10 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { Alert, Tooltip } from "antd";
 import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
+import GRInfoBadge from "../GRInfoBadge";
 
 type tGRFormTitle = {
   title?: string;
@@ -30,19 +30,7 @@ const GRFormTitle: FC<tGRFormTitle> = ({
             </GRText>
           )}
         </GRText>
-        {!!alertMessage && (
-          <Tooltip
-            overlayStyle={{ whiteSpace: "pre-line" }}
-            title={alertMessage}
-          >
-            <Alert
-              showIcon
-              type={"info"}
-              banner={true}
-              style={{ backgroundColor: "transparent" }}
-            />
-          </Tooltip>
-        )}
+        {!!alertMessage && <GRInfoBadge infoMessage={alertMessage} />}
       </GRFlexView>
     </GRView>
   );

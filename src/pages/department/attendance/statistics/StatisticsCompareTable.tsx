@@ -5,6 +5,7 @@ import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import ExcelButton from "@component/molecule/button/ExcelButton";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
@@ -26,12 +27,14 @@ type tStatisticsCompareTable = {
   headerTitle: string;
   dataSource?: tAttendanceCheckListItem[];
   isUseTab?: boolean;
+  infoMessage: string;
 };
 
 const StatisticsCompareTable = ({
   headerTitle,
   dataSource,
-  isUseTab = false
+  isUseTab = false,
+  infoMessage
 }: tStatisticsCompareTable) => {
   const [selectUserId, setSelectUserId] = useState<number>();
   const [managerTabItems, setManagerTabItems] = useState<tOptions[]>([]);
@@ -177,20 +180,32 @@ const StatisticsCompareTable = ({
 
   return (
     <>
-      <GRText
-        weight={"bold"}
-        fontSize={"b4"}
-        marginright={0.5}
-        marginbottom={1}
+      <GRFlexView
+        flexDirection={"row"}
+        alignItems={"center"}
+        marginvertical={1}
       >
-        {headerTitle}
-      </GRText>
+        <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
+          {headerTitle}
+        </GRText>
+        <GRInfoBadge infoMessage={infoMessage} />
+      </GRFlexView>
       <GRTable
         rowKey={"userName"}
         marginbottom={2}
         headerComponent={
           <GRView>
-            <GRTab items={managerTabItems} onChange={onChangeTab} />
+            <GRTab
+              items={managerTabItems}
+              onChange={onChangeTab}
+              tabBarExtraContent={
+                <ExcelButton
+                  size={"normal"}
+                  buttonType={"primary"}
+                  onClickExcel={onClickExcel}
+                />
+              }
+            />
             <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
               <GRView>
                 <GRText weight={"bold"}>리스트 </GRText>
@@ -205,11 +220,6 @@ const StatisticsCompareTable = ({
                   </GRText>
                 </GRText>
               </GRView>
-              <ExcelButton
-                size={"normal"}
-                buttonType={"primary"}
-                onClickExcel={onClickExcel}
-              />
             </GRFlexView>
           </GRView>
         }
