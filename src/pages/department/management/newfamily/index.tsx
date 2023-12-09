@@ -192,7 +192,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           rowKey={"name"}
           headerComponent={
             <GRView>
-              <GRText weight={"bold"}>새가족 리스트</GRText>
+              <GRText weight={"bold"}>새가족 리스트 </GRText>
               <GRText color={Color.grey60}>
                 <GRText weight={"bold"} color={Color.green200}>
                   {filteredNewFailyData?.length ?? 0} 명

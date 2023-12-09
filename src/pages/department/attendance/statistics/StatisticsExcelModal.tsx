@@ -118,7 +118,7 @@ const StatisticsExcelModal: FC<tStatisticsExcelModal> = ({
                 ? `미완료 나무:\n ${noAttendanceUser}`
                 : "한번도 체크 안한 리더는 없습니다"
             }
-            placement={"top"}
+            placement={"bottom"}
           >
             <GRFlexView
               flexDirection={"row"}

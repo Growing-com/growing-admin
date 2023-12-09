@@ -13,6 +13,8 @@ import { getWeekDataFromToday } from "utils/DateUtils";
 const customBox = css`
   /* border: 0.1rem solid ${Color.grey100}; */
   /* box-shadow: rgba(32, 200, 113, 0.1) 4px 1px 20px -5px, rgba(0,0,0, 0.1) 0px 3px 7px -3px; */
+  min-width: 14rem;
+  height: 8rem;
   box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
   border-radius: 1rem;
 `;
@@ -77,24 +79,39 @@ const StatisticsCompareSummaryCards = () => {
           {getWeekDataFromToday.lastSunday}
         </GRText>
       </GRText>
-      <GRFlexView flexDirection={"row"} marginbottom={1}>
-        <GRFlexView padding={1} marginright={1} css={customBox}>
-          <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            전체 인원
-          </GRText>
-          <GRFlexView flexDirection={"row"} alignItems={"end"}>
-            <GRText fontSize={"h6"}>
-              {statisticsUserSummaryData?.totalRegistered}
-              <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
-                명
+
+      <GRView
+        style={{
+          maxWidth: "70rem",
+          overflowX: "scroll"
+        }}
+      >
+        <GRFlexView flexDirection={"row"} marginbottom={1}>
+          <GRView padding={1} marginright={1} customCss={customBox}>
+            <GRFlexView>
+              <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
+                전체 인원
               </GRText>
-            </GRText>
-            {renderRate(
-              statisticsUserSummaryData?.totalRegistered,
-              statisticsUserLastSummaryData?.totalRegistered
-            )}
-          </GRFlexView>
-          {/* <GRText
+              <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+                {" "}
+              </GRText>
+            </GRFlexView>
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"}>
+                {statisticsUserSummaryData?.totalRegistered}
+                <GRText
+                  fontSize={"b5"}
+                  marginleft={GRStylesConfig.BASE_PADDING}
+                >
+                  명
+                </GRText>
+              </GRText>
+              {renderRate(
+                statisticsUserSummaryData?.totalRegistered,
+                statisticsUserLastSummaryData?.totalRegistered
+              )}
+            </GRFlexView>
+            {/* <GRText
             fontSize={"b7"}
             marginleft={GRStylesConfig.BASE_MARGIN}
             color={Color.grey80}
@@ -102,30 +119,35 @@ const StatisticsCompareSummaryCards = () => {
             {statisticsAttendanceLastSummaryData?.totalRegistered} ({" "}
             {LAST_SUNDAY_TEXT} )
           </GRText> */}
-        </GRFlexView>
-        <GRFlexView padding={1} marginright={1} css={customBox}>
-          <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            출석인원
-          </GRText>
-          <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
-            ( 출석 + 온라인 )
-          </GRText>
-          <GRFlexView flexDirection={"row"} alignItems={"end"}>
-            <GRText fontSize={"h6"}>
-              {Number(statisticsAttendanceSummaryData?.totalAttendance) +
-                Number(statisticsAttendanceSummaryData?.totalOnline)}
-              <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
-                명
+          </GRView>
+          <GRView padding={1} marginright={1} customCss={customBox}>
+            <GRFlexView>
+              <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
+                출석인원
               </GRText>
-            </GRText>
-            {renderRate(
-              Number(statisticsAttendanceSummaryData?.totalAttendance) +
-                Number(statisticsAttendanceSummaryData?.totalOnline),
-              Number(statisticsAttendanceLastSummaryData?.totalAttendance) +
-                Number(statisticsAttendanceLastSummaryData?.totalOnline)
-            )}
-          </GRFlexView>
-          {/* <GRText
+              <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+                ( 출석 + 온라인 )
+              </GRText>
+            </GRFlexView>
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"}>
+                {Number(statisticsAttendanceSummaryData?.totalAttendance) +
+                  Number(statisticsAttendanceSummaryData?.totalOnline)}
+                <GRText
+                  fontSize={"b5"}
+                  marginleft={GRStylesConfig.BASE_PADDING}
+                >
+                  명
+                </GRText>
+              </GRText>
+              {renderRate(
+                Number(statisticsAttendanceSummaryData?.totalAttendance) +
+                  Number(statisticsAttendanceSummaryData?.totalOnline),
+                Number(statisticsAttendanceLastSummaryData?.totalAttendance) +
+                  Number(statisticsAttendanceLastSummaryData?.totalOnline)
+              )}
+            </GRFlexView>
+            {/* <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
@@ -133,24 +155,32 @@ const StatisticsCompareSummaryCards = () => {
               {statisticsAttendanceLastSummaryData?.totalAttendance} ({" "}
               {LAST_SUNDAY_TEXT} )
             </GRText> */}
-        </GRFlexView>
-        <GRFlexView padding={1} marginright={1} css={customBox}>
-          <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            새등록
-          </GRText>
-          <GRFlexView flexDirection={"row"} alignItems={"end"}>
-            <GRText fontSize={"h6"}>
-              {statisticsUserSummaryData?.totalNewRegistered}
-              <GRText fontSize={"b5"} marginleft={GRStylesConfig.BASE_PADDING}>
-                명
+          </GRView>
+          <GRView padding={1} marginright={1} customCss={customBox}>
+            <GRFlexView>
+              <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
+                새등록
               </GRText>
-            </GRText>
-            {renderRate(
-              statisticsUserSummaryData?.totalNewRegistered,
-              statisticsUserLastSummaryData?.totalNewRegistered
-            )}
-          </GRFlexView>
-          {/* <GRText
+              <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+                {" "}
+              </GRText>
+            </GRFlexView>
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRText fontSize={"h6"}>
+                {statisticsUserSummaryData?.totalNewRegistered}
+                <GRText
+                  fontSize={"b5"}
+                  marginleft={GRStylesConfig.BASE_PADDING}
+                >
+                  명
+                </GRText>
+              </GRText>
+              {renderRate(
+                statisticsUserSummaryData?.totalNewRegistered,
+                statisticsUserLastSummaryData?.totalNewRegistered
+              )}
+            </GRFlexView>
+            {/* <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
@@ -158,49 +188,54 @@ const StatisticsCompareSummaryCards = () => {
               {statisticsAttendanceLastSummaryData?.newComerRegistered} ({" "}
               {LAST_SUNDAY_TEXT} )
             </GRText> */}
-        </GRFlexView>
-        <GRFlexView padding={1} marginright={1} css={customBox}>
-          <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
-            새가족 출석인원
-          </GRText>
-          <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
-            ( 출석 인원 / 새가족 전체 )
-          </GRText>
-          <GRFlexView flexDirection={"row"} alignItems={"end"}>
-            <GRFlexView flexDirection={"row"} alignItems={"end"}>
-              <GRText fontSize={"h6"}>
-                {statisticsAttendanceSummaryData?.newComerAttendance}
-                <GRText
-                  fontSize={"b5"}
-                  marginleft={GRStylesConfig.BASE_PADDING}
-                >
-                  명
-                </GRText>
+          </GRView>
+          <GRView padding={1} marginright={1} customCss={customBox}>
+            <GRFlexView>
+              <GRText fontSize={"b6"} color={Color.grey80} weight={"bold"}>
+                새가족 출석인원
               </GRText>
-              {renderRate(
-                statisticsAttendanceSummaryData?.newComerAttendance,
-                statisticsAttendanceLastSummaryData?.newComerAttendance
-              )}
-              <GRText fontSize={"h6"} marginright={GRStylesConfig.BASE_MARGIN}>
-                /
+              <GRText fontSize={"b7"} color={Color.grey80} weight={"bold"}>
+                ( 출석 인원 / 새가족 전체 )
               </GRText>
-              <GRText fontSize={"h6"}>
-                {statisticsAttendanceSummaryData?.newComerRegistered}
-                <GRText
-                  fontSize={"b5"}
-                  marginleft={GRStylesConfig.BASE_PADDING}
-                >
-                  명
-                </GRText>
-              </GRText>
-
-              {renderRate(
-                statisticsAttendanceSummaryData?.newComerRegistered,
-                statisticsAttendanceLastSummaryData?.newComerRegistered
-              )}
             </GRFlexView>
-          </GRFlexView>
-          {/* <GRText
+            <GRFlexView flexDirection={"row"} alignItems={"end"}>
+              <GRFlexView flexDirection={"row"} alignItems={"end"}>
+                <GRText fontSize={"h6"}>
+                  {statisticsAttendanceSummaryData?.newComerAttendance}
+                  <GRText
+                    fontSize={"b5"}
+                    marginleft={GRStylesConfig.BASE_PADDING}
+                  >
+                    명
+                  </GRText>
+                </GRText>
+                {renderRate(
+                  statisticsAttendanceSummaryData?.newComerAttendance,
+                  statisticsAttendanceLastSummaryData?.newComerAttendance
+                )}
+                <GRText
+                  fontSize={"h6"}
+                  marginright={GRStylesConfig.BASE_MARGIN}
+                >
+                  /
+                </GRText>
+                <GRText fontSize={"h6"}>
+                  {statisticsAttendanceSummaryData?.newComerRegistered}
+                  <GRText
+                    fontSize={"b5"}
+                    marginleft={GRStylesConfig.BASE_PADDING}
+                  >
+                    명
+                  </GRText>
+                </GRText>
+
+                {renderRate(
+                  statisticsAttendanceSummaryData?.newComerRegistered,
+                  statisticsAttendanceLastSummaryData?.newComerRegistered
+                )}
+              </GRFlexView>
+            </GRFlexView>
+            {/* <GRText
               fontSize={"b7"}
               marginleft={GRStylesConfig.BASE_MARGIN}
               color={Color.grey80}
@@ -208,8 +243,9 @@ const StatisticsCompareSummaryCards = () => {
               {statisticsAttendanceLastSummaryData?.newComerAttendance} ({" "}
               {LAST_SUNDAY_TEXT} )
             </GRText> */}
+          </GRView>
         </GRFlexView>
-      </GRFlexView>
+      </GRView>
     </GRView>
   );
 };

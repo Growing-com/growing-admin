@@ -51,8 +51,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         key: "managerName",
         align: "center",
         width: "5rem",
-        fixed: "left",
-        render: text => <a>{text}</a>
+        fixed: "left"
       },
       {
         title: "순장",
