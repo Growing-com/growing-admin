@@ -34,6 +34,7 @@ const GRModal: FC<tGRModal> = ({
   showFooter = true,
   title,
   maskClosable = true,
+  keyboard = false,
   ...props
 }) => {
   const onCancelClickButton = useCallback(
@@ -107,6 +108,7 @@ const GRModal: FC<tGRModal> = ({
         padding: "1rem"
       }}
       title={renderModalHeader()}
+      keyboard={keyboard}
       {...props}
     >
       {children}
