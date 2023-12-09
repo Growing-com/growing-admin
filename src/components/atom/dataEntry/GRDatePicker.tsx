@@ -52,7 +52,9 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
       Number(dayjs(date).startOf("M").format("w")) +
       1;
     return picker === "week"
-      ? `${dayjs(date).startOf("week").format("YYYY-MM")}-${weekOfMonth}주`
+      ? `${dayjs(date)
+          .startOf("week")
+          .format("YYYY-MM-DD")} (${weekOfMonth}주차)`
       : DEFAULT_DATE_FOMAT;
   }, [date, format, picker]);
 
