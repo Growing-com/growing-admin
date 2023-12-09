@@ -85,9 +85,14 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     async _item => {
       const _format = {
         ..._item,
-        birth: _item.birth && dayjs(_item.birth).format(DEFAULT_DATE_FOMAT),
-        visitDate:
-          _item.visitDate && dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
+        ...(_item?.birth && {
+          birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT)
+        }),
+        ...(_item?.visitDate && {
+          visitDate: dayjs(_item.visitDate).format(DEFAULT_DATE_FOMAT)
+        }),
+        termId: 1,
+        visitTermId: 1
       };
       try {
         if (isCreate) {
@@ -100,8 +105,12 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         }
         GRAlert.success(isCreate ? "생성 성공" : "수정 성공");
         onRegister();
-      } catch (e) {
-        GRAlert.error("수정 실패, 다시 한번 시도해 주세요");
+      } catch (e: any) {
+        GRAlert.error(
+          `수정 실패, 다시 한번 시도해 주세요 ${
+            e?.message ? `${e?.message}` : ""
+          }`
+        );
       }
     },
     [
@@ -195,12 +204,12 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"text"}
-            textType={"input"}
+            textType={"phoneNumber"}
             title={"전화번호"}
             fieldName={"phoneNumber"}
             control={control}
             placeholder={"- 없이 작성해 주세요"}
-            maxLength={11}
+            maxLength={13}
             disabled={!isCreate}
             required={true}
           />
