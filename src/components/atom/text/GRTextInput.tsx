@@ -3,7 +3,11 @@ import { Input } from "antd";
 import { InputProps, TextAreaProps } from "antd/es/input";
 import { ChangeEvent, ForwardedRef, forwardRef, useMemo } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
-import { REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN } from "utils/regexp";
+import {
+  REGEXP_NUM,
+  REGEXP_PHONE_NUM,
+  REGEXP_PHONE_PATTERN
+} from "utils/regexp";
 
 export type tGRTextInputType =
   | "input"
@@ -13,11 +17,9 @@ export type tGRTextInputType =
   | "phoneNumber";
 
 export type tGRTextInput = {
-  onChange?: (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => void;
+  onChange?: (value: string) => void;
   type?: tGRTextInputType;
-} & Omit<InputProps, "type"> &
+} & Omit<InputProps, "type" | "onChange"> &
   Omit<TextAreaProps, "onChange"> &
   tGetMargin;
 
@@ -44,20 +46,6 @@ const GRTextInput = (
     }
   }, [type]);
 
-  const onChangeText = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    if (
-      (type === "phoneNumber" || type === "number") &&
-      e.target.value &&
-      !REGEXP_PHONE_NUM.test(e.target.value)
-    ) {
-      return;
-    }
-
-    onChange?.(e);
-  };
-
   const renderValue = (
     _value?: string | number | readonly string[] | undefined
   ) => {
@@ -78,8 +66,35 @@ const GRTextInput = (
           .replace(/-/g, "")
           .replace(REGEXP_PHONE_PATTERN, "$1-$2-$3")
       );
+    } else if (
+      typeof _value === "string" &&
+      type === "phoneNumber" &&
+      _value?.length < 13
+    ) {
+      return _value.replace(/-/g, "");
     }
     return _value ?? "";
+  };
+
+  const onChangeText = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (
+      (type === "phoneNumber" || type === "number") &&
+      e.target.value &&
+      !REGEXP_PHONE_NUM.test(e.target.value)
+    ) {
+      return;
+    }
+    if (
+      type === "number" &&
+      e.target.value &&
+      !REGEXP_NUM.test(e.target.value)
+    ) {
+      return;
+    }
+
+    onChange?.(String(renderValue(e.target.value)));
   };
 
   return (

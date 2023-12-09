@@ -3,7 +3,7 @@ import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
-import { ChangeEvent, FC, useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 type tSearchBar = {
   onClickSearch: (searchText?: string) => void;
@@ -15,12 +15,9 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch }) => {
     onClickSearch(searchText);
   }, [onClickSearch, searchText]);
 
-  const onChangeSearchText = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-      setSearchText(e.target.value);
-    },
-    []
-  );
+  const onChangeSearchText = useCallback((e: string) => {
+    setSearchText(e);
+  }, []);
 
   useKeyPressEventListener("Enter", () => {
     onClickSearchButton();

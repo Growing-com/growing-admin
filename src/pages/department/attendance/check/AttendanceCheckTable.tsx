@@ -10,14 +10,7 @@ import { Alert, Tooltip, type RadioChangeEvent } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tAttendance, tAttendanceCheckItem } from "api/attendance/types";
 import { ATTENDANCE_STATUS } from "config/const";
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { koreanSorter, numberSorter } from "utils/sorter";
 import AttendancdeCheckSubmitButton from "./AttendancdeCheckSubmitButton";
 
@@ -60,11 +53,8 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   );
 
   const onChangeAttendEtc = useCallback(
-    (
-      _teamMemberId: number,
-      e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-    ) => {
-      insertDataInFormResult(_teamMemberId, "etc", e.target.value);
+    (_teamMemberId: number, e: string) => {
+      insertDataInFormResult(_teamMemberId, "etc", e);
     },
     [insertDataInFormResult]
   );

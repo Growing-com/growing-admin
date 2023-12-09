@@ -10,3 +10,22 @@ const REGEXP_PHONE_NUM = /^[0-9-]+$/;
 const REGEXP_PHONE_PATTERN = /(\d{3})(\d{4})(\d{4})/;
 
 export { REGEXP_NUM, REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN, REG_PHONE };
+
+export const getHypenCardNumber = (number: string) => {
+  const onlyNumber = number.replace(/[^0-9]/g, "");
+  const cardNumber = onlyNumber.replace(
+    /^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/g,
+    "$1-$2-$3-$4"
+  );
+  // dash 삭제
+  number = cardNumber.replace(/(-{1,2})$/g, "");
+  return number;
+};
+
+export const getHypenPhoneNumber = (phoneNumber: string) => {
+  if (phoneNumber.length === 11) {
+    phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+  } else if (phoneNumber.length === 13) {
+    phoneNumber.replace(/-/g, "").replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+  }
+};

@@ -135,7 +135,7 @@ const AccountModal: FC<tAccountModal> = ({
         <GRFlexView flexDirection={"row"}>
           <GRFormItem
             type={"text"}
-            textType={"input"}
+            textType={"phoneNumber"}
             title={"전화번호"}
             fieldName={"phoneNumber"}
             control={control}

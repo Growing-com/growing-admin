@@ -63,7 +63,7 @@ const Login = () => {
             <GRTextInput
               value={userId}
               placeholder={"아이디를 입력해 주세요"}
-              onChange={e => setUserId(e.target.value)}
+              onChange={e => setUserId(e)}
             />
           </GRView>
           <GRView marginbottom={1}>
@@ -74,7 +74,7 @@ const Login = () => {
               value={userPW}
               placeholder={"비밀번호를 입력해 주세요"}
               type={"password"}
-              onChange={e => setUserPW(e.target.value)}
+              onChange={e => setUserPW(e)}
             />
           </GRView>
         </GRFlexView>
