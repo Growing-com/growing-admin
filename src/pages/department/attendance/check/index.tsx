@@ -27,7 +27,11 @@ const AttendanceCheck = () => {
   const { setSelectedCodyId, termLeaderOptions, selectedCodyId } =
     useTermInfoOptionQueries();
 
-  const { data: attendanceCheckData, isFetching } = useAttendanceCheckQuery({
+  const {
+    data: attendanceCheckData,
+    isFetching,
+    refetch
+  } = useAttendanceCheckQuery({
     week: filterDate?.format(DEFAULT_DATE_FOMAT),
     codyId: selectedCodyId
   });
@@ -88,13 +92,14 @@ const AttendanceCheck = () => {
           week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
           attendances: _attendance
         });
+        refetch();
       } catch (e: any) {
         GRAlert.error(`출석 체크 실패, 다시 시도해주세요 ${e?.message ?? ""}`);
       } finally {
         setTimeout(() => setIsLoading(false), 500);
       }
     },
-    [attendanceCheckMutate, filterDate]
+    [attendanceCheckMutate, filterDate, refetch]
   );
 
   return (
