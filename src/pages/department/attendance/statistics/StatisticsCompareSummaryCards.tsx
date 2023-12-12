@@ -2,6 +2,7 @@ import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import { css } from "@emotion/react";
 import { useStatisticsAttendanceSummaryQuery } from "api/statistics/queries/useStatisticsAttendanceSummaryQuery";
 import { useTermUserStatistics } from "api/term/queries/useTermUserStatistics";
@@ -69,8 +70,19 @@ const StatisticsCompareSummaryCards = () => {
 
   return (
     <GRView marginbottom={2}>
-      <GRText weight={"bold"} fontSize={"b4"} marginbottom={1}>
-        ⚡️ 지난주 대비
+      <GRFlexView
+        flexDirection={"row"}
+        alignItems={"center"}
+        marginvertical={1}
+      >
+        <GRText weight={"bold"} fontSize={"b4"}>
+          ⚡️ 지난주 대비
+        </GRText>
+        <GRInfoBadge
+          infoMessage={
+            "지난주와 이번주 주일 대비 통계입니다. \n출석 체크 완료율에 따라 변할수 있습니다."
+          }
+        />
         <GRText
           fontSize={"b7"}
           marginleft={GRStylesConfig.BASE_MARGIN}
@@ -78,8 +90,7 @@ const StatisticsCompareSummaryCards = () => {
         >
           {getWeekDataFromToday.lastSunday}
         </GRText>
-      </GRText>
-
+      </GRFlexView>
       <GRView
         style={{
           maxWidth: "70rem",
