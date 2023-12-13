@@ -188,7 +188,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"name"}
             control={control}
             placeholder={"이름을 작성해 주세요"}
-            disabled={!isCreate}
             required={true}
           />
           <GRFormItem
@@ -197,7 +196,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"sex"}
             control={control}
             options={SEX_OPTIONS}
-            disabled={!isCreate}
             required={true}
           />
         </GRFlexView>
@@ -210,7 +208,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"- 없이 작성해 주세요"}
             maxLength={13}
-            disabled={!isCreate}
             required={true}
           />
           <GRFormItem
@@ -230,7 +227,6 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             fieldName={"grade"}
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
-            disabled={!isCreate}
             required={true}
           />
           <GRFormItem
