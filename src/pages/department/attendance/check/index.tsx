@@ -110,7 +110,7 @@ const AttendanceCheck = () => {
           .weekday(4)
           .format(
             DEFAULT_DATE_FOMAT
-          )} 수요일 00:00 까지 출석 체크 부탁드립니다.`}
+          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
       />
       <GRContainerView>
         <GRTab
