@@ -5,10 +5,12 @@ import { FC, useCallback, useState } from "react";
 
 type tAttendancdeCheckSubmitButton = {
   onSubmit: () => void;
+  disabled: boolean;
 };
 
 const AttendancdeCheckSubmitButton: FC<tAttendancdeCheckSubmitButton> = ({
-  onSubmit
+  onSubmit,
+  disabled
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -28,6 +30,7 @@ const AttendancdeCheckSubmitButton: FC<tAttendancdeCheckSubmitButton> = ({
         marginleft={0.5}
         size={"large"}
         onClick={handleModal}
+        disabled={!disabled}
       >
         출석 등록
       </GRButtonText>
