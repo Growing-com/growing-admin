@@ -11,7 +11,7 @@ import GRFlexView from "../view/GRFlexView";
 
 const { RangePicker } = DatePicker;
 
-export type tPickerType = "basic" | "range";
+export type tPickerType = "basic" | "range" | "month";
 
 type tGRDatePicker<T extends tPickerType> = {
   height?: CSSProperties["height"];
