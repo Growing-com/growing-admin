@@ -24,8 +24,12 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch }) => {
   });
 
   return (
-    <GRFlexView alignItems={"center"} flexDirection={"row"}>
-      <GRText marginright={1} weight={"bold"} fontSize={"b5"}>
+    <GRFlexView
+      alignItems={"center"}
+      flexDirection={"row"}
+      marginhorizontal={1}
+    >
+      <GRText marginright={1} weight={"bold"}>
         검색
       </GRText>
       <GRTextInput

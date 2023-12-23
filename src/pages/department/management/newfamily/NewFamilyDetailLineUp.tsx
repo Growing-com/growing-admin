@@ -102,16 +102,16 @@ const NewFamilyDetailLineUp: FC<tNewFamilyDetailLineUp> = ({
   }, [newFamily?.lineupDate, setSelectedCodyId]);
 
   return (
-    <GRFlexView flexDirection={"row"}>
+    <GRFlexView
+      flexDirection={"row"}
+      alignItems={"center"}
+      marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
+    >
       <GRFormTitle
         title={"등반"}
         alertMessage={`등반이 되면 새가족 리더에서 등반된 리더로 이동하게 됩니다`}
       />
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-      >
+      <GRFlexView flexDirection={"row"} alignItems={"center"}>
         {isLineUp ? (
           <GRTextInput
             style={{ width: "10rem" }}

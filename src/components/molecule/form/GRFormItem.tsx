@@ -98,7 +98,7 @@ const GRFormItem = ({
 
       if (type)
         return (
-          <GRFlexView>
+          <GRFlexView justifyContent={"center"}>
             {formItemComponent}
             <GRFormError fieldName={field.name} formState={formState} />
           </GRFlexView>
@@ -112,7 +112,7 @@ const GRFormItem = ({
     <GRFlexView
       flexDirection={"row"}
       alignItems={"center"}
-      marginvertical={GRStylesConfig.BASE_MARGIN}
+      marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
       style={containStyle}
     >
       {title && <GRFormTitle title={title} required={required} />}
