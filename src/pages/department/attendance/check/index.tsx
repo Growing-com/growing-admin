@@ -114,7 +114,7 @@ const AttendanceCheck = () => {
           )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
       />
       <GRContainerView>
-        <AttendanceProgress />
+        <AttendanceProgress attendanceData={attendanceCheckData} />
         <GRTab
           items={termLeaderOptions}
           onChange={onChangeTab}
