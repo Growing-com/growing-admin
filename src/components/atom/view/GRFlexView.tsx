@@ -18,6 +18,7 @@ type tGRFlexView = {
   height?: CSSProperties["height"];
   style?: CSSProperties;
   css?: SerializedStyles;
+  flex?: number;
 } & AreaType &
   HTMLAttributes<HTMLDivElement>;
 
@@ -34,6 +35,7 @@ const GRFlexView: FC<tGRFlexView> = ({
   height,
   css: customCss,
   style,
+  flex = 1,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -44,7 +46,7 @@ const GRFlexView: FC<tGRFlexView> = ({
       css={[
         css`
           display: flex;
-          flex: 1;
+          flex: ${flex};
           flex-direction: ${flexDirection};
           background-color: ${backgroundColor};
           justify-content: ${justifyContent};

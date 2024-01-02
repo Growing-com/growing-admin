@@ -3,6 +3,7 @@ import type { CSSProperties, FC, ReactNode } from "react";
 import { Color } from "styles/colors";
 import getBorder, { tGetBorder } from "styles/css/getBorder";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
+import getPadding, { tGetPadding } from "styles/css/getPadding";
 
 export type tGRView = {
   children: ReactNode;
@@ -17,25 +18,31 @@ export type tGRView = {
   style?: CSSProperties;
   customCss?: SerializedStyles;
   onClick?: () => void;
+  isFlex?: boolean;
+  borderRadius?: number;
 } & tGetMargin &
-  tGetBorder;
+  tGetBorder &
+  tGetPadding;
 
 const GRView: FC<tGRView> = ({
   children,
   flexDirection,
   backgroundColor,
-  justifyContent = "center",
-  alignItems = "center",
+  justifyContent,
+  alignItems,
   isBoard,
   padding,
   width,
   height,
   style,
   customCss,
+  isFlex,
+  borderRadius,
   ...rest
 }) => {
   const _margin = getMargin(rest);
   const _border = getBorder(rest);
+  const _padding = getPadding(rest);
 
   return (
     <div
@@ -45,12 +52,18 @@ const GRView: FC<tGRView> = ({
           height: ${`${height}rem`};
           flex-direction: ${flexDirection};
           background-color: ${backgroundColor};
-          justify-content: ${justifyContent};
-          align-items: ${alignItems};
           padding: ${padding}rem;
+          border-radius: ${borderRadius}rem;
           ${_margin}
           ${_border}
+          ${_padding}
         `,
+        isFlex &&
+          css`
+            display: flex;
+            justify-content: ${justifyContent};
+            align-items: ${alignItems};
+          `,
         isBoard &&
           css`
             border: 0.1rem solid ${Color.green200};

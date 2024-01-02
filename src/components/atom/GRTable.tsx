@@ -67,9 +67,11 @@ const GRTable = <GRTableType extends object>({
 
   return (
     <>
-      <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-        {headerComponent}
-      </GRView>
+      {headerComponent && (
+        <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+          {headerComponent}
+        </GRView>
+      )}
       <Table
         loading={isLoading}
         columns={columns}
