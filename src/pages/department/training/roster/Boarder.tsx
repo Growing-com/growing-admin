@@ -12,17 +12,15 @@ type tBoarder = {
 };
 const Boarder: FC<tBoarder> = ({
   boarderWidth = 70,
-  boarderHeight = 30,
   boarderTitle,
   borderContentComponent
 }) => {
   return (
     <GRView
       width={boarderWidth}
-      height={boarderHeight}
       backgroundColor={Color.grey160}
       borderRadius={GRStylesConfig.BASE_RADIUS}
-      marginhorizontal={GRStylesConfig.BASE_MARGIN}
+      paddingbottom={GRStylesConfig.BASE_LONG_MARGIN}
     >
       <GRView
         isFlex
@@ -48,7 +46,7 @@ const Boarder: FC<tBoarder> = ({
         height={30}
         backgroundColor={Color.grey160}
         borderRadius={0.5}
-        paddinghorizontal={GRStylesConfig.BASE_MARGIN}
+        paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN}
         style={{
           minHeight: "30rem",
           overflowY: "scroll"

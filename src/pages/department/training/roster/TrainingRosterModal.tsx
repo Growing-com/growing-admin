@@ -39,7 +39,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
 
-  const onCloseModal = () => {};
+  const onCloseModal = () => {
+    onClose();
+  };
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
     async _item => {},
     []
@@ -157,9 +159,21 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
                 grade: 12,
                 sex: "MALE",
                 phoneNumber: "010-9099-9999"
+              },
+              {
+                userName: "이종민",
+                grade: 12,
+                sex: "MALE",
+                phoneNumber: "010-9099-9999"
+              },
+              {
+                userName: "이종민",
+                grade: 12,
+                sex: "MALE",
+                phoneNumber: "010-9099-9999"
               }
             ]}
-            scroll={{ y: "20rem" }}
+            scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}
           />

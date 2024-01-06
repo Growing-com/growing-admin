@@ -9,7 +9,6 @@ import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
 import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
-import { css } from "@emotion/react";
 import { ColumnType } from "antd/es/table";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 import { useCallback, useMemo, useState } from "react";
@@ -116,7 +115,10 @@ const TrainingRosterPage = () => {
               borderContentComponent={["제자학교", "제자훈련", "세례"].map(
                 content => (
                   <>
-                    <BoarderCard boarderCardTitle={content} isSelected={true} />
+                    <BoarderCard
+                      boarderCardTitle={content}
+                      isSelected={false}
+                    />
                   </>
                 )
               )}
@@ -136,54 +138,35 @@ const TrainingRosterPage = () => {
                 }
               ].map(content => (
                 <>
-                  {/* <BoarderCard boarderCardTitle={content} isSelected={true} /> */}
-                  <GRView
-                    isFlex
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    height={5}
-                    marginbottom={GRStylesConfig.BASE_MARGIN}
-                    customCss={css`
-                      cursor: pointer;
-                      user-select: none;
-                      box-sizing: border-box;
-                      display: flex;
-                      flex-direction: column;
-                      position: relative;
-                      border-radius: 3px;
-                      box-shadow: var(
-                        --ds-shadow-raised,
-                        0 1px 1px rgba(23, 43, 77, 0.2),
-                        0 0 1px rgba(23, 43, 77, 0.2)
-                      );
-                      transition: background-color 140ms ease-in-out 0s,
-                        color 140ms ease-in-out 0s;
-                      background-color: var(--ds-surface-raised, #ffffff);
-                      --jsw-card-background-color: var(
-                        --ds-surface-raised,
-                        #ffffff
-                      );
-                      color: var(--ds-text, #172b4d);
-                      filter: none;
-                    `}
-                  >
-                    <GRFlexView flexDirection={"row"}>
-                      <GRFlexView>
-                        <GRText weight={"bold"}>{content.title ?? ""} </GRText>
-                        <GRText
-                          weight={"bold"}
-                          color={Color.grey80}
-                          fontSize={"b8"}
+                  <BoarderCard
+                    isSelected={false}
+                    cardContainComponent={
+                      <>
+                        <GRFlexView
+                          flexDirection={"row"}
+                          paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN}
                         >
-                          {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
-                            ""}{" "}
-                        </GRText>
-                      </GRFlexView>
-                      <GRFlexView>
-                        <EditOutlined rev={undefined} />
-                      </GRFlexView>
-                    </GRFlexView>
-                  </GRView>
+                          <GRFlexView
+                            justifyContent={"center"}
+                            alignItems={"start"}
+                          >
+                            <GRText weight={"bold"} fontSize={"b5"}>
+                              {content.title ?? ""}{" "}
+                            </GRText>
+                            <GRText
+                              weight={"bold"}
+                              color={Color.grey80}
+                              fontSize={"b8"}
+                            >
+                              {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
+                                ""}{" "}
+                            </GRText>
+                          </GRFlexView>
+                          <EditOutlined rev={undefined} />
+                        </GRFlexView>
+                      </>
+                    }
+                  />
                 </>
               ))}
             />
@@ -192,121 +175,123 @@ const TrainingRosterPage = () => {
               boarderTitle={"참여자"}
               boarderWidth={30}
               borderContentComponent={
-                <GRTable
-                  data={[
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    },
-                    {
-                      userName: "이종민",
-                      grade: 12,
-                      sex: "MALE",
-                      phoneNumber: "010-9099-9999"
-                    }
-                  ]}
-                  scroll={{ y: "20rem" }}
-                  columns={columns}
-                  isHoverTable={false}
-                />
+                <GRView height={30}>
+                  <GRTable
+                    data={[
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      },
+                      {
+                        userName: "이종민!",
+                        grade: 12,
+                        sex: "MALE",
+                        phoneNumber: "010-9099-9999"
+                      }
+                    ]}
+                    scroll={{ y: "26rem" }}
+                    columns={columns}
+                    isHoverTable={false}
+                  />
+                </GRView>
               }
             />
           </GRView>
