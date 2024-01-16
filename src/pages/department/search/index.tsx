@@ -54,7 +54,7 @@ const DUMP_DATA = [
   }
 ];
 
-const ManagementSearchPage = () => {
+const SearchPage = () => {
   const { control, watch } = useForm();
   const searchData = [];
   const onClickSearch = () => {};
@@ -144,7 +144,7 @@ const ManagementSearchPage = () => {
   return (
     <>
       <HeaderView
-        title={"전체 검색"}
+        title={"검색"}
         subComponent={
           <SearchBar
             onClickSearch={onClickSearch}
@@ -225,4 +225,4 @@ const ManagementSearchPage = () => {
   );
 };
 
-export default ManagementSearchPage;
+export default SearchPage;

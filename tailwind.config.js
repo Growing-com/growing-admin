@@ -9,6 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
+    extend: {
+      boxShadow: {
+        card: "0 1px 1px rgba(23, 43, 77, 0.2), 0 0 1px rgba(23, 43, 77, 0.2)"
+      }
+    },
     colors: {
       green200: "#20C895",
       green100: "#27fbbc33",

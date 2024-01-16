@@ -2,6 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import ColumPopoverRender from "@component/molecule/table/ColumPopoverRender";
 import HeaderView from "@component/molecule/view/HeaderView";
@@ -15,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
 import { koreanSorter } from "utils/sorter";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
+import NewFamilyLineOutListModal from "./NewFamilyLineOutListModal";
 
 const LINE_STAUTS = {
   lineout: { name: "라인아웃", color: "red" },
@@ -24,6 +26,8 @@ const LINE_STAUTS = {
 const ManagementNewFamilyPage: NextPage = () => {
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
   const [openNewFamilyModal, setOpenNewFamilyModal] = useState(false);
+  const [openNewFamilyLineOutListModal, setOpenNewFamilyLineOutListModal] =
+    useState(false);
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tTermNewFamily[]
   >([]);
@@ -191,18 +195,28 @@ const ManagementNewFamilyPage: NextPage = () => {
         <GRTable
           rowKey={"name"}
           headerComponent={
-            <GRView>
-              <GRText weight={"bold"}>새가족 리스트 </GRText>
-              <GRText color={Color.grey60}>
-                <GRText weight={"bold"} color={Color.green200}>
-                  {filteredNewFailyData?.length ?? 0} 명
+            <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+              <GRView>
+                <GRText weight={"bold"}>새가족 리스트 </GRText>
+                <GRText color={Color.grey60}>
+                  <GRText weight={"bold"} color={Color.green200}>
+                    {filteredNewFailyData?.length ?? 0} 명
+                  </GRText>
+                  <GRText marginhorizontal={"0.3"}>/</GRText>
+                  <GRText fontSize={"b8"} color={Color.grey80}>
+                    총 {newFamilyData?.length ?? 0} 명
+                  </GRText>
                 </GRText>
-                <GRText marginhorizontal={"0.3"}>/</GRText>
-                <GRText fontSize={"b8"} color={Color.grey80}>
-                  총 {newFamilyData?.length ?? 0} 명
+              </GRView>
+              <GRView>
+                <GRText
+                  color={Color.grey80}
+                  style={{ textDecoration: "underline" }}
+                >
+                  라인 아웃 목록
                 </GRText>
-              </GRText>
-            </GRView>
+              </GRView>
+            </GRFlexView>
           }
           onRow={record => ({
             onClick: () => onClickRow(record)
@@ -223,6 +237,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         onClose={onCloseNewFamilyModal}
         onRegister={onRegister}
       />
+      <NewFamilyLineOutListModal open={openNewFamilyLineOutListModal} />
     </>
   );
 };

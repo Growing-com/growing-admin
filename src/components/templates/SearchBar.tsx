@@ -49,25 +49,29 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
         <GRButtonText onClick={onClickSearchButton} size={"large"}>
           조회
         </GRButtonText>
-        <GRButtonText
-          size={"small"}
-          buttonType={"default"}
-          marginleft={GRStylesConfig.BASE_MARGIN}
-          onClick={onClickOpenFilter}
-        >
-          {isShowFilter ? (
-            <CaretUpOutlined rev={undefined} style={{ fontSize: "1rem" }} />
-          ) : (
-            <CaretDownOutlined rev={undefined} style={{ fontSize: "1rem" }} />
-          )}
-        </GRButtonText>
+        {filterComponent && (
+          <GRButtonText
+            size={"small"}
+            buttonType={"default"}
+            marginleft={GRStylesConfig.BASE_MARGIN}
+            onClick={onClickOpenFilter}
+          >
+            {isShowFilter ? (
+              <CaretUpOutlined rev={undefined} style={{ fontSize: "1rem" }} />
+            ) : (
+              <CaretDownOutlined rev={undefined} style={{ fontSize: "1rem" }} />
+            )}
+          </GRButtonText>
+        )}
       </GRFlexView>
-      {isShowFilter && (
+      {isShowFilter && filterComponent && (
         <GRFlexView
-          paddingright={GRStylesConfig.BASE_LONG_MARGIN}
+          paddingright={GRStylesConfig.BASE_LONG_MARGIN * 2}
+          paddingleft={GRStylesConfig.BASE_LONG_MARGIN}
+          // paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN * 2}
           paddingtop={GRStylesConfig.BASE_LONG_MARGIN}
           margintop={GRStylesConfig.BASE_LONG_MARGIN}
-          backgroundColor={Color.green100}
+          backgroundColor={Color.grey160}
           borderRadius={GRStylesConfig.BASE_RADIUS}
           style={{
             overflow: "scroll"

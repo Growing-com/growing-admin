@@ -1,9 +1,14 @@
-import { BankOutlined, CheckOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  BankOutlined,
+  CheckOutlined,
+  SearchOutlined,
+  TeamOutlined
+} from "@ant-design/icons";
 
 export type tDepartmentMainMenu = {
-  key: "management" | "attendance" | "training";
-  label: "관리" | "출석" | "훈련";
-  children:
+  key: "search" | "management" | "attendance" | "training";
+  label: "검색" | "관리" | "출석" | "훈련";
+  children?:
     | tDepartmentManagementSubMenu[]
     | tDepartmentAttendanceSubMenu[]
     | tDepartmentTrainingSubMenu[];
@@ -90,6 +95,12 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
     label: "출석",
     children: DEPARTMENT_ATTENDANCE_SUB_MENU,
     icon: <CheckOutlined rev={undefined} />
+  },
+  {
+    key: "search",
+    label: "검색",
+    // children: DEPARTMENT_MANAGEMENT_SUB_MENU,
+    icon: <SearchOutlined rev={undefined} />
   }
 ];
 
@@ -104,10 +115,10 @@ export const TAB_MENU = [
 export const DUTY_MENU = [
   {
     key: "MANAGER",
-    value: ["attendance"]
+    value: ["search", "attendance"]
   },
   {
     key: "ADMIN",
-    value: ["training", "management", "attendance"]
+    value: ["search", "training", "management", "attendance"]
   }
 ];

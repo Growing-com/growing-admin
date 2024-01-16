@@ -179,6 +179,13 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
     }
   }, [attendanceDataSource]);
 
+  useEffect(() => {
+    if (formResult.length) {
+      const checkFinish = formResult.filter(form => form.status === null);
+      setIsCompleteCheck(!checkFinish.length);
+    }
+  }, [formResult]);
+
   return (
     <>
       <GRTable
