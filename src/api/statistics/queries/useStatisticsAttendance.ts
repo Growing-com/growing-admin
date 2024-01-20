@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { sortBy } from "lodash";
 import { getStatisticsAttendance, tGetStatisticsAttendanceParams } from "..";
-import statisticsQueryKeys from "./statisticsQueryKeys";
 
 export const useStatisticsAttendance = (
   params: tGetStatisticsAttendanceParams,
   option: "isAbsent" | "newFamily"
 ) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_ATTENDANCE, option],
+    [queryKeys.STATISTICS_ATTENDANCE, option],
     async () => await getStatisticsAttendance(params),
     {
       select: _data => {

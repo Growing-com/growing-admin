@@ -1,15 +1,15 @@
-import { useQuery } from "hooks/queries/useQuery";
+import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getUserInfo } from "..";
-import accountQueryKeys from "./accountQueryKeys";
 
 export const useUserInfoQuery = () => {
   return useQuery(
-    [accountQueryKeys.ACCOUNT_INFO],
+    [queryKeys.ACCOUNT_INFO],
     async () => await getUserInfo(),
     {
       enabled: false,
       staleTime: Infinity,
-      select: data => data.content
+      select: data => data.content  
     }
   );
 };

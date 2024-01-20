@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRoles } from "..";
-import accountQueryKeys from "./accountQueryKeys";
+import queryKeys from "api/queryKeys";
 
 export const useRolesQuery = () => {
   return useQuery(
-    [accountQueryKeys.ACCOUNT_ROLES],
+    [queryKeys.ACCOUNT_ROLES],
     async () => await getRoles(),
     {
       onSuccess: _data => console.log("_data", _data)
