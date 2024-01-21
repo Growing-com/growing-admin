@@ -17,12 +17,14 @@ import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
 import TrainingRosterModal from "./TrainingRosterModal";
+import { TRAINING_MAIN_TITLE, tTrainingList, tTrainingMainTitle } from "./constants";
 
 const TrainingRosterPage = () => {
   const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =
     useState(false);
   const [selectUserId, setSelectUserId] = useState<number>();
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
+  const [selectTraining, setSelectTraining] = useState<tTrainingList[]>([]);
 
   const onClickCreateTrainingRoster = () => {
     setOpenTrainingRosterModal(true);
@@ -81,6 +83,10 @@ const TrainingRosterPage = () => {
     [onClickLinkText]
   );
 
+  const onClickBoarder = (training: tTrainingMainTitle) => {
+    setSelectTraining(training.trainList)
+  }
+
   return (
     <>
       <HeaderView
@@ -112,12 +118,13 @@ const TrainingRosterPage = () => {
             <Boarder
               boarderTitle={"훈련 종류"}
               boarderWidth={15}
-              borderContentComponent={["제자학교", "제자훈련", "세례"].map(
+              borderContentComponent={TRAINING_MAIN_TITLE.map(
                 content => (
                   <>
                     <BoarderCard
-                      boarderCardTitle={content}
+                      boarderCardTitle={content.title}
                       isSelected={false}
+                      onClickBoarder={() => onClickBoarder(content)}
                     />
                   </>
                 )
@@ -127,16 +134,7 @@ const TrainingRosterPage = () => {
             <Boarder
               boarderTitle={"훈련 이름"}
               boarderWidth={20}
-              borderContentComponent={[
-                {
-                  title: "2023-2학기 달무리",
-                  rangeDate: ["2024-01-22", "2024-01-33"]
-                },
-                {
-                  title: "2023-1학기 하나라",
-                  rangeDate: ["2024-01-22", "2024-01-33"]
-                }
-              ].map(content => (
+              borderContentComponent={selectTraining.map(content => (
                 <>
                   <BoarderCard
                     isSelected={false}
@@ -158,8 +156,8 @@ const TrainingRosterPage = () => {
                               color={Color.grey80}
                               fontSize={"b8"}
                             >
-                              {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
-                                ""}{" "}
+                              {/* {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
+                                ""}{" "} */}
                             </GRText>
                           </GRFlexView>
                           <EditOutlined rev={undefined} />

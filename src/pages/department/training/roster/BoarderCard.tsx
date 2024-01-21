@@ -9,11 +9,13 @@ type tBoarderCard = {
   boarderCardTitle?: string;
   isSelected?: boolean;
   cardContainComponent?: ReactNode;
+  onClickBoarder?: () => void;
 };
 const BoarderCard: FC<tBoarderCard> = ({
   boarderCardTitle,
   isSelected,
-  cardContainComponent
+  cardContainComponent,
+  onClickBoarder
 }) => {
   return (
     <GRView
@@ -46,7 +48,7 @@ const BoarderCard: FC<tBoarderCard> = ({
       {cardContainComponent ? (
         cardContainComponent
       ) : (
-        <GRFlexView justifyContent={"center"} alignItems={"center"}>
+        <GRFlexView justifyContent={"center"} alignItems={"center"} onClick={onClickBoarder}>
           <GRText weight={"bold"} fontSize={"b5"}>
             {boarderCardTitle ?? ""}{" "}
           </GRText>

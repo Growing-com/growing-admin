@@ -197,8 +197,7 @@ const ManagementSearchPage = () => {
                     title={"생년월일"}
                     fieldName={"sex"}
                     control={control}
-                    picker={"month"}
-                    placeholder={["시작달", "종료달"]}
+                    pickerType={"range"}
                   />
                 </GRFlexView>
               </>
@@ -216,7 +215,7 @@ const ManagementSearchPage = () => {
             defaultPageSize: 20,
             position: ["bottomCenter"]
           }}
-          onRow={record => ({
+          onRow={() => ({
             onClick: () => onClickRow()
           })}
         />

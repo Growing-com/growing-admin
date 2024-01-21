@@ -14,7 +14,7 @@ type tTrainingRosterModal = {
   newFamily?: tTermNewFamily;
   open: boolean;
   onClose: () => void;
-  onRegister: () => void;
+  onRegister?: () => void;
 };
 
 type tNewFamilyForm = {
@@ -34,8 +34,6 @@ const emptyValues = {
 const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   open,
   onClose,
-  newFamily,
-  onRegister
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
 

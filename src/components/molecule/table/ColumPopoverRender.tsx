@@ -20,10 +20,10 @@ const ColumPopoverRender: FC<tColumPopoverRender> = ({ content, label }) => {
       }}
     >
       <GRButtonText buttonType={"default"} disabled={!content}>
-        <PlusCircleOutlined
+        {/* <PlusCircleOutlined
           rev={undefined}
           style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
-        />
+        /> */}
         <GRText>{label ?? " "}</GRText>
       </GRButtonText>
     </Popover>

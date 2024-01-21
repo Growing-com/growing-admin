@@ -30,8 +30,10 @@ const queryKeys = {
     ACCOUNT_LEADERS: "account_leaders",
     ACCOUNT_ROLES: "account_roles",
     ACCOUNT_LOGIN: "account_login",
-    ACCOUNT_INFO: "account_info"
+    ACCOUNT_INFO: "account_info",
 
+    /** 명부 관련 */
+    TRAINING_DETAIL: "training_detail"
 }
 
 export default queryKeys
