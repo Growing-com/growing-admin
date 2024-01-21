@@ -3,9 +3,7 @@ import HeaderView from "@component/molecule/view/HeaderView";
 import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
 
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import { tAttendanceSearch } from "api/attendance/types";
 import dayjs from "dayjs";
@@ -121,30 +119,15 @@ const AttendanceManagementPage: NextPage = () => {
           <GRFlexView flexDirection={"row"}>
             <GRFlexView>
               <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                <GRText
-                  weight={"bold"}
-                  fontSize={"b5"}
-                  width={5}
-                  marginbottom={1}
-                >
-                  기간
-                </GRText>
                 <GRFormItem
+                  title={"기간"}
                   type={"date"}
                   fieldName={"rangeDate"}
                   control={control}
                   pickerType={"range"}
                 />
-                <GRText
-                  marginleft={1}
-                  weight={"bold"}
-                  fontSize={"b5"}
-                  width={5}
-                  marginbottom={1}
-                >
-                  검색 조건
-                </GRText>
                 <GRFormItem
+                  title={"검색 조건"}
                   type={"select"}
                   fieldName={"searchType"}
                   control={control}
@@ -153,15 +136,8 @@ const AttendanceManagementPage: NextPage = () => {
                 />
               </GRFlexView>
               <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                <GRText
-                  weight={"bold"}
-                  fontSize={"b5"}
-                  width={5}
-                  marginbottom={1}
-                >
-                  조건
-                </GRText>
                 <GRFormItem
+                  title={"조건"}
                   mode={"multiple"}
                   type={"select"}
                   fieldName={"codyId"}
@@ -173,6 +149,7 @@ const AttendanceManagementPage: NextPage = () => {
                   optionFilterProp={"label"}
                 />
                 <GRFormItem
+                  title={"조건"}
                   type={"text"}
                   fieldName={"keyword"}
                   control={control}
@@ -182,15 +159,9 @@ const AttendanceManagementPage: NextPage = () => {
                 />
               </GRFlexView>
             </GRFlexView>
-            <GRView>
-              <GRButtonText
-                onClick={onClickSearch}
-                marginleft={2}
-                size={"large"}
-              >
-                조회
-              </GRButtonText>
-            </GRView>
+            <GRButtonText onClick={onClickSearch} marginleft={2} size={"large"}>
+              조회
+            </GRButtonText>
           </GRFlexView>
         }
       />

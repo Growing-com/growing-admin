@@ -1,9 +1,9 @@
-import { useQuery } from "hooks/queries/useQuery";
+import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getUserList } from "..";
-import accountQueryKeys from "./accountQueryKeys";
 
 export const useUserListQuery = () => {
-  return useQuery([accountQueryKeys.ACCOUNT], async () => await getUserList(), {
+  return useQuery([queryKeys.ACCOUNT], async () => await getUserList(), {
     select: data => data.content,
     staleTime: Infinity
   });

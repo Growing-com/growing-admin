@@ -6,11 +6,14 @@ export type tColor =
   | "grey120"
   | "grey100"
   | "grey80"
+  | "grey75"
+  | "grey70"
   | "grey60"
   | "grey40"
   | "grey20"
   | "red100"
   | "blue100"
+  | "blue80"
   | "black"
   | "white";
 
@@ -22,11 +25,14 @@ export const Color: Record<tColor, string> = {
   grey120: "#EAEAEA",
   grey100: "#E0E0E0",
   grey80: "#B8BCC8",
+  grey75: "#d9d9d9",
+  grey70: "#fafafa",
   grey60: "#5C5C5C",
   grey40: "#222222",
   grey20: "rgba(0, 0, 0, 0.45)",
   red100: "#EA3928",
   blue100: "#508DE9",
+  blue80: "#5E6C84",
   black: "#000000",
   white: "#FFFFFF"
 };

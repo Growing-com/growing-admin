@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getAttendanceSearch } from "..";
 import { tAttendanceSearch } from "../types";
-import attendanceQuerykeys from "./attendanceQuerykeys";
 
 export const useAttendanceQuery = (params?: tAttendanceSearch) => {
   return useQuery(
-    [attendanceQuerykeys.ATTENDANCE, params],
+    [queryKeys.ATTENDANCE, params],
     async () => {
       if (params) {
         return await getAttendanceSearch({

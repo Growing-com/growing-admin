@@ -16,7 +16,14 @@ export type tGRSelect = {
 
 const { Option } = Select;
 
-const GRSelect = ({ options, mode, height, width, ...props }: tGRSelect) => {
+const GRSelect = ({
+  options,
+  mode,
+  height,
+  width,
+  allowClear = true,
+  ...props
+}: tGRSelect) => {
   const _margin = getMargin(props);
   return (
     <SelectCompo
@@ -29,6 +36,7 @@ const GRSelect = ({ options, mode, height, width, ...props }: tGRSelect) => {
       options={options}
       listItemHeight={10}
       listHeight={100}
+      allowClear={allowClear}
       {...props}
     />
   );

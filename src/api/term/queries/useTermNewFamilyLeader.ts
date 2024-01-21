@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getTermNewFamilyLeader } from "..";
-import termQueryKeys from "./termQueryKeys";
 
 // GET http://localhost:8080/api/term/{{termId}}/newTeamLeaders
 
 export const useTermNewFamilyLeader = ({ termId }: { termId: number }) => {
   return useQuery(
-    [termQueryKeys.NEW_FAMILY_LEADER],
+    [queryKeys.NEW_FAMILY_LEADER],
     async () => await getTermNewFamilyLeader(termId),
     {
       select: _data => _data.content,
@@ -14,3 +14,4 @@ export const useTermNewFamilyLeader = ({ termId }: { termId: number }) => {
     }
   );
 };
+ 

@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import {
   getStatisticsAttendanceProgress,
   tGetStatisticsAttendanceProgressParams
 } from "..";
-import statisticsQueryKeys from "./statisticsQueryKeys";
 
 export const useStatisticsAttendanceProgressQuery = ({
   termId,
-  week
+  week 
 }: tGetStatisticsAttendanceProgressParams) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_ATTENDANCE_PROGRESS, week],
+    [queryKeys.STATISTICS_ATTENDANCE_PROGRESS, week],
     async () => await getStatisticsAttendanceProgress({ termId, week }),
     {
       select: data => data?.content

@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-export function useQuery<TQueryFnData, TData>(
+export function useQueryTemp<TQueryFnData, TData>(
   queryKey: QueryKey,
   queryFn: QueryFunction<TQueryFnData, QueryKey>,
   option?: UseQueryOptions<TQueryFnData, AxiosError, TData, QueryKey>

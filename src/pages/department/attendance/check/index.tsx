@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import AttendanceCheckTable from "./AttendanceCheckTable";
+import AttendanceProgress from "./AttendanceProgress";
 
 const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState<tOptions>();
@@ -113,15 +114,13 @@ const AttendanceCheck = () => {
           )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
       />
       <GRContainerView>
-        <GRTab
-          items={termLeaderOptions}
-          onChange={onChangeTab}
-          tabBarExtraContent={
-            <GRFlexView
+        
+        <GRFlexView
               alignItems={"flex-start"}
               flexDirection={"row"}
               marginbottom={GRStylesConfig.BASE_MARGIN}
             >
+              <AttendanceProgress attendanceData={attendanceCheckData} />
               <GRSelect
                 marginright={GRStylesConfig.BASE_MARGIN}
                 style={{ width: "8rem" }}
@@ -137,7 +136,12 @@ const AttendanceCheck = () => {
                 onChange={onChangeWeek}
               />
             </GRFlexView>
-          }
+        <GRTab
+          items={termLeaderOptions}
+          onChange={onChangeTab}
+          // tabBarExtraContent={
+            
+          // }
         />
         <AttendanceCheckTable
           isLoading={isFetching || isLoading}

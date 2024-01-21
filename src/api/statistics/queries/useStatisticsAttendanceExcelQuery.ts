@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getStatisticsAttendanceExcel } from "..";
-import statisticsQueryKeys from "./statisticsQueryKeys";
 
 export type tStatisticsAttendanceExcelOption =
   | "personalAttendance"
-  | "leaderAttendance"
+  | "leaderAttendance" 
   | "managerAttendance"
   | "gradeAttendance"
   | "newFamilyAttendance"
@@ -18,7 +18,7 @@ export const useStatisticsAttendanceExcelQuery = ({
   options
 }: tUseStatisticsAttendanceExcelQuery) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_ATTENDANCE_EXCEL, options],
+    [queryKeys.STATISTICS_ATTENDANCE_EXCEL, options],
     async () => {
       if (options) {
         return await getStatisticsAttendanceExcel({

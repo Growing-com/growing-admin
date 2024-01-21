@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getTermInfo } from "..";
-import termQueryKeys from "./termQueryKeys";
 
 export const useTermInfo = () => {
-  return useQuery([termQueryKeys.TERM], async () => await getTermInfo(), {
+  return useQuery([queryKeys.TERM], async () => await getTermInfo(), {
     select: _data => _data.content,
     staleTime: Infinity
   });
 };
+ 

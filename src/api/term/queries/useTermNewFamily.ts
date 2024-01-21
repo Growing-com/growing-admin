@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import { getTermNewFamily } from "..";
-import termQueryKeys from "./termQueryKeys";
 
 export const useTermNewFamily = ({ termId }: { termId: number }) => {
   return useQuery(
-    [termQueryKeys.NEW_FAMILY],
+    [queryKeys.NEW_FAMILY],
     async () => await getTermNewFamily(termId),
     {
       select: _data => _data.content,
@@ -12,3 +12,4 @@ export const useTermNewFamily = ({ termId }: { termId: number }) => {
     }
   );
 };
+ 

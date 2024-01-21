@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import queryKeys from "api/queryKeys";
 import {
   getStatisticsAttendanceSummary,
   tGetStatisticsAttendanceSummaryParams
 } from "..";
-import statisticsQueryKeys from "./statisticsQueryKeys";
-
+ 
 export const useStatisticsAttendanceSummaryQuery = (
   params: tGetStatisticsAttendanceSummaryParams
 ) => {
   return useQuery(
-    [statisticsQueryKeys.STATISTICS_BASE, params],
+    [queryKeys.STATISTICS_BASE, params],
     async () => await getStatisticsAttendanceSummary(params),
     {
       enabled: !!params,

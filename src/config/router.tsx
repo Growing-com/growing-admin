@@ -1,10 +1,24 @@
-import { CheckOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  BankOutlined,
+  CheckOutlined,
+  SearchOutlined,
+  TeamOutlined
+} from "@ant-design/icons";
 
 export type tDepartmentMainMenu = {
-  key: "management" | "attendance";
-  label: "관리" | "출석";
-  children: tDepartmentManagementSubMenu[] | tDepartmentAttendanceSubMenu[];
+  key: "search" | "management" | "attendance" | "training";
+  label: "검색" | "관리" | "출석" | "훈련";
+  children?:
+    | tDepartmentManagementSubMenu[]
+    | tDepartmentAttendanceSubMenu[]
+    | tDepartmentTrainingSubMenu[];
   icon?: React.ReactNode;
+};
+
+type tDepartmentManagementSubMenu = {
+  key: "management-account" | "management-newfamily" 
+  label: "계정 관리" | "새가족 관리" 
+  path: string;
 };
 
 type tDepartmentAttendanceSubMenu = {
@@ -13,11 +27,24 @@ type tDepartmentAttendanceSubMenu = {
   path: string;
 };
 
-type tDepartmentManagementSubMenu = {
-  key: "management-account" | "management-newfamily";
-  label: "계정 관리" | "새가족 관리";
+type tDepartmentTrainingSubMenu = {
+  key: "training-roster";
+  label: "명부 관리";
   path: string;
 };
+
+export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
+  {
+    key: "management-account",
+    label: "계정 관리",
+    path: "management/account"
+  },
+  {
+    key: "management-newfamily",
+    label: "새가족 관리",
+    path: "management/newfamily"
+  },
+];
 
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
@@ -37,16 +64,11 @@ const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   }
 ];
 
-export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
+const DEPARTMENT_TRAINING_SUB_MENU: tDepartmentTrainingSubMenu[] = [
   {
-    key: "management-account",
-    label: "계정 관리",
-    path: "management/account"
-  },
-  {
-    key: "management-newfamily",
-    label: "새가족 관리",
-    path: "management/newfamily"
+    key: "training-roster",
+    label: "명부 관리",
+    path: "training/roster"
   }
 ];
 
@@ -58,10 +80,22 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
     icon: <TeamOutlined rev={undefined} />
   },
   {
+    key: "training",
+    label: "훈련",
+    children: DEPARTMENT_TRAINING_SUB_MENU,
+    icon: <BankOutlined rev={undefined} />
+  },
+  {
     key: "attendance",
     label: "출석",
     children: DEPARTMENT_ATTENDANCE_SUB_MENU,
     icon: <CheckOutlined rev={undefined} />
+  },
+  {
+    key: "search",
+    label: "검색",
+    // children: DEPARTMENT_MANAGEMENT_SUB_MENU,
+    icon: <SearchOutlined rev={undefined} />
   }
 ];
 
@@ -76,10 +110,10 @@ export const TAB_MENU = [
 export const DUTY_MENU = [
   {
     key: "MANAGER",
-    value: ["attendance"]
+    value: ["search", "attendance"]
   },
   {
     key: "ADMIN",
-    value: ["management", "attendance"]
+    value: ["search", "training", "management", "attendance"]
   }
 ];

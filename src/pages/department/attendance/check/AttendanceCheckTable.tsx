@@ -28,6 +28,7 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
   onSubmit
 }) => {
   const [formResult, setFormResult] = useState<tAttendanceCheckItem[]>([]);
+  const [isCompleteCheck, setIsCompleteCheck] = useState(false);
 
   const insertDataInFormResult = useCallback(
     (_teamMemberId: number, key: string, value: any) => {
@@ -178,6 +179,13 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
     }
   }, [attendanceDataSource]);
 
+  useEffect(() => {
+    if (formResult.length) {
+      const checkFinish = formResult.filter(form => form.status === null);
+      setIsCompleteCheck(!checkFinish.length);
+    }
+  }, [formResult]);
+
   return (
     <>
       <GRTable
@@ -187,7 +195,10 @@ const AttendanceCheckTable: FC<tAttendanceCheckTable> = ({
         columns={columns}
         isHoverTable={false}
       />
-      <AttendancdeCheckSubmitButton onSubmit={handleOnSubmitButton} />
+      <AttendancdeCheckSubmitButton
+        onSubmit={handleOnSubmitButton}
+        disabled={isCompleteCheck}
+      />
     </>
   );
 };
