@@ -17,10 +17,11 @@ import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
 import TrainingRosterModal from "./TrainingRosterModal";
-import TRAINING_MAIN_TITLE, {
+import {
+  TRAINING_MAIN_TITLE,
   tTrainingList,
   tTrainingMainTitle
-} from "./constants";
+} from "../../../../utils/constants";
 
 const TrainingRosterPage = () => {
   const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =

@@ -5,7 +5,7 @@ export type tTrainingMainTitle = {
   trainList: tTrainingList[];
 };
 
-const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
+export const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
   {
     title: "제자학교",
     trainList: [
@@ -25,5 +25,3 @@ const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
     ]
   }
 ];
-
-export default TRAINING_MAIN_TITLE;
