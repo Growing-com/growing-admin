@@ -17,7 +17,10 @@ import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
 import TrainingRosterModal from "./TrainingRosterModal";
-import { TRAINING_MAIN_TITLE, tTrainingList, tTrainingMainTitle } from "./constants";
+import TRAINING_MAIN_TITLE, {
+  tTrainingList,
+  tTrainingMainTitle
+} from "./constants";
 
 const TrainingRosterPage = () => {
   const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =
@@ -84,8 +87,8 @@ const TrainingRosterPage = () => {
   );
 
   const onClickBoarder = (training: tTrainingMainTitle) => {
-    setSelectTraining(training.trainList)
-  }
+    setSelectTraining(training.trainList);
+  };
 
   return (
     <>
@@ -118,17 +121,15 @@ const TrainingRosterPage = () => {
             <Boarder
               boarderTitle={"훈련 종류"}
               boarderWidth={15}
-              borderContentComponent={TRAINING_MAIN_TITLE.map(
-                content => (
-                  <>
-                    <BoarderCard
-                      boarderCardTitle={content.title}
-                      isSelected={false}
-                      onClickBoarder={() => onClickBoarder(content)}
-                    />
-                  </>
-                )
-              )}
+              borderContentComponent={TRAINING_MAIN_TITLE.map(content => (
+                <>
+                  <BoarderCard
+                    boarderCardTitle={content.title}
+                    isSelected={false}
+                    onClickBoarder={() => onClickBoarder(content)}
+                  />
+                </>
+              ))}
             />
             <CaretRightOutlined rev={undefined} />
             <Boarder
