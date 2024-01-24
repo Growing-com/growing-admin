@@ -1,27 +1,20 @@
-import { CaretRightOutlined, EditOutlined } from "@ant-design/icons";
-import GRTable from "@component/atom/GRTable";
+import { CaretRightOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
-import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import ColumLinkText from "@component/molecule/table/ColumLinkText";
-import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
 import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
-import { ColumnType } from "antd/es/table";
+import { useQuery } from "@tanstack/react-query";
 import { tUseAttendanceQueryResposne } from "api/attendance";
-import { useCallback, useMemo, useState } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
-import { Color } from "styles/colors";
-import Boarder from "./Boarder";
-import BoarderCard from "./BoarderCard";
+import queryKeys from "api/queryKeys";
+import { getTrainingDetail } from "api/training";
+import { useCallback, useState } from "react";
+import { tTrainingList, tTrainingMainTitle } from "../../../../utils/constants";
+import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
 import TrainingRosterModal from "./TrainingRosterModal";
-import {
-  TRAINING_MAIN_TITLE,
-  tTrainingList,
-  tTrainingMainTitle
-} from "../../../../utils/constants";
+import TrainingSubContentBoarder from "./TrainingSubContentBoarder";
+import TrainingTitleBoarder from "./TrainingTitleBoarder";
+import { tTrainingType } from "api/training/type";
 
 const TrainingRosterPage = () => {
   const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =
@@ -29,7 +22,19 @@ const TrainingRosterPage = () => {
   const [selectUserId, setSelectUserId] = useState<number>();
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
   const [selectTraining, setSelectTraining] = useState<tTrainingList[]>([]);
+  const [selectTrainingSubContent, setSelectTrainingSubContent] =
+    useState<tTrainingType>();
 
+  const { data } = useQuery(
+    [queryKeys.TRAINING_DETAIL, selectTrainingSubContent],
+    async () =>
+      await getTrainingDetail({
+        type: selectTrainingSubContent
+      }),
+    { enabled: !!selectTrainingSubContent }
+  );
+
+  console.log("daata", data);
   const onClickCreateTrainingRoster = () => {
     setOpenTrainingRosterModal(true);
   };
@@ -45,50 +50,12 @@ const TrainingRosterPage = () => {
     setOpenTrainingRosterModal(false);
   };
 
-  const columns: ColumnType<any>[] = useMemo(
-    () => [
-      {
-        title: "이름",
-        dataIndex: "userName",
-        key: "userName",
-        align: "center",
-        fixed: "left",
-        width: "5rem",
-        render: (_, recode) => (
-          <ColumLinkText
-            text={recode.userName}
-            onClick={() => onClickLinkText(recode)}
-          />
-        )
-      },
-      {
-        title: "학년",
-        dataIndex: "grade",
-        key: "grade",
-        align: "center",
-        fixed: "left",
-        width: "5rem"
-      },
-      {
-        title: "성별",
-        dataIndex: "sex",
-        key: "sex",
-        align: "center",
-        width: "5rem",
-        render: (_, record) => <ColumSexRender sexData={record.sex} />
-      },
-      {
-        title: "전화번호",
-        dataIndex: "phoneNumber",
-        key: "phoneNumber",
-        align: "center"
-      }
-    ],
-    [onClickLinkText]
-  );
-
   const onClickBoarder = (training: tTrainingMainTitle) => {
     setSelectTraining(training.trainList);
+  };
+
+  const onClickTraining = (subContent: tTrainingList) => {
+    setSelectTrainingSubContent(subContent.key);
   };
 
   return (
@@ -106,11 +73,7 @@ const TrainingRosterPage = () => {
         }
       />
       <GRContainerView>
-        <GRView
-          style={{
-            overflowX: "scroll"
-          }}
-        >
+        <GRView style={{ overflowX: "scroll" }}>
           <GRView
             isFlex
             width={"100%"}
@@ -119,180 +82,16 @@ const TrainingRosterPage = () => {
             marginbottom={1}
             style={{ minWidth: "60rem" }}
           >
-            <Boarder
-              boarderTitle={"훈련 종류"}
-              boarderWidth={15}
-              borderContentComponent={TRAINING_MAIN_TITLE.map(content => (
-                <>
-                  <BoarderCard
-                    boarderCardTitle={content.title}
-                    isSelected={false}
-                    onClickBoarder={() => onClickBoarder(content)}
-                  />
-                </>
-              ))}
+            <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
+            <CaretRightOutlined rev={undefined} />
+            <TrainingSubContentBoarder
+              selectTraining={selectTraining}
+              onClickTraining={onClickTraining}
             />
             <CaretRightOutlined rev={undefined} />
-            <Boarder
-              boarderTitle={"훈련 이름"}
-              boarderWidth={20}
-              borderContentComponent={selectTraining.map(content => (
-                <>
-                  <BoarderCard
-                    isSelected={false}
-                    cardContainComponent={
-                      <>
-                        <GRFlexView
-                          flexDirection={"row"}
-                          paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN}
-                        >
-                          <GRFlexView
-                            justifyContent={"center"}
-                            alignItems={"start"}
-                          >
-                            <GRText weight={"bold"} fontSize={"b5"}>
-                              {content.title ?? ""}{" "}
-                            </GRText>
-                            <GRText
-                              weight={"bold"}
-                              color={Color.grey80}
-                              fontSize={"b8"}
-                            >
-                              {/* {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
-                                ""}{" "} */}
-                            </GRText>
-                          </GRFlexView>
-                          <EditOutlined rev={undefined} />
-                        </GRFlexView>
-                      </>
-                    }
-                  />
-                </>
-              ))}
-            />
-            <CaretRightOutlined rev={undefined} />
-            <Boarder
-              boarderTitle={"참여자"}
-              boarderWidth={30}
-              borderContentComponent={
-                <GRView height={30}>
-                  <GRTable
-                    data={[
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      },
-                      {
-                        userName: "이종민!",
-                        grade: 12,
-                        sex: "MALE",
-                        phoneNumber: "010-9099-9999"
-                      }
-                    ]}
-                    scroll={{ y: "26rem" }}
-                    columns={columns}
-                    isHoverTable={false}
-                  />
-                </GRView>
-              }
+            <TrainingMemberTableBoarder
+              memberData={[]}
+              onClickLinkText={onClickLinkText}
             />
           </GRView>
         </GRView>

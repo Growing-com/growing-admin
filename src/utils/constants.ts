@@ -1,4 +1,6 @@
-export type tTrainingList = { key: string; title: string };
+import { tTrainingType } from "api/training/type";
+
+export type tTrainingList = { key: tTrainingType; title: string };
 
 export type tTrainingMainTitle = {
   title: string;

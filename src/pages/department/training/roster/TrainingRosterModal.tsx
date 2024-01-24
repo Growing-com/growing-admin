@@ -1,14 +1,19 @@
 import GRTable from "@component/atom/GRTable";
+import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tTermNewFamily } from "api/term/types";
 import { Dayjs } from "dayjs";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
 
 type tTrainingRosterModal = {
   newFamily?: tTermNewFamily;
@@ -31,11 +36,10 @@ const emptyValues = {
   etc: ""
 } as unknown as tNewFamilyForm;
 
-const TrainingRosterModal: FC<tTrainingRosterModal> = ({
-  open,
-  onClose,
-}) => {
+const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
   const { control, handleSubmit, reset } = useForm<any>();
+
+  const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
 
   const onCloseModal = () => {
     onClose();
@@ -79,6 +83,15 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     ],
     []
   );
+
+  const handleSearch = (value: string) => {
+    setOptions(value ? [] : []);
+  };
+
+  const onSelect = (value: string) => {
+    console.log("onSelect", value);
+  };
+
   return (
     <GRFormModal
       open={open}
@@ -135,6 +148,22 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               height: "8rem"
             }}
           />
+        </GRFlexView>
+        <Divider />
+        <GRFlexView flexDirection={"row"} alignItems={"center"}>
+          <GRText weight={"bold"} marginright={GRStylesConfig.BASE_MARGIN}>
+            성도 추가
+          </GRText>
+          <AutoComplete
+            popupMatchSelectWidth={252}
+            style={{ width: 300 }}
+            options={options}
+            onSelect={onSelect}
+            onSearch={handleSearch}
+          >
+            <Input.Search placeholder="input here" enterButton />
+            {/* <GRTextInput /> */}
+          </AutoComplete>
         </GRFlexView>
         <GRFlexView>
           {/* auto complete 넣기 */}
