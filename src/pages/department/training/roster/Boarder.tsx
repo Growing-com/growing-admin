@@ -51,6 +51,11 @@ const Boarder: FC<tBoarder> = ({
           minHeight: "30rem",
           overflowY: "scroll"
         }}
+        customCss={css`
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        `}
       >
         {borderContentComponent}
       </GRView>

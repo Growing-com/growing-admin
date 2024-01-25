@@ -11,9 +11,10 @@ const TrainingTitleBoarder = ({ onClickBoarder }) => {
       borderContentComponent={TRAINING_MAIN_TITLE.map(content => (
         <>
           <BoarderCard
-            boarderCardTitle={content.title}
+            boarderCardTitle={content.label}
             isSelected={false}
             onClickBoarder={() => onClickBoarder(content)}
+            boarderHeight={3}
           />
         </>
       ))}

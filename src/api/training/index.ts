@@ -13,3 +13,50 @@ export const getTrainingDetail = ({ type }: tGetTrainingDetailParam) => {
     params: { type }
   });
 };
+
+type tUpdateTraining = {
+  type?: tTrainingType;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  etc: string;
+};
+
+export const updateTraining = (trainingId: number, params: tUpdateTraining) => {
+  return request({
+    method: REQUEST_METHOD.PUT,
+    url: `/training/${trainingId}`,
+    params
+  });
+};
+
+type tCreateTraining = {
+  type?: tTrainingType;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  etc: string;
+};
+
+export const createTraining = (params: tCreateTraining) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `/training`,
+    params
+  });
+};
+
+type tRegisterMemberTraining = {
+  userIds: number[];
+};
+
+export const registerMemberTraining = (
+  trainingId: number,
+  data: tRegisterMemberTraining
+) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `/training/${trainingId}/registerMembers`,
+    data
+  });
+};

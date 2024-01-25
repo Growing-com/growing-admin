@@ -21,20 +21,19 @@ const TrainingRosterPage = () => {
     useState(false);
   const [selectUserId, setSelectUserId] = useState<number>();
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
-  const [selectTraining, setSelectTraining] = useState<tTrainingList[]>([]);
+  const [selectTraining, setSelectTraining] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingType>();
 
-  const { data } = useQuery(
-    [queryKeys.TRAINING_DETAIL, selectTrainingSubContent],
+  const { data: subTrainingContent } = useQuery(
+    [queryKeys.TRAINING_DETAIL, selectTraining],
     async () =>
       await getTrainingDetail({
-        type: selectTrainingSubContent
+        type: selectTraining
       }),
-    { enabled: !!selectTrainingSubContent }
+    { enabled: !!selectTraining }
   );
 
-  console.log("daata", data);
   const onClickCreateTrainingRoster = () => {
     setOpenTrainingRosterModal(true);
   };
@@ -51,7 +50,7 @@ const TrainingRosterPage = () => {
   };
 
   const onClickBoarder = (training: tTrainingMainTitle) => {
-    setSelectTraining(training.trainList);
+    setSelectTraining(training.value);
   };
 
   const onClickTraining = (subContent: tTrainingList) => {
@@ -85,7 +84,7 @@ const TrainingRosterPage = () => {
             <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
             <CaretRightOutlined rev={undefined} />
             <TrainingSubContentBoarder
-              selectTraining={selectTraining}
+              subTrainingContent={subTrainingContent}
               onClickTraining={onClickTraining}
             />
             <CaretRightOutlined rev={undefined} />

@@ -1,10 +1,9 @@
 import GRTable from "@component/atom/GRTable";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
-import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
-import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
@@ -14,6 +13,7 @@ import { Dayjs } from "dayjs";
 import { FC, useCallback, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { TRAINING_MAIN_TITLE } from "utils/constants";
 
 type tTrainingRosterModal = {
   newFamily?: tTermNewFamily;
@@ -45,7 +45,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
     onClose();
   };
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
-    async _item => {},
+    async _item => {
+      console.log("item", _item);
+    },
     []
   );
   const columns: ColumnType<any>[] = useMemo(
@@ -103,54 +105,57 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
       maskClosable={false}
     >
       <GRView flexDirection={"row"}>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            type={"select"}
-            title={"훈련 종류"}
-            fieldName={"teamId"}
-            control={control}
-            options={[
-              { label: "제자 학교", value: 1 },
-              { label: "제자 반", value: 1 },
-              { label: "세례", value: 1 }
-            ]}
-            placeholder={"훈련을 선택해주세요"}
-            required={true}
-          />
-          <GRFormItem
-            type={"text"}
-            textType={"input"}
-            title={"훈련 이름"}
-            fieldName={"name"}
-            control={control}
-            placeholder={"훈련 이름을 작성해 주세요"}
-            required={true}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            title={"훈련 기간"}
-            type={"date"}
-            fieldName={"rangeDate"}
-            control={control}
-            pickerType={"range"}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            type={"text"}
-            textType={"textarea"}
-            title={"메모"}
-            fieldName={"etc"}
-            control={control}
-            placeholder={"추가 내용이 있으면 작성해 주세요"}
-            style={{
-              height: "8rem"
-            }}
-          />
-        </GRFlexView>
-        <Divider />
-        <GRFlexView flexDirection={"row"} alignItems={"center"}>
+        <GRView>
+          <GRFlexView flexDirection={"row"}>
+            <GRFormItem
+              type={"select"}
+              title={"훈련 종류"}
+              fieldName={"type"}
+              control={control}
+              options={TRAINING_MAIN_TITLE}
+              placeholder={"훈련을 선택해주세요"}
+              required={true}
+            />
+            <GRFormItem
+              type={"text"}
+              textType={"input"}
+              title={"훈련 이름"}
+              fieldName={"name"}
+              control={control}
+              placeholder={"훈련 이름을 작성해 주세요"}
+              required={true}
+            />
+          </GRFlexView>
+          <GRFlexView flexDirection={"row"}>
+            <GRFormItem
+              title={"훈련 기간"}
+              type={"date"}
+              fieldName={"rangeDate"}
+              control={control}
+              pickerType={"range"}
+              required={true}
+            />
+          </GRFlexView>
+          <GRFlexView flexDirection={"row"}>
+            <GRFormItem
+              type={"text"}
+              textType={"textarea"}
+              title={"메모"}
+              fieldName={"etc"}
+              control={control}
+              placeholder={"추가 내용이 있으면 작성해 주세요"}
+              style={{
+                height: "8rem"
+              }}
+            />
+          </GRFlexView>
+        </GRView>
+        <Divider style={{ margin: "1rem 0rem 1rem 0rem " }} />
+        <GRFlexView
+          flexDirection={"row"}
+          alignItems={"center"}
+          marginbottom={GRStylesConfig.BASE_MARGIN}
+        >
           <GRText weight={"bold"} marginright={GRStylesConfig.BASE_MARGIN}>
             성도 추가
           </GRText>
@@ -203,6 +208,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
             scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}
+            marginbottom={GRStylesConfig.BASE_MARGIN}
           />
         </GRFlexView>
       </GRView>
