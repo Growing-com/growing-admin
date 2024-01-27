@@ -1,11 +1,10 @@
 import GRTable from "@component/atom/GRTable";
-import { tOptions } from "@component/atom/dataEntry/type";
-import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tTermNewFamily } from "api/term/types";
@@ -115,6 +114,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
               options={TRAINING_MAIN_TITLE}
               placeholder={"훈련을 선택해주세요"}
               required={true}
+              containStyle={{ marginRight: "0.5rem"}}
             />
             <GRFormItem
               type={"text"}
@@ -154,14 +154,13 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
         <GRFlexView
           flexDirection={"row"}
           alignItems={"center"}
+          justifyContent={"space-between"}
           marginbottom={GRStylesConfig.BASE_MARGIN}
         >
-          <GRText weight={"bold"} marginright={GRStylesConfig.BASE_MARGIN}>
-            성도 추가
-          </GRText>
+          <TableInfoHeader title={"명부 리스트"} />
           <AutoComplete
             popupMatchSelectWidth={252}
-            style={{ width: 300 }}
+            style={{ width: 200 }}
             options={options}
             onSelect={onSelect}
             onSearch={handleSearch}

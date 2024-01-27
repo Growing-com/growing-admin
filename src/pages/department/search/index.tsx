@@ -144,7 +144,7 @@ const SearchPage = () => {
   return (
     <>
       <HeaderView
-        title={"검색"}
+        title={"전체 검색"}
         subComponent={
           <SearchBar
             onClickSearch={onClickSearch}
@@ -158,6 +158,7 @@ const SearchPage = () => {
                     control={control}
                     options={DISCIPLE_SCHOOL_OPTIONS}
                     placeholder={"제자 학교를 선택해주세요"}
+                    containStyle={{ marginRight: "0.5rem"}}
                   />
                   <GRFormItem
                     title={"제자 훈련"}
@@ -166,6 +167,7 @@ const SearchPage = () => {
                     control={control}
                     options={DISCIPLE_TRAINING_OPTIONS}
                     placeholder={"제자 훈련을 선택해주세요"}
+                    containStyle={{ marginRight: "0.5rem"}}
                   />
                   <GRFormItem
                     title={"세례"}
@@ -184,6 +186,7 @@ const SearchPage = () => {
                     fieldName={"searchType"}
                     control={control}
                     placeholder={"학년을 작성해주세요"}
+                    containStyle={{ marginRight: "0.5rem"}}
                   />
                   <GRFormItem
                     title={"성별"}
@@ -191,6 +194,7 @@ const SearchPage = () => {
                     fieldName={"searchType"}
                     control={control}
                     placeholder={"조건을 선택해주세요"}
+                    containStyle={{ marginRight: "0.5rem"}}
                   />
                   <GRFormItem
                     type={"date"}

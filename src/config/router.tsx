@@ -7,7 +7,7 @@ import {
 
 export type tDepartmentMainMenu = {
   key: "search" | "management" | "attendance" | "training";
-  label: "검색" | "관리" | "출석" | "훈련";
+  label: "전체 검색" | "관리" | "출석" | "훈련";
   children?:
     | tDepartmentManagementSubMenu[]
     | tDepartmentAttendanceSubMenu[]
@@ -93,7 +93,7 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   },
   {
     key: "search",
-    label: "검색",
+    label: "전체 검색",
     // children: DEPARTMENT_MANAGEMENT_SUB_MENU,
     icon: <SearchOutlined rev={undefined} />
   }

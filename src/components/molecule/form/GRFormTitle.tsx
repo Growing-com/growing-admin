@@ -17,7 +17,7 @@ const GRFormTitle: FC<tGRFormTitle> = ({
   alertMessage
 }) => {
   return (
-    <GRView width={5} marginhorizontal={1}>
+    <GRView width={5} marginright={0.5}>
       <GRFlexView flexDirection={"row"} alignItems={"center"}>
         <GRText weight={"bold"}>
           {title ?? ""}
