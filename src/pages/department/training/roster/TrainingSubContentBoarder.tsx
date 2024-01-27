@@ -1,13 +1,11 @@
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
-import { Color } from "styles/colors";
-import { FC } from "react";
-import GRView from "@component/atom/view/GRView";
-import { css } from "@emotion/react";
 
 type tTrainingSubContentBoarder = {
   subTrainingContent: any[];
@@ -16,7 +14,8 @@ type tTrainingSubContentBoarder = {
 
 const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   subTrainingContent,
-  onClickTraining
+  onClickTraining,
+  onClickCreateTraining
 }) => {
   if (!subTrainingContent?.length) {
     return (
@@ -33,6 +32,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                 alignItems={"center"}
                 justifyContent={"center"}
                 paddingleft={GRStylesConfig.BASE_MARGIN}
+                onClick={onClickCreateTraining}
               >
                 <PlusOutlined rev={undefined} style={{ fontWeight: "bold" }} />
                 <GRText marginleft={GRStylesConfig.BASE_MARGIN} weight={"bold"}>

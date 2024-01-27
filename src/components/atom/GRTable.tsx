@@ -49,6 +49,9 @@ const GRTable = <GRTableType extends object>({
       .ant-table-tbody > tr.ant-table-row:hover > td {
         background: ${!isHoverTable && `white !important`};
       }
+      .ant-table-body{
+        overflow-y: hidden!important;
+      }
 
       .ant-table table {
         font-size: ${fontSize}rem;

@@ -86,7 +86,12 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
   );
 
   const handleSearch = (value: string) => {
+    console.log("value",value)
     setOptions(value ? [] : []);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("value2",value)
   };
 
   const onSelect = (value: string) => {
@@ -114,7 +119,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
               options={TRAINING_MAIN_TITLE}
               placeholder={"훈련을 선택해주세요"}
               required={true}
-              containStyle={{ marginRight: "0.5rem"}}
+              containStyle={{ marginRight: "1rem"}}
             />
             <GRFormItem
               type={"text"}
@@ -150,7 +155,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
             />
           </GRFlexView>
         </GRView>
-        <Divider style={{ margin: "1rem 0rem 1rem 0rem " }} />
+        <Divider style={{ margin: "1rem 0rem 1.5rem 0rem " }} />
         <GRFlexView
           flexDirection={"row"}
           alignItems={"center"}
@@ -165,45 +170,16 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
             onSelect={onSelect}
             onSearch={handleSearch}
           >
-            <Input.Search placeholder="input here" enterButton />
-            {/* <GRTextInput /> */}
+            <Input.Search 
+              placeholder={"이름 검색"} 
+              enterButton={"추가"} 
+              onSearch={onSearch}
+            />
           </AutoComplete>
         </GRFlexView>
         <GRFlexView>
-          {/* auto complete 넣기 */}
           <GRTable
-            data={[
-              {
-                userName: "이종민",
-                grade: 12,
-                sex: "MALE",
-                phoneNumber: "010-9099-9999"
-              },
-              {
-                userName: "이종민",
-                grade: 12,
-                sex: "MALE",
-                phoneNumber: "010-9099-9999"
-              },
-              {
-                userName: "이종민",
-                grade: 12,
-                sex: "MALE",
-                phoneNumber: "010-9099-9999"
-              },
-              {
-                userName: "이종민",
-                grade: 12,
-                sex: "MALE",
-                phoneNumber: "010-9099-9999"
-              },
-              {
-                userName: "이종민",
-                grade: 12,
-                sex: "MALE",
-                phoneNumber: "010-9099-9999"
-              }
-            ]}
+            data={[]}
             scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}

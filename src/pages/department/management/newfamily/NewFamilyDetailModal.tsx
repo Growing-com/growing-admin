@@ -189,7 +189,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"이름을 작성해 주세요"}
             required={true}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             type={"radio"}
@@ -210,7 +210,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             placeholder={"- 없이 작성해 주세요"}
             maxLength={13}
             required={true}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             type={"date"}
@@ -230,7 +230,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
             required={true}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             type={"date"}

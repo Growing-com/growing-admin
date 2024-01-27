@@ -8,13 +8,13 @@ import { useQuery } from "@tanstack/react-query";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 import queryKeys from "api/queryKeys";
 import { getTrainingDetail } from "api/training";
+import { tTrainingType } from "api/training/type";
 import { useCallback, useState } from "react";
 import { tTrainingList, tTrainingMainTitle } from "../../../../utils/constants";
 import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
 import TrainingRosterModal from "./TrainingRosterModal";
 import TrainingSubContentBoarder from "./TrainingSubContentBoarder";
 import TrainingTitleBoarder from "./TrainingTitleBoarder";
-import { tTrainingType } from "api/training/type";
 
 const TrainingRosterPage = () => {
   const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =
@@ -86,6 +86,7 @@ const TrainingRosterPage = () => {
             <TrainingSubContentBoarder
               subTrainingContent={subTrainingContent}
               onClickTraining={onClickTraining}
+              onClickCreateTraining={onClickCreateTrainingRoster}
             />
             <CaretRightOutlined rev={undefined} />
             <TrainingMemberTableBoarder

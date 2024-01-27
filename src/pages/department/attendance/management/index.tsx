@@ -125,7 +125,7 @@ const AttendanceManagementPage: NextPage = () => {
                   fieldName={"rangeDate"}
                   control={control}
                   pickerType={"range"}
-                  containStyle={{ marginRight: "0.5rem"}}
+                  containStyle={{ marginRight: "1rem"}}
                 />
                 <GRFormItem
                   title={"검색 조건"}

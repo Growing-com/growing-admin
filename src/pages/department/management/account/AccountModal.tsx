@@ -122,7 +122,7 @@ const AccountModal: FC<tAccountModal> = ({
             control={control}
             placeholder={"이름을 작성해 주세요"}
             required={true}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             type={"radio"}
@@ -143,7 +143,7 @@ const AccountModal: FC<tAccountModal> = ({
             placeholder={"-를 넣어주세요. 예) 010-1234-5678"}
             required={true}
             maxLength={13}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             type={"date"}
@@ -163,7 +163,7 @@ const AccountModal: FC<tAccountModal> = ({
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
             required={true}
-            containStyle={{ marginRight: "0.5rem"}}
+            containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
             pickerType={"basic"}
