@@ -1,4 +1,5 @@
 import { tTeamType } from "api/term/types";
+import { Color } from "styles/colors";
 
 export const SEX_NAME: { [key: string]: string } = {
   MALE: "남",
@@ -6,9 +7,9 @@ export const SEX_NAME: { [key: string]: string } = {
 };
 
 export const ATTENDANCE_STATUS = [
-  { label: "출석", value: "ATTEND" },
-  { label: "결석", value: "ABSENT" },
-  { label: "온라인", value: "ONLINE" }
+  { label: "출석", value: "ATTEND" , color: "#87d068"},
+  { label: "결석", value: "ABSENT" , color: Color.red100},
+  { label: "온라인", value: "ONLINE", color: "#ffd400" }
 ];
 
 export const DUTY = [

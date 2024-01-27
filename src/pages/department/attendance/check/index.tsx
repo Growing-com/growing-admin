@@ -111,31 +111,31 @@ const AttendanceCheck = () => {
           .weekday(4)
           .format(
             DEFAULT_DATE_FOMAT
-          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
+          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`
+        }
+        showIcon={false}
       />
       <GRContainerView>
-        
         <GRFlexView
-              alignItems={"flex-start"}
-              flexDirection={"row"}
-              marginbottom={GRStylesConfig.BASE_MARGIN}
-            >
-              <AttendanceProgress attendanceData={attendanceCheckData} />
-              <GRSelect
-                marginright={GRStylesConfig.BASE_MARGIN}
-                style={{ width: "8rem" }}
-                options={cordiSelectItem}
-                onChange={onChangeSelectCordi}
-                value={selectedCodyId}
-                placeholder={"나무 선택"}
-              />
-              <GRDatePicker
-                pickerType={"basic"}
-                picker={"week"}
-                defaultValue={filterDate}
-                onChange={onChangeWeek}
-              />
-            </GRFlexView>
+            alignItems={"flex-start"}
+            flexDirection={"row"}
+        >
+          <AttendanceProgress attendanceData={attendanceCheckData} />
+          <GRSelect
+            marginright={GRStylesConfig.BASE_MARGIN}
+            style={{ width: "8rem" }}
+            options={cordiSelectItem}
+            onChange={onChangeSelectCordi}
+            value={selectedCodyId}
+            placeholder={"나무 선택"}
+          />
+          <GRDatePicker
+            pickerType={"basic"}
+            picker={"week"}
+            defaultValue={filterDate}
+            onChange={onChangeWeek}
+          />
+        </GRFlexView>
         <GRTab
           items={termLeaderOptions}
           onChange={onChangeTab}

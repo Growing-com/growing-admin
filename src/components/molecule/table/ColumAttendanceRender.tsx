@@ -1,9 +1,9 @@
-import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
-import { Popover } from "antd";
+import GRView from "@component/atom/view/GRView";
+import { Popover, Tag } from "antd";
 import { tAttendanceStatus } from "api/attendance/types";
 import { ATTENDANCE_STATUS } from "config/const";
 import { FC } from "react";
+import GRDot from "../GRDot";
 type tColumAttendanceRender = {
   attendanceStatus?: tAttendanceStatus;
   contentEtc?: string;
@@ -14,9 +14,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
 }) => {
   if (!attendanceStatus) {
     return (
-      <GRButtonText buttonType={"default"} style={{ cursor: "default" }}>
-        <GRText>미완료</GRText>
-      </GRButtonText>
+        <Tag color={"#ccc"}>미완료</Tag>
     );
   }
 
@@ -25,23 +23,24 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   );
   if (!contentEtc) {
     return (
-      <GRButtonText buttonType={"default"} disabled={true}>
-        <GRText>{currentStatus?.label ?? " "}</GRText>
-      </GRButtonText>
+      <GRView isFlex alignItems={"center"} justifyContent={"center"}>
+        <Tag color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
+      </GRView>
     );
   }
 
   return (
     <Popover
       content={contentEtc}
-      trigger={"click"}
+      trigger={"hover"}
       overlayStyle={{
         width: "20rem"
       }}
     >
-      <GRButtonText buttonType={"default"}>
-        <GRText>{currentStatus?.label ?? ""}</GRText>
-      </GRButtonText>
+      <GRView isFlex alignItems={"center"} justifyContent={"center"}>
+        <GRDot/>
+        <Tag color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
+      </GRView>
     </Popover>
   );
 };

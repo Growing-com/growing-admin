@@ -17,7 +17,9 @@ const ColumLinkText: FC<tColumLinkText> = ({ text, onClick }) => {
       }}
       onClick={onClick}
     >
-      <GRText color={Color.green200} weight={"bold"}>
+      <GRText color={Color.green200} weight={"bold"} style={{
+        textDecoration: "underline"
+      }}>
         {text}
       </GRText>
     </GRView>

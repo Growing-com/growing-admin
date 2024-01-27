@@ -3,6 +3,7 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import { css } from "@emotion/react";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import { FC, ReactNode, useCallback, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -51,16 +52,16 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
         </GRButtonText>
         {filterComponent && (
           <GRButtonText
-            size={"small"}
             buttonType={"default"}
             marginleft={GRStylesConfig.BASE_MARGIN}
             onClick={onClickOpenFilter}
           >
             {isShowFilter ? (
-              <CaretUpOutlined rev={undefined} style={{ fontSize: "1rem" }} />
+              <CaretUpOutlined rev={undefined} style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
             ) : (
-              <CaretDownOutlined rev={undefined} style={{ fontSize: "1rem" }} />
+              <CaretDownOutlined rev={undefined} style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
             )}
+            필터
           </GRButtonText>
         )}
       </GRFlexView>
@@ -76,6 +77,11 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
           style={{
             overflow: "scroll"
           }}
+          css={css`
+            ::-webkit-scrollbar {
+              display: none;
+            }
+          `}
         >
           {filterComponent}
         </GRFlexView>

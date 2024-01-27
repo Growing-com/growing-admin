@@ -183,7 +183,7 @@ const StatisticsCompareTable = ({
       <GRFlexView
         flexDirection={"row"}
         alignItems={"center"}
-        marginvertical={1}
+        margintop={3}
       >
         <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
           {headerTitle}

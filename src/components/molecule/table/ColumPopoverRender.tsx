@@ -1,9 +1,7 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import { Popover } from "antd";
 import { FC } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
 
 type tColumPopoverRender = {
   content?: string | null;

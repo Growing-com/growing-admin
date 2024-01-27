@@ -11,6 +11,7 @@ type tHeaderView = {
   subComponent?: ReactNode;
   titleInfoType?: "success" | "info" | "warning" | "error";
   titleInfo?: ReactNode;
+  showIcon?: boolean;
 };
 
 const HeaderView: FC<tHeaderView> = ({
@@ -18,7 +19,8 @@ const HeaderView: FC<tHeaderView> = ({
   headerComponent,
   subComponent,
   titleInfoType = "warning",
-  titleInfo
+  titleInfo,
+  showIcon = true
 }) => {
   return (
     <GRFlexView
@@ -42,7 +44,7 @@ const HeaderView: FC<tHeaderView> = ({
           </GRText>
           {titleInfo && (
             <Alert
-              showIcon
+              showIcon={showIcon}
               message={titleInfo}
               type={titleInfoType}
               style={{ backgroundColor: "white" }}

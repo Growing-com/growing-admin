@@ -69,7 +69,7 @@ const StatisticsCompareSummaryCards = () => {
   }, []);
 
   return (
-    <GRView marginbottom={2}>
+    <GRView >
       <GRFlexView
         flexDirection={"row"}
         alignItems={"center"}
@@ -94,8 +94,13 @@ const StatisticsCompareSummaryCards = () => {
       <GRView
         style={{
           maxWidth: "70rem",
-          overflowX: "scroll"
+          overflowX: "scroll",
         }}
+        customCss={css`
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        `}
       >
         <GRFlexView flexDirection={"row"} marginbottom={1}>
           <GRView padding={1} marginright={1} customCss={customBox}>
