@@ -30,7 +30,7 @@ export const updateTraining = (trainingId: number, params: tUpdateTraining) => {
   });
 };
 
-type tCreateTraining = {
+export type tCreateTraining = {
   type?: tTrainingType;
   name: string;
   startDate: Date;

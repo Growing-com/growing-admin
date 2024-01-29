@@ -5,9 +5,12 @@ import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
+import { useMutation } from "@tanstack/react-query";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tTermNewFamily } from "api/term/types";
+import { createTraining } from "api/training";
+import { tTrainingType } from "api/training/type";
 import { Dayjs } from "dayjs";
 import { FC, useCallback, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -26,29 +29,42 @@ type tNewFamilyForm = {
   birth: Dayjs;
 } & Omit<tTermNewFamily, "visitDate" | "birth">;
 
-const emptyValues = {
-  name: "",
-  sex: "MALE",
-  phoneNumber: "",
-  birth: "",
-  visitDate: "",
-  etc: ""
-} as unknown as tNewFamilyForm;
+type tTrainingValue = {
+  type: tTrainingType;
+  name: string;
+  rangeDate: Date[];
+  etc: string;
+};
 
 const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
   const { control, handleSubmit, reset } = useForm<any>();
 
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
+  const [traingRosterlist, setTraingRosterlist] = useState([]);
+
+  const { mutateAsync: createTrainingMutateAsync } =
+    useMutation(createTraining);
+  // const { mutateAsync: updateTrainingMutateAsync } =
+  //   useMutation(updateTraining);
 
   const onCloseModal = () => {
     onClose();
   };
+
   const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
     async _item => {
       console.log("item", _item);
+      await createTrainingMutateAsync({
+        type: _item.type,
+        name: _item.name,
+        startDate: _item.rangeDate[0],
+        endDate: _item.rangeDate[1],
+        etc: _item.etc
+      });
     },
     []
   );
+
   const columns: ColumnType<any>[] = useMemo(
     () => [
       {
@@ -86,12 +102,12 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
   );
 
   const handleSearch = (value: string) => {
-    console.log("value",value)
+    console.log("value", value);
     setOptions(value ? [] : []);
   };
 
   const onSearch = (value: string) => {
-    console.log("value2",value)
+    console.log("value2", value);
   };
 
   const onSelect = (value: string) => {
@@ -119,7 +135,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
               options={TRAINING_MAIN_TITLE}
               placeholder={"훈련을 선택해주세요"}
               required={true}
-              containStyle={{ marginRight: "1rem"}}
+              containStyle={{ marginRight: "1rem" }}
             />
             <GRFormItem
               type={"text"}
@@ -170,16 +186,16 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
             onSelect={onSelect}
             onSearch={handleSearch}
           >
-            <Input.Search 
-              placeholder={"이름 검색"} 
-              enterButton={"추가"} 
+            <Input.Search
+              placeholder={"이름 검색"}
+              enterButton={"추가"}
               onSearch={onSearch}
             />
           </AutoComplete>
         </GRFlexView>
         <GRFlexView>
           <GRTable
-            data={[]}
+            data={traingRosterlist}
             scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}
