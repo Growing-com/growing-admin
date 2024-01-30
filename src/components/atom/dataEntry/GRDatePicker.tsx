@@ -9,7 +9,7 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import GRButtonText from "../button/GRTextButton";
 import GRFlexView from "../view/GRFlexView";
-import locale from "antd/es/date-picker/locale/ko_KR";
+import locale from "antd/lib/date-picker/locale/ko_KR";
 
 dayjs.locale("ko");
 

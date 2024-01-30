@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 import queryKeys from "api/queryKeys";
 import { getTrainingDetail } from "api/training";
-import { tTrainingType } from "api/training/type";
+import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { useCallback, useState } from "react";
 import { tTrainingList, tTrainingMainTitle } from "../../../../utils/constants";
 import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
@@ -23,7 +23,7 @@ const TrainingRosterPage = () => {
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
   const [selectTraining, setSelectTraining] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
-    useState<tTrainingType>();
+    useState<tTrainingDetail>();
 
   const { data: subTrainingContent } = useQuery(
     [queryKeys.TRAINING_DETAIL, selectTraining],
@@ -31,7 +31,7 @@ const TrainingRosterPage = () => {
       await getTrainingDetail({
         type: selectTraining
       }),
-    { enabled: !!selectTraining }
+    { enabled: !!selectTraining, select: _data => _data.content }
   );
 
   const onClickCreateTrainingRoster = () => {
@@ -53,8 +53,8 @@ const TrainingRosterPage = () => {
     setSelectTraining(training.value);
   };
 
-  const onClickTraining = (subContent: tTrainingList) => {
-    setSelectTrainingSubContent(subContent.key);
+  const onClickTraining = (subContent: tTrainingDetail) => {
+    setSelectTrainingSubContent(subContent.members);
   };
 
   return (

@@ -1,5 +1,11 @@
 import { REQUEST_METHOD, request } from "api";
-import type { tAccount, tLoginParam, tRoleResponse } from "./types";
+import type {
+  tAccount,
+  tActiveUser,
+  tLoginParam,
+  tRoleResponse,
+  tUser
+} from "./types";
 
 export const getUserList = () => {
   return request<tAccount[]>({
@@ -69,5 +75,12 @@ export const getUserInfo = () => {
   return request<tAccount>({
     method: REQUEST_METHOD.GET,
     url: `/user/myInfo`
+  });
+};
+// activeUsers
+export const getActiveUser = () => {
+  return request<tActiveUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `activeUsers`
   });
 };

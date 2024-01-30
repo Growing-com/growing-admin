@@ -1,5 +1,7 @@
 import { REQUEST_METHOD, request } from "api";
-import { tTrainingType } from "./type";
+import { tTrainingDetail, tTrainingType } from "./type";
+import { convertDateString } from "utils/DateUtils";
+import { Dayjs } from "dayjs";
 
 type tGetTrainingDetailParam = {
   type?: tTrainingType;
@@ -7,7 +9,7 @@ type tGetTrainingDetailParam = {
 
 export const getTrainingDetail = ({ type }: tGetTrainingDetailParam) => {
   if (!type) Promise.reject();
-  return request({
+  return request<tTrainingDetail>({
     method: REQUEST_METHOD.GET,
     url: `/training`,
     params: { type }
@@ -33,16 +35,21 @@ export const updateTraining = (trainingId: number, params: tUpdateTraining) => {
 export type tCreateTraining = {
   type?: tTrainingType;
   name: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Dayjs;
+  endDate: Dayjs;
   etc: string;
+  userIds: number[];
 };
 
-export const createTraining = (params: tCreateTraining) => {
+export const createTraining = (data: tCreateTraining) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `/training`,
-    params
+    data: {
+      ...data,
+      startDate: convertDateString(data.startDate),
+      endDate: convertDateString(data.endDate)
+    }
   });
 };
 
@@ -58,5 +65,12 @@ export const registerMemberTraining = (
     method: REQUEST_METHOD.POST,
     url: `/training/${trainingId}/registerMembers`,
     data
+  });
+};
+
+export const getMembersByTrainingId = (trainingId: number) => {
+  return request({
+    method: REQUEST_METHOD.GET,
+    url: `/trainings/${trainingId}`
   });
 };

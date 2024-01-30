@@ -1,4 +1,6 @@
 import GRTable from "@component/atom/GRTable";
+import GRAlert from "@component/atom/alert/GRAlert";
+import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -8,11 +10,14 @@ import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { useMutation } from "@tanstack/react-query";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
+import { tActiveUser } from "api/account/types";
 import { tTermNewFamily } from "api/term/types";
 import { createTraining } from "api/training";
 import { tTrainingType } from "api/training/type";
 import { Dayjs } from "dayjs";
-import { FC, useCallback, useMemo, useState } from "react";
+import useActiveUsers from "hooks/auth/useActiveUsers";
+import { concat } from "lodash";
+import { FC, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { TRAINING_MAIN_TITLE } from "utils/constants";
@@ -40,37 +45,33 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
   const { control, handleSubmit, reset } = useForm<any>();
 
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
-  const [traingRosterlist, setTraingRosterlist] = useState([]);
+  const [traingRosterlist, setTraingRosterlist] = useState<tActiveUser[]>([]);
+  const { findUserByName, searchUserByName } = useActiveUsers();
 
   const { mutateAsync: createTrainingMutateAsync } =
     useMutation(createTraining);
-  // const { mutateAsync: updateTrainingMutateAsync } =
-  //   useMutation(updateTraining);
 
   const onCloseModal = () => {
     onClose();
   };
 
-  const onClickModalOk: SubmitHandler<FieldValues> = useCallback(
-    async _item => {
-      console.log("item", _item);
-      await createTrainingMutateAsync({
-        type: _item.type,
-        name: _item.name,
-        startDate: _item.rangeDate[0],
-        endDate: _item.rangeDate[1],
-        etc: _item.etc
-      });
-    },
-    []
-  );
+  const onClickModalOk: SubmitHandler<FieldValues> = async _item => {
+    await createTrainingMutateAsync({
+      type: _item.type,
+      name: _item.name,
+      startDate: _item.rangeDate[0],
+      endDate: _item.rangeDate[1],
+      etc: _item.etc,
+      userIds: []
+    });
+  };
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
       {
         title: "이름",
-        dataIndex: "userName",
-        key: "userName",
+        dataIndex: "name",
+        key: "name",
         align: "center",
         fixed: "left",
         width: "5rem"
@@ -96,6 +97,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
         dataIndex: "phoneNumber",
         key: "phoneNumber",
         align: "center"
+      },
+      {
+        title: "삭제",
+        align: "center",
+        render: () => <GRText>삭제</GRText>
       }
     ],
     []
@@ -103,15 +109,25 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
 
   const handleSearch = (value: string) => {
     console.log("value", value);
-    setOptions(value ? [] : []);
+    // console.log("activeUsers", activeUsers);
+    const filterUser = searchUserByName(value).map(user => ({
+      label: user.name,
+      value: user.name
+    }));
+    console.log("filterUser", filterUser);
+
+    setOptions(!value ? [] : filterUser);
   };
 
-  const onSearch = (value: string) => {
-    console.log("value2", value);
-  };
+  const onSelect = (_name: string) => {
+    const findUser = findUserByName(_name);
+    if (traingRosterlist.includes(findUser)) {
+      return GRAlert.error("이미 추가 되었습니다.");
+    }
 
-  const onSelect = (value: string) => {
-    console.log("onSelect", value);
+    if (findUser) {
+      setTraingRosterlist(concat([findUser], traingRosterlist));
+    }
   };
 
   return (
@@ -178,7 +194,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
           justifyContent={"space-between"}
           marginbottom={GRStylesConfig.BASE_MARGIN}
         >
-          <TableInfoHeader title={"명부 리스트"} />
+          <TableInfoHeader
+            title={"명부 리스트"}
+            count={traingRosterlist.length}
+            totalCount={traingRosterlist.length}
+          />
           <AutoComplete
             popupMatchSelectWidth={252}
             style={{ width: 200 }}
@@ -189,7 +209,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
             <Input.Search
               placeholder={"이름 검색"}
               enterButton={"추가"}
-              onSearch={onSearch}
+              onSearch={handleSearch}
             />
           </AutoComplete>
         </GRFlexView>

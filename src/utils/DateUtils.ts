@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import duration from "dayjs/plugin/duration";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import weekday from "dayjs/plugin/weekday";
@@ -8,6 +8,11 @@ dayjs.extend(weekday);
 
 export const DEFAULT_DATE_FOMAT = "YYYY-MM-DD";
 export const DEFAULT_EXCEL_DATE_FOMAT = "YYYY-MM-DD_HH-mm-ss";
+
+const convertDateString = (date: Dayjs) => {
+  if (!date) return date;
+  return date.format(DEFAULT_DATE_FOMAT);
+};
 
 const getTime = (date: dayjs.Dayjs | string) => {
   const mille = dayjs().diff(date);
@@ -95,5 +100,6 @@ export {
   getTime,
   getTimeLine,
   getWeekDataFromToday,
-  getWeekOfMonth
+  getWeekOfMonth,
+  convertDateString
 };

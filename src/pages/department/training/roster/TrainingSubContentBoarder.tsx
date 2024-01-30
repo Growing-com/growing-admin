@@ -6,9 +6,10 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
+import { tTrainingDetail } from "api/training/type";
 
 type tTrainingSubContentBoarder = {
-  subTrainingContent: any[];
+  subTrainingContent: tTrainingDetail[];
   onClickTraining: () => void;
 };
 
@@ -65,15 +66,14 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                     onClick={() => onClickTraining(content)}
                   >
                     <GRText weight={"bold"} fontSize={"b5"}>
-                      {content.title ?? ""}{" "}
+                      {content.name ?? ""}{" "}
                     </GRText>
                     <GRText
                       weight={"bold"}
                       color={Color.grey80}
                       fontSize={"b8"}
                     >
-                      {/* {`${content.rangeDate[0]} ~ ${content.rangeDate[1]}` ??
-                    ""}{" "} */}
+                      {`${content.startDate} ~ ${content.endDate}` ?? ""}{" "}
                     </GRText>
                   </GRFlexView>
                   <EditOutlined rev={undefined} />

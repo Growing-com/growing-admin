@@ -79,3 +79,20 @@ export type tUser = {
   /**@description  @example "김철수" */
   userName: string;
 };
+
+export type tActiveUser = {
+  id: number;
+  name: string;
+  grade: number;
+  sex: tSex;
+  duty: tDuty;
+  role: tRole;
+  phoneNumber: string;
+  birth: Date;
+  isActive: boolean;
+  visitDate: Date;
+  etc: string;
+  updatedAt: Date;
+  updatedBy: Date;
+  trainings: any[];
+};
