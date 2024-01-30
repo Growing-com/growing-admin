@@ -9,6 +9,7 @@ import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { DUTY } from "config/const";
+import useActiveUsers from "hooks/auth/useActiveUsers";
 import { useForm } from "react-hook-form";
 const DISCIPLE_SCHOOL_OPTIONS = [
   { label: "전체", value: "0" },
@@ -55,6 +56,8 @@ const DUMP_DATA = [
 ];
 
 const SearchPage = () => {
+  const { activeUsers } = useActiveUsers();
+
   const { control, watch } = useForm();
   const searchData = [];
   const onClickSearch = () => {};
@@ -122,7 +125,8 @@ const SearchPage = () => {
       width: "5rem",
       ellipsis: true,
       render: (_, record) => {
-        return <GRText>{record.disciple_school.join(",")}</GRText>;
+        // return <GRText>{record.disciple_school.join(",")}</GRText>;
+        return <GRText>!</GRText>;
       }
     },
     {
@@ -150,7 +154,7 @@ const SearchPage = () => {
             onClickSearch={onClickSearch}
             filterComponent={
               <>
-                <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                {/* <GRFlexView flexDirection={"row"} alignItems={"center"}>
                   <GRFormItem
                     title={"제자 학교"}
                     type={"select"}
@@ -177,7 +181,7 @@ const SearchPage = () => {
                     options={BAPTISM_OPTIONS}
                     placeholder={"세례를 선택해주세요"}
                   />
-                </GRFlexView>
+                </GRFlexView> */}
                 <GRFlexView flexDirection={"row"} alignItems={"center"}>
                   <GRFormItem
                     title={"학년"}
@@ -214,7 +218,7 @@ const SearchPage = () => {
         <GRTable
           rowKey={"id"}
           columns={columns}
-          data={DUMP_DATA}
+          data={activeUsers}
           pagination={{
             total: searchData?.length,
             defaultPageSize: 20,

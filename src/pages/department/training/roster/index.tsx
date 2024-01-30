@@ -7,10 +7,10 @@ import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import { useQuery } from "@tanstack/react-query";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 import queryKeys from "api/queryKeys";
-import { getTrainingDetail } from "api/training";
+import { getMembersByTrainingId, getTrainingDetail } from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { useCallback, useState } from "react";
-import { tTrainingList, tTrainingMainTitle } from "../../../../utils/constants";
+import { tTrainingMainTitle } from "../../../../utils/constants";
 import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
 import TrainingRosterModal from "./TrainingRosterModal";
 import TrainingSubContentBoarder from "./TrainingSubContentBoarder";
@@ -24,7 +24,7 @@ const TrainingRosterPage = () => {
   const [selectTraining, setSelectTraining] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingDetail>();
-
+  
   const { data: subTrainingContent } = useQuery(
     [queryKeys.TRAINING_DETAIL, selectTraining],
     async () =>
@@ -34,8 +34,21 @@ const TrainingRosterPage = () => {
     { enabled: !!selectTraining, select: _data => _data.content }
   );
 
+  const { data: subTrainingMembers } = useQuery(
+    [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
+    async () =>
+      await getMembersByTrainingId(selectTrainingSubContent?.id),
+    { enabled: !!selectTrainingSubContent, select: _data => _data.content }
+  );
+  // trainings
+  console.log("subTrainingMembers",subTrainingMembers)
+
   const onClickCreateTrainingRoster = () => {
     setOpenTrainingRosterModal(true);
+  };
+
+  const onClickEditTraining = (_content: tTrainingDetail) => {
+
   };
 
   const onClickLinkText = useCallback(
@@ -50,11 +63,13 @@ const TrainingRosterPage = () => {
   };
 
   const onClickBoarder = (training: tTrainingMainTitle) => {
+    console.log("training",training)
     setSelectTraining(training.value);
   };
 
   const onClickTraining = (subContent: tTrainingDetail) => {
-    setSelectTrainingSubContent(subContent.members);
+    console.log("subContent",subContent)
+    setSelectTrainingSubContent(subContent);
   };
 
   return (
@@ -87,10 +102,11 @@ const TrainingRosterPage = () => {
               subTrainingContent={subTrainingContent}
               onClickTraining={onClickTraining}
               onClickCreateTraining={onClickCreateTrainingRoster}
+              onClickEditTraining={onClickEditTraining}
             />
             <CaretRightOutlined rev={undefined} />
             <TrainingMemberTableBoarder
-              memberData={[]}
+              subTrainingMembers={subTrainingMembers}
               onClickLinkText={onClickLinkText}
             />
           </GRView>
@@ -106,6 +122,7 @@ const TrainingRosterPage = () => {
       <TrainingRosterModal
         open={openTrainingRosterModal}
         onClose={onCloseTrainingRosterModal}
+        training={subTrainingMembers}
       />
     </>
   );

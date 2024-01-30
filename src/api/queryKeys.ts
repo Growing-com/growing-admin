@@ -36,7 +36,8 @@ const queryKeys = {
   ACCOUNT_INFO: "account_info",
 
   /** 명부 관련 */
-  TRAINING_DETAIL: "training_detail"
+  TRAINING_DETAIL: "training_detail", 
+  TRAINING_MEMBERS: "training_members", 
 };
 
 export default queryKeys;

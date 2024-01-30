@@ -1,22 +1,25 @@
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
+import { tTrainingDetail } from "api/training/type";
 import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
-import { tTrainingDetail } from "api/training/type";
 
 type tTrainingSubContentBoarder = {
   subTrainingContent: tTrainingDetail[];
   onClickTraining: () => void;
+  onClickEditTraining: () => void;
 };
 
 const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   subTrainingContent,
   onClickTraining,
-  onClickCreateTraining
+  onClickCreateTraining,
+  onClickEditTraining
 }) => {
   if (!subTrainingContent?.length) {
     return (
@@ -76,7 +79,9 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                       {`${content.startDate} ~ ${content.endDate}` ?? ""}{" "}
                     </GRText>
                   </GRFlexView>
-                  <EditOutlined rev={undefined} />
+                  <GRView isFlex width={2} justifyContent={"center"} onClick={onClickEditTraining}>
+                    <EditOutlined rev={undefined}/>
+                  </GRView>
                 </GRFlexView>
               </>
             }

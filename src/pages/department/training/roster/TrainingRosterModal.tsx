@@ -13,20 +13,20 @@ import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
 import { tTermNewFamily } from "api/term/types";
 import { createTraining } from "api/training";
-import { tTrainingType } from "api/training/type";
+import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { Dayjs } from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { TRAINING_MAIN_TITLE } from "utils/constants";
 
 type tTrainingRosterModal = {
-  newFamily?: tTermNewFamily;
   open: boolean;
   onClose: () => void;
   onRegister?: () => void;
+  training: tTrainingDetail;
 };
 
 type tNewFamilyForm = {
@@ -41,7 +41,11 @@ type tTrainingValue = {
   etc: string;
 };
 
-const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
+const TrainingRosterModal: FC<tTrainingRosterModal> = ({ 
+  open, 
+  onClose,
+  training
+}) => {
   const { control, handleSubmit, reset } = useForm<any>();
 
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
@@ -62,7 +66,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
       startDate: _item.rangeDate[0],
       endDate: _item.rangeDate[1],
       etc: _item.etc,
-      userIds: []
+      userIds: traingRosterlist.map( roster => roster.id)
     });
   };
 
@@ -121,7 +125,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
 
   const onSelect = (_name: string) => {
     const findUser = findUserByName(_name);
-    if (traingRosterlist.includes(findUser)) {
+    if (findUser && traingRosterlist.includes(findUser)) {
       return GRAlert.error("이미 추가 되었습니다.");
     }
 
@@ -129,6 +133,16 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({ open, onClose }) => {
       setTraingRosterlist(concat([findUser], traingRosterlist));
     }
   };
+
+  useEffect(() => {
+    if (!!training?.id) {
+      reset({
+        ...training,
+      });
+    } else {
+      reset();
+    }
+  }, [training, reset]);
 
   return (
     <GRFormModal

@@ -1,14 +1,14 @@
 import { REQUEST_METHOD, request } from "api";
-import { tTrainingDetail, tTrainingType } from "./type";
-import { convertDateString } from "utils/DateUtils";
 import { Dayjs } from "dayjs";
+import { convertDateString } from "utils/DateUtils";
+import { tTrainingDetail, tTrainingType } from "./type";
 
 type tGetTrainingDetailParam = {
   type?: tTrainingType;
 };
 
 export const getTrainingDetail = ({ type }: tGetTrainingDetailParam) => {
-  if (!type) Promise.reject();
+  if (!type) return Promise.reject();
   return request<tTrainingDetail>({
     method: REQUEST_METHOD.GET,
     url: `/training`,
@@ -68,8 +68,9 @@ export const registerMemberTraining = (
   });
 };
 
-export const getMembersByTrainingId = (trainingId: number) => {
-  return request({
+export const getMembersByTrainingId = (trainingId?: number) => {
+  if( !trainingId) return Promise.reject();
+  return request<tTrainingDetail>({
     method: REQUEST_METHOD.GET,
     url: `/trainings/${trainingId}`
   });

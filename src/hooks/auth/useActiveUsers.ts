@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getActiveUser } from "api/account";
-import { tActiveUser, tUser } from "api/account/types";
+import { tActiveUser } from "api/account/types";
 import queryKeys from "api/queryKeys";
 
 // 현재 활동 중인 유저
@@ -21,7 +21,7 @@ const useActiveUsers = () => {
     }
   };
 
-  const findUserByName = (_name: number) => {
+  const findUserByName = (_name: string) => {
     if (data) {
       return data.find(user => user.name === _name);
     }

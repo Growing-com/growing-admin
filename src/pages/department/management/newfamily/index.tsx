@@ -180,6 +180,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       <HeaderView
         title={"새가족 관리"}
         titleInfo={"현재 텀 새가족 리스트"}
+        showIcon={false}
         headerComponent={
           <GRButtonText
             onClick={onClickCreateNewFamilyModal}
