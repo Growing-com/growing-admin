@@ -15,7 +15,7 @@ import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
 import { createTraining, getTrainingDetail } from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -35,6 +35,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   onClose,
   trainingId
 }) => {
+  const isCreate = useMemo(() => !trainingId, [trainingId]);
+
   const { control, handleSubmit, reset } = useForm<any>();
 
   const { data: trainingDetail } = useQuery(
@@ -132,9 +134,14 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   useEffect(() => {
+    console.log("useEffect", trainingDetail);
     if (!!trainingDetail?.id) {
       reset({
-        ...trainingDetail
+        ...trainingDetail,
+        rangeDate: [
+          dayjs(trainingDetail.startDate),
+          dayjs(trainingDetail.endDate)
+        ]
       });
     } else {
       reset();
@@ -146,9 +153,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       open={open}
       onCancel={onCloseModal}
       onSubmit={handleSubmit(onClickModalOk)}
-      title={"명부 생성"}
+      title={isCreate ? "명부 생성" : "명부 수정"}
       width={"50%"}
-      okButtonText={"등록"}
+      okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
     >
       <GRView flexDirection={"row"}>
@@ -226,7 +233,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         </GRFlexView>
         <GRFlexView>
           <GRTable
-            data={traingRosterlist}
+            data={trainingDetail?.members}
             scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}
