@@ -7,7 +7,7 @@ import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import { useQuery } from "@tanstack/react-query";
 import { tUseAttendanceQueryResposne } from "api/attendance";
 import queryKeys from "api/queryKeys";
-import { getMembersByTrainingId, getTrainingDetail } from "api/training";
+import { getTrainingDetail, getTrainingSubContentList } from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { useCallback, useState } from "react";
 import { tTrainingMainTitle } from "../../../../utils/constants";
@@ -17,58 +17,44 @@ import TrainingSubContentBoarder from "./TrainingSubContentBoarder";
 import TrainingTitleBoarder from "./TrainingTitleBoarder";
 
 const TrainingRosterPage = () => {
-  const [openCreateTrainingRosterModal, setOpenCreateTrainingRosterModal] =
-    useState(false);
-  const [selectUserId, setSelectUserId] = useState<number>();
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
-  const [selectTraining, setSelectTraining] = useState<tTrainingType>();
+  const [selectTrainingType, setSelectTrainingType] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingDetail>();
-  
-  const { data: subTrainingContent } = useQuery(
-    [queryKeys.TRAINING_DETAIL, selectTraining],
+
+  const [selectTrainingId, setSelectTrainingId] = useState<
+    number | undefined
+  >();
+
+  const { data: trainingSubContentList } = useQuery(
+    [queryKeys.TRAINING_DETAIL, selectTrainingType],
     async () =>
-      await getTrainingDetail({
-        type: selectTraining
+      await getTrainingSubContentList({
+        type: selectTrainingType
       }),
-    { enabled: !!selectTraining, select: _data => _data.content }
+    { enabled: !!selectTrainingType, select: _data => _data.content }
   );
 
-  const { data: subTrainingMembers } = useQuery(
+  const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
-    async () =>
-      await getMembersByTrainingId(selectTrainingSubContent?.id),
+    async () => await getTrainingDetail(selectTrainingSubContent?.id),
     { enabled: !!selectTrainingSubContent, select: _data => _data.content }
   );
-  // trainings
-  console.log("subTrainingMembers",subTrainingMembers)
 
-  const onClickCreateTrainingRoster = () => {
+  const onClickOpenRosterModal = (_content?: tTrainingDetail) => {
+    setSelectTrainingId(_content?.id);
     setOpenTrainingRosterModal(true);
   };
-
-  const onClickEditTraining = (_content: tTrainingDetail) => {
-
-  };
-
-  const onClickLinkText = useCallback(
-    (_recode?: tUseAttendanceQueryResposne) => {
-      setSelectUserId(_recode?.userId);
-    },
-    []
-  );
 
   const onCloseTrainingRosterModal = () => {
     setOpenTrainingRosterModal(false);
   };
 
   const onClickBoarder = (training: tTrainingMainTitle) => {
-    console.log("training",training)
-    setSelectTraining(training.value);
+    setSelectTrainingType(training.value);
   };
 
-  const onClickTraining = (subContent: tTrainingDetail) => {
-    console.log("subContent",subContent)
+  const onClickSubContent = (subContent: tTrainingDetail) => {
     setSelectTrainingSubContent(subContent);
   };
 
@@ -78,7 +64,7 @@ const TrainingRosterPage = () => {
         title={"명부 관리"}
         headerComponent={
           <GRButtonText
-            onClick={onClickCreateTrainingRoster}
+            onClick={() => onClickOpenRosterModal()}
             buttonType={"default"}
             size={"large"}
           >
@@ -96,33 +82,27 @@ const TrainingRosterPage = () => {
             marginbottom={1}
             style={{ minWidth: "60rem" }}
           >
+            {/* 훈련 종류 board */}
             <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
             <CaretRightOutlined rev={undefined} />
+            {/* 훈련 이름 board */}
             <TrainingSubContentBoarder
-              subTrainingContent={subTrainingContent}
-              onClickTraining={onClickTraining}
-              onClickCreateTraining={onClickCreateTrainingRoster}
-              onClickEditTraining={onClickEditTraining}
+              subContent={trainingSubContentList}
+              onClickSubContent={onClickSubContent}
+              onClickOpenRosterModal={onClickOpenRosterModal}
             />
             <CaretRightOutlined rev={undefined} />
+            {/* 훈련 참여자 board */}
             <TrainingMemberTableBoarder
-              subTrainingMembers={subTrainingMembers}
-              onClickLinkText={onClickLinkText}
+              rosterMembers={trainingDetail?.members}
             />
           </GRView>
         </GRView>
       </GRContainerView>
-      {selectUserId && (
-        <UserHistoryModal
-          open={!!selectUserId}
-          onClose={onClickLinkText}
-          userId={selectUserId}
-        />
-      )}
       <TrainingRosterModal
         open={openTrainingRosterModal}
         onClose={onCloseTrainingRosterModal}
-        training={subTrainingMembers}
+        trainingId={selectTrainingId}
       />
     </>
   );

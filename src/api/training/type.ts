@@ -1,3 +1,5 @@
+import { tSex } from "api/account/types";
+
 export type tTrainingType =
   /* "제자학교A" */
   | "DISCIPLE_SCHOOL_A"
@@ -14,6 +16,15 @@ export type tTrainingType =
   /* "학습" */
   | "PRE_BAPTISM";
 
+export type tTrainingRosterMember = {
+  userId: number;
+  name: string;
+  sex: tSex;
+  grade: number;
+  phoneNumber: string;
+  trainingId: number;
+};
+
 export type tTrainingDetail = {
   id: number;
   type: tTrainingType;
@@ -21,5 +32,5 @@ export type tTrainingDetail = {
   etc: string;
   startDate: string;
   endDate: string;
-  members: any[];
+  members: [];
 };

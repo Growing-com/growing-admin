@@ -7,12 +7,13 @@ import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
+import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
-import { createTraining } from "api/training";
+import { createTraining, getTrainingDetail } from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { Dayjs } from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
@@ -26,28 +27,23 @@ type tTrainingRosterModal = {
   open: boolean;
   onClose: () => void;
   onRegister?: () => void;
-  training: tTrainingDetail;
+  trainingId?: number;
 };
 
-type tNewFamilyForm = {
-  visitDate: Dayjs;
-  birth: Dayjs;
-} & Omit<tTermNewFamily, "visitDate" | "birth">;
-
-type tTrainingValue = {
-  type: tTrainingType;
-  name: string;
-  rangeDate: Date[];
-  etc: string;
-};
-
-const TrainingRosterModal: FC<tTrainingRosterModal> = ({ 
-  open, 
+const TrainingRosterModal: FC<tTrainingRosterModal> = ({
+  open,
   onClose,
-  training
+  trainingId
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
 
+  const { data: trainingDetail } = useQuery(
+    [queryKeys.TRAINING_MEMBERS, trainingId],
+    async () => await getTrainingDetail(trainingId),
+    { enabled: !!trainingId, select: _data => _data.content }
+  );
+  console.log("trainingId", trainingId);
+  console.log("trainingDetail", trainingDetail);
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
   const [traingRosterlist, setTraingRosterlist] = useState<tActiveUser[]>([]);
   const { findUserByName, searchUserByName } = useActiveUsers();
@@ -66,8 +62,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       startDate: _item.rangeDate[0],
       endDate: _item.rangeDate[1],
       etc: _item.etc,
-      userIds: traingRosterlist.map( roster => roster.id)
+      userIds: traingRosterlist.map(roster => roster.id)
     });
+    onCloseModal();
   };
 
   const columns: ColumnType<any>[] = useMemo(
@@ -135,14 +132,14 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   useEffect(() => {
-    if (!!training?.id) {
+    if (!!trainingDetail?.id) {
       reset({
-        ...training,
+        ...trainingDetail
       });
     } else {
       reset();
     }
-  }, [training, reset]);
+  }, [trainingDetail, reset]);
 
   return (
     <GRFormModal

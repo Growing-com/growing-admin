@@ -10,18 +10,25 @@ import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
 
 type tTrainingSubContentBoarder = {
-  subTrainingContent: tTrainingDetail[];
-  onClickTraining: () => void;
-  onClickEditTraining: () => void;
+  subContent?: tTrainingDetail[];
+  onClickSubContent: (subContent: tTrainingDetail) => void;
+  onClickOpenRosterModal: (_detail?: tTrainingDetail) => void;
 };
 
 const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
-  subTrainingContent,
-  onClickTraining,
-  onClickCreateTraining,
-  onClickEditTraining
+  subContent,
+  onClickSubContent,
+  onClickOpenRosterModal
 }) => {
-  if (!subTrainingContent?.length) {
+  const onClickCreateTraining = () => {
+    onClickOpenRosterModal(undefined);
+  };
+
+  const onClickEditTraining = (_content: tTrainingDetail) => {
+    onClickOpenRosterModal(_content);
+  };
+
+  if (!subContent?.length) {
     return (
       <Boarder
         boarderTitle={"훈련 이름"}
@@ -53,7 +60,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
     <Boarder
       boarderTitle={"훈련 이름"}
       boarderWidth={20}
-      borderContentComponent={subTrainingContent?.map(content => (
+      borderContentComponent={subContent?.map(content => (
         <>
           <BoarderCard
             isSelected={false}
@@ -66,7 +73,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                   <GRFlexView
                     justifyContent={"center"}
                     alignItems={"start"}
-                    onClick={() => onClickTraining(content)}
+                    onClick={() => onClickSubContent(content)}
                   >
                     <GRText weight={"bold"} fontSize={"b5"}>
                       {content.name ?? ""}{" "}
@@ -79,8 +86,13 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                       {`${content.startDate} ~ ${content.endDate}` ?? ""}{" "}
                     </GRText>
                   </GRFlexView>
-                  <GRView isFlex width={2} justifyContent={"center"} onClick={onClickEditTraining}>
-                    <EditOutlined rev={undefined}/>
+                  <GRView
+                    isFlex
+                    width={2}
+                    justifyContent={"center"}
+                    onClick={() => onClickEditTraining(content)}
+                  >
+                    <EditOutlined rev={undefined} />
                   </GRView>
                 </GRFlexView>
               </>

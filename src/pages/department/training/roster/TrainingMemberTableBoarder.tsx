@@ -4,22 +4,27 @@ import GRView from "@component/atom/view/GRView";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { ColumnType } from "antd/es/table";
-import { tTrainingDetail } from "api/training/type";
-import { FC, useMemo } from "react";
+import { tTrainingDetail, tTrainingRosterMember } from "api/training/type";
+import { FC, useCallback, useMemo, useState } from "react";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
+import GRStylesConfig from "styles/GRStylesConfig";
+import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 
 type tTrainingMemberTableBoarder = {
-  subTrainingMembers: tTrainingDetail;
-  onClickLinkText: () => void
-}
+  rosterMembers?: tTrainingRosterMember[];
+};
 
-const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({ 
-  subTrainingMembers, 
-  onClickLinkText 
+const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
+  rosterMembers
 }) => {
-  
-  const columns: ColumnType<any>[] = useMemo(
+  const [selectUserId, setSelectUserId] = useState<number>();
+
+  const onClickLinkText = useCallback((_recode?: tTrainingRosterMember) => {
+    setSelectUserId(_recode?.userId);
+  }, []);
+
+  const columns: ColumnType<tTrainingRosterMember>[] = useMemo(
     () => [
       {
         title: "이름",
@@ -61,36 +66,43 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
     [onClickLinkText]
   );
 
-
   return (
-    <Boarder
-      boarderTitle={"참여자"}
-      boarderWidth={30}
-      borderContentComponent={
-          !subTrainingMembers
-          ?
-            <GRView 
-              isFlex 
-              backgroundColor={"white"} 
-              style={{ height: '30rem'}} 
-              justifyContent={"center"} 
+    <>
+      <Boarder
+        boarderTitle={"참여자"}
+        boarderWidth={30}
+        borderContentComponent={
+          !rosterMembers ? (
+            <GRView
+              isFlex
+              backgroundColor={"white"}
+              style={{ height: "30rem" }}
+              justifyContent={"center"}
               paddingtop={10}
+              borderRadius={GRStylesConfig.BASE_RADIUS}
             >
-              <GRText weight={"bold"}>
-                훈련을 선택해주세요
-              </GRText>
+              <GRText weight={"bold"}>훈련을 선택해주세요</GRText>
             </GRView>
-          :
-          <GRView height={30} backgroundColor={Color.white}>
-            <GRTable
-              data={subTrainingMembers?.members ?? []}
-              scroll={{ y: "26rem" }}
-              columns={columns}
-              isHoverTable={false}
-            />
-          </GRView>
-      }
-    />
+          ) : (
+            <GRView height={30} backgroundColor={Color.white}>
+              <GRTable
+                data={rosterMembers ?? []}
+                scroll={{ y: "26rem" }}
+                columns={columns}
+                isHoverTable={false}
+              />
+            </GRView>
+          )
+        }
+      />
+      {selectUserId && (
+        <UserHistoryModal
+          open={!!selectUserId}
+          onClose={onClickLinkText}
+          userId={selectUserId}
+        />
+      )}
+    </>
   );
 };
 

@@ -7,9 +7,11 @@ type tGetTrainingDetailParam = {
   type?: tTrainingType;
 };
 
-export const getTrainingDetail = ({ type }: tGetTrainingDetailParam) => {
+export const getTrainingSubContentList = ({
+  type
+}: tGetTrainingDetailParam) => {
   if (!type) return Promise.reject();
-  return request<tTrainingDetail>({
+  return request<tTrainingDetail[]>({
     method: REQUEST_METHOD.GET,
     url: `/training`,
     params: { type }
@@ -68,8 +70,8 @@ export const registerMemberTraining = (
   });
 };
 
-export const getMembersByTrainingId = (trainingId?: number) => {
-  if( !trainingId) return Promise.reject();
+export const getTrainingDetail = (trainingId?: number) => {
+  if (!trainingId) return Promise.reject();
   return request<tTrainingDetail>({
     method: REQUEST_METHOD.GET,
     url: `/trainings/${trainingId}`
