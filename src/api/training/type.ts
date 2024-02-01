@@ -5,6 +5,8 @@ export type tTrainingType =
   | "DISCIPLE_SCHOOL_A"
   /* "제자학교B" */
   | "DISCIPLE_SCHOOL_B"
+  /* 제자반 */
+  | "DISCIPLE"
   /* "유아 세례" */
   | "INFANT_BAPTISM"
   /* "성인 세례" */

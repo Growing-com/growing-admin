@@ -3,13 +3,13 @@ import GRText from "@component/atom/text/GRText";
 import GRView from "@component/atom/view/GRView";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import { ColumnType } from "antd/es/table";
-import { tTrainingDetail, tTrainingRosterMember } from "api/training/type";
+import { tTrainingRosterMember } from "api/training/type";
 import { FC, useCallback, useMemo, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
-import GRStylesConfig from "styles/GRStylesConfig";
-import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 
 type tTrainingMemberTableBoarder = {
   rosterMembers?: tTrainingRosterMember[];
@@ -71,6 +71,7 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
       <Boarder
         boarderTitle={"참여자"}
         boarderWidth={30}
+        flex={3}
         borderContentComponent={
           !rosterMembers ? (
             <GRView

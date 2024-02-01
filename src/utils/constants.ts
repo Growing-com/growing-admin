@@ -8,6 +8,7 @@ export type tTrainingMainTitle = {
 export const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
   { label: "제자학교A", value: "DISCIPLE_SCHOOL_A" },
   { label: "제자학교B", value: "DISCIPLE_SCHOOL_B" },
+  { label: "제자반", value: "DISCIPLE" },
   { label: "유아 세례", value: "INFANT_BAPTISM" },
   { label: "성인 세례", value: "NORMAL_BAPTISM" },
   { label: "입교", value: "CONFIRMATION" },

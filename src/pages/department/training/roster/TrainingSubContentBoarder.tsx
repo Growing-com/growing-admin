@@ -33,6 +33,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
       <Boarder
         boarderTitle={"훈련 이름"}
         boarderWidth={20}
+        flex={2}
         borderContentComponent={
           <BoarderCard
             boarderHeight={3}

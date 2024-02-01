@@ -1,7 +1,6 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -13,18 +12,21 @@ import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
 import queryKeys from "api/queryKeys";
-import { tTermNewFamily } from "api/term/types";
 import {
+  createDiscipleShip,
   createTraining,
+  getDiscipleShipDetail,
   getTrainingDetail,
+  tUpdateDiscipleShipParams,
   tUpdateTrainingParam,
+  updateDiscipleShip,
   updateTraining
 } from "api/training";
-import { tTrainingDetail, tTrainingType } from "api/training/type";
-import dayjs, { Dayjs } from "dayjs";
+import { tTrainingType } from "api/training/type";
+import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
@@ -35,6 +37,7 @@ type tTrainingRosterModal = {
   onClose: () => void;
   onRegister?: () => void;
   trainingId?: number;
+  trainingType: tTrainingType;
 };
 
 const defaultValue = {
@@ -47,7 +50,8 @@ const defaultValue = {
 const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   open,
   onClose,
-  trainingId
+  trainingId,
+  trainingType
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
@@ -60,7 +64,13 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 
   const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, trainingId],
-    async () => await getTrainingDetail(trainingId),
+    async () => {
+      if( trainingType === "DISCIPLE"){
+        return await getDiscipleShipDetail(trainingId)
+      }else{
+        return await getTrainingDetail(trainingId)
+      }
+    },
     { enabled: !!trainingId, select: _data => _data.content }
   );
 
@@ -69,6 +79,13 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 
   const { mutateAsync: updateTrainingMutateAsync } = useMutation(
     async (params: tUpdateTrainingParam) => await updateTraining(params)
+  );
+
+  const { mutateAsync: createDiscipleShipMutateAsync } =
+    useMutation(createDiscipleShip);
+
+  const { mutateAsync: updateDiscipleShipMutateAsync } = useMutation(
+    async (params: tUpdateDiscipleShipParams) => await updateDiscipleShip(params)
   );
 
   const onCloseModal = () => {
@@ -85,20 +102,32 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       etc: _item.etc,
       userIds: traingRosterlist.map(roster => roster.id)
     };
+    if( !trainingId ) return;
     if (isCreate) {
-      await createTrainingMutateAsync(_params);
+      if( trainingType === 'DISCIPLE'){
+        await createDiscipleShipMutateAsync(_params);
+      }else{
+        await createTrainingMutateAsync(_params);
+      }
     } else {
-      await updateTrainingMutateAsync({ trainingId, ..._params });
+      if( trainingType === 'DISCIPLE'){
+        await updateDiscipleShipMutateAsync({ 
+          discipleshipId: trainingId, 
+          ..._params 
+        });
+      }else{
+        await updateTrainingMutateAsync({ trainingId, ..._params });
+      }
     }
     onCloseModal();
   };
 
-  const onClcikDeleteIcon = (_trainingRoster: tActiveUser) => {
+  const onClcikDeleteIcon = useCallback((_trainingRoster: tActiveUser) => {
     const _filterRosterList = traingRosterlist.filter(
       roster => roster.id !== _trainingRoster.id
     );
     setTraingRosterlist(_filterRosterList);
-  };
+  },[traingRosterlist]);
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -144,7 +173,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         )
       }
     ],
-    []
+    [onClcikDeleteIcon]
   );
 
   const handleSearch = (value: string) => {

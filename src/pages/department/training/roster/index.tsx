@@ -3,13 +3,11 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
-import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import { useQuery } from "@tanstack/react-query";
-import { tUseAttendanceQueryResposne } from "api/attendance";
 import queryKeys from "api/queryKeys";
-import { getTrainingDetail, getTrainingSubContentList } from "api/training";
+import { getDiscipleShipDetail, getDiscipleShips, getTrainingDetail, getTrainingSubContentList } from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { tTrainingMainTitle } from "../../../../utils/constants";
 import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
 import TrainingRosterModal from "./TrainingRosterModal";
@@ -28,16 +26,27 @@ const TrainingRosterPage = () => {
 
   const { data: trainingSubContentList } = useQuery(
     [queryKeys.TRAINING_DETAIL, selectTrainingType],
-    async () =>
-      await getTrainingSubContentList({
-        type: selectTrainingType
-      }),
+    async () =>{
+      if( selectTrainingType === "DISCIPLE"){
+        return await getDiscipleShips()
+      }else{
+        return await getTrainingSubContentList({
+          type: selectTrainingType
+        })
+      }
+    },
     { enabled: !!selectTrainingType, select: _data => _data.content }
   );
 
   const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
-    async () => await getTrainingDetail(selectTrainingSubContent?.id),
+    async () => {
+      if( selectTrainingType === "DISCIPLE"){
+        return await getDiscipleShipDetail(selectTrainingSubContent?.id)
+      }else{
+        return await getTrainingDetail(selectTrainingSubContent?.id)
+      }
+    },
     { enabled: !!selectTrainingSubContent, select: _data => _data.content }
   );
 
@@ -81,18 +90,18 @@ const TrainingRosterPage = () => {
             flexDirection={"row"}
             justifyContent={"space-between"}
             marginbottom={1}
-            style={{ minWidth: "60rem" }}
+            style={{ minWidth: "80rem" }}
           >
             {/* 훈련 종류 board */}
             <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
-            <CaretRightOutlined rev={undefined} />
+            <CaretRightOutlined rev={undefined} style={{ margin: "0 0.5rem"}}/>
             {/* 훈련 이름 board */}
             <TrainingSubContentBoarder
               subContent={trainingSubContentList}
               onClickSubContent={onClickSubContent}
               onClickOpenRosterModal={onClickOpenRosterModal}
             />
-            <CaretRightOutlined rev={undefined} />
+            <CaretRightOutlined rev={undefined} style={{ margin: "0 0.5rem"}} />
             {/* 훈련 참여자 board */}
             <TrainingMemberTableBoarder
               rosterMembers={trainingDetail?.members}
@@ -104,6 +113,7 @@ const TrainingRosterPage = () => {
         open={openTrainingRosterModal}
         onClose={onCloseTrainingRosterModal}
         trainingId={selectTrainingId}
+        trainingType={selectTrainingType}
       />
     </>
   );

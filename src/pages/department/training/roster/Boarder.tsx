@@ -1,4 +1,5 @@
 import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { css } from "@emotion/react";
 import { FC, ReactNode } from "react";
@@ -9,15 +10,18 @@ type tBoarder = {
   boarderHeight?: number;
   boarderTitle: string;
   borderContentComponent: ReactNode;
+  flex: number;
 };
 const Boarder: FC<tBoarder> = ({
   boarderWidth = 70,
   boarderTitle,
-  borderContentComponent
+  borderContentComponent,
+  flex
 }) => {
   return (
-    <GRView
-      width={boarderWidth}
+    <GRFlexView
+      // width={boarderWidth}
+      flex={flex}
       backgroundColor={Color.grey160}
       borderRadius={GRStylesConfig.BASE_RADIUS}
       paddingbottom={GRStylesConfig.BASE_LONG_MARGIN}
@@ -59,7 +63,7 @@ const Boarder: FC<tBoarder> = ({
       >
         {borderContentComponent}
       </GRView>
-    </GRView>
+    </GRFlexView>
   );
 };
 
