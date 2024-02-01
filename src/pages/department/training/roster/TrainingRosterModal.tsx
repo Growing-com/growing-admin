@@ -1,3 +1,4 @@
+import { CloseCircleOutlined } from "@ant-design/icons";
 import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRText from "@component/atom/text/GRText";
@@ -13,7 +14,12 @@ import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
 import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
-import { createTraining, getTrainingDetail } from "api/training";
+import {
+  createTraining,
+  getTrainingDetail,
+  tUpdateTrainingParam,
+  updateTraining
+} from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import dayjs, { Dayjs } from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
@@ -21,6 +27,7 @@ import { concat } from "lodash";
 import { FC, useEffect, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
 import { TRAINING_MAIN_TITLE } from "utils/constants";
 
 type tTrainingRosterModal = {
@@ -30,43 +37,67 @@ type tTrainingRosterModal = {
   trainingId?: number;
 };
 
+const defaultValue = {
+  type: undefined,
+  name: "",
+  rangeDate: [],
+  etc: ""
+};
+
 const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   open,
   onClose,
   trainingId
 }) => {
+  const { control, handleSubmit, reset } = useForm<any>();
+  const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
+  const [traingRosterlist, setTraingRosterlist] = useState<tActiveUser[]>([]);
+  const [searchValue, setSearchValue] = useState("");
+
   const isCreate = useMemo(() => !trainingId, [trainingId]);
 
-  const { control, handleSubmit, reset } = useForm<any>();
+  const { findUserByName, searchUserByName } = useActiveUsers();
 
   const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, trainingId],
     async () => await getTrainingDetail(trainingId),
     { enabled: !!trainingId, select: _data => _data.content }
   );
-  console.log("trainingId", trainingId);
-  console.log("trainingDetail", trainingDetail);
-  const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
-  const [traingRosterlist, setTraingRosterlist] = useState<tActiveUser[]>([]);
-  const { findUserByName, searchUserByName } = useActiveUsers();
 
   const { mutateAsync: createTrainingMutateAsync } =
     useMutation(createTraining);
 
+  const { mutateAsync: updateTrainingMutateAsync } = useMutation(
+    async (params: tUpdateTrainingParam) => await updateTraining(params)
+  );
+
   const onCloseModal = () => {
+    setSearchValue("");
     onClose();
   };
 
   const onClickModalOk: SubmitHandler<FieldValues> = async _item => {
-    await createTrainingMutateAsync({
+    const _params = {
       type: _item.type,
       name: _item.name,
       startDate: _item.rangeDate[0],
       endDate: _item.rangeDate[1],
       etc: _item.etc,
       userIds: traingRosterlist.map(roster => roster.id)
-    });
+    };
+    if (isCreate) {
+      await createTrainingMutateAsync(_params);
+    } else {
+      await updateTrainingMutateAsync({ trainingId, ..._params });
+    }
     onCloseModal();
+  };
+
+  const onClcikDeleteIcon = (_trainingRoster: tActiveUser) => {
+    const _filterRosterList = traingRosterlist.filter(
+      roster => roster.id !== _trainingRoster.id
+    );
+    setTraingRosterlist(_filterRosterList);
   };
 
   const columns: ColumnType<any>[] = useMemo(
@@ -104,7 +135,13 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       {
         title: "삭제",
         align: "center",
-        render: () => <GRText>삭제</GRText>
+        render: (_, recode) => (
+          <CloseCircleOutlined
+            onClick={() => onClcikDeleteIcon(recode)}
+            rev={undefined}
+            style={{ color: Color.grey80, cursor: "pointer" }}
+          />
+        )
       }
     ],
     []
@@ -118,7 +155,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       value: user.name
     }));
     console.log("filterUser", filterUser);
-
+    setSearchValue(value);
     setOptions(!value ? [] : filterUser);
   };
 
@@ -143,8 +180,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
           dayjs(trainingDetail.endDate)
         ]
       });
+      setTraingRosterlist(trainingDetail.members);
     } else {
-      reset();
+      setTraingRosterlist([]);
+      reset(defaultValue);
     }
   }, [trainingDetail, reset]);
 
@@ -223,6 +262,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
             options={options}
             onSelect={onSelect}
             onSearch={handleSearch}
+            value={searchValue}
           >
             <Input.Search
               placeholder={"이름 검색"}
@@ -231,15 +271,15 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
             />
           </AutoComplete>
         </GRFlexView>
-        <GRFlexView>
+        <GRView height={13}>
           <GRTable
-            data={trainingDetail?.members}
+            data={traingRosterlist}
             scroll={{ y: "10rem" }}
             columns={columns}
             isHoverTable={false}
             marginbottom={GRStylesConfig.BASE_MARGIN}
           />
-        </GRFlexView>
+        </GRView>
       </GRView>
     </GRFormModal>
   );

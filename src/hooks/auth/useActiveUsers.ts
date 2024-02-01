@@ -11,6 +11,7 @@ const useActiveUsers = () => {
     async () => await getActiveUser(),
     {
       staleTime: Infinity,
+      cacheTime: Infinity,
       select: _data => _data.content
     }
   );

@@ -42,6 +42,7 @@ const TrainingRosterPage = () => {
   );
 
   const onClickOpenRosterModal = (_content?: tTrainingDetail) => {
+    console.log("_content", _content);
     setSelectTrainingId(_content?.id);
     setOpenTrainingRosterModal(true);
   };

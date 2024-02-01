@@ -18,19 +18,11 @@ export const getTrainingSubContentList = ({
   });
 };
 
-type tUpdateTraining = {
-  type?: tTrainingType;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  etc: string;
-};
-
-export const updateTraining = (trainingId: number, params: tUpdateTraining) => {
-  return request({
-    method: REQUEST_METHOD.PUT,
-    url: `/training/${trainingId}`,
-    params
+export const getTrainingDetail = (trainingId?: number) => {
+  if (!trainingId) return Promise.reject();
+  return request<tTrainingDetail>({
+    method: REQUEST_METHOD.GET,
+    url: `/trainings/${trainingId}`
   });
 };
 
@@ -55,25 +47,26 @@ export const createTraining = (data: tCreateTraining) => {
   });
 };
 
-type tRegisterMemberTraining = {
-  userIds: number[];
+type tUpdateTrainingParam = {
+  trainingId: number;
+  type?: tTrainingType;
+  name: string;
+  startDate: Dayjs;
+  endDate: Dayjs;
+  etc: string;
 };
 
-export const registerMemberTraining = (
-  trainingId: number,
-  data: tRegisterMemberTraining
-) => {
+export const updateTraining = ({
+  trainingId,
+  ...data
+}: tUpdateTrainingParam) => {
   return request({
-    method: REQUEST_METHOD.POST,
-    url: `/training/${trainingId}/registerMembers`,
-    data
-  });
-};
-
-export const getTrainingDetail = (trainingId?: number) => {
-  if (!trainingId) return Promise.reject();
-  return request<tTrainingDetail>({
-    method: REQUEST_METHOD.GET,
-    url: `/trainings/${trainingId}`
+    method: REQUEST_METHOD.PUT,
+    url: `/trainings/${trainingId}`,
+    data: {
+      ...data,
+      startDate: convertDateString(data.startDate),
+      endDate: convertDateString(data.endDate)
+    }
   });
 };

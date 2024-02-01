@@ -8,6 +8,7 @@ import GRStylesConfig from "styles/GRStylesConfig";
 export type tGRFormModal = {
   okButtonText?: string;
   cancelButtonText?: string;
+  deleteButtonText?: string;
   onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -20,6 +21,7 @@ const GRFormModal: FC<tGRFormModal> = ({
   children,
   okButtonText,
   cancelButtonText,
+  deleteButtonText,
   open,
   closable = false,
   onCancel,
@@ -49,18 +51,30 @@ const GRFormModal: FC<tGRFormModal> = ({
     >
       <form onSubmit={onSubmit}>
         {children}
-        <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
-          <GRButtonText
-            key={"cancel-button"}
-            buttonType={"cancel"}
-            onClick={onCancelClickButton}
-            marginright={GRStylesConfig.BASE_MARGIN}
-          >
-            {cancelButtonText ?? "취소"}
-          </GRButtonText>
-          <GRButtonText key={"ok-button"} htmlType={"submit"}>
-            {okButtonText ?? "확인"}
-          </GRButtonText>
+        <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+          <GRFlexView>
+            <GRButtonText
+              key={"cancel-button"}
+              buttonType={"cancel"}
+              onClick={onCancelClickButton}
+              marginright={GRStylesConfig.BASE_MARGIN}
+            >
+              {deleteButtonText ?? "삭제"}
+            </GRButtonText>
+          </GRFlexView>
+          <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
+            <GRButtonText
+              key={"cancel-button"}
+              buttonType={"cancel"}
+              onClick={onCancelClickButton}
+              marginright={GRStylesConfig.BASE_MARGIN}
+            >
+              {cancelButtonText ?? "취소"}
+            </GRButtonText>
+            <GRButtonText key={"ok-button"} htmlType={"submit"}>
+              {okButtonText ?? "확인"}
+            </GRButtonText>
+          </GRFlexView>
         </GRFlexView>
       </form>
     </GRModal>
