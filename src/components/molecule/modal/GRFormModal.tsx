@@ -4,11 +4,13 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import { ModalProps } from "antd";
 import React, { FormEventHandler, useCallback, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from "styles/colors";
 
 export type tGRFormModal = {
   okButtonText?: string;
   cancelButtonText?: string;
   deleteButtonText?: string;
+  isShowDeleteButton?: boolean;
   onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -22,6 +24,7 @@ const GRFormModal: FC<tGRFormModal> = ({
   okButtonText,
   cancelButtonText,
   deleteButtonText,
+  isShowDeleteButton = false,
   open,
   closable = false,
   onCancel,
@@ -52,16 +55,19 @@ const GRFormModal: FC<tGRFormModal> = ({
       <form onSubmit={onSubmit}>
         {children}
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-          <GRFlexView>
-            <GRButtonText
-              key={"cancel-button"}
-              buttonType={"cancel"}
-              onClick={onCancelClickButton}
-              marginright={GRStylesConfig.BASE_MARGIN}
-            >
-              {deleteButtonText ?? "삭제"}
-            </GRButtonText>
-          </GRFlexView>
+          {isShowDeleteButton && (
+            <GRFlexView>
+              <GRButtonText
+                key={"delete-button"}
+                buttonType={"custom"}
+                onClick={onCancelClickButton}
+                marginright={GRStylesConfig.BASE_MARGIN}
+                backgroundColor={Color.red100}
+              >
+                {deleteButtonText ?? "삭제"}
+              </GRButtonText>
+            </GRFlexView>
+          )}
           <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
             <GRButtonText
               key={"cancel-button"}

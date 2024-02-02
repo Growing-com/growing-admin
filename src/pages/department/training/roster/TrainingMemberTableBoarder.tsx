@@ -71,7 +71,6 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
       <Boarder
         boarderTitle={"참여자"}
         boarderWidth={30}
-        flex={3}
         borderContentComponent={
           !rosterMembers ? (
             <GRView

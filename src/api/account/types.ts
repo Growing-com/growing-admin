@@ -1,3 +1,5 @@
+import { tTrainingType } from "api/training/type";
+
 /**
  * @descriptio 성
  * MALE : 남
@@ -80,11 +82,21 @@ export type tUser = {
   userName: string;
 };
 
+type tTraining = {
+  name: string;
+  type: tTrainingType;
+  userId: number;
+};
+
 export type tActiveUser = {
   id: number;
   name: string;
   grade: number;
   sex: tSex;
+  discipleship?: {
+    name: string;
+    userId: number;
+  };
   duty: tDuty;
   role: tRole;
   phoneNumber: string;
@@ -94,5 +106,5 @@ export type tActiveUser = {
   etc: string;
   updatedAt: Date;
   updatedBy: Date;
-  trainings: any[];
+  trainings: tTraining[];
 };

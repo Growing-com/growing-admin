@@ -5,7 +5,12 @@ import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
-import { getDiscipleShipDetail, getDiscipleShips, getTrainingDetail, getTrainingSubContentList } from "api/training";
+import {
+  getDiscipleShipDetail,
+  getDiscipleShips,
+  getTrainingDetail,
+  getTrainingSubContentList
+} from "api/training";
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { useState } from "react";
 import { tTrainingMainTitle } from "../../../../utils/constants";
@@ -26,13 +31,13 @@ const TrainingRosterPage = () => {
 
   const { data: trainingSubContentList } = useQuery(
     [queryKeys.TRAINING_DETAIL, selectTrainingType],
-    async () =>{
-      if( selectTrainingType === "DISCIPLE"){
-        return await getDiscipleShips()
-      }else{
+    async () => {
+      if (selectTrainingType === "DISCIPLE") {
+        return await getDiscipleShips();
+      } else {
         return await getTrainingSubContentList({
           type: selectTrainingType
-        })
+        });
       }
     },
     { enabled: !!selectTrainingType, select: _data => _data.content }
@@ -41,10 +46,10 @@ const TrainingRosterPage = () => {
   const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
     async () => {
-      if( selectTrainingType === "DISCIPLE"){
-        return await getDiscipleShipDetail(selectTrainingSubContent?.id)
-      }else{
-        return await getTrainingDetail(selectTrainingSubContent?.id)
+      if (selectTrainingType === "DISCIPLE") {
+        return await getDiscipleShipDetail(selectTrainingSubContent?.id);
+      } else {
+        return await getTrainingDetail(selectTrainingSubContent?.id);
       }
     },
     { enabled: !!selectTrainingSubContent, select: _data => _data.content }
@@ -90,18 +95,26 @@ const TrainingRosterPage = () => {
             flexDirection={"row"}
             justifyContent={"space-between"}
             marginbottom={1}
-            style={{ minWidth: "80rem" }}
+            style={{
+              minWidth: "80rem"
+            }}
           >
             {/* 훈련 종류 board */}
             <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
-            <CaretRightOutlined rev={undefined} style={{ margin: "0 0.5rem"}}/>
+            <CaretRightOutlined
+              rev={undefined}
+              style={{ margin: "0 0.5rem" }}
+            />
             {/* 훈련 이름 board */}
             <TrainingSubContentBoarder
               subContent={trainingSubContentList}
               onClickSubContent={onClickSubContent}
               onClickOpenRosterModal={onClickOpenRosterModal}
             />
-            <CaretRightOutlined rev={undefined} style={{ margin: "0 0.5rem"}} />
+            <CaretRightOutlined
+              rev={undefined}
+              style={{ margin: "0 0.5rem" }}
+            />
             {/* 훈련 참여자 board */}
             <TrainingMemberTableBoarder
               rosterMembers={trainingDetail?.members}

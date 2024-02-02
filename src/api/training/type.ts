@@ -34,5 +34,5 @@ export type tTrainingDetail = {
   etc: string;
   startDate: string;
   endDate: string;
-  members: [];
+  members: tTrainingRosterMember[];
 };

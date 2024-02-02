@@ -33,7 +33,6 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
       <Boarder
         boarderTitle={"훈련 이름"}
         boarderWidth={20}
-        flex={2}
         borderContentComponent={
           <BoarderCard
             boarderHeight={3}
@@ -60,7 +59,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   return (
     <Boarder
       boarderTitle={"훈련 이름"}
-      boarderWidth={20}
+      flex={1.5}
       borderContentComponent={subContent?.map(content => (
         <>
           <BoarderCard

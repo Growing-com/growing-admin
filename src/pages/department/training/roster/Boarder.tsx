@@ -10,18 +10,17 @@ type tBoarder = {
   boarderHeight?: number;
   boarderTitle: string;
   borderContentComponent: ReactNode;
-  flex: number;
+  flex?: number;
 };
 const Boarder: FC<tBoarder> = ({
   boarderWidth = 70,
   boarderTitle,
-  borderContentComponent,
-  flex
+  borderContentComponent
 }) => {
   return (
     <GRFlexView
-      // width={boarderWidth}
-      flex={flex}
+      width={boarderWidth}
+      // flex={flex}
       backgroundColor={Color.grey160}
       borderRadius={GRStylesConfig.BASE_RADIUS}
       paddingbottom={GRStylesConfig.BASE_LONG_MARGIN}

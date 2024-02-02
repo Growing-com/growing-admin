@@ -8,6 +8,7 @@ import HeaderView from "@component/molecule/view/HeaderView";
 import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
+import { tActiveUser } from "api/account/types";
 import { DUTY } from "config/const";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { useForm } from "react-hook-form";
@@ -62,7 +63,7 @@ const SearchPage = () => {
   const searchData = [];
   const onClickSearch = () => {};
   // 이름,학년 ,성별,직분,생년 월일,전화  번호,제자 훈련,제자 학교,세례
-  const columns: ColumnType<any>[] = [
+  const columns: ColumnType<tActiveUser>[] = [
     {
       title: "이름",
       dataIndex: "name",
@@ -125,7 +126,11 @@ const SearchPage = () => {
       width: "5rem",
       ellipsis: true,
       render: (_, record) => {
-        // return <GRText>{record.disciple_school.join(",")}</GRText>;
+        const _trainList = record.trainings?.filter(
+          training =>
+            training.type === "DISCIPLE_SCHOOL_A" ||
+            training.type === "DISCIPLE_SCHOOL_B"
+        );
         return <GRText>!</GRText>;
       }
     },
@@ -133,7 +138,11 @@ const SearchPage = () => {
       title: "제자 훈련",
       dataIndex: "disciple_traing",
       key: "disciple_traing",
-      align: "center"
+      align: "center",
+      render: (_, record) => {
+        const _discipleship = record.discipleship;
+        return <GRText>!</GRText>;
+      }
     },
     {
       title: "세례",
@@ -190,7 +199,7 @@ const SearchPage = () => {
                     fieldName={"searchType"}
                     control={control}
                     placeholder={"학년을 작성해주세요"}
-                    containStyle={{ marginRight: "1rem"}}
+                    containStyle={{ marginRight: "1rem" }}
                   />
                   <GRFormItem
                     title={"성별"}
@@ -198,7 +207,7 @@ const SearchPage = () => {
                     fieldName={"searchType"}
                     control={control}
                     placeholder={"조건을 선택해주세요"}
-                    containStyle={{ marginRight: "1rem"}}
+                    containStyle={{ marginRight: "1rem" }}
                   />
                   <GRFormItem
                     type={"date"}

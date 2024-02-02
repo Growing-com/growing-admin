@@ -22,7 +22,7 @@ import {
   updateDiscipleShip,
   updateTraining
 } from "api/training";
-import { tTrainingType } from "api/training/type";
+import { tTrainingRosterMember, tTrainingType } from "api/training/type";
 import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
@@ -55,7 +55,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
-  const [traingRosterlist, setTraingRosterlist] = useState<tActiveUser[]>([]);
+  const [traingRosterlist, setTraingRosterlist] = useState<
+    tTrainingRosterMember[]
+  >([]);
   const [searchValue, setSearchValue] = useState("");
 
   const isCreate = useMemo(() => !trainingId, [trainingId]);
@@ -65,10 +67,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   const { data: trainingDetail } = useQuery(
     [queryKeys.TRAINING_MEMBERS, trainingId],
     async () => {
-      if( trainingType === "DISCIPLE"){
-        return await getDiscipleShipDetail(trainingId)
-      }else{
-        return await getTrainingDetail(trainingId)
+      if (trainingType === "DISCIPLE") {
+        return await getDiscipleShipDetail(trainingId);
+      } else {
+        return await getTrainingDetail(trainingId);
       }
     },
     { enabled: !!trainingId, select: _data => _data.content }
@@ -85,7 +87,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     useMutation(createDiscipleShip);
 
   const { mutateAsync: updateDiscipleShipMutateAsync } = useMutation(
-    async (params: tUpdateDiscipleShipParams) => await updateDiscipleShip(params)
+    async (params: tUpdateDiscipleShipParams) =>
+      await updateDiscipleShip(params)
   );
 
   const onCloseModal = () => {
@@ -94,40 +97,49 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   const onClickModalOk: SubmitHandler<FieldValues> = async _item => {
+    console.log("traingRosterlist", traingRosterlist);
     const _params = {
       type: _item.type,
       name: _item.name,
       startDate: _item.rangeDate[0],
       endDate: _item.rangeDate[1],
       etc: _item.etc,
-      userIds: traingRosterlist.map(roster => roster.id)
+      userIds: traingRosterlist.map(roster => {
+        if (roster.id) return roster.id;
+        if (roster.userId) return roster.userId;
+      })
     };
-    if( !trainingId ) return;
+
     if (isCreate) {
-      if( trainingType === 'DISCIPLE'){
+      if (trainingType === "DISCIPLE") {
         await createDiscipleShipMutateAsync(_params);
-      }else{
+      } else {
         await createTrainingMutateAsync(_params);
       }
-    } else {
-      if( trainingType === 'DISCIPLE'){
-        await updateDiscipleShipMutateAsync({ 
-          discipleshipId: trainingId, 
-          ..._params 
+    }
+
+    if (!isCreate && trainingId) {
+      if (trainingType === "DISCIPLE") {
+        await updateDiscipleShipMutateAsync({
+          discipleshipId: trainingId,
+          ..._params
         });
-      }else{
+      } else {
         await updateTrainingMutateAsync({ trainingId, ..._params });
       }
     }
     onCloseModal();
   };
 
-  const onClcikDeleteIcon = useCallback((_trainingRoster: tActiveUser) => {
-    const _filterRosterList = traingRosterlist.filter(
-      roster => roster.id !== _trainingRoster.id
-    );
-    setTraingRosterlist(_filterRosterList);
-  },[traingRosterlist]);
+  const onClcikDeleteIcon = useCallback(
+    (_trainingRoster: tActiveUser) => {
+      const _filterRosterList = traingRosterlist.filter(
+        roster => roster.id !== _trainingRoster.id
+      );
+      setTraingRosterlist(_filterRosterList);
+    },
+    [traingRosterlist]
+  );
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -177,13 +189,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   );
 
   const handleSearch = (value: string) => {
-    console.log("value", value);
-    // console.log("activeUsers", activeUsers);
     const filterUser = searchUserByName(value).map(user => ({
       label: user.name,
       value: user.name
     }));
-    console.log("filterUser", filterUser);
     setSearchValue(value);
     setOptions(!value ? [] : filterUser);
   };
@@ -200,7 +209,6 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   useEffect(() => {
-    console.log("useEffect", trainingDetail);
     if (!!trainingDetail?.id) {
       reset({
         ...trainingDetail,
@@ -225,6 +233,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       width={"50%"}
       okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
+      isShowDeleteButton
     >
       <GRView flexDirection={"row"}>
         <GRView>
