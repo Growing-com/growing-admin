@@ -71,7 +71,13 @@ export const updateTraining = ({
   });
 };
 
-
+export const deleteTraining = (trainingId?: number ) => {
+  if( !trainingId) return Promise.reject();
+  return request({
+    method: REQUEST_METHOD.DELETE,
+    url: `/training/${trainingId}`
+  });
+};
 
 export const getDiscipleShips = () => {
   return request<tTrainingDetail[]>({
@@ -128,3 +134,12 @@ export const updateDiscipleShip = ({ discipleshipId, ...data } : tUpdateDisciple
     }
   });
 }
+
+export const deleteDiscipleShip = (discipleshipId?: number) =>{
+  if( !discipleshipId) return Promise.reject();
+  return request({
+    method: REQUEST_METHOD.DELETE,
+    url: `/discipleship/${discipleshipId}`,
+  });
+}
+

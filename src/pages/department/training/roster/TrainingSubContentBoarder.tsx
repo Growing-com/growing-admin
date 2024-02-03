@@ -3,7 +3,7 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { tTrainingDetail } from "api/training/type";
-import { FC } from "react";
+import { FC, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
@@ -20,6 +20,13 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   onClickSubContent,
   onClickOpenRosterModal
 }) => {
+  const [selectBoarder, setSelectBoarder] = useState<number>();
+
+  const onClick = (_content: tTrainingDetail) => {
+    setSelectBoarder(_content.id);
+    onClickSubContent(_content);
+  };
+
   const onClickCreateTraining = () => {
     onClickOpenRosterModal(undefined);
   };
@@ -59,11 +66,11 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   return (
     <Boarder
       boarderTitle={"훈련 이름"}
-      flex={1.5}
+      boarderWidth={20}
       borderContentComponent={subContent?.map(content => (
         <>
           <BoarderCard
-            isSelected={false}
+            isSelected={content.id === selectBoarder }
             cardContainComponent={
               <>
                 <GRFlexView
@@ -73,7 +80,7 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
                   <GRFlexView
                     justifyContent={"center"}
                     alignItems={"start"}
-                    onClick={() => onClickSubContent(content)}
+                    onClick={() => onClick(content)}
                   >
                     <GRText weight={"bold"} fontSize={"b5"}>
                       {content.name ?? ""}{" "}

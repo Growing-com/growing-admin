@@ -23,7 +23,6 @@ const BoarderCard: FC<tBoarderCard> = ({
     <GRView
       isFlex
       height={boarderHeight}
-      isBoard={isSelected}
       marginbottom={GRStylesConfig.BASE_MARGIN}
       borderRadius={GRStylesConfig.BASE_RADIUS}
       customCss={css`
@@ -41,10 +40,14 @@ const BoarderCard: FC<tBoarderCard> = ({
         --jsw-card-background-color: #ffffff;
         color: #172b4d;
         filter: none;
-        border: 0.1rem solid transparent;
-        :hover {
-          border: 0.1rem solid ${Color.green200};
+        border: ${isSelected ? 
+          `0.1rem solid ${Color.green200};`
+          :
+          `0.1rem solid transparent;`
         }
+        :hover {
+           border: 0.1rem solid ${Color.green200};
+         }
       `}
     >
       {cardContainComponent ? (

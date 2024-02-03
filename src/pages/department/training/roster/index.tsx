@@ -91,12 +91,10 @@ const TrainingRosterPage = () => {
         <GRView style={{ overflowX: "scroll" }}>
           <GRView
             isFlex
-            width={"100%"}
             flexDirection={"row"}
-            justifyContent={"space-between"}
             marginbottom={1}
             style={{
-              minWidth: "80rem"
+              minWidth: "80rem",
             }}
           >
             {/* 훈련 종류 board */}

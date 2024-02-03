@@ -17,6 +17,7 @@ export type tGRFormModal = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
+  onDelete?: () => void;
 } & Omit<ModalProps, "onOk" | "onCancel">;
 
 const GRFormModal: FC<tGRFormModal> = ({
@@ -29,6 +30,7 @@ const GRFormModal: FC<tGRFormModal> = ({
   closable = false,
   onCancel,
   onSubmit,
+  onDelete,
   title,
   ...props
 }) => {
@@ -42,6 +44,10 @@ const GRFormModal: FC<tGRFormModal> = ({
     },
     [onCancel]
   );
+
+  const onDeleteClickButton = () =>{
+    onDelete?.()
+  }
 
   return (
     <GRModal
@@ -60,9 +66,10 @@ const GRFormModal: FC<tGRFormModal> = ({
               <GRButtonText
                 key={"delete-button"}
                 buttonType={"custom"}
-                onClick={onCancelClickButton}
+                onClick={onDeleteClickButton}
                 marginright={GRStylesConfig.BASE_MARGIN}
-                backgroundColor={Color.red100}
+                backgroundColor={Color.red300}
+                textColor={"white"}
               >
                 {deleteButtonText ?? "삭제"}
               </GRButtonText>

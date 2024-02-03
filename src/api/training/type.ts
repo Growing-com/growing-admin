@@ -24,7 +24,6 @@ export type tTrainingRosterMember = {
   sex: tSex;
   grade: number;
   phoneNumber: string;
-  trainingId: number;
 };
 
 export type tTrainingDetail = {

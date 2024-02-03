@@ -3,8 +3,7 @@ import type {
   tAccount,
   tActiveUser,
   tLoginParam,
-  tRoleResponse,
-  tUser
+  tRoleResponse
 } from "./types";
 
 export const getUserList = () => {
@@ -81,6 +80,6 @@ export const getUserInfo = () => {
 export const getActiveUser = () => {
   return request<tActiveUser[]>({
     method: REQUEST_METHOD.GET,
-    url: `activeUsers`
+    url: `/activeUsers`
   });
 };

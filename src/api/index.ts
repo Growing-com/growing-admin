@@ -7,7 +7,8 @@ const defaultHeaders = {
 export const REQUEST_METHOD = {
   GET: "get",
   POST: "post",
-  PUT: "put"
+  PUT: "put",
+  DELETE: "delete",
 };
 
 const axiosInstance = axios.create({

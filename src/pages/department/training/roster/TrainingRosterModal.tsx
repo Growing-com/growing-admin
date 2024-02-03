@@ -10,11 +10,12 @@ import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
-import { tActiveUser } from "api/account/types";
 import queryKeys from "api/queryKeys";
 import {
   createDiscipleShip,
   createTraining,
+  deleteDiscipleShip,
+  deleteTraining,
   getDiscipleShipDetail,
   getTrainingDetail,
   tUpdateDiscipleShipParams,
@@ -37,7 +38,7 @@ type tTrainingRosterModal = {
   onClose: () => void;
   onRegister?: () => void;
   trainingId?: number;
-  trainingType: tTrainingType;
+  trainingType?: tTrainingType;
 };
 
 const defaultValue = {
@@ -54,6 +55,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   trainingType
 }) => {
   const { control, handleSubmit, reset } = useForm<any>();
+
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
   const [traingRosterlist, setTraingRosterlist] = useState<
     tTrainingRosterMember[]
@@ -82,6 +84,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   const { mutateAsync: updateTrainingMutateAsync } = useMutation(
     async (params: tUpdateTrainingParam) => await updateTraining(params)
   );
+  
+  const { mutateAsync: deleteTrainingMutateAsync } = useMutation(deleteTraining)
 
   const { mutateAsync: createDiscipleShipMutateAsync } =
     useMutation(createDiscipleShip);
@@ -91,25 +95,22 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       await updateDiscipleShip(params)
   );
 
+  const { mutateAsync: deleteDiscipleShipMutateAsync } = useMutation(deleteDiscipleShip)
+
   const onCloseModal = () => {
     setSearchValue("");
     onClose();
   };
 
   const onClickModalOk: SubmitHandler<FieldValues> = async _item => {
-    console.log("traingRosterlist", traingRosterlist);
     const _params = {
       type: _item.type,
       name: _item.name,
       startDate: _item.rangeDate[0],
       endDate: _item.rangeDate[1],
       etc: _item.etc,
-      userIds: traingRosterlist.map(roster => {
-        if (roster.id) return roster.id;
-        if (roster.userId) return roster.userId;
-      })
+      userIds: traingRosterlist.map(roster => roster.userId)
     };
-
     if (isCreate) {
       if (trainingType === "DISCIPLE") {
         await createDiscipleShipMutateAsync(_params);
@@ -132,14 +133,25 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   const onClcikDeleteIcon = useCallback(
-    (_trainingRoster: tActiveUser) => {
+    (_trainingRoster: tTrainingRosterMember) => {
       const _filterRosterList = traingRosterlist.filter(
-        roster => roster.id !== _trainingRoster.id
+        roster => roster.userId !== _trainingRoster.userId
       );
       setTraingRosterlist(_filterRosterList);
     },
     [traingRosterlist]
   );
+
+  const onDelete = async() => {
+    if( !trainingId || isCreate ){
+      return GRAlert.error("생성에서는 삭제 할 수 없습니다")
+    }
+    if( trainingType === 'DISCIPLE'){
+      await deleteDiscipleShipMutateAsync(trainingId)
+    }else{
+      await deleteTrainingMutateAsync(trainingId)
+    }
+  }
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -199,12 +211,23 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 
   const onSelect = (_name: string) => {
     const findUser = findUserByName(_name);
-    if (findUser && traingRosterlist.includes(findUser)) {
-      return GRAlert.error("이미 추가 되었습니다.");
+    const checkIncludes = traingRosterlist.filter( roster => roster.name === _name);
+
+    if (!!checkIncludes.length ) {
+      return GRAlert.error("이미 추가 되었습니다");
     }
 
     if (findUser) {
-      setTraingRosterlist(concat([findUser], traingRosterlist));
+      const convertToMember = {
+        userId: findUser.id,
+        name: findUser.name,
+        sex: findUser.sex,
+        grade: findUser.grade,
+        phoneNumber: findUser.phoneNumber
+      }
+      setTraingRosterlist(concat([convertToMember], traingRosterlist));
+    }else{
+      return GRAlert.error("존재하지 않는 성도 입니다");
     }
   };
 
@@ -217,6 +240,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
           dayjs(trainingDetail.endDate)
         ]
       });
+      console.log("trainingDetail.members",trainingDetail.members)
       setTraingRosterlist(trainingDetail.members);
     } else {
       setTraingRosterlist([]);
@@ -229,11 +253,13 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       open={open}
       onCancel={onCloseModal}
       onSubmit={handleSubmit(onClickModalOk)}
+      onDelete={onDelete}
       title={isCreate ? "명부 생성" : "명부 수정"}
       width={"50%"}
       okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
-      isShowDeleteButton
+      isShowDeleteButton={!isCreate}
+      deleteButtonText={"명부 삭제"}
     >
       <GRView flexDirection={"row"}>
         <GRView>
