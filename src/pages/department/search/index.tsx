@@ -57,11 +57,16 @@ const DUMP_DATA = [
 ];
 
 const SearchPage = () => {
-  const { activeUsers } = useActiveUsers();
+  const { activeUsers,refetch } = useActiveUsers();
+  refetch();
 
-  const { control, watch } = useForm();
+  const { control } = useForm();
   const searchData = [];
-  const onClickSearch = () => {};
+
+  const onClickSearch = (_value?: string) => {
+    console.log(_value)
+  };
+
   // 이름,학년 ,성별,직분,생년 월일,전화  번호,제자 훈련,제자 학교,세례
   const columns: ColumnType<tActiveUser>[] = [
     {
@@ -131,7 +136,7 @@ const SearchPage = () => {
             training.type === "DISCIPLE_SCHOOL_A" ||
             training.type === "DISCIPLE_SCHOOL_B"
         );
-        return <GRText>!</GRText>;
+        return <GRText>{_trainList?.map( train =>  train.name ).join(',') ?? "-"}</GRText>;
       }
     },
     {
@@ -141,14 +146,37 @@ const SearchPage = () => {
       align: "center",
       render: (_, record) => {
         const _discipleship = record.discipleship;
-        return <GRText>!</GRText>;
+        return <GRText>{_discipleship?.name ?? "-"}</GRText>;
       }
     },
     {
       title: "세례",
       dataIndex: "baptism",
       key: "baptism",
-      align: "center"
+      align: "center",
+      render: (_, record) => {
+        const _trainList = record.trainings?.filter(
+          training =>
+            training.type === "INFANT_BAPTISM" ||
+            training.type === "MILITARY_BAPTISM" ||
+            training.type === "NORMAL_BAPTISM"
+        );
+        return <GRText>{_trainList?.map( train =>  train.name ).join(',') ?? "-"}</GRText>;
+      }
+    },
+    {
+      title: "학습 | 입교",
+      dataIndex: "baptism",
+      key: "baptism2",
+      align: "center",
+      render: (_, record) => {
+        const _trainList = record.trainings?.filter(
+          training =>
+            training.type === "CONFIRMATION" ||
+            training.type === "PRE_BAPTISM"
+        );
+        return <GRText>{_trainList?.map( train =>  train.name ).join(',') ?? "-"}</GRText>;
+      }
     }
   ];
 
@@ -163,40 +191,12 @@ const SearchPage = () => {
             onClickSearch={onClickSearch}
             filterComponent={
               <>
-                {/* <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                  <GRFormItem
-                    title={"제자 학교"}
-                    type={"select"}
-                    fieldName={"searchType"}
-                    control={control}
-                    options={DISCIPLE_SCHOOL_OPTIONS}
-                    placeholder={"제자 학교를 선택해주세요"}
-                    containStyle={{ marginRight: "1rem"}}
-                  />
-                  <GRFormItem
-                    title={"제자 훈련"}
-                    type={"select"}
-                    fieldName={"searchType"}
-                    control={control}
-                    options={DISCIPLE_TRAINING_OPTIONS}
-                    placeholder={"제자 훈련을 선택해주세요"}
-                    containStyle={{ marginRight: "1rem"}}
-                  />
-                  <GRFormItem
-                    title={"세례"}
-                    type={"select"}
-                    fieldName={"searchType"}
-                    control={control}
-                    options={BAPTISM_OPTIONS}
-                    placeholder={"세례를 선택해주세요"}
-                  />
-                </GRFlexView> */}
                 <GRFlexView flexDirection={"row"} alignItems={"center"}>
                   <GRFormItem
                     title={"학년"}
                     type={"text"}
                     textType={"number"}
-                    fieldName={"searchType"}
+                    fieldName={"grade"}
                     control={control}
                     placeholder={"학년을 작성해주세요"}
                     containStyle={{ marginRight: "1rem" }}
@@ -204,7 +204,7 @@ const SearchPage = () => {
                   <GRFormItem
                     title={"성별"}
                     type={"select"}
-                    fieldName={"searchType"}
+                    fieldName={"gender"}
                     control={control}
                     placeholder={"조건을 선택해주세요"}
                     containStyle={{ marginRight: "1rem" }}
@@ -212,7 +212,7 @@ const SearchPage = () => {
                   <GRFormItem
                     type={"date"}
                     title={"생년월일"}
-                    fieldName={"sex"}
+                    fieldName={"birthday"}
                     control={control}
                     // picker={"month"}
                     // placeholder={["시작달", "종료달"]}

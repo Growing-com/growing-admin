@@ -6,7 +6,7 @@ import queryKeys from "api/queryKeys";
 // 현재 활동 중인 유저
 // 전체 검색 및 유저를 따로 뽑을때 사용한다.
 const useActiveUsers = () => {
-  const { data } = useQuery(
+  const { data, refetch } = useQuery(
     [queryKeys.ACTIVE_USERS],
     async () => await getActiveUser(),
     {
@@ -45,6 +45,7 @@ const useActiveUsers = () => {
 
   return {
     activeUsers: data ?? [],
+    refetch,
     findUserById,
     findUserByName,
     searchUserByName

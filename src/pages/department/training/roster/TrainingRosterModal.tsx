@@ -321,7 +321,6 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
             totalCount={traingRosterlist.length}
           />
           <AutoComplete
-            popupMatchSelectWidth={252}
             style={{ width: 200 }}
             options={options}
             onSelect={onSelect}
