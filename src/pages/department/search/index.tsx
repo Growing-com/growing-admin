@@ -2,6 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
@@ -9,9 +10,12 @@ import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
-import { DUTY } from "config/const";
+import { DUTY, SEX_OPTIONS } from "config/const";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { useForm } from "react-hook-form";
+import { Color } from "styles/colors";
+import { BAPTISM, DISCIPLE, TRAINING } from "utils/constants";
+
 const DISCIPLE_SCHOOL_OPTIONS = [
   { label: "전체", value: "0" },
   { label: "제자 학교 A", value: "1" },
@@ -137,7 +141,7 @@ const SearchPage = () => {
             training.type === "DISCIPLE_SCHOOL_B"
         );
         return <GRText>{_trainList?.map( train =>  train.name ).join(',') ?? "-"}</GRText>;
-      }
+      },
     },
     {
       title: "제자 훈련",
@@ -190,53 +194,104 @@ const SearchPage = () => {
           <SearchBar
             onClickSearch={onClickSearch}
             filterComponent={
-              <>
-                <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                  <GRFormItem
-                    title={"학년"}
-                    type={"text"}
-                    textType={"number"}
-                    fieldName={"grade"}
-                    control={control}
-                    placeholder={"학년을 작성해주세요"}
-                    containStyle={{ marginRight: "1rem" }}
-                  />
-                  <GRFormItem
-                    title={"성별"}
-                    type={"select"}
-                    fieldName={"gender"}
-                    control={control}
-                    placeholder={"조건을 선택해주세요"}
-                    containStyle={{ marginRight: "1rem" }}
-                  />
-                  <GRFormItem
-                    type={"date"}
-                    title={"생년월일"}
-                    fieldName={"birthday"}
-                    control={control}
-                    // picker={"month"}
-                    // placeholder={["시작달", "종료달"]}
-                  />
+            <>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFormItem
+                  title={"학년"}
+                  type={"text"}
+                  textType={"number"}
+                  fieldName={"grade"}
+                  control={control}
+                  placeholder={"학년을 작성해주세요"}
+                  containStyle={{ marginRight: "1rem" }}
+                />
+                <GRFormItem
+                  title={"성별"}
+                  type={"select"}
+                  fieldName={"gender"}
+                  control={control}
+                  placeholder={"조건을 선택해주세요"}
+                  containStyle={{ marginRight: "1rem" }}
+                  options={SEX_OPTIONS}
+                  mode={"multiple"}
+                />
+                <GRFormItem
+                  title={"직분"}
+                  type={"select"}
+                  mode={"multiple"}
+                  fieldName={"gender"}
+                  control={control}
+                  placeholder={"조건을 선택해주세요"}
+                />
+              </GRFlexView>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFormItem
+                  type={"select"}
+                  title={"제자학교"}
+                  mode={"multiple"}
+                  fieldName={"training"}
+                  control={control}
+                  containStyle={{ marginRight: "1rem"}}
+                  placeholder={"제자학교를 선택해주세요"}
+                  options={DISCIPLE}
+                  maxTagCount={"responsive"}
+                />
+                <GRFormItem
+                  type={"select"}
+                  title={"학습 입교"}
+                  mode={"multiple"}
+                  fieldName={"disciple"}
+                  control={control}
+                  containStyle={{ marginRight: "1rem"}}
+                  placeholder={"제자반을 선택해주세요"}
+                  options={TRAINING}
+                  maxTagCount={"responsive"}
+                />
+                <GRFormItem
+                  type={"select"}
+                  title={"세례"}
+                  mode={"multiple"}
+                  fieldName={"baptism"}
+                  control={control}
+                  placeholder={"세례을 선택해주세요"}
+                  options={BAPTISM}
+                  maxTagCount={"responsive"}
+                />
+              </GRFlexView>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFormItem
+                  type={"date"}
+                  title={"생년월일"}
+                  fieldName={"birthday"}
+                  control={control}
+                  picker={"month"}
+                />
+                <GRFlexView flex={0.5}>
+                  <></>
                 </GRFlexView>
+              </GRFlexView>
               </>
             }
           />
         }
       />
       <GRContainerView>
-        <GRTable
-          rowKey={"id"}
-          columns={columns}
-          data={activeUsers}
-          pagination={{
-            total: searchData?.length,
-            defaultPageSize: 20,
-            position: ["bottomCenter"]
-          }}
-          onRow={() => ({
-            onClick: () => onClickRow()
-          })}
-        />
+        <GRView  backgroundColor={Color.white}>
+          <GRTable
+              rowKey={"id"}
+              columns={columns}
+              data={activeUsers}
+              pagination={{
+                total: searchData?.length,
+                defaultPageSize: 10,
+                position: ["bottomCenter"]
+              }}
+              scroll={{  x: 1300 }}
+              onRow={() => ({
+                onClick: () => onClickRow()
+              })}
+          />
+        </GRView>
       </GRContainerView>
     </>
   );
