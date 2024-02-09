@@ -21,6 +21,7 @@ import TrainingTitleBoarder from "./TrainingTitleBoarder";
 
 const TrainingRosterPage = () => {
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);
+  const [modalTrainingType, setModalTrainingType] = useState<tTrainingType>();
   const [selectTrainingType, setSelectTrainingType] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingDetail>();
@@ -56,8 +57,8 @@ const TrainingRosterPage = () => {
   );
 
   const onClickOpenRosterModal = (_content?: tTrainingDetail) => {
-    console.log("_content", _content);
     setSelectTrainingId(_content?.id);
+    setModalTrainingType(selectTrainingType);
     setOpenTrainingRosterModal(true);
   };
 
@@ -65,12 +66,24 @@ const TrainingRosterPage = () => {
     setOpenTrainingRosterModal(false);
   };
 
+  const onClickCreateTraining = () => {
+    setSelectTrainingId(undefined);
+    setModalTrainingType(undefined);
+    setOpenTrainingRosterModal(true);
+  };
+
   const onClickBoarder = (training: tTrainingMainTitle) => {
-    setSelectTrainingType(training.value);
+    if (selectTrainingType !== training.value) {
+      setSelectTrainingSubContent(undefined);
+      setSelectTrainingType(training.value);
+    }
+    setModalTrainingType(training.value);
   };
 
   const onClickSubContent = (subContent: tTrainingDetail) => {
-    setSelectTrainingSubContent(subContent);
+    if (subContent.id !== selectTrainingSubContent?.id) {
+      setSelectTrainingSubContent(subContent);
+    }
   };
 
   return (
@@ -79,7 +92,7 @@ const TrainingRosterPage = () => {
         title={"명부 관리"}
         headerComponent={
           <GRButtonText
-            onClick={() => onClickOpenRosterModal()}
+            onClick={() => onClickCreateTraining()}
             buttonType={"default"}
             size={"large"}
           >
@@ -94,17 +107,21 @@ const TrainingRosterPage = () => {
             flexDirection={"row"}
             marginbottom={1}
             style={{
-              minWidth: "80rem",
+              minWidth: "80rem"
             }}
           >
             {/* 훈련 종류 board */}
-            <TrainingTitleBoarder onClickBoarder={onClickBoarder} />
+            <TrainingTitleBoarder
+              selectTrainingType={selectTrainingType}
+              onClickBoarder={onClickBoarder}
+            />
             <CaretRightOutlined
               rev={undefined}
               style={{ margin: "0 0.5rem" }}
             />
             {/* 훈련 이름 board */}
             <TrainingSubContentBoarder
+              selectTrainingSubContent={selectTrainingSubContent}
               subContent={trainingSubContentList}
               onClickSubContent={onClickSubContent}
               onClickOpenRosterModal={onClickOpenRosterModal}
@@ -116,6 +133,7 @@ const TrainingRosterPage = () => {
             {/* 훈련 참여자 board */}
             <TrainingMemberTableBoarder
               rosterMembers={trainingDetail?.members}
+              selectTrainingSubContent={selectTrainingSubContent}
             />
           </GRView>
         </GRView>
@@ -124,7 +142,7 @@ const TrainingRosterPage = () => {
         open={openTrainingRosterModal}
         onClose={onCloseTrainingRosterModal}
         trainingId={selectTrainingId}
-        trainingType={selectTrainingType}
+        trainingType={modalTrainingType}
       />
     </>
   );

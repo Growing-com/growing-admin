@@ -5,7 +5,7 @@ import ColumLinkText from "@component/molecule/table/ColumLinkText";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import UserHistoryModal from "@component/templates/modal/UserHistoryModal";
 import { ColumnType } from "antd/es/table";
-import { tTrainingRosterMember } from "api/training/type";
+import { tTrainingDetail, tTrainingRosterMember } from "api/training/type";
 import { FC, useCallback, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
@@ -13,10 +13,12 @@ import Boarder from "./Boarder";
 
 type tTrainingMemberTableBoarder = {
   rosterMembers?: tTrainingRosterMember[];
+  selectTrainingSubContent?: tTrainingDetail;
 };
 
 const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
-  rosterMembers
+  rosterMembers,
+  selectTrainingSubContent
 }) => {
   const [selectUserId, setSelectUserId] = useState<number>();
 
@@ -72,7 +74,7 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
         boarderTitle={"참여자"}
         boarderWidth={30}
         borderContentComponent={
-          !rosterMembers ? (
+          !selectTrainingSubContent?.id ? (
             <GRView
               isFlex
               backgroundColor={"white"}
@@ -86,10 +88,12 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
           ) : (
             <GRView height={30} backgroundColor={Color.white}>
               <GRTable
+                rowKey={"userId"}
                 data={rosterMembers ?? []}
                 scroll={{ y: "26rem" }}
                 columns={columns}
                 isHoverTable={false}
+                isLoading={!rosterMembers?.length}
               />
             </GRView>
           )

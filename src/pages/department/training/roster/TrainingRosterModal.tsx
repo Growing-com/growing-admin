@@ -7,7 +7,7 @@ import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AutoComplete, Divider, Input, SelectProps } from "antd";
 import { ColumnType } from "antd/es/table";
 import queryKeys from "api/queryKeys";
@@ -54,13 +54,16 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   trainingId,
   trainingType
 }) => {
-  const { control, handleSubmit, reset } = useForm<any>();
+  const { control, handleSubmit, reset } = useForm<any>({
+    defaultValues: defaultValue
+  });
 
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
   const [traingRosterlist, setTraingRosterlist] = useState<
     tTrainingRosterMember[]
   >([]);
   const [searchValue, setSearchValue] = useState("");
+  const queryClient = useQueryClient();
 
   const isCreate = useMemo(() => !trainingId, [trainingId]);
 
@@ -78,24 +81,46 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     { enabled: !!trainingId, select: _data => _data.content }
   );
 
-  const { mutateAsync: createTrainingMutateAsync } =
-    useMutation(createTraining);
+  const onSuccess = () => {
+    queryClient.invalidateQueries([queryKeys.TRAINING_DETAIL]);
+  };
 
-  const { mutateAsync: updateTrainingMutateAsync } = useMutation(
-    async (params: tUpdateTrainingParam) => await updateTraining(params)
+  /* 훈련 생성 */
+  const { mutateAsync: createTrainingMutateAsync } = useMutation(
+    createTraining,
+    { onSuccess }
   );
-  
-  const { mutateAsync: deleteTrainingMutateAsync } = useMutation(deleteTraining)
 
-  const { mutateAsync: createDiscipleShipMutateAsync } =
-    useMutation(createDiscipleShip);
+  /* 훈련 수정 */
+  const { mutateAsync: updateTrainingMutateAsync } = useMutation(
+    async (params: tUpdateTrainingParam) => await updateTraining(params),
+    { onSuccess }
+  );
 
+  /* 훈련 삭제 */
+  const { mutateAsync: deleteTrainingMutateAsync } = useMutation(
+    deleteTraining,
+    { onSuccess }
+  );
+
+  /* 제자반 생성 */
+  const { mutateAsync: createDiscipleShipMutateAsync } = useMutation(
+    createDiscipleShip,
+    { onSuccess }
+  );
+
+  /* 제자반 수정 */
   const { mutateAsync: updateDiscipleShipMutateAsync } = useMutation(
     async (params: tUpdateDiscipleShipParams) =>
-      await updateDiscipleShip(params)
+      await updateDiscipleShip(params),
+    { onSuccess }
   );
 
-  const { mutateAsync: deleteDiscipleShipMutateAsync } = useMutation(deleteDiscipleShip)
+  /* 제자반 삭제 */
+  const { mutateAsync: deleteDiscipleShipMutateAsync } = useMutation(
+    deleteDiscipleShip,
+    { onSuccess }
+  );
 
   const onCloseModal = () => {
     setSearchValue("");
@@ -142,16 +167,17 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     [traingRosterlist]
   );
 
-  const onDelete = async() => {
-    if( !trainingId || isCreate ){
-      return GRAlert.error("생성에서는 삭제 할 수 없습니다")
+  const onDelete = async () => {
+    if (!trainingId || isCreate) {
+      return GRAlert.error("생성에서는 삭제 할 수 없습니다");
     }
-    if( trainingType === 'DISCIPLE'){
-      await deleteDiscipleShipMutateAsync(trainingId)
-    }else{
-      await deleteTrainingMutateAsync(trainingId)
+    if (trainingType === "DISCIPLE") {
+      await deleteDiscipleShipMutateAsync(trainingId);
+    } else {
+      await deleteTrainingMutateAsync(trainingId);
     }
-  }
+    onCloseModal();
+  };
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -211,9 +237,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 
   const onSelect = (_name: string) => {
     const findUser = findUserByName(_name);
-    const checkIncludes = traingRosterlist.filter( roster => roster.name === _name);
+    const checkIncludes = traingRosterlist.filter(
+      roster => roster.name === _name
+    );
 
-    if (!!checkIncludes.length ) {
+    if (!!checkIncludes.length) {
       return GRAlert.error("이미 추가 되었습니다");
     }
 
@@ -224,9 +252,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         sex: findUser.sex,
         grade: findUser.grade,
         phoneNumber: findUser.phoneNumber
-      }
+      };
       setTraingRosterlist(concat([convertToMember], traingRosterlist));
-    }else{
+    } else {
       return GRAlert.error("존재하지 않는 성도 입니다");
     }
   };
@@ -240,13 +268,15 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
           dayjs(trainingDetail.endDate)
         ]
       });
-      console.log("trainingDetail.members",trainingDetail.members)
       setTraingRosterlist(trainingDetail.members);
     } else {
       setTraingRosterlist([]);
-      reset(defaultValue);
+      reset({
+        ...defaultValue,
+        type: trainingType
+      });
     }
-  }, [trainingDetail, reset]);
+  }, [trainingDetail, reset, trainingType]);
 
   return (
     <GRFormModal
@@ -282,6 +312,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               control={control}
               placeholder={"훈련 이름을 작성해 주세요"}
               required={true}
+              maxLength={30}
             />
           </GRFlexView>
           <GRFlexView flexDirection={"row"}>

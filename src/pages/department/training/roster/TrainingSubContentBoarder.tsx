@@ -3,7 +3,7 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { tTrainingDetail } from "api/training/type";
-import { FC, useState } from "react";
+import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
@@ -13,34 +13,87 @@ type tTrainingSubContentBoarder = {
   subContent?: tTrainingDetail[];
   onClickSubContent: (subContent: tTrainingDetail) => void;
   onClickOpenRosterModal: (_detail?: tTrainingDetail) => void;
+  selectTrainingSubContent?: tTrainingDetail;
+};
+
+type tTrainingSubContentCard = {
+  content: tTrainingDetail;
+  onClickEditTraining: (subContent: tTrainingDetail) => void;
+  onClick: (_detail: tTrainingDetail) => void;
+};
+
+const TrainingSubContentCard = ({
+  content,
+  onClickEditTraining,
+  onClick
+}: tTrainingSubContentCard) => {
+  return (
+    <GRFlexView
+      flexDirection={"row"}
+      paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN}
+    >
+      <GRFlexView
+        justifyContent={"center"}
+        alignItems={"start"}
+        onClick={() => onClick(content)}
+      >
+        <GRText weight={"bold"} fontSize={"b5"}>
+          {content.name ?? ""}{" "}
+        </GRText>
+        <GRText weight={"bold"} color={Color.grey80} fontSize={"b8"}>
+          {`${content.startDate} ~ ${content.endDate}` ?? ""}{" "}
+        </GRText>
+      </GRFlexView>
+      <GRView
+        isFlex
+        width={2}
+        justifyContent={"center"}
+        onClick={() => onClickEditTraining(content)}
+      >
+        <EditOutlined rev={undefined} />
+      </GRView>
+    </GRFlexView>
+  );
 };
 
 const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
   subContent,
+  selectTrainingSubContent,
   onClickSubContent,
   onClickOpenRosterModal
 }) => {
-  const [selectBoarder, setSelectBoarder] = useState<number>();
-
   const onClick = (_content: tTrainingDetail) => {
-    setSelectBoarder(_content.id);
     onClickSubContent(_content);
   };
 
   const onClickCreateTraining = () => {
-    onClickOpenRosterModal(undefined);
+    onClickOpenRosterModal();
   };
 
   const onClickEditTraining = (_content: tTrainingDetail) => {
     onClickOpenRosterModal(_content);
   };
 
-  if (!subContent?.length) {
-    return (
-      <Boarder
-        boarderTitle={"훈련 이름"}
-        boarderWidth={20}
-        borderContentComponent={
+  return (
+    <Boarder
+      boarderTitle={"훈련 이름"}
+      boarderWidth={20}
+      borderContentComponent={
+        <>
+          {subContent?.map(content => (
+            <>
+              <BoarderCard
+                isSelected={content.id === selectTrainingSubContent?.id}
+                cardContainComponent={
+                  <TrainingSubContentCard
+                    content={content}
+                    onClickEditTraining={onClickEditTraining}
+                    onClick={onClick}
+                  />
+                }
+              />
+            </>
+          ))}
           <BoarderCard
             boarderHeight={3}
             isSelected={false}
@@ -48,8 +101,8 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
               <GRFlexView
                 flexDirection={"row"}
                 alignItems={"center"}
-                justifyContent={"center"}
-                paddingleft={GRStylesConfig.BASE_MARGIN}
+                justifyContent={"flex-start"}
+                paddingleft={GRStylesConfig.BASE_LONG_MARGIN}
                 onClick={onClickCreateTraining}
               >
                 <PlusOutlined rev={undefined} style={{ fontWeight: "bold" }} />
@@ -59,54 +112,8 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
               </GRFlexView>
             }
           />
-        }
-      />
-    );
-  }
-  return (
-    <Boarder
-      boarderTitle={"훈련 이름"}
-      boarderWidth={20}
-      borderContentComponent={subContent?.map(content => (
-        <>
-          <BoarderCard
-            isSelected={content.id === selectBoarder }
-            cardContainComponent={
-              <>
-                <GRFlexView
-                  flexDirection={"row"}
-                  paddinghorizontal={GRStylesConfig.BASE_LONG_MARGIN}
-                >
-                  <GRFlexView
-                    justifyContent={"center"}
-                    alignItems={"start"}
-                    onClick={() => onClick(content)}
-                  >
-                    <GRText weight={"bold"} fontSize={"b5"}>
-                      {content.name ?? ""}{" "}
-                    </GRText>
-                    <GRText
-                      weight={"bold"}
-                      color={Color.grey80}
-                      fontSize={"b8"}
-                    >
-                      {`${content.startDate} ~ ${content.endDate}` ?? ""}{" "}
-                    </GRText>
-                  </GRFlexView>
-                  <GRView
-                    isFlex
-                    width={2}
-                    justifyContent={"center"}
-                    onClick={() => onClickEditTraining(content)}
-                  >
-                    <EditOutlined rev={undefined} />
-                  </GRView>
-                </GRFlexView>
-              </>
-            }
-          />
         </>
-      ))}
+      }
     />
   );
 };

@@ -1,20 +1,20 @@
 import { tTrainingType } from "api/training/type";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { TRAINING_MAIN_TITLE, tTrainingMainTitle } from "utils/constants";
 import Boarder from "./Boarder";
 import BoarderCard from "./BoarderCard";
 
 type tTrainingTitleBoarder = {
   onClickBoarder: (content: tTrainingMainTitle) => void;
+  selectTrainingType?: tTrainingType
 };
 
 const TrainingTitleBoarder: FC<tTrainingTitleBoarder> = ({
-  onClickBoarder
+  onClickBoarder,
+  selectTrainingType
 }) => {
-  const [selectBoarder, setSelectBoarder] = useState<tTrainingType>();
 
   const onClick = (_content: tTrainingMainTitle) => {
-    setSelectBoarder(_content.value);
     onClickBoarder(_content);
   };
 
@@ -26,7 +26,7 @@ const TrainingTitleBoarder: FC<tTrainingTitleBoarder> = ({
         <>
           <BoarderCard
             boarderCardTitle={content.label}
-            isSelected={content.value === selectBoarder}
+            isSelected={content.value === selectTrainingType}
             onClickBoarder={() => onClick(content)}
             boarderHeight={3}
           />
