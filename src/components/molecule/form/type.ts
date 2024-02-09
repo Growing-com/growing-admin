@@ -43,6 +43,8 @@ export type tGRFormItem = {
   containStyle?: CSSProperties;
   showSearch?: boolean;
   optionFilterProp?: string;
+  maxTagCount?: number | "responsive";
+  picker?: "time" | "date" | "week" | "month" | "quarter" | "year";
 };
 
 export type tRenderProps = {

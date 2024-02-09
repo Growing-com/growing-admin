@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { DatePicker, type DatePickerProps } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import { PickerComponentClass } from "antd/es/date-picker/generatePicker/interface";
+import locale from "antd/lib/date-picker/locale/ko_KR";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ko"; // 한국어 locale 추가
 import { CSSProperties, FC, useCallback, useMemo, useState } from "react";
@@ -9,7 +10,6 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import GRButtonText from "../button/GRTextButton";
 import GRFlexView from "../view/GRFlexView";
-import locale from "antd/lib/date-picker/locale/ko_KR";
 
 dayjs.locale("ko");
 
