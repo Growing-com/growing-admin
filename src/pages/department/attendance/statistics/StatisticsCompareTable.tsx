@@ -180,11 +180,7 @@ const StatisticsCompareTable = ({
 
   return (
     <>
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-        margintop={3}
-      >
+      <GRFlexView flexDirection={"row"} alignItems={"center"} margintop={3}>
         <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
           {headerTitle}
         </GRText>
@@ -200,9 +196,9 @@ const StatisticsCompareTable = ({
               onChange={onChangeTab}
               tabBarExtraContent={
                 <ExcelButton
-                  size={"normal"}
-                  buttonType={"primary"}
+                  size={"small"}
                   onClickExcel={onClickExcel}
+                  onlyIcon
                 />
               }
             />

@@ -1,10 +1,16 @@
 import styled from "@emotion/styled";
+import { FloatButton } from "antd";
 import { ReactNode, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const GRContainerView: FC<{ children: ReactNode }> = ({ children }) => {
-  return <ComponentContainer>{children}</ComponentContainer>;
+  return (
+    <ComponentContainer>
+      {children}
+      <FloatButton.BackTop type={"primary"} />
+    </ComponentContainer>
+  );
 };
 
 export default GRContainerView;

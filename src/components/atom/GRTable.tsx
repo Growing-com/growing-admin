@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { SerializedStyles, css } from "@emotion/react";
 import { Pagination, PaginationProps, Table, TableProps } from "antd";
 import { ReactNode, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -14,6 +14,7 @@ type tGRTable<T> = {
   fontSize?: number;
   headerFontSize?: number;
   isLoading?: boolean;
+  customCss?: SerializedStyles;
 } & tGetMargin &
   TableProps<T>;
 
@@ -32,6 +33,7 @@ const GRTable = <GRTableType extends object>({
   fontSize = 0.8,
   headerFontSize = 0.8,
   isLoading = false,
+  customCss,
   ...props
 }: tGRTable<GRTableType>) => {
   const _margin = getMargin(props);
@@ -49,8 +51,8 @@ const GRTable = <GRTableType extends object>({
       .ant-table-tbody > tr.ant-table-row:hover > td {
         background: ${!isHoverTable && `white !important`};
       }
-      .ant-table-body{
-        overflow-y: hidden!important;
+      .ant-table-body {
+        overflow-y: hidden !important;
       }
 
       .ant-table table {
@@ -82,10 +84,13 @@ const GRTable = <GRTableType extends object>({
         pagination={pagination}
         scroll={scroll ?? BASE_SCROLL}
         showSorterTooltip={false}
-        css={css`
-          ${_margin};
-          ${_tableStyles}
-        `}
+        css={[
+          css`
+            ${_margin};
+            ${_tableStyles};
+          `,
+          customCss
+        ]}
         {...props}
       />
       {paginationProps && (

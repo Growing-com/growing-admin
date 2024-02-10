@@ -1,10 +1,9 @@
-import GRContainerView from "@component/atom/view/GRContainerView";
-import HeaderView from "@component/molecule/view/HeaderView";
-import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
-
 import GRButtonText from "@component/atom/button/GRTextButton";
+import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import HeaderView from "@component/molecule/view/HeaderView";
+import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
 import { tAttendanceSearch } from "api/attendance/types";
 import dayjs from "dayjs";
 import useAccountTermInfos from "hooks/domain/term/useAccountTermInfos";
@@ -15,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import AttendanceSearchTable from "./AttendanceSearchTable";
 
-const SEARCH_OPTION = [
+export const SEARCH_OPTION = [
   {
     label: "이름",
     value: "name"
@@ -125,7 +124,7 @@ const AttendanceManagementPage: NextPage = () => {
                   fieldName={"rangeDate"}
                   control={control}
                   pickerType={"range"}
-                  containStyle={{ marginRight: "1rem"}}
+                  containStyle={{ marginRight: "1rem" }}
                 />
                 <GRFormItem
                   title={"검색 조건"}

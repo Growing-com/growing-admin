@@ -12,6 +12,7 @@ import { tTermNewFamily } from "api/term/types";
 import { SEX_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
+import { trim } from "lodash";
 import { FC, useCallback, useEffect, useMemo } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -85,6 +86,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
     async _item => {
       const _format = {
         ..._item,
+        name: trim(_item?.name),
         ...(_item?.birth && {
           birth: dayjs(_item.birth).format(DEFAULT_DATE_FOMAT)
         }),
@@ -189,7 +191,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"이름을 작성해 주세요"}
             required={true}
-            containStyle={{ marginRight: "1rem"}}
+            containStyle={{ marginRight: "1rem" }}
           />
           <GRFormItem
             type={"radio"}
@@ -210,7 +212,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             placeholder={"- 없이 작성해 주세요"}
             maxLength={13}
             required={true}
-            containStyle={{ marginRight: "1rem"}}
+            containStyle={{ marginRight: "1rem" }}
           />
           <GRFormItem
             type={"date"}
@@ -230,7 +232,7 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
             required={true}
-            containStyle={{ marginRight: "1rem"}}
+            containStyle={{ marginRight: "1rem" }}
           />
           <GRFormItem
             type={"date"}

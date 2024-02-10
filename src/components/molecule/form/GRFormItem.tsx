@@ -112,7 +112,7 @@ const GRFormItem = ({
     <GRFlexView
       flexDirection={"row"}
       alignItems={"center"}
-      marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
+      marginbottom={GRStylesConfig.BASE_MARGIN}
       style={containStyle}
     >
       {title && <GRFormTitle title={title} required={required} />}

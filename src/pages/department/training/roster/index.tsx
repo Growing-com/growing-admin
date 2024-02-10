@@ -101,7 +101,7 @@ const TrainingRosterPage = () => {
         }
       />
       <GRContainerView>
-        <GRView style={{ overflowX: "scroll" }}>
+        <GRView style={{ overflowX: "auto" }}>
           <GRView
             isFlex
             flexDirection={"row"}

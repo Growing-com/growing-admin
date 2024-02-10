@@ -4,6 +4,7 @@ import GRButtonText, {
   tButtonType,
   tGRButtonText
 } from "@component/atom/button/GRTextButton";
+import { Popover } from "antd";
 
 type tExcelButton = {
   onClickExcel: () => void;
@@ -11,32 +12,47 @@ type tExcelButton = {
   size?: tButtonSize;
   isExportData?: boolean;
   buttonType?: tButtonType;
+  popoverprops?: {
+    title?: string;
+    content?: string;
+  };
 } & tGRButtonText;
 
 const ExcelButton = ({
   onClickExcel,
   onlyIcon = false,
   size = "large",
-  buttonType = "default",
+  buttonType = "custom",
+  popoverprops,
   ...props
 }: tExcelButton) => {
+  const onClick = () => {
+    onClickExcel();
+  };
+
   return (
-    // 그냥 아이콘만 보여줄지 아니면 이름도 같이 보여줄지 설정으로
-    <GRButtonText
-      buttonType={buttonType}
-      size={size}
-      onClick={onClickExcel}
-      {...props}
-    >
-      <FileExcelOutlined
-        rev={undefined}
-        style={{
-          fontSize: "1rem",
-          marginRight: !onlyIcon ? "0.3rem" : "0rem"
-        }}
-      />
-      {!onlyIcon && (size === "normal" ? "엑셀" : "엑셀 다운")}
-    </GRButtonText>
+    <>
+      <Popover
+        content={popoverprops?.content}
+        {...(!popoverprops?.content && { open: false })}
+      >
+        <GRButtonText
+          buttonType={buttonType}
+          size={size}
+          onClick={onClick}
+          {...props}
+        >
+          <FileExcelOutlined
+            rev={undefined}
+            style={{
+              fontSize: "1rem",
+              marginRight: !onlyIcon ? "0.3rem" : "0rem"
+            }}
+          />
+          {!onlyIcon && (size === "normal" ? "엑셀" : "엑셀 다운")}
+        </GRButtonText>
+      </Popover>
+    </>
   );
 };
 

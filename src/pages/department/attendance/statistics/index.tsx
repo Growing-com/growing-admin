@@ -15,12 +15,6 @@ const AttendanceStatistics = () => {
   const [openStatisticsExcelModal, setOpenStatisticsExcelModal] =
     useState(false);
 
-  // const isCheckWednesday = useMemo(
-  //   () => dayjs().diff(dayjs().weekday(4), "date") === 0,
-  //   []
-  // );
-
-  // console.log("isCheckWednesday", isCheckWednesday);
   const { data: statisticsAbsentData } = useStatisticsAttendance(
     {
       startDate: getWeekDataFromToday.lastlastSunday,
