@@ -21,7 +21,6 @@ import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Color } from "styles/colors";
-import { koreanSorter } from "utils/sorter";
 import {
   BAPTISM_FILTER,
   CONFIRMATION_FILTER,
@@ -29,7 +28,8 @@ import {
   DISCIPLE_SCHOOL_FILTER,
   DUTY_FILTER,
   PRE_BAPTISM_FILTER
-} from "./filterConst";
+} from "utils/constants";
+import { koreanSorter } from "utils/sorter";
 
 type OnChange = NonNullable<TableProps<tActiveUser>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
