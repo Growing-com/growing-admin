@@ -52,7 +52,7 @@ const GRTable = <GRTableType extends object>({
         background: ${!isHoverTable && `white !important`};
       }
       .ant-table-body {
-        overflow-y: hidden !important;
+        overflow-y: auto !important;
       }
 
       .ant-table table {

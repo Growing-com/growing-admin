@@ -83,3 +83,10 @@ export const getActiveUser = () => {
     url: `/activeUsers`
   });
 };
+
+export const getInActiveUser = () => {
+  return request<tActiveUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `/inactiveAccounts`
+  });
+};

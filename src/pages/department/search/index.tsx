@@ -37,7 +37,6 @@ type Filters = Parameters<OnChange>[1];
 const SearchPage = () => {
   const { activeUsers, refetch } = useActiveUsers();
   const { control, handleSubmit } = useForm();
-  refetch();
 
   const [filteredInfo, setFilteredInfo] = useState<Filters>({});
   const [searchTotal, setSearchTotal] = useState<tActiveUser[]>([]);
@@ -329,6 +328,11 @@ const SearchPage = () => {
     setFilteredSearchData(extra.currentDataSource);
     setFilteredInfo(filters);
   };
+
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setSearchTotal(activeUsers);

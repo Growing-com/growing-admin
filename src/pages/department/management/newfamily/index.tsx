@@ -4,7 +4,6 @@ import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import ColumPopoverRender from "@component/molecule/table/ColumPopoverRender";
 import HeaderView from "@component/molecule/view/HeaderView";
 import SearchBar from "@component/templates/SearchBar";
 import { ColumnType } from "antd/es/table";
@@ -96,17 +95,17 @@ const ManagementNewFamilyPage: NextPage = () => {
       align: "center",
       width: "6rem"
     },
-    {
-      title: "기타 사항",
-      dataIndex: "etc",
-      key: "etc",
-      align: "center",
-      width: "8rem",
-      onCell: () => ({ onClick: e => e.stopPropagation() }),
-      render: (_, record) => (
-        <ColumPopoverRender content={record?.etc} label={"내용"} />
-      )
-    },
+    // {
+    //   title: "기타 사항",
+    //   dataIndex: "etc",
+    //   key: "etc",
+    //   align: "center",
+    //   width: "8rem",
+    //   onCell: () => ({ onClick: e => e.stopPropagation() }),
+    //   render: (_, record) => (
+    //     <ColumPopoverRender content={record?.etc} label={"내용"} />
+    //   )
+    // },
     {
       title: "등반 순장",
       align: "center",
@@ -169,6 +168,14 @@ const ManagementNewFamilyPage: NextPage = () => {
     [newFamilyData]
   );
 
+  const onClickLineOut = () => {
+    setOpenNewFamilyLineOutListModal(true);
+  };
+
+  const onClickLineOutClose = () => {
+    setOpenNewFamilyLineOutListModal(false);
+  };
+
   useEffect(() => {
     if (newFamilyData) {
       setFilteredNewFailyData(newFamilyData);
@@ -209,12 +216,12 @@ const ManagementNewFamilyPage: NextPage = () => {
                   </GRText>
                 </GRText>
               </GRView>
-              <GRView>
+              <GRView onClick={onClickLineOut}>
                 <GRText
                   color={Color.grey80}
                   style={{ textDecoration: "underline" }}
                 >
-                  라인 아웃 목록
+                  라인 아웃 리스트
                 </GRText>
               </GRView>
             </GRFlexView>
@@ -238,7 +245,10 @@ const ManagementNewFamilyPage: NextPage = () => {
         onClose={onCloseNewFamilyModal}
         onRegister={onRegister}
       />
-      <NewFamilyLineOutListModal open={openNewFamilyLineOutListModal} />
+      <NewFamilyLineOutListModal
+        open={openNewFamilyLineOutListModal}
+        onClose={onClickLineOutClose}
+      />
     </>
   );
 };

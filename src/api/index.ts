@@ -8,7 +8,7 @@ export const REQUEST_METHOD = {
   GET: "get",
   POST: "post",
   PUT: "put",
-  DELETE: "delete",
+  DELETE: "delete"
 };
 
 const axiosInstance = axios.create({

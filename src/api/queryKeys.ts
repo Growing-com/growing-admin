@@ -15,6 +15,7 @@ const queryKeys = {
 
   /** 활동하고 있는 유저 */
   ACTIVE_USERS: "active_users",
+  IN_ACTIVE_USERS: "in_active_users",
 
   /** 통계 관련 */
   STATISTICS_BASE: "statistics_base",
@@ -36,8 +37,8 @@ const queryKeys = {
   ACCOUNT_INFO: "account_info",
 
   /** 명부 관련 */
-  TRAINING_DETAIL: "training_detail", 
-  TRAINING_MEMBERS: "training_members", 
+  TRAINING_DETAIL: "training_detail",
+  TRAINING_MEMBERS: "training_members"
 };
 
 export default queryKeys;
