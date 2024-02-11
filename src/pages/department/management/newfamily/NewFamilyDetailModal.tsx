@@ -38,7 +38,9 @@ const emptyValues = {
   phoneNumber: "",
   birth: "",
   visitDate: "",
-  etc: ""
+  etc: "",
+  grade: "",
+  teamId: undefined
 } as unknown as tNewFamilyForm;
 
 const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
@@ -63,20 +65,16 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
   const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
   const { createUserMutateAsync, updateUserMutateAsync } = useUserMutate();
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>({
-    defaultValues: {
-      ...emptyValues
-    }
+    defaultValues: emptyValues
   });
 
   const onRegisterModal = useCallback(() => {
     onRegister?.();
-    reset({ ...emptyValues });
-  }, [onRegister, reset]);
+  }, [onRegister]);
 
   const onCloseModal = useCallback(() => {
     onClose?.();
-    reset({ ...emptyValues });
-  }, [onClose, reset]);
+  }, [onClose]);
 
   const { mutate: newFamilyLineOutMutate } = useNewFamilyLineOut({
     onClose: onRegisterModal
@@ -156,9 +154,11 @@ const NewFamilyDetailModal: FC<tNewFamilyDetailModal> = ({
             : undefined
       });
     } else {
-      reset();
+      reset({
+        ...emptyValues
+      });
     }
-  }, [newFamily, reset]);
+  }, [newFamily, reset, open]);
 
   return (
     <GRFormModal

@@ -6,6 +6,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import SearchBar from "@component/templates/SearchBar";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
@@ -133,19 +134,21 @@ const ManagementNewFamilyPage: NextPage = () => {
     setOpenNewFamilyModal(true);
   }, []);
 
-  const onCloseNewFamilyModal = useCallback(() => {
-    setOpenNewFamilyModal(!openNewFamilyModal);
+  const onCloseNewFamilyModal = () => {
+    setOpenNewFamilyModal(false);
     setSelectedNewFamily(undefined);
-  }, [openNewFamilyModal]);
+  };
 
-  const onClickCreateNewFamilyModal = useCallback(() => {
-    setOpenNewFamilyModal(!openNewFamilyModal);
-  }, [openNewFamilyModal]);
+  const onClickCreateNewFamilyModal = () => {
+    setSelectedNewFamily(undefined);
+    setOpenNewFamilyModal(true);
+  };
 
-  const onRegister = useCallback(() => {
-    setOpenNewFamilyModal(!openNewFamilyModal);
+  const onRegister = () => {
+    setSelectedNewFamily(undefined);
+    setOpenNewFamilyModal(false);
     refetch();
-  }, [openNewFamilyModal, refetch]);
+  };
 
   const onClickSearch = useCallback(
     (_searchText?: string) => {
@@ -204,18 +207,11 @@ const ManagementNewFamilyPage: NextPage = () => {
           rowKey={"name"}
           headerComponent={
             <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-              <GRView>
-                <GRText weight={"bold"}>새가족 리스트 </GRText>
-                <GRText color={Color.grey60}>
-                  <GRText weight={"bold"} color={Color.green200}>
-                    {filteredNewFailyData?.length ?? 0} 명
-                  </GRText>
-                  <GRText marginhorizontal={"0.3"}>/</GRText>
-                  <GRText fontSize={"b8"} color={Color.grey80}>
-                    총 {newFamilyData?.length ?? 0} 명
-                  </GRText>
-                </GRText>
-              </GRView>
+              <TableInfoHeader
+                count={filteredNewFailyData.length}
+                totalCount={filteredNewFailyData.length}
+                title={"새가족 리스트"}
+              />
               <GRView onClick={onClickLineOut}>
                 <GRText
                   color={Color.grey80}
