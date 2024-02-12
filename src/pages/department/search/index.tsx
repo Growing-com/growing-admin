@@ -329,15 +329,16 @@ const SearchPage = () => {
     setFilteredInfo(filters);
   };
 
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   useEffect(() => {
-    setSearchTotal(activeUsers);
-    setFilteredSearchData(activeUsers);
-  }, [activeUsers, activeUsers.length]);
+    if (!!activeUsers?.length) {
+      setSearchTotal(activeUsers);
+      setFilteredSearchData(activeUsers);
+    }
+  }, [activeUsers]);
 
   return (
     <>
@@ -407,7 +408,7 @@ const SearchPage = () => {
                 justifyContent={"space-between"}
               >
                 <TableInfoHeader
-                  title={"명부 리스트"}
+                  title={"검색 리스트"}
                   count={filteredSearchData.length}
                   totalCount={searchTotal.length}
                   isResetButton

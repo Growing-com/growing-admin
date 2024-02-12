@@ -11,10 +11,11 @@ import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { SEX_NAME } from "config/const";
+import dayjs from "dayjs";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
-import { koreanSorter } from "utils/sorter";
+import { dateSorter, koreanSorter } from "utils/sorter";
 import NewFamilyDetailModal from "./NewFamilyDetailModal";
 import NewFamilyLineOutListModal from "./NewFamilyLineOutListModal";
 
@@ -40,8 +41,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem",
-      sorter: (a, b) => koreanSorter(a.name, b.name)
+      width: "5rem"
     },
     {
       title: "학년",
@@ -84,6 +84,8 @@ const ManagementNewFamilyPage: NextPage = () => {
       key: "visitDate",
       align: "center",
       width: "8rem",
+      sorter: (valueA, valueB) =>
+        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
       render: (_, record) => {
         return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
       }

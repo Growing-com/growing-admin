@@ -108,18 +108,14 @@ const AttendanceCheck = () => {
       <HeaderView
         title={"출석 체크"}
         titleInfo={`${dayjs()
-          .weekday(4)
+          .weekday(3)
           .format(
             DEFAULT_DATE_FOMAT
-          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`
-        }
+          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
         showIcon={false}
       />
       <GRContainerView>
-        <GRFlexView
-            alignItems={"flex-start"}
-            flexDirection={"row"}
-        >
+        <GRFlexView alignItems={"flex-start"} flexDirection={"row"}>
           <AttendanceProgress attendanceData={attendanceCheckData} />
           <GRSelect
             marginright={GRStylesConfig.BASE_MARGIN}
@@ -140,7 +136,7 @@ const AttendanceCheck = () => {
           items={termLeaderOptions}
           onChange={onChangeTab}
           // tabBarExtraContent={
-            
+
           // }
         />
         <AttendanceCheckTable

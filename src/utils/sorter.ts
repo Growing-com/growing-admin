@@ -1,5 +1,7 @@
 // type tSortOption = 'ASC' | 'DESC'
 
+import { Dayjs } from "dayjs";
+
 export const koreanSorter = (
   valueA?: string | null,
   valueB?: string | null
@@ -11,4 +13,8 @@ export const koreanSorter = (
 
 export const numberSorter = (valueA: number, valueB: number) => {
   return valueA - valueB;
+};
+
+export const dateSorter = (valueA: Dayjs, valueB: Dayjs) => {
+  return valueA.diff(valueB) > 0 ? 1 : 0;
 };

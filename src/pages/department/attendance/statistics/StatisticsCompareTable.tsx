@@ -21,7 +21,6 @@ import { Dictionary, groupBy } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Color } from "styles/colors";
 import { getWeekDataFromToday } from "utils/DateUtils";
-import { koreanSorter, numberSorter } from "utils/sorter";
 
 type tStatisticsCompareTable = {
   headerTitle: string;
@@ -72,7 +71,6 @@ const StatisticsCompareTable = ({
         align: "center",
         fixed: "left",
         width: "5rem",
-        sorter: (a, b) => koreanSorter(a.userName, b.userName),
         render: (_, recode) => (
           <ColumLinkText
             text={recode.userName}
@@ -86,8 +84,7 @@ const StatisticsCompareTable = ({
         key: "grade",
         align: "center",
         fixed: "left",
-        width: "5rem",
-        sorter: (a, b) => numberSorter(a.grade, b.grade)
+        width: "5rem"
       },
       {
         title: "성별",

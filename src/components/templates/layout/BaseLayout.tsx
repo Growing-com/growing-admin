@@ -53,23 +53,25 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   );
 
   const onOpenChange = (keys: string[]) => {
-    openMetMainMenu(keys);
+    setDefaultOpen(keys);
   };
 
   useEffect(() => {
-    const _mainDefault = TAB_MENU.find(tab => tab.key === tabMenu)?.children;
+    const _mainDefault = TAB_MENU.find(
+      tab => tab.key === "department"
+    )?.children;
     if (_mainDefault) {
       const _defaultOpen = _mainDefault.map(menu => menu.key);
       setDefaultOpen(_defaultOpen);
       const _subDefault = [_mainDefault[0].key];
       setDefaultSelected(_subDefault);
     }
-  }, [tabMenu]);
+  }, []);
 
   useLayoutEffect(() => {
     if (router.pathname) {
       const _path = router.pathname.split("/");
-      // openMetMainMenu([_path[2]]);
+      openMetMainMenu([_path[2]]);
       setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
@@ -95,7 +97,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
             selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
             openKeys={defaultOpen} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
-            // onOpenChange={onOpenChange}
+            onOpenChange={onOpenChange}
           />
         </Sider>
         <Layout>

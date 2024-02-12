@@ -323,6 +323,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               control={control}
               pickerType={"range"}
               required={true}
+              disabledDate={() => false}
             />
           </GRFlexView>
           <GRFlexView flexDirection={"row"}>

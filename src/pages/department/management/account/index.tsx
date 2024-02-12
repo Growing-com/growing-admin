@@ -30,8 +30,7 @@ const ManagementAccountPage: NextPage = () => {
       title: "학년",
       dataIndex: "grade",
       key: "grade",
-      align: "center",
-      sorter: (a, b) => a.grade - b.grade
+      align: "center"
     },
     {
       title: "성별",

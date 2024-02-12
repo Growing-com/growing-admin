@@ -1,6 +1,7 @@
 import { tPickerType } from "@component/atom/dataEntry/GRDatePicker";
 import { tOptions } from "@component/atom/dataEntry/type";
 import { tGRTextInputType } from "@component/atom/text/GRTextInput";
+import dayjs from "dayjs";
 import { CSSProperties, ReactNode } from "react";
 import {
   ControllerFieldState,
@@ -45,6 +46,7 @@ export type tGRFormItem = {
   optionFilterProp?: string;
   maxTagCount?: number | "responsive";
   picker?: "time" | "date" | "week" | "month" | "quarter" | "year";
+  disabledDate?: ((date: dayjs.Dayjs) => boolean) | undefined;
 };
 
 export type tRenderProps = {
