@@ -94,7 +94,6 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "search",
     label: "전체 검색",
-    children: [],
     icon: <SearchOutlined rev={undefined} />
   }
 ];
