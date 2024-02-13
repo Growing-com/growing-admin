@@ -16,8 +16,8 @@ export type tDepartmentMainMenu = {
 };
 
 type tDepartmentManagementSubMenu = {
-  key: "management-account" | "management-newfamily";
-  label: "계정 관리" | "새가족 관리";
+  key: "management-account" | "management-newfamily" | "management-lineup";
+  label: "계정 관리" | "새가족 관리" | "라인업 관리";
   path: string;
 };
 
@@ -43,6 +43,11 @@ export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
     key: "management-newfamily",
     label: "새가족 관리",
     path: "management/newfamily"
+  },
+  {
+    key: "management-lineup",
+    label: "라인업 관리",
+    path: "management/lineup"
   }
 ];
 
@@ -94,7 +99,6 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "search",
     label: "전체 검색",
-    children: [],
     icon: <SearchOutlined rev={undefined} />
   }
 ];
