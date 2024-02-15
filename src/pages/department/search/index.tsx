@@ -16,11 +16,14 @@ import { tActiveUser } from "api/account/types";
 import { DUTY, MONTHS_OPTIONS, SEX_OPTIONS } from "config/const";
 import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
+import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import { includes, isEmpty } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import {
   BAPTISM_FILTER,
   CONFIRMATION_FILTER,
@@ -29,7 +32,7 @@ import {
   DUTY_FILTER,
   PRE_BAPTISM_FILTER
 } from "utils/constants";
-import { koreanSorter } from "utils/sorter";
+import { dateSorter, koreanSorter } from "utils/sorter";
 
 type OnChange = NonNullable<TableProps<tActiveUser>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
@@ -44,25 +47,25 @@ const SearchPage = () => {
     []
   );
 
-  const onClickSearch: SubmitHandler<FieldValues> = async _item => {
+  const onClickSearch = handleSubmit(async _item => {
     let _filterData = activeUsers;
-    if (_item.name) {
+    if (_item?.name) {
       _filterData = activeUsers.filter(
         user => user.name.indexOf(_item.name) !== -1
       );
     }
 
-    if (_item.phoneNumber) {
+    if (_item?.phoneNumber) {
       _filterData = _filterData.filter(
         user => user.phoneNumber.indexOf(_item.phoneNumber) !== -1
       );
     }
 
-    if (_item.grade) {
+    if (_item?.grade) {
       _filterData = _filterData.filter(user => user.grade === _item.grade);
     }
 
-    if (!!_item.birth.length) {
+    if (!!_item?.birth?.length) {
       _filterData = _filterData.filter(user => {
         if (user.birth && user.birth !== "1970-01-01") {
           const _month = dayjs(user.birth).month() + 1;
@@ -71,7 +74,7 @@ const SearchPage = () => {
       });
     }
     setSearchTotal(_filterData);
-  };
+  });
 
   const convertData = (_searchTotal: tActiveUser[]) => {
     return _searchTotal.map(data => {
@@ -196,6 +199,7 @@ const SearchPage = () => {
       key: "birth",
       dataIndex: "birth",
       align: "center",
+      sorter: (a, b) => dateSorter(dayjs(a.birth), dayjs(b.birth)),
       render: (_, record) => {
         return record?.birth !== "1970-01-01" ? record?.birth : "-";
       }
@@ -340,6 +344,10 @@ const SearchPage = () => {
     }
   }, [activeUsers]);
 
+  useKeyPressEventListener("Enter", () => {
+    onClickSearch();
+  });
+
   return (
     <>
       <HeaderView
@@ -351,7 +359,7 @@ const SearchPage = () => {
                 <GRFormItem
                   title={"이름"}
                   type={"text"}
-                  textType={"number"}
+                  textType={"input"}
                   fieldName={"name"}
                   control={control}
                   placeholder={"이름을 작성해주세요"}
@@ -391,7 +399,7 @@ const SearchPage = () => {
                 </GRFlexView>
               </GRFlexView>
             </GRFlexView>
-            <GRButtonText onClick={handleSubmit(onClickSearch)} size={"large"}>
+            <GRButtonText onClick={onClickSearch} size={"large"}>
               검색
             </GRButtonText>
           </GRFlexView>
@@ -411,10 +419,15 @@ const SearchPage = () => {
                   title={"검색 리스트"}
                   count={filteredSearchData.length}
                   totalCount={searchTotal.length}
-                  isResetButton
-                  onClickFilterReset={onClickFilterReset}
                 />
                 <GRView>
+                  <GRButtonText
+                    buttonType={"custom"}
+                    onClick={onClickFilterReset}
+                    marginright={GRStylesConfig.BASE_MARGIN}
+                  >
+                    필터 리셋
+                  </GRButtonText>
                   <ExcelButton
                     size={"small"}
                     buttonType={"custom"}
