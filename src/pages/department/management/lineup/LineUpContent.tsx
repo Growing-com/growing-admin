@@ -4,8 +4,9 @@ import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
 import { concat } from "lodash";
 import { useMemo, useState } from "react";
-import { useDrop } from "react-dnd";
+import { DndProvider, useDrop } from "react-dnd";
 import { DUMP_DATA } from "./DUPM_data";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const LineUpContent = () => {
   const [dropData, setDropDate] = useState([]);
@@ -118,21 +119,23 @@ const LineUpContent = () => {
   };
 
   return (
-    <GRFlexView>
-      <Table
-        rowKey={"id"}
-        columns={columns}
-        expandable={{
-          expandedRowRender: expandedRowRender,
-          defaultExpandedRowKeys: ["0"]
-        }}
-        components={{
-          body: { row: DragableBodyRow }
-        }}
-        dataSource={DUMP_DATA}
-        size="small"
-      />
-    </GRFlexView>
+    <DndProvider backend={HTML5Backend}>
+      <GRFlexView>
+        <Table
+          rowKey={"id"}
+          columns={columns}
+          expandable={{
+            expandedRowRender: expandedRowRender,
+            defaultExpandedRowKeys: ["0"]
+          }}
+          components={{
+            body: { row: DragableBodyRow }
+          }}
+          dataSource={DUMP_DATA}
+          size="small"
+        />
+      </GRFlexView>
+    </DndProvider>
   );
 };
 

@@ -20,4 +20,5 @@ const ComponentContainer = styled.div`
   padding: 2rem 3rem;
   border-radius: 0.5rem;
   box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
+  margin-bottom: 0.5rem;
 `;
