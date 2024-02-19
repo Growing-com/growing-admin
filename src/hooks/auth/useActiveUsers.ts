@@ -12,7 +12,13 @@ const useActiveUsers = () => {
     {
       staleTime: Infinity,
       cacheTime: Infinity,
-      select: _data => _data.content
+      select: _data => {
+        return _data.content.map((user: tActiveUser) => ({
+          ...user,
+          birth:
+            user.birth === "1970-01-01" || !user.birth ? undefined : user.birth
+        }));
+      }
     }
   );
 

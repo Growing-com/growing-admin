@@ -56,13 +56,16 @@ const SearchPage = () => {
     }
 
     if (_item?.phoneNumber) {
-      _filterData = _filterData.filter(
-        user => user.phoneNumber.indexOf(_item.phoneNumber) !== -1
-      );
+      _filterData = _filterData.filter(user => {
+        const removeDash = user.phoneNumber.replace(/-/g, "");
+        return removeDash.indexOf(_item.phoneNumber) !== -1;
+      });
     }
 
     if (_item?.grade) {
-      _filterData = _filterData.filter(user => user.grade === _item.grade);
+      _filterData = _filterData.filter(
+        user => user.grade === Number(_item.grade)
+      );
     }
 
     if (!!_item?.birth?.length) {
@@ -186,7 +189,7 @@ const SearchPage = () => {
       key: "sex",
       align: "center",
       width: "5rem",
-      render: (_, record) => <ColumSexRender sexData={record.sex} />
+      render: (_, record) => <ColumSexRender sexData={record?.sex} />
     },
     {
       title: "전화번호",
@@ -199,7 +202,12 @@ const SearchPage = () => {
       key: "birth",
       dataIndex: "birth",
       align: "center",
-      sorter: (a, b) => dateSorter(dayjs(a.birth), dayjs(b.birth)),
+      sorter: (a, b) => {
+        if (a.name === "박서준") {
+          console.log("a", a.birth);
+        }
+        return dateSorter(dayjs(a.birth), dayjs(b.birth));
+      },
       render: (_, record) => {
         return record?.birth !== "1970-01-01" ? record?.birth : "-";
       }
@@ -333,9 +341,9 @@ const SearchPage = () => {
     setFilteredInfo(filters);
   };
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [refetch]);
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (!!activeUsers?.length) {

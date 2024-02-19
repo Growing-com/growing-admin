@@ -30,21 +30,22 @@ const TrainingRosterPage = () => {
     number | undefined
   >();
 
-  const { data: trainingSubContentList } = useQuery(
-    [queryKeys.TRAINING_DETAIL, selectTrainingType],
-    async () => {
-      if (selectTrainingType === "DISCIPLE") {
-        return await getDiscipleShips();
-      } else {
-        return await getTrainingSubContentList({
-          type: selectTrainingType
-        });
-      }
-    },
-    { enabled: !!selectTrainingType, select: _data => _data.content }
-  );
+  const { data: trainingSubContentList, refetch: trainingSubContentRefetch } =
+    useQuery(
+      [queryKeys.TRAINING_DETAIL, selectTrainingType],
+      async () => {
+        if (selectTrainingType === "DISCIPLE") {
+          return await getDiscipleShips();
+        } else {
+          return await getTrainingSubContentList({
+            type: selectTrainingType
+          });
+        }
+      },
+      { enabled: !!selectTrainingType, select: _data => _data.content }
+    );
 
-  const { data: trainingDetail } = useQuery(
+  const { data: trainingDetail, refetch: trainingRefetch } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
     async () => {
       if (selectTrainingType === "DISCIPLE") {
@@ -62,7 +63,10 @@ const TrainingRosterPage = () => {
     setOpenTrainingRosterModal(true);
   };
 
-  const onCloseTrainingRosterModal = () => {
+  const onCloseTrainingRosterModal = async (_refetch?: boolean) => {
+    if (_refetch) {
+      await trainingRefetch();
+    }
     setOpenTrainingRosterModal(false);
   };
 

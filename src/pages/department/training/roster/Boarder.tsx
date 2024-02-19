@@ -7,7 +7,7 @@ import { Color } from "styles/colors";
 type tBoarder = {
   boarderWidth?: number;
   boarderHeight?: number;
-  boarderTitle: string;
+  boarderTitle: string | ReactNode;
   borderContentComponent: ReactNode;
   flex?: number;
 };
@@ -34,14 +34,18 @@ const Boarder: FC<tBoarder> = ({
           border-top-left-radius: 1rem;
         `}
       >
-        <GRText
-          fontSize={"b6"}
-          color={Color.blue80}
-          weight={"bold"}
-          marginleft={GRStylesConfig.BASE_LONG_MARGIN}
-        >
-          {boarderTitle ?? ""}
-        </GRText>
+        {typeof boarderTitle === "string" ? (
+          <GRText
+            fontSize={"b6"}
+            color={Color.blue80}
+            weight={"bold"}
+            marginleft={GRStylesConfig.BASE_LONG_MARGIN}
+          >
+            {boarderTitle ?? ""}
+          </GRText>
+        ) : (
+          boarderTitle
+        )}
       </GRView>
       <GRView
         height={30}

@@ -45,9 +45,18 @@ const GRFormModal: FC<tGRFormModal> = ({
     [onCancel]
   );
 
-  const onDeleteClickButton = () =>{
-    onDelete?.()
-  }
+  const onDeleteClickButton = () => {
+    onDelete?.();
+  };
+
+  const preventEnterKeySubmission = (
+    e: React.KeyboardEvent<HTMLFormElement>
+  ) => {
+    const target = e.target;
+    if (e.key === "Enter" && target instanceof HTMLInputElement) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <GRModal
@@ -58,7 +67,7 @@ const GRFormModal: FC<tGRFormModal> = ({
       onCancel={onCancelClickButton}
       {...props}
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} onKeyDown={preventEnterKeySubmission}>
         {children}
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
           {isShowDeleteButton && (

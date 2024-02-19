@@ -93,7 +93,7 @@ const StatisticsCompareTable = ({
         align: "center",
         fixed: "left",
         width: "5rem",
-        render: (_, record) => <ColumSexRender sexData={record.sex} />
+        render: (_, record) => <ColumSexRender sexData={record?.sex} />
       },
       {
         title: "출석 날짜",
