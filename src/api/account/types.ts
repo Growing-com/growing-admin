@@ -100,7 +100,7 @@ export type tActiveUser = {
   duty: tDuty;
   role: tRole;
   phoneNumber: string;
-  birth: string;
+  birth?: string;
   isActive: boolean;
   visitDate: Date;
   etc: string;

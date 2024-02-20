@@ -25,6 +25,9 @@ const TrainingRosterPage = () => {
   const [selectTrainingType, setSelectTrainingType] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingDetail>();
+  const [trainingDetail, setTrainingDetail] = useState<tTrainingDetail>(
+    {} as tTrainingDetail
+  );
 
   const [selectTrainingId, setSelectTrainingId] = useState<
     number | undefined
@@ -45,7 +48,7 @@ const TrainingRosterPage = () => {
       { enabled: !!selectTrainingType, select: _data => _data.content }
     );
 
-  const { data: trainingDetail, refetch: trainingRefetch } = useQuery(
+  const { refetch: trainingRefetch } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
     async () => {
       if (selectTrainingType === "DISCIPLE") {
@@ -54,7 +57,12 @@ const TrainingRosterPage = () => {
         return await getTrainingDetail(selectTrainingSubContent?.id);
       }
     },
-    { enabled: !!selectTrainingSubContent, select: _data => _data.content }
+    {
+      enabled: !!selectTrainingSubContent,
+      staleTime: 0,
+      select: _data => _data.content,
+      onSuccess: _data => setTrainingDetail(_data)
+    }
   );
 
   const onClickOpenRosterModal = (_content?: tTrainingDetail) => {
@@ -65,8 +73,10 @@ const TrainingRosterPage = () => {
 
   const onCloseTrainingRosterModal = async (_refetch?: boolean) => {
     if (_refetch) {
-      await trainingRefetch();
+      await trainingSubContentRefetch();
+      setTrainingDetail({} as tTrainingDetail);
     }
+    setModalTrainingType(undefined);
     setOpenTrainingRosterModal(false);
   };
 

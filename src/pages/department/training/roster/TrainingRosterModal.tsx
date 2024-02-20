@@ -70,7 +70,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   const { findUserByName, searchUserByName } = useActiveUsers();
 
   const { data: trainingDetail } = useQuery(
-    [queryKeys.TRAINING_MEMBERS, trainingId],
+    [queryKeys.TRAINING_MEMBERS],
     async () => {
       if (trainingType === "DISCIPLE") {
         return await getDiscipleShipDetail(trainingId);
@@ -78,7 +78,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         return await getTrainingDetail(trainingId);
       }
     },
-    { enabled: !!trainingId, select: _data => _data.content }
+    {
+      enabled: !!trainingId,
+      select: _data => _data.content
+    }
   );
 
   const onSuccess = () => {
@@ -264,8 +267,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       return GRAlert.error("존재하지 않는 성도 입니다");
     }
   };
-
+  console.log("trainingDetail", trainingDetail);
   useEffect(() => {
+    console.log("trainingDetail!", trainingDetail);
     if (!!trainingDetail?.id) {
       reset({
         ...trainingDetail,
@@ -291,7 +295,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       onSubmit={handleSubmit(onClickModalOk)}
       onDelete={onDelete}
       title={isCreate ? "명부 생성" : "명부 수정"}
-      width={"50%"}
+      width={"60%"}
       okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
       isShowDeleteButton={!isCreate}

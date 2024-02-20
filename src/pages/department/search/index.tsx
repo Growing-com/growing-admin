@@ -20,10 +20,9 @@ import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import { includes, isEmpty } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 import { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
-import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
 import {
   BAPTISM_FILTER,
   CONFIRMATION_FILTER,
@@ -46,6 +45,7 @@ const SearchPage = () => {
   const [filteredSearchData, setFilteredSearchData] = useState<tActiveUser[]>(
     []
   );
+  const [currentPage, setCurrentPage] = useState(1);
 
   const onClickSearch = handleSubmit(async _item => {
     let _filterData = activeUsers;
@@ -76,7 +76,9 @@ const SearchPage = () => {
         }
       });
     }
+    setFilteredSearchData(_filterData);
     setSearchTotal(_filterData);
+    setCurrentPage(1);
   });
 
   const convertData = (_searchTotal: tActiveUser[]) => {
@@ -262,7 +264,10 @@ const SearchPage = () => {
       align: "center",
       filters: DISCIPLE_FILTER,
       filteredValue: filteredInfo.disciple_traing || null,
-      onFilter: (_, record) => !isEmpty(record.discipleship),
+      onFilter: (value, record) => {
+        if (!value) return isEmpty(record.discipleship);
+        return !isEmpty(record.discipleship);
+      },
       render: (_, record) => {
         const _discipleship = record.discipleship;
         return <GRText>{_discipleship?.name ?? "-"}</GRText>;
@@ -343,6 +348,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -452,7 +458,9 @@ const SearchPage = () => {
             data={searchTotal}
             pagination={{
               total: filteredSearchData?.length,
-              position: ["bottomCenter"]
+              position: ["bottomCenter"],
+              current: currentPage,
+              onChange: page => setCurrentPage(page)
             }}
             scroll={{ x: 1300 }}
             onChange={handleChange}
