@@ -2,6 +2,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useMemo } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "./DUPM_data";
 
 const LineUpTable = () => {
@@ -74,7 +75,7 @@ const LineUpTable = () => {
   // };
 
   return (
-    <GRFlexView>
+    <GRFlexView marginright={GRStylesConfig.BASE_LONG_MARGIN}>
       <Table
         rowKey={"id"}
         columns={columns}

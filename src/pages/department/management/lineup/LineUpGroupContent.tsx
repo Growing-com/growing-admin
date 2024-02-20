@@ -1,13 +1,12 @@
-import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { Card, Collapse } from "antd";
-import { CollapseProps, ExpandIconPosition } from "antd/es/collapse/Collapse";
-import Table, { ColumnType } from "antd/es/table";
-import React, { useMemo, useState } from "react";
+import styled from "@emotion/styled";
+import { Collapse, Table } from "antd";
+import { ExpandIconPosition } from "antd/es/collapse/Collapse";
+import { ColumnType } from "antd/es/table";
+import { useMemo, useState } from "react";
 
-import { text } from "stream/consumers";
 const { Panel } = Collapse;
 
 const LineUpGroupContent = () => {
@@ -52,8 +51,16 @@ const LineUpGroupContent = () => {
 
   return (
     <GRFlexView>
-      <Collapse defaultActiveKey={["1"]} onChange={onChange}>
-        <Panel header="This is panel header 1" key="1">
+      <CollapseComponent
+        className="customs"
+        defaultActiveKey={["1"]}
+        onChange={onChange}
+      >
+        <PanelComponent
+          header="This is panel header 1"
+          key="1"
+          className="custom"
+        >
           <GRView>
             <Table
               dataSource={[
@@ -62,13 +69,39 @@ const LineUpGroupContent = () => {
               columns={columns}
             />
           </GRView>
-        </Panel>
-      </Collapse>
-      <Collapse defaultActiveKey={["1"]} onChange={onChange}>
+        </PanelComponent>
+      </CollapseComponent>
+      <CollapseComponent defaultActiveKey={["1"]} onChange={onChange}>
         <Panel header="This is panel header 1" key="1"></Panel>
-      </Collapse>
+      </CollapseComponent>
     </GRFlexView>
   );
 };
 
 export default LineUpGroupContent;
+
+const CollapseComponent = styled(Collapse)`
+  .ant-collapse {
+    .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0;
+    }
+  }
+  .customs {
+    .ant-collapse-content-box {
+      padding: 0;
+    }
+  }
+`;
+
+const PanelComponent = styled(Panel)`
+  /* .ant-collapse {
+    .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0;
+    }
+  } */
+  .custom {
+    .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0;
+    }
+  }
+`;

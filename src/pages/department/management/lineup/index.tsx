@@ -3,17 +3,16 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 
-import LineUpContent from "./LineUpContent";
-import LineUpTable from "./LineUpTable";
-import { Steps } from "antd";
-import { useState } from "react";
-import GRFormTitle from "@component/molecule/form/GRFormTitle";
-import GRFormItem from "@component/molecule/form/GRFormItem";
-import { useForm } from "react-hook-form";
-import GRStylesConfig from "styles/GRStylesConfig";
 import GRText from "@component/atom/text/GRText";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
+import GRFormItem from "@component/molecule/form/GRFormItem";
+import { Steps } from "antd";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import GRStylesConfig from "styles/GRStylesConfig";
+import LineUpContent from "./LineUpContent";
 import LineUpGroupContent from "./LineUpGroupContent";
+import LineUpTable from "./LineUpTable";
 
 const STEP_GROUP = 0;
 const STEP_TABLE = 1;
