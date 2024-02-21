@@ -205,9 +205,6 @@ const SearchPage = () => {
       dataIndex: "birth",
       align: "center",
       sorter: (a, b) => {
-        if (a.name === "박서준") {
-          console.log("a", a.birth);
-        }
         return dateSorter(dayjs(a.birth), dayjs(b.birth));
       },
       render: (_, record) => {
@@ -439,6 +436,7 @@ const SearchPage = () => {
                     buttonType={"custom"}
                     onClick={onClickFilterReset}
                     marginright={GRStylesConfig.BASE_MARGIN}
+                    textSize={"b7"}
                   >
                     필터 리셋
                   </GRButtonText>

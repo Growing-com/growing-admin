@@ -21,7 +21,7 @@ type AxiosResponseDataForm<T> = {
   content: T;
   totalPages?: number;
   totalElements?: number;
-  size: number;
+  size?: number;
 };
 
 // 에러 response Type?

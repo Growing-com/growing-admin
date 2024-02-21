@@ -79,6 +79,7 @@ const GRFormModal: FC<tGRFormModal> = ({
                 marginright={GRStylesConfig.BASE_MARGIN}
                 backgroundColor={Color.red300}
                 textColor={"white"}
+                textSize={"b7"}
               >
                 {deleteButtonText ?? "삭제"}
               </GRButtonText>

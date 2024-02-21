@@ -23,7 +23,11 @@ import {
   updateDiscipleShip,
   updateTraining
 } from "api/training";
-import { tTrainingRosterMember, tTrainingType } from "api/training/type";
+import {
+  tTrainingDetail,
+  tTrainingRosterMember,
+  tTrainingType
+} from "api/training/type";
 import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
@@ -70,7 +74,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   const { findUserByName, searchUserByName } = useActiveUsers();
 
   const { data: trainingDetail } = useQuery(
-    [queryKeys.TRAINING_MEMBERS],
+    [queryKeys.TRAINING_MEMBERS, trainingId],
     async () => {
       if (trainingType === "DISCIPLE") {
         return await getDiscipleShipDetail(trainingId);
@@ -79,8 +83,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       }
     },
     {
-      enabled: !!trainingId,
-      select: _data => _data.content
+      select: _data => _data.content,
+      initialData: {} as { content: tTrainingDetail }
     }
   );
 
@@ -174,6 +178,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     if (!trainingId || isCreate) {
       return GRAlert.error("생성에서는 삭제 할 수 없습니다");
     }
+    if (!confirm("정말 삭제 하시겠습니까?")) return;
+
     if (trainingType === "DISCIPLE") {
       await deleteDiscipleShipMutateAsync(trainingId);
     } else {
@@ -267,9 +273,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       return GRAlert.error("존재하지 않는 성도 입니다");
     }
   };
-  console.log("trainingDetail", trainingDetail);
+
   useEffect(() => {
-    console.log("trainingDetail!", trainingDetail);
     if (!!trainingDetail?.id) {
       reset({
         ...trainingDetail,
@@ -313,6 +318,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               placeholder={"훈련을 선택해주세요"}
               required={true}
               containStyle={{ marginRight: "1rem" }}
+              disabled={!isCreate}
             />
             <GRFormItem
               type={"text"}
