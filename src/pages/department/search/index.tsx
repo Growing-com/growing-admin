@@ -35,10 +35,15 @@ import { dateSorter, koreanSorter } from "utils/sorter";
 
 type OnChange = NonNullable<TableProps<tActiveUser>["onChange"]>;
 type Filters = Parameters<OnChange>[1];
-
+const defatulValue = {
+  name: "",
+  phoneNumber: "",
+  grade: "",
+  birth: []
+};
 const SearchPage = () => {
   const { activeUsers, refetch } = useActiveUsers();
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
 
   const [filteredInfo, setFilteredInfo] = useState<Filters>({});
   const [searchTotal, setSearchTotal] = useState<tActiveUser[]>([]);
@@ -46,6 +51,13 @@ const SearchPage = () => {
     []
   );
   const [currentPage, setCurrentPage] = useState(1);
+
+  const onClickResetSearch = () => {
+    reset(defatulValue);
+    setFilteredSearchData(activeUsers);
+    setSearchTotal(activeUsers);
+    setCurrentPage(1);
+  };
 
   const onClickSearch = handleSubmit(async _item => {
     let _filterData = activeUsers;
@@ -410,9 +422,22 @@ const SearchPage = () => {
                 </GRFlexView>
               </GRFlexView>
             </GRFlexView>
-            <GRButtonText onClick={onClickSearch} size={"large"}>
-              검색
-            </GRButtonText>
+            <GRView isFlex flexDirection={"column"}>
+              <GRFlexView>
+                <GRButtonText onClick={onClickSearch} size={"large"}>
+                  검색
+                </GRButtonText>
+              </GRFlexView>
+              <GRFlexView>
+                <GRButtonText
+                  onClick={onClickResetSearch}
+                  buttonType={"cancel"}
+                  size={"large"}
+                >
+                  초기화
+                </GRButtonText>
+              </GRFlexView>
+            </GRView>
           </GRFlexView>
         }
       />
