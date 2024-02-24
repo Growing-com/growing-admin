@@ -11,9 +11,18 @@ import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { Tag } from "antd";
-import { ColumnType, TableProps } from "antd/es/table";
+import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
-import { DUTY, MONTHS_OPTIONS, SEX_OPTIONS } from "config/const";
+import {
+  BAPTISM_OPTIONS,
+  CONFIRMATION_OPTIONS,
+  DISCIPLE_OPTIONS,
+  DISCIPLE_SCHOOL_OPTIONS,
+  DUTY,
+  MONTHS_OPTIONS,
+  PRE_BAPTISM_OPTIONS,
+  SEX_OPTIONS
+} from "config/const";
 import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
@@ -23,40 +32,42 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
-import {
-  BAPTISM_FILTER,
-  CONFIRMATION_FILTER,
-  DISCIPLE_FILTER,
-  DISCIPLE_SCHOOL_FILTER,
-  DUTY_FILTER,
-  PRE_BAPTISM_FILTER
-} from "utils/constants";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-type OnChange = NonNullable<TableProps<tActiveUser>["onChange"]>;
-type Filters = Parameters<OnChange>[1];
 const defatulValue = {
   name: "",
   phoneNumber: "",
   grade: "",
   birth: []
 };
+
 const SearchPage = () => {
   const { activeUsers, refetch } = useActiveUsers();
   const { control, handleSubmit, reset } = useForm();
 
-  const [filteredInfo, setFilteredInfo] = useState<Filters>({});
-  const [searchTotal, setSearchTotal] = useState<tActiveUser[]>([]);
-  const [filteredSearchData, setFilteredSearchData] = useState<tActiveUser[]>(
-    []
-  );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTotal, setSearchTotal] = useState<tActiveUser[]>([]);
 
   const onClickResetSearch = () => {
     reset(defatulValue);
-    setFilteredSearchData(activeUsers);
     setSearchTotal(activeUsers);
     setCurrentPage(1);
+  };
+
+  const onFilterTraining = (
+    value: string | number | boolean,
+    record: tActiveUser
+  ) => {
+    if (!value) return record.trainings.length === 0;
+    const _training = record.trainings?.filter(
+      training => training.type === value
+    );
+    return !!_training.length;
+  };
+
+  const onFilterDisciple = (value: string, record: tActiveUser) => {
+    if (!value) return isEmpty(record.discipleship);
+    return !isEmpty(record.discipleship);
   };
 
   const onClickSearch = handleSubmit(async _item => {
@@ -88,7 +99,48 @@ const SearchPage = () => {
         }
       });
     }
-    setFilteredSearchData(_filterData);
+
+    if (_item?.disciple_school?.length) {
+      _filterData = _filterData.filter(user => {
+        const _filter = _item?.disciple_school.filter(disciple_school => {
+          return onFilterTraining(disciple_school, user);
+        });
+        return !!_filter.length;
+      });
+    }
+
+    if (_item?.disciple_traing?.length) {
+      _filterData = _filterData.filter(user => {
+        const _filter = _item?.disciple_traing.filter(disciple_traing => {
+          return onFilterDisciple(disciple_traing, user);
+        });
+        return !!_filter.length;
+      });
+    }
+    if (_item?.baptism?.length) {
+      _filterData = _filterData.filter(user => {
+        const _filter = _item?.baptism.filter(baptism => {
+          return onFilterTraining(baptism, user);
+        });
+        return !!_filter.length;
+      });
+    }
+    if (_item?.prebaptism?.length) {
+      _filterData = _filterData.filter(user => {
+        const _filter = _item?.prebaptism.filter(prebaptism => {
+          return onFilterTraining(prebaptism, user);
+        });
+        return !!_filter.length;
+      });
+    }
+    if (_item?.confirmation?.length) {
+      _filterData = _filterData.filter(user => {
+        const _filter = _item?.confirmation.filter(confirmation => {
+          return onFilterTraining(confirmation, user);
+        });
+        return !!_filter.length;
+      });
+    }
     setSearchTotal(_filterData);
     setCurrentPage(1);
   });
@@ -138,11 +190,11 @@ const SearchPage = () => {
 
   const onClickExcel = async () => {
     try {
-      if (!filteredSearchData?.length) {
+      if (!searchTotal?.length) {
         throw new Error("추출 데이터가 없습니다");
       }
       await ExportExcelOfJson({
-        data: convertData(filteredSearchData),
+        data: convertData(searchTotal),
         headerTitle: [
           "이름",
           "학년",
@@ -162,22 +214,6 @@ const SearchPage = () => {
     } catch (e) {
       GRAlert.error("엑셀 추출 실패");
     }
-  };
-
-  const onClickFilterReset = () => {
-    setFilteredSearchData(searchTotal);
-    setFilteredInfo({});
-  };
-
-  const onFilterTraining = (
-    value: string | number | boolean,
-    record: tActiveUser
-  ) => {
-    if (!value) return record.trainings.length === 0;
-    const _training = record.trainings?.filter(
-      training => training.type === value
-    );
-    return !!_training.length;
   };
 
   const columns: ColumnType<tActiveUser>[] = [
@@ -229,9 +265,6 @@ const SearchPage = () => {
       dataIndex: "duty",
       align: "center",
       width: "5rem",
-      filteredValue: filteredInfo.duty || null,
-      filters: DUTY_FILTER,
-      onFilter: (value, record) => record?.duty === value,
       render: (_, item) => {
         if (!item?.duty) return;
         const _duty = DUTY.find(duty => duty.key === item.duty);
@@ -248,9 +281,6 @@ const SearchPage = () => {
       key: "disciple_school",
       align: "center",
       ellipsis: true,
-      filteredValue: filteredInfo.disciple_school || null,
-      filters: DISCIPLE_SCHOOL_FILTER,
-      onFilter: onFilterTraining,
       render: (_, record) => {
         const _trainList = record.trainings?.filter(
           training =>
@@ -260,7 +290,7 @@ const SearchPage = () => {
         return (
           <GRText>
             {!!_trainList.length
-              ? _trainList?.map(train => train.name).join(",") ?? "-"
+              ? _trainList?.map(train => train.name).join(", ") ?? "-"
               : "-"}
           </GRText>
         );
@@ -271,12 +301,6 @@ const SearchPage = () => {
       dataIndex: "discipleship",
       key: "disciple_traing",
       align: "center",
-      filters: DISCIPLE_FILTER,
-      filteredValue: filteredInfo.disciple_traing || null,
-      onFilter: (value, record) => {
-        if (!value) return isEmpty(record.discipleship);
-        return !isEmpty(record.discipleship);
-      },
       render: (_, record) => {
         const _discipleship = record.discipleship;
         return <GRText>{_discipleship?.name ?? "-"}</GRText>;
@@ -287,9 +311,6 @@ const SearchPage = () => {
       dataIndex: "trainings",
       key: "baptism",
       align: "center",
-      filteredValue: filteredInfo.baptism || null,
-      filters: BAPTISM_FILTER,
-      onFilter: onFilterTraining,
       render: (_, record) => {
         const _trainList = record.trainings?.filter(
           training =>
@@ -311,9 +332,6 @@ const SearchPage = () => {
       dataIndex: "trainings",
       key: "prebaptism",
       align: "center",
-      filteredValue: filteredInfo.prebaptism || null,
-      filters: PRE_BAPTISM_FILTER,
-      onFilter: onFilterTraining,
       render: (_, record) => {
         const _trainList = record.trainings?.filter(
           training => training.type === "PRE_BAPTISM"
@@ -332,9 +350,6 @@ const SearchPage = () => {
       dataIndex: "trainings",
       key: "confirmation",
       align: "center",
-      filteredValue: filteredInfo.confirmation || null,
-      filters: CONFIRMATION_FILTER,
-      onFilter: onFilterTraining,
       render: (_, record) => {
         const _trainList = record.trainings?.filter(
           training => training.type === "CONFIRMATION"
@@ -350,11 +365,6 @@ const SearchPage = () => {
     }
   ];
 
-  const handleChange: OnChange = (_, filters, __, extra) => {
-    setFilteredSearchData(extra.currentDataSource);
-    setFilteredInfo(filters);
-  };
-
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -363,7 +373,6 @@ const SearchPage = () => {
   useEffect(() => {
     if (!!activeUsers?.length) {
       setSearchTotal(activeUsers);
-      setFilteredSearchData(activeUsers);
     }
   }, [activeUsers]);
 
@@ -397,18 +406,18 @@ const SearchPage = () => {
                   placeholder={"전화 번호를 작성해주세요"}
                   containStyle={{ marginRight: "1rem" }}
                 />
+                <GRFormItem
+                  title={"학년"}
+                  type={"text"}
+                  textType={"number"}
+                  fieldName={"grade"}
+                  control={control}
+                  placeholder={"학년을 작성해주세요"}
+                  containStyle={{ marginRight: "1rem" }}
+                />
               </GRFlexView>
               <GRFlexView flexDirection={"row"} alignItems={"center"}>
                 <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                  <GRFormItem
-                    title={"학년"}
-                    type={"text"}
-                    textType={"number"}
-                    fieldName={"grade"}
-                    control={control}
-                    placeholder={"학년을 작성해주세요"}
-                    containStyle={{ marginRight: "1rem" }}
-                  />
                   <GRFormItem
                     title={"생년월일"}
                     type={"select"}
@@ -419,16 +428,72 @@ const SearchPage = () => {
                     containStyle={{ marginRight: "1rem" }}
                     options={MONTHS_OPTIONS}
                   />
+                  <GRFormItem
+                    title={"학습"}
+                    type={"select"}
+                    fieldName={"prebaptism"}
+                    control={control}
+                    mode={"multiple"}
+                    placeholder={"학습을 선택해주세요"}
+                    containStyle={{ marginRight: "1rem" }}
+                    options={PRE_BAPTISM_OPTIONS}
+                  />
+                  <GRFormItem
+                    title={"입교"}
+                    type={"select"}
+                    fieldName={"confirmation"}
+                    control={control}
+                    mode={"multiple"}
+                    placeholder={"입교을 선택해주세요"}
+                    containStyle={{ marginRight: "1rem" }}
+                    options={CONFIRMATION_OPTIONS}
+                  />
+                </GRFlexView>
+              </GRFlexView>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                  <GRFormItem
+                    title={"제자 학교"}
+                    type={"select"}
+                    fieldName={"disciple_school"}
+                    control={control}
+                    mode={"multiple"}
+                    placeholder={"제자 학교을 선택해주세요"}
+                    containStyle={{ marginRight: "1rem" }}
+                    options={DISCIPLE_SCHOOL_OPTIONS}
+                  />
+                  <GRFormItem
+                    title={"제자 훈련"}
+                    type={"select"}
+                    fieldName={"disciple_traing"}
+                    control={control}
+                    mode={"multiple"}
+                    placeholder={"제자 훈련을 선택해주세요"}
+                    containStyle={{ marginRight: "1rem" }}
+                    options={DISCIPLE_OPTIONS}
+                  />
+                  <GRFormItem
+                    title={"세례"}
+                    type={"select"}
+                    fieldName={"baptism"}
+                    control={control}
+                    mode={"multiple"}
+                    placeholder={"세례을 선택해주세요"}
+                    containStyle={{ marginRight: "1rem" }}
+                    options={BAPTISM_OPTIONS}
+                  />
                 </GRFlexView>
               </GRFlexView>
             </GRFlexView>
             <GRView isFlex flexDirection={"column"}>
               <GRFlexView>
-                <GRButtonText onClick={onClickSearch} size={"large"}>
+                <GRButtonText
+                  onClick={onClickSearch}
+                  size={"large"}
+                  marginbottom={GRStylesConfig.BASE_MARGIN}
+                >
                   검색
                 </GRButtonText>
-              </GRFlexView>
-              <GRFlexView>
                 <GRButtonText
                   onClick={onClickResetSearch}
                   buttonType={"cancel"}
@@ -453,26 +518,15 @@ const SearchPage = () => {
               >
                 <TableInfoHeader
                   title={"검색 리스트"}
-                  count={filteredSearchData.length}
+                  count={searchTotal.length}
                   totalCount={searchTotal.length}
                 />
                 <GRView>
-                  <GRButtonText
-                    buttonType={"custom"}
-                    onClick={onClickFilterReset}
-                    marginright={GRStylesConfig.BASE_MARGIN}
-                    textSize={"b7"}
-                  >
-                    필터 리셋
-                  </GRButtonText>
                   <ExcelButton
                     size={"small"}
                     buttonType={"custom"}
                     onClickExcel={onClickExcel}
                     onlyIcon
-                    popoverprops={{
-                      content: "검색 후 필터된 결과를 다운로드 받습니다"
-                    }}
                   />
                 </GRView>
               </GRFlexView>
@@ -480,13 +534,12 @@ const SearchPage = () => {
             columns={columns}
             data={searchTotal}
             pagination={{
-              total: filteredSearchData?.length,
+              total: searchTotal?.length,
               position: ["bottomCenter"],
               current: currentPage,
               onChange: page => setCurrentPage(page)
             }}
             scroll={{ x: 1300 }}
-            onChange={handleChange}
           />
         </GRView>
       </GRContainerView>
