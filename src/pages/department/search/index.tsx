@@ -102,24 +102,28 @@ const SearchPage = () => {
 
     if (_item?.disciple_school?.length) {
       _filterData = _filterData.filter(user => {
-        const _filter = _item?.disciple_school.filter(disciple_school => {
-          return onFilterTraining(disciple_school, user);
-        });
+        const _filter = _item?.disciple_school.filter(
+          (disciple_school: string) => {
+            return onFilterTraining(disciple_school, user);
+          }
+        );
         return !!_filter.length;
       });
     }
 
     if (_item?.disciple_traing?.length) {
       _filterData = _filterData.filter(user => {
-        const _filter = _item?.disciple_traing.filter(disciple_traing => {
-          return onFilterDisciple(disciple_traing, user);
-        });
+        const _filter = _item?.disciple_traing.filter(
+          (disciple_traing: string) => {
+            return onFilterDisciple(disciple_traing, user);
+          }
+        );
         return !!_filter.length;
       });
     }
     if (_item?.baptism?.length) {
       _filterData = _filterData.filter(user => {
-        const _filter = _item?.baptism.filter(baptism => {
+        const _filter = _item?.baptism.filter((baptism: string) => {
           return onFilterTraining(baptism, user);
         });
         return !!_filter.length;
@@ -127,7 +131,7 @@ const SearchPage = () => {
     }
     if (_item?.prebaptism?.length) {
       _filterData = _filterData.filter(user => {
-        const _filter = _item?.prebaptism.filter(prebaptism => {
+        const _filter = _item?.prebaptism.filter((prebaptism: string) => {
           return onFilterTraining(prebaptism, user);
         });
         return !!_filter.length;
@@ -135,7 +139,7 @@ const SearchPage = () => {
     }
     if (_item?.confirmation?.length) {
       _filterData = _filterData.filter(user => {
-        const _filter = _item?.confirmation.filter(confirmation => {
+        const _filter = _item?.confirmation.filter((confirmation: string) => {
           return onFilterTraining(confirmation, user);
         });
         return !!_filter.length;
