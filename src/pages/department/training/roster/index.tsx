@@ -152,12 +152,14 @@ const TrainingRosterPage = () => {
           </GRView>
         </GRView>
       </GRContainerView>
-      <TrainingRosterModal
-        open={openTrainingRosterModal}
-        onClose={onCloseTrainingRosterModal}
-        trainingId={selectTrainingId}
-        trainingType={modalTrainingType}
-      />
+      {openTrainingRosterModal && (
+        <TrainingRosterModal
+          open={openTrainingRosterModal}
+          onClose={onCloseTrainingRosterModal}
+          trainingId={selectTrainingId}
+          trainingType={modalTrainingType}
+        />
+      )}
     </>
   );
 };

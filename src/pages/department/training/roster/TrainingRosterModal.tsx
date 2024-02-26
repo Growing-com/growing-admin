@@ -143,8 +143,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       etc: _item.etc,
       userIds: traingRosterlist.map(roster => roster.userId)
     };
+    if (!_item.type) {
+      return GRAlert.error("훈련 종류를 선택해주세요");
+    }
     if (isCreate) {
-      if (trainingType === "DISCIPLE") {
+      if (_item.type === "DISCIPLE") {
         await createDiscipleShipMutateAsync(_params);
       } else {
         await createTrainingMutateAsync(_params);
@@ -152,7 +155,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     }
 
     if (!isCreate && trainingId) {
-      if (trainingType === "DISCIPLE") {
+      if (_item.type === "DISCIPLE") {
         await updateDiscipleShipMutateAsync({
           discipleshipId: trainingId,
           ..._params
@@ -275,9 +278,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   };
 
   useEffect(() => {
-    if (!!trainingDetail?.id) {
+    if (!!trainingDetail) {
       reset({
         ...trainingDetail,
+        type: trainingType,
         rangeDate: [
           dayjs(trainingDetail.startDate),
           dayjs(trainingDetail.endDate)
