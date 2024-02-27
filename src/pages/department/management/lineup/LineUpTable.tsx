@@ -1,7 +1,10 @@
+import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useMemo } from "react";
+import { useDrag } from "react-dnd";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "./DUPM_data";
 
@@ -36,53 +39,56 @@ const LineUpTable = () => {
     []
   );
 
-  // const DragableBodyRow = ({
-  //   index,
-  //   moveRow,
-  //   className,
-  //   style,
-  //   ...restProps
-  // }) => {
-  //   // props
-  //   // children: {$$typeof: Symbol(react.element), type: {…}, key: 'sex', ref: null, props: {…}, …}
-  //   // data-row-key: 331
-  //   // onClick
-  //   const [{ isDragging }, drag] = useDrag(() => ({
-  //     type: "board",
-  //     item: { name: "3" },
-  //     end: (item, monitor) => {
-  //       const dropResult = monitor.getDropResult();
-  //       console.log("monitor", monitor);
-  //       console.log("item", item);
-  //       console.log("dropResult", dropResult);
-  //       if (item && dropResult) {
-  //         alert(`You dropped ${item.name}!`);
-  //       }
-  //     },
-  //     collect: monitor => ({
-  //       isDragging: monitor.isDragging(),
-  //       handlerId: monitor.getHandlerId()
-  //     })
-  //   }));
-  //   return (
-  //     <tr
-  //       ref={drag}
-  //       data-testid="dustbin"
-  //       {...restProps}
-  //       style={{ cursor: "move", ...style, color: "red" }}
-  //     />
-  //   );
-  // };
+  const DragableBodyRow = ({
+    index,
+    moveRow,
+    className,
+    style,
+    ...restProps
+  }) => {
+    // props
+    // children: {$$typeof: Symbol(react.element), type: {…}, key: 'sex', ref: null, props: {…}, …}
+    // data-row-key: 331
+    // onClick
+    const [{ isDragging }, drag] = useDrag(() => ({
+      type: "board",
+      item: { name: "3" },
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult();
+        console.log("monitor", monitor);
+        console.log("item", item);
+        console.log("dropResult", dropResult);
+        if (item && dropResult) {
+          alert(`You dropped ${item.name}!`);
+        }
+      },
+      collect: monitor => ({
+        isDragging: monitor.isDragging(),
+        handlerId: monitor.getHandlerId()
+      })
+    }));
+    return (
+      <tr
+        ref={drag}
+        data-testid="dustbin"
+        {...restProps}
+        style={{ cursor: "move", ...style, color: "red" }}
+      />
+    );
+  };
 
   return (
     <GRFlexView marginright={GRStylesConfig.BASE_LONG_MARGIN}>
+      <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+        <GRText weight={"bold"}>전체 인원</GRText>
+      </GRView>
       <Table
         rowKey={"id"}
         columns={columns}
         dataSource={DUMP_DATA}
         components={{
           body: {
-            // row: DragableBodyRow
+            row: DragableBodyRow
             // row: props => {
             //   console.log("props", props);
             //   const { children, ...restProps } = props;

@@ -8,6 +8,8 @@ import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import { Steps } from "antd";
 import { useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import LineUpContent from "./LineUpContent";
@@ -103,8 +105,8 @@ const ManagementLineUpPage = () => {
           alignItems={"center"}
           marginbottom={GRStylesConfig.BASE_MARGIN}
         >
-          <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
-            태그 추가
+          <GRText weight={"bold"} fontSize={"b2"} marginright={0.5}>
+            그룹 지정
           </GRText>
           <GRInfoBadge
             infoMessage={"라인업 하기 전에 그룹화 하기 위한 작업입니다"}
@@ -118,9 +120,11 @@ const ManagementLineUpPage = () => {
               flexWrap: "wrap"
             }}
           >
-            <LineUpTable />
-            {current === STEP_GROUP && <LineUpGroupContent />}
-            {current === STEP_TABLE && <LineUpContent />}
+            <DndProvider backend={HTML5Backend}>
+              <LineUpTable />
+              {current === STEP_GROUP && <LineUpGroupContent />}
+              {current === STEP_TABLE && <LineUpContent />}
+            </DndProvider>
           </GRFlexView>
         </GRFlexView>
       </GRContainerView>
