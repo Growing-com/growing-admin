@@ -71,8 +71,8 @@ export const updateTraining = ({
   });
 };
 
-export const deleteTraining = (trainingId?: number ) => {
-  if( !trainingId) return Promise.reject();
+export const deleteTraining = (trainingId?: number) => {
+  if (!trainingId) return Promise.reject();
   return request({
     method: REQUEST_METHOD.DELETE,
     url: `/training/${trainingId}`
@@ -82,27 +82,27 @@ export const deleteTraining = (trainingId?: number ) => {
 export const getDiscipleShips = () => {
   return request<tTrainingDetail[]>({
     method: REQUEST_METHOD.GET,
-    url: `/discipleship`,
+    url: `/discipleship`
   });
-}
+};
 
-export const getDiscipleShipDetail = (discipleshipId?: number) =>{
+export const getDiscipleShipDetail = (discipleshipId?: number) => {
   if (!discipleshipId) return Promise.reject();
   return request<tTrainingDetail>({
     method: REQUEST_METHOD.GET,
-    url: `/discipleship/${discipleshipId}`,
+    url: `/discipleship/${discipleshipId}`
   });
-}
+};
 
 type tCreateDiscipleShipParams = {
   name: string;
   startDate: Dayjs;
   endDate: Dayjs;
   etc: string;
-  userIds: number[]
-}
+  userIds: number[];
+};
 
-export const createDiscipleShip = (data : tCreateDiscipleShipParams) =>{
+export const createDiscipleShip = (data: tCreateDiscipleShipParams) => {
   return request<tTrainingDetail>({
     method: REQUEST_METHOD.POST,
     url: `/discipleship`,
@@ -112,7 +112,7 @@ export const createDiscipleShip = (data : tCreateDiscipleShipParams) =>{
       endDate: convertDateString(data.endDate)
     }
   });
-}
+};
 
 export type tUpdateDiscipleShipParams = {
   discipleshipId: number;
@@ -120,12 +120,15 @@ export type tUpdateDiscipleShipParams = {
   startDate: Dayjs;
   endDate: Dayjs;
   etc: string;
-  userIds: number[]
-}
+  userIds: number[];
+};
 
-export const updateDiscipleShip = ({ discipleshipId, ...data } : tUpdateDiscipleShipParams) =>{
+export const updateDiscipleShip = ({
+  discipleshipId,
+  ...data
+}: tUpdateDiscipleShipParams) => {
   return request<tTrainingDetail>({
-    method: REQUEST_METHOD.POST,
+    method: REQUEST_METHOD.PUT,
     url: `/discipleship/${discipleshipId}`,
     data: {
       ...data,
@@ -133,13 +136,12 @@ export const updateDiscipleShip = ({ discipleshipId, ...data } : tUpdateDisciple
       endDate: convertDateString(data.endDate)
     }
   });
-}
+};
 
-export const deleteDiscipleShip = (discipleshipId?: number) =>{
-  if( !discipleshipId) return Promise.reject();
+export const deleteDiscipleShip = (discipleshipId?: number) => {
+  if (!discipleshipId) return Promise.reject();
   return request({
     method: REQUEST_METHOD.DELETE,
-    url: `/discipleship/${discipleshipId}`,
+    url: `/discipleship/${discipleshipId}`
   });
-}
-
+};

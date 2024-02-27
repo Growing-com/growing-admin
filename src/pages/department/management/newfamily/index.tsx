@@ -237,12 +237,14 @@ const ManagementNewFamilyPage: NextPage = () => {
           scroll={{ x: 1300 }}
         />
       </GRContainerView>
-      <NewFamilyDetailModal
-        open={openNewFamilyModal}
-        newFamily={selectedNewFamily}
-        onClose={onCloseNewFamilyModal}
-        onRegister={onRegister}
-      />
+      {openNewFamilyModal && (
+        <NewFamilyDetailModal
+          open={openNewFamilyModal}
+          newFamily={selectedNewFamily}
+          onClose={onCloseNewFamilyModal}
+          onRegister={onRegister}
+        />
+      )}
       <NewFamilyLineOutListModal
         open={openNewFamilyLineOutListModal}
         onClose={onClickLineOutClose}

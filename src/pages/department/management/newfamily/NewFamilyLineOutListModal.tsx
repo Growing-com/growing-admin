@@ -52,7 +52,7 @@ const NewFamilyLineOutListModal: FC<tNewFamilyLineOutListModal> = ({
       key: "sex",
       align: "center",
       width: "5rem",
-      render: (_, record) => <ColumSexRender sexData={record.sex} />
+      render: (_, record) => <ColumSexRender sexData={record?.sex} />
     },
     {
       title: "전화번호",

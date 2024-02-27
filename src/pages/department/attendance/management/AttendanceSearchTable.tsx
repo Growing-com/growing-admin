@@ -90,7 +90,7 @@ const AttendanceSearchTable: FC<tAttendanceSearchTable> = ({
         align: "center",
         fixed: "left",
         width: "5rem",
-        render: (_, record) => <ColumSexRender sexData={record.sex} />
+        render: (_, record) => <ColumSexRender sexData={record?.sex} />
       },
       {
         ...(ColumDateTitleAttendanceRender({

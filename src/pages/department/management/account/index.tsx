@@ -37,7 +37,7 @@ const ManagementAccountPage: NextPage = () => {
       dataIndex: "sex",
       key: "sex",
       align: "center",
-      render: (_, record) => <ColumSexRender sexData={record.sex} />
+      render: (_, record) => <ColumSexRender sexData={record?.sex} />
     },
     {
       title: "직분",

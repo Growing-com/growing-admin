@@ -25,26 +25,30 @@ const TrainingRosterPage = () => {
   const [selectTrainingType, setSelectTrainingType] = useState<tTrainingType>();
   const [selectTrainingSubContent, setSelectTrainingSubContent] =
     useState<tTrainingDetail>();
+  const [trainingDetail, setTrainingDetail] = useState<tTrainingDetail>(
+    {} as tTrainingDetail
+  );
 
   const [selectTrainingId, setSelectTrainingId] = useState<
     number | undefined
   >();
 
-  const { data: trainingSubContentList } = useQuery(
-    [queryKeys.TRAINING_DETAIL, selectTrainingType],
-    async () => {
-      if (selectTrainingType === "DISCIPLE") {
-        return await getDiscipleShips();
-      } else {
-        return await getTrainingSubContentList({
-          type: selectTrainingType
-        });
-      }
-    },
-    { enabled: !!selectTrainingType, select: _data => _data.content }
-  );
+  const { data: trainingSubContentList, refetch: trainingSubContentRefetch } =
+    useQuery(
+      [queryKeys.TRAINING_DETAIL, selectTrainingType],
+      async () => {
+        if (selectTrainingType === "DISCIPLE") {
+          return await getDiscipleShips();
+        } else {
+          return await getTrainingSubContentList({
+            type: selectTrainingType
+          });
+        }
+      },
+      { enabled: !!selectTrainingType, select: _data => _data.content }
+    );
 
-  const { data: trainingDetail } = useQuery(
+  const { refetch: trainingRefetch } = useQuery(
     [queryKeys.TRAINING_MEMBERS, selectTrainingSubContent],
     async () => {
       if (selectTrainingType === "DISCIPLE") {
@@ -53,7 +57,12 @@ const TrainingRosterPage = () => {
         return await getTrainingDetail(selectTrainingSubContent?.id);
       }
     },
-    { enabled: !!selectTrainingSubContent, select: _data => _data.content }
+    {
+      enabled: !!selectTrainingSubContent,
+      staleTime: 0,
+      select: _data => _data.content,
+      onSuccess: _data => setTrainingDetail(_data)
+    }
   );
 
   const onClickOpenRosterModal = (_content?: tTrainingDetail) => {
@@ -62,7 +71,12 @@ const TrainingRosterPage = () => {
     setOpenTrainingRosterModal(true);
   };
 
-  const onCloseTrainingRosterModal = () => {
+  const onCloseTrainingRosterModal = async (_refetch?: boolean) => {
+    if (_refetch) {
+      await trainingSubContentRefetch();
+      setTrainingDetail({} as tTrainingDetail);
+    }
+    setModalTrainingType(undefined);
     setOpenTrainingRosterModal(false);
   };
 
@@ -138,12 +152,14 @@ const TrainingRosterPage = () => {
           </GRView>
         </GRView>
       </GRContainerView>
-      <TrainingRosterModal
-        open={openTrainingRosterModal}
-        onClose={onCloseTrainingRosterModal}
-        trainingId={selectTrainingId}
-        trainingType={modalTrainingType}
-      />
+      {openTrainingRosterModal && (
+        <TrainingRosterModal
+          open={openTrainingRosterModal}
+          onClose={onCloseTrainingRosterModal}
+          trainingId={selectTrainingId}
+          trainingType={modalTrainingType}
+        />
+      )}
     </>
   );
 };

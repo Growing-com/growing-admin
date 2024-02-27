@@ -88,3 +88,47 @@ export const MONTHS_OPTIONS = [
   { label: "11월", value: "11" },
   { label: "12월", value: "12" }
 ];
+
+const EMPTY_OPTIONS = [
+  {
+    label: "비어 있음",
+    value: ""
+  }
+];
+
+export const DISCIPLE_SCHOOL_OPTIONS = [
+  ...EMPTY_OPTIONS,
+  {
+    label: "제자 학교 A",
+    value: "DISCIPLE_SCHOOL_A"
+  },
+  {
+    label: "제자 학교 B",
+    value: "DISCIPLE_SCHOOL_B"
+  }
+];
+
+export const DISCIPLE_OPTIONS = [
+  ...EMPTY_OPTIONS,
+  {
+    label: "제자 훈련",
+    value: "DISCIPLE"
+  }
+];
+
+export const BAPTISM_OPTIONS = [
+  ...EMPTY_OPTIONS,
+  { label: "유아 세례", value: "INFANT_BAPTISM" },
+  { label: "성인 세례", value: "NORMAL_BAPTISM" },
+  { label: "군대 세례", value: "MILITARY_BAPTISM" }
+];
+
+export const CONFIRMATION_OPTIONS = [
+  ...EMPTY_OPTIONS,
+  { label: "입교", value: "CONFIRMATION" }
+];
+
+export const PRE_BAPTISM_OPTIONS = [
+  ...EMPTY_OPTIONS,
+  { label: "학습", value: "PRE_BAPTISM" }
+];

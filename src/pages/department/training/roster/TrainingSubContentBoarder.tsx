@@ -76,7 +76,25 @@ const TrainingSubContentBoarder: FC<tTrainingSubContentBoarder> = ({
 
   return (
     <Boarder
-      boarderTitle={"훈련 이름"}
+      boarderTitle={
+        <>
+          <GRText
+            fontSize={"b6"}
+            color={Color.blue80}
+            weight={"bold"}
+            marginleft={GRStylesConfig.BASE_LONG_MARGIN}
+          >
+            훈련 이름
+          </GRText>
+          <GRText
+            fontSize={"b8"}
+            weight={"bold"}
+            marginleft={GRStylesConfig.BASE_MARGIN}
+          >
+            {subContent?.length ?? 0} 개
+          </GRText>
+        </>
+      }
       boarderWidth={20}
       borderContentComponent={
         <>

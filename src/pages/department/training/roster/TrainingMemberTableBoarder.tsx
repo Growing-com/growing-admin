@@ -10,6 +10,8 @@ import { FC, useCallback, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import Boarder from "./Boarder";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
+import { koreanSorter } from "utils/sorter";
 
 type tTrainingMemberTableBoarder = {
   rosterMembers?: tTrainingRosterMember[];
@@ -35,9 +37,10 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
         align: "center",
         fixed: "left",
         width: "5rem",
+        sorter: (a, b) => koreanSorter(a.name, b.name),
         render: (_, recode) => (
           <ColumLinkText
-            text={recode.name}
+            text={recode?.name}
             onClick={() => onClickLinkText(recode)}
           />
         )
@@ -56,7 +59,7 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
         key: "sex",
         align: "center",
         width: "5rem",
-        render: (_, record) => <ColumSexRender sexData={record.sex} />
+        render: (_, record) => <ColumSexRender sexData={record?.sex} />
       },
       {
         title: "전화번호",
@@ -71,7 +74,25 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
   return (
     <>
       <Boarder
-        boarderTitle={"참여자"}
+        boarderTitle={
+          <>
+            <GRText
+              fontSize={"b6"}
+              color={Color.blue80}
+              weight={"bold"}
+              marginleft={GRStylesConfig.BASE_LONG_MARGIN}
+            >
+              참여자
+            </GRText>
+            <GRText
+              fontSize={"b8"}
+              weight={"bold"}
+              marginleft={GRStylesConfig.BASE_MARGIN}
+            >
+              {rosterMembers?.length ?? 0} 명
+            </GRText>
+          </>
+        }
         boarderWidth={30}
         borderContentComponent={
           !selectTrainingSubContent?.id ? (
@@ -86,16 +107,21 @@ const TrainingMemberTableBoarder: FC<tTrainingMemberTableBoarder> = ({
               <GRText weight={"bold"}>훈련을 선택해주세요</GRText>
             </GRView>
           ) : (
-            <GRView height={30} backgroundColor={Color.white}>
-              <GRTable
-                rowKey={"userId"}
-                data={rosterMembers ?? []}
-                scroll={{ y: "26rem" }}
-                columns={columns}
-                isHoverTable={false}
-                isLoading={!rosterMembers?.length}
-              />
-            </GRView>
+            <>
+              <GRView
+                height={30}
+                backgroundColor={Color.white}
+                margintop={GRStylesConfig.BASE_MARGIN}
+              >
+                <GRTable
+                  rowKey={"userId"}
+                  data={rosterMembers ?? []}
+                  scroll={{ y: "26rem" }}
+                  columns={columns}
+                  isHoverTable={false}
+                />
+              </GRView>
+            </>
           )
         }
       />

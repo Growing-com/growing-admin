@@ -23,7 +23,11 @@ import {
   updateDiscipleShip,
   updateTraining
 } from "api/training";
-import { tTrainingRosterMember, tTrainingType } from "api/training/type";
+import {
+  tTrainingDetail,
+  tTrainingRosterMember,
+  tTrainingType
+} from "api/training/type";
 import dayjs from "dayjs";
 import useActiveUsers from "hooks/auth/useActiveUsers";
 import { concat } from "lodash";
@@ -35,7 +39,7 @@ import { TRAINING_MAIN_TITLE } from "utils/constants";
 
 type tTrainingRosterModal = {
   open: boolean;
-  onClose: () => void;
+  onClose: (_refetch?: boolean) => void;
   onRegister?: () => void;
   trainingId?: number;
   trainingType?: tTrainingType;
@@ -78,7 +82,10 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         return await getTrainingDetail(trainingId);
       }
     },
-    { enabled: !!trainingId, select: _data => _data.content }
+    {
+      select: _data => _data.content,
+      initialData: {} as { content: tTrainingDetail }
+    }
   );
 
   const onSuccess = () => {
@@ -122,9 +129,9 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     { onSuccess }
   );
 
-  const onCloseModal = () => {
+  const onCloseModal = (_refetch?: boolean) => {
     setSearchValue("");
-    onClose();
+    onClose(_refetch);
   };
 
   const onClickModalOk: SubmitHandler<FieldValues> = async _item => {
@@ -136,8 +143,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
       etc: _item.etc,
       userIds: traingRosterlist.map(roster => roster.userId)
     };
+    if (!_item.type) {
+      return GRAlert.error("훈련 종류를 선택해주세요");
+    }
     if (isCreate) {
-      if (trainingType === "DISCIPLE") {
+      if (_item.type === "DISCIPLE") {
         await createDiscipleShipMutateAsync(_params);
       } else {
         await createTrainingMutateAsync(_params);
@@ -145,7 +155,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     }
 
     if (!isCreate && trainingId) {
-      if (trainingType === "DISCIPLE") {
+      if (_item.type === "DISCIPLE") {
         await updateDiscipleShipMutateAsync({
           discipleshipId: trainingId,
           ..._params
@@ -154,7 +164,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         await updateTrainingMutateAsync({ trainingId, ..._params });
       }
     }
-    onCloseModal();
+    onCloseModal(true);
   };
 
   const onClcikDeleteIcon = useCallback(
@@ -171,12 +181,14 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
     if (!trainingId || isCreate) {
       return GRAlert.error("생성에서는 삭제 할 수 없습니다");
     }
+    if (!confirm("정말 삭제 하시겠습니까?")) return;
+
     if (trainingType === "DISCIPLE") {
       await deleteDiscipleShipMutateAsync(trainingId);
     } else {
       await deleteTrainingMutateAsync(trainingId);
     }
-    onCloseModal();
+    onCloseModal(true);
   };
 
   const columns: ColumnType<any>[] = useMemo(
@@ -203,7 +215,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         key: "sex",
         align: "center",
         width: "5rem",
-        render: (_, record) => <ColumSexRender sexData={record.sex} />
+        render: (_, record) => <ColumSexRender sexData={record?.sex} />
       },
       {
         title: "전화번호",
@@ -237,12 +249,14 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
 
   const onSelect = (_name: string) => {
     const findUser = findUserByName(_name);
-    const checkIncludes = traingRosterlist.filter(
-      roster => roster.name === _name
-    );
 
-    if (!!checkIncludes.length) {
-      return GRAlert.error("이미 추가 되었습니다");
+    if (traingRosterlist?.length) {
+      const checkIncludes = traingRosterlist.filter(
+        roster => roster.name === _name
+      );
+      if (!!checkIncludes.length) {
+        return GRAlert.error("이미 추가 되었습니다");
+      }
     }
 
     if (findUser) {
@@ -253,16 +267,21 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         grade: findUser.grade,
         phoneNumber: findUser.phoneNumber
       };
-      setTraingRosterlist(concat([convertToMember], traingRosterlist));
+      if (traingRosterlist?.length) {
+        setTraingRosterlist(concat([convertToMember], traingRosterlist));
+      } else {
+        setTraingRosterlist([convertToMember]);
+      }
     } else {
       return GRAlert.error("존재하지 않는 성도 입니다");
     }
   };
 
   useEffect(() => {
-    if (!!trainingDetail?.id) {
+    if (!!trainingDetail) {
       reset({
         ...trainingDetail,
+        type: trainingType,
         rangeDate: [
           dayjs(trainingDetail.startDate),
           dayjs(trainingDetail.endDate)
@@ -281,11 +300,11 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
   return (
     <GRFormModal
       open={open}
-      onCancel={onCloseModal}
+      onCancel={() => onCloseModal()}
       onSubmit={handleSubmit(onClickModalOk)}
       onDelete={onDelete}
       title={isCreate ? "명부 생성" : "명부 수정"}
-      width={"50%"}
+      width={"60%"}
       okButtonText={isCreate ? "등록" : "수정"}
       maskClosable={false}
       isShowDeleteButton={!isCreate}
@@ -303,6 +322,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               placeholder={"훈련을 선택해주세요"}
               required={true}
               containStyle={{ marginRight: "1rem" }}
+              disabled={!isCreate}
             />
             <GRFormItem
               type={"text"}
@@ -349,8 +369,8 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
         >
           <TableInfoHeader
             title={"명부 리스트"}
-            count={traingRosterlist.length}
-            totalCount={traingRosterlist.length}
+            count={traingRosterlist?.length ?? 0}
+            totalCount={traingRosterlist?.length ?? 0}
           />
           <AutoComplete
             style={{ width: 200 }}
@@ -363,6 +383,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               placeholder={"이름 검색"}
               enterButton={"추가"}
               onSearch={handleSearch}
+              allowClear={true}
             />
           </AutoComplete>
         </GRFlexView>
