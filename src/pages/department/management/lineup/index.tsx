@@ -15,6 +15,7 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import LineUpContent from "./LineUpContent";
 import LineUpGroupContent from "./LineUpGroupContent";
 import LineUpTable from "./LineUpTable";
+import { DragItem } from "./DragItem";
 
 const STEP_GROUP = 0;
 const STEP_TABLE = 1;

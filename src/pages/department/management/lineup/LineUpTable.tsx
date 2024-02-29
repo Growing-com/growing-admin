@@ -3,12 +3,15 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useMemo } from "react";
-import { useDrag } from "react-dnd";
+import { useEffect, useMemo, useState } from "react";
+import { useDrag, useDragLayer } from "react-dnd";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "./DUPM_data";
+import { getEmptyImage } from "react-dnd-html5-backend";
 
 const LineUpTable = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
   const columns: ColumnType<any>[] = useMemo(
     () => [
       {
@@ -39,6 +42,11 @@ const LineUpTable = () => {
     []
   );
 
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
   const DragableBodyRow = ({
     index,
     moveRow,
@@ -50,7 +58,7 @@ const LineUpTable = () => {
     // children: {$$typeof: Symbol(react.element), type: {…}, key: 'sex', ref: null, props: {…}, …}
     // data-row-key: 331
     // onClick
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag, preview] = useDrag(() => ({
       type: "board",
       item: { name: "3" },
       end: (item, monitor) => {
@@ -67,15 +75,36 @@ const LineUpTable = () => {
         handlerId: monitor.getHandlerId()
       })
     }));
+
     return (
-      <tr
-        ref={drag}
-        data-testid="dustbin"
-        {...restProps}
-        style={{ cursor: "move", ...style, color: "red" }}
-      />
+      <>
+        <div ref={preview}>count {selectedRowKeys.length}</div>
+        <tr
+          ref={drag}
+          data-testid="dustbin"
+          {...restProps}
+          style={{ cursor: "move", ...style, color: "red" }}
+        />
+      </>
     );
   };
+
+  // useEffect(() => {
+  //   // This gets called after every render, by default
+  //   // (the first one, and every one after that)
+
+  //   // Use empty image as a drag preview so browsers don't draw it
+  //   // and we can draw whatever we want on the custom drag layer instead.
+  //   preview(getEmptyImage(), {
+  //     // IE fallback: specify that we'd rather screenshot the node
+  //     // when it already knows it's being dragged so we can hide it with CSS.
+  //     captureDraggingState: true
+  //   });
+  //   // If you want to implement componentWillUnmount,
+  //   // return a function from here, and React will call
+  //   // it prior to unmounting.
+  //   // return () => console.log('unmounting...');
+  // }, []);
 
   return (
     <GRFlexView marginright={GRStylesConfig.BASE_LONG_MARGIN}>
@@ -86,6 +115,10 @@ const LineUpTable = () => {
         rowKey={"id"}
         columns={columns}
         dataSource={DUMP_DATA}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: onSelectChange
+        }}
         components={{
           body: {
             row: DragableBodyRow
