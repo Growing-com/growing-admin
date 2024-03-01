@@ -42,6 +42,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const [openMainMenu, openMetMainMenu] = useState<string[]>();
   const [defaultSelected, setDefaultSelected] = useState<string[]>();
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
+  const [collapsed, setCollapsed] = useState(false);
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
@@ -54,6 +55,10 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   const onOpenChange = (keys: string[]) => {
     setDefaultOpen(keys);
+  };
+
+  const onClickCollapse = () => {
+    setCollapsed(!collapsed);
   };
 
   useEffect(() => {
@@ -82,12 +87,15 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <HeaderMenu />
+      <HeaderMenu onClickCollapse={onClickCollapse} />
       <Layout>
         <Sider
           style={{
             backgroundColor: "white"
           }}
+          collapsed={collapsed}
+          trigger={null}
+          collapsedWidth={80}
         >
           <BaseLayoutMenu
             mode={"inline"}

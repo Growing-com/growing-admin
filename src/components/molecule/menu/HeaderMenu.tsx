@@ -1,4 +1,8 @@
-import { NotificationOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  NotificationOutlined,
+  UserOutlined
+} from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -14,7 +18,7 @@ import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-const HeaderMenu = () => {
+const HeaderMenu = ({ onClickCollapse }) => {
   const { logoutMutate } = useLogoutMutate();
   const { data: userInfo } = useUserInfoQuery();
 
@@ -39,7 +43,23 @@ const HeaderMenu = () => {
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
-      <GRView width={12} style={{ position: "relative" }} marginright={1}>
+      <GRView
+        isFlex
+        marginleft={2}
+        justifyContent="center"
+        onClick={onClickCollapse}
+      >
+        <MenuOutlined
+          rev={undefined}
+          style={{ fontSize: "1.3rem", cursor: "pointer" }}
+        />
+      </GRView>
+      <GRView
+        isFlex
+        width={8}
+        style={{ position: "relative" }}
+        marginhorizontal={1}
+      >
         <Image
           src={"/logo/logo-row-mark.png"}
           fill={true}
