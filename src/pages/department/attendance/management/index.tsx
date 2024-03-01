@@ -3,6 +3,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import HeaderView from "@component/molecule/view/HeaderView";
+import AttendanceSearchTable from "@component/pages/department/attendance/management/AttendanceSearchTable";
 import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
 import { tAttendanceSearch } from "api/attendance/types";
 import dayjs from "dayjs";
@@ -12,7 +13,6 @@ import { NextPage } from "next";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import AttendanceSearchTable from "./AttendanceSearchTable";
 
 export const SEARCH_OPTION = [
   {

@@ -3,11 +3,10 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useEffect, useMemo, useState } from "react";
-import { useDrag, useDragLayer } from "react-dnd";
+import { useMemo, useState } from "react";
+import { useDrag } from "react-dnd";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "./DUPM_data";
-import { getEmptyImage } from "react-dnd-html5-backend";
 
 const LineUpTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);

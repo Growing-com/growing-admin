@@ -6,6 +6,8 @@ import { tOptions } from "@component/atom/dataEntry/type";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import AttendanceCheckTable from "@component/pages/department/attendance/check/AttendanceCheckTable";
+import AttendanceProgress from "@component/pages/department/attendance/check/AttendanceProgress";
 import { useAttendanceCheckMutate } from "api/attendance/mutate/useAttendanceCheckMutate";
 import { useAttendanceCheckQuery } from "api/attendance/queries/useAttendanceCheckQuery";
 import { tAttendance, tAttendanceCheckItem } from "api/attendance/types";
@@ -16,8 +18,6 @@ import { head } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import AttendanceCheckTable from "./AttendanceCheckTable";
-import AttendanceProgress from "./AttendanceProgress";
 
 const AttendanceCheck = () => {
   const [currentTab, setCurrentTab] = useState<tOptions>();

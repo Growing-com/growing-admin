@@ -2,6 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
+import AccountModal from "@component/pages/department/management/account/AccountModal";
 import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import type { ColumnType } from "antd/es/table";
@@ -10,7 +11,6 @@ import type { tAccount } from "api/account/types";
 import { DUTY, ROLE } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
-import AccountModal from "./AccountModal";
 
 const ManagementAccountPage: NextPage = () => {
   const [openAccountModal, setOpenAccountModal] = useState(false);

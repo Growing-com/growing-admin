@@ -5,6 +5,8 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import NewFamilyDetailModal from "@component/pages/department/management/newfamily/NewFamilyDetailModal";
+import NewFamilyLineOutListModal from "@component/pages/department/management/newfamily/NewFamilyLineOutListModal";
 import SearchBar from "@component/templates/SearchBar";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { ColumnType } from "antd/es/table";
@@ -16,8 +18,6 @@ import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { Color } from "styles/colors";
 import { dateSorter, koreanSorter } from "utils/sorter";
-import NewFamilyDetailModal from "./NewFamilyDetailModal";
-import NewFamilyLineOutListModal from "./NewFamilyLineOutListModal";
 
 const LINE_STAUTS = {
   lineout: { name: "라인아웃", color: "red" },

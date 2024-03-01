@@ -3,6 +3,10 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import TrainingMemberTableBoarder from "@component/pages/department/training/roster/TrainingMemberTableBoarder";
+import TrainingRosterModal from "@component/pages/department/training/roster/TrainingRosterModal";
+import TrainingSubContentBoarder from "@component/pages/department/training/roster/TrainingSubContentBoarder";
+import TrainingTitleBoarder from "@component/pages/department/training/roster/TrainingTitleBoarder";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import {
@@ -14,10 +18,6 @@ import {
 import { tTrainingDetail, tTrainingType } from "api/training/type";
 import { useState } from "react";
 import { tTrainingMainTitle } from "../../../../utils/constants";
-import TrainingMemberTableBoarder from "./TrainingMemberTableBoarder";
-import TrainingRosterModal from "./TrainingRosterModal";
-import TrainingSubContentBoarder from "./TrainingSubContentBoarder";
-import TrainingTitleBoarder from "./TrainingTitleBoarder";
 
 const TrainingRosterPage = () => {
   const [openTrainingRosterModal, setOpenTrainingRosterModal] = useState(false);

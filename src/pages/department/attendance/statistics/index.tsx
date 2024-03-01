@@ -2,13 +2,13 @@ import { FileExcelOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import StatisticsCompareSummaryCards from "@component/pages/department/attendance/statistics/StatisticsCompareSummaryCards";
+import StatisticsCompareTable from "@component/pages/department/attendance/statistics/StatisticsCompareTable";
+import StatisticsExcelModal from "@component/pages/department/attendance/statistics/StatisticsExcelModal";
+import StatisticsModal from "@component/pages/department/attendance/statistics/StatisticsModal";
 import { useStatisticsAttendance } from "api/statistics/queries/useStatisticsAttendance";
 import { useCallback, useState } from "react";
 import { getWeekDataFromToday } from "utils/DateUtils";
-import StatisticsCompareSummaryCards from "./StatisticsCompareSummaryCards";
-import StatisticsCompareTable from "./StatisticsCompareTable";
-import StatisticsExcelModal from "./StatisticsExcelModal";
-import StatisticsModal from "./StatisticsModal";
 
 const AttendanceStatistics = () => {
   const [openStatisticsModal, setOpenStatisticsModal] = useState(false);
