@@ -3,10 +3,10 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
-import TrainingMemberTableBoarder from "@component/pages/department/training/roster/TrainingMemberTableBoarder";
-import TrainingRosterModal from "@component/pages/department/training/roster/TrainingRosterModal";
-import TrainingSubContentBoarder from "@component/pages/department/training/roster/TrainingSubContentBoarder";
-import TrainingTitleBoarder from "@component/pages/department/training/roster/TrainingTitleBoarder";
+import TrainingMemberTableBoarder from "@component/pageComponents/department/training/roster/TrainingMemberTableBoarder";
+import TrainingRosterModal from "@component/pageComponents/department/training/roster/TrainingRosterModal";
+import TrainingSubContentBoarder from "@component/pageComponents/department/training/roster/TrainingSubContentBoarder";
+import TrainingTitleBoarder from "@component/pageComponents/department/training/roster/TrainingTitleBoarder";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import {

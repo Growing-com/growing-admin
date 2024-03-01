@@ -6,9 +6,10 @@ import HeaderView from "@component/molecule/view/HeaderView";
 import GRText from "@component/atom/text/GRText";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
-import LineUpContent from "@component/pages/department/management/lineup/LineUpContent";
-import LineUpGroupContent from "@component/pages/department/management/lineup/LineUpGroupContent";
-import LineUpTable from "@component/pages/department/management/lineup/LineUpTable";
+import DragPreview from "@component/pageComponents/department/management/lineup/DragPreview";
+import LineUpContent from "@component/pageComponents/department/management/lineup/LineUpContent";
+import LineUpGroupContent from "@component/pageComponents/department/management/lineup/LineUpGroupContent";
+import LineUpTable from "@component/pageComponents/department/management/lineup/LineUpTable/LineUpTable";
 import { Steps } from "antd";
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
@@ -121,6 +122,7 @@ const ManagementLineUpPage = () => {
             }}
           >
             <DndProvider backend={HTML5Backend}>
+              <DragPreview />
               <LineUpTable />
               {current === STEP_GROUP && <LineUpGroupContent />}
               {current === STEP_TABLE && <LineUpContent />}

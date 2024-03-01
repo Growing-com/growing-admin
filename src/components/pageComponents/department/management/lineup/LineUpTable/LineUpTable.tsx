@@ -1,15 +1,16 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
 import { useMemo, useState } from "react";
-import { useDrag } from "react-dnd";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { DUMP_DATA } from "./DUPM_data";
+import { DUMP_DATA } from "../DUPM_data";
+import LineUpTableRow from "./LineUpTableRow";
 
 const LineUpTable = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -19,7 +20,7 @@ const LineUpTable = () => {
         key: "name",
         align: "center",
         fixed: "left",
-        width: "8rem"
+        width: "3rem"
       },
       {
         title: "학년",
@@ -35,7 +36,8 @@ const LineUpTable = () => {
         key: "sex",
         align: "center",
         fixed: "left",
-        width: "5rem"
+        width: "5rem",
+        render: (_, record) => <ColumSexRender sexData={record?.sex} />
       }
     ],
     []
@@ -46,47 +48,41 @@ const LineUpTable = () => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const DragableBodyRow = ({
-    index,
-    moveRow,
-    className,
-    style,
-    ...restProps
-  }) => {
-    // props
-    // children: {$$typeof: Symbol(react.element), type: {…}, key: 'sex', ref: null, props: {…}, …}
-    // data-row-key: 331
-    // onClick
-    const [{ isDragging }, drag, preview] = useDrag(() => ({
-      type: "board",
-      item: { name: "3" },
-      end: (item, monitor) => {
-        const dropResult = monitor.getDropResult();
-        console.log("monitor", monitor);
-        console.log("item", item);
-        console.log("dropResult", dropResult);
-        if (item && dropResult) {
-          alert(`You dropped ${item.name}!`);
-        }
-      },
-      collect: monitor => ({
-        isDragging: monitor.isDragging(),
-        handlerId: monitor.getHandlerId()
-      })
-    }));
+  // const DragableBodyRow = ({
+  //   index,
+  //   moveRow,
+  //   className,
+  //   style,
+  //   ...restProps
+  // }) => {
+  //   // props
+  //   // children: {$$typeof: Symbol(react.element), type: {…}, key: 'sex', ref: null, props: {…}, …}
+  //   // data-row-key: 331
+  //   // onClick
+  //   const [{ isDragging }, drag, preview] = useDrag(() => ({
+  //     type: "board",
+  //     item: { name: "3" },
+  //     end: (item, monitor) => {
+  //       const dropResult = monitor.getDropResult();
+  //       console.log("monitor", monitor);
+  //       console.log("item", item);
+  //       console.log("dropResult", dropResult);
+  //       if (item && dropResult) {
+  //         alert(`You dropped ${item.name}!`);
+  //       }
+  //     },
+  //     collect: monitor => ({
+  //       isDragging: monitor.isDragging(),
+  //       handlerId: monitor.getHandlerId()
+  //     })
+  //   }));
 
-    return (
-      <>
-        <div ref={preview}>count {selectedRowKeys.length}</div>
-        <tr
-          ref={drag}
-          data-testid="dustbin"
-          {...restProps}
-          style={{ cursor: "move", ...style, color: "red" }}
-        />
-      </>
-    );
-  };
+  //   return (
+  //     <>
+  //       <LineUpTableRow />
+  //     </>
+  //   );
+  // };
 
   // useEffect(() => {
   //   // This gets called after every render, by default
@@ -120,7 +116,9 @@ const LineUpTable = () => {
         }}
         components={{
           body: {
-            row: DragableBodyRow
+            row: (props: any) => (
+              <LineUpTableRow selectedRowKeys={selectedRowKeys} {...props} />
+            )
             // row: props => {
             //   console.log("props", props);
             //   const { children, ...restProps } = props;
