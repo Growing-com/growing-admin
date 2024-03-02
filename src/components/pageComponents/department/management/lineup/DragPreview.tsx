@@ -1,3 +1,5 @@
+import GRText from "@component/atom/text/GRText";
+import GRView from "@component/atom/view/GRView";
 import { useEffect, useState } from "react";
 import { useDragLayer } from "react-dnd";
 
@@ -21,7 +23,7 @@ const getItemStyles = (currentOffset, initialOffset, mousePos) => {
   const offsetX = initialOffset.x - mouseX;
   const offsetY = initialOffset.y - mouseY;
   const { x, y } = currentOffset;
-  const transform = `translate(${x - offsetX}px, ${y - offsetY}px)`;
+  const transform = `translate(${x - offsetX}px, ${y - offsetY - 10}px)`;
   return {
     transform,
     WebkitTransform: transform
@@ -43,7 +45,15 @@ const DragPreview = () => {
   const renderItem = (type, item) => {
     switch (type) {
       case "lineup-table":
-        return <div>!!!</div>;
+        const _firstName = item.selectItem[0];
+
+        return (
+          <GRView>
+            <GRText>
+              {_firstName.name} 외 이동 +{item.selectItem.length} 명
+            </GRText>
+          </GRView>
+        );
       default:
         return null;
     }
@@ -64,7 +74,6 @@ const DragPreview = () => {
   if (!isDragging) {
     return null;
   }
-  console.log("item", item);
 
   return (
     <div style={layerStyles}>

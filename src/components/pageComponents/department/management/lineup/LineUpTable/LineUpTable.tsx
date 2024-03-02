@@ -4,13 +4,16 @@ import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { Table } from "antd";
 import { ColumnType } from "antd/es/table";
+import { tActiveUser } from "api/account/types";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "../DUPM_data";
 import LineUpTableRow from "./LineUpTableRow";
 
 const LineUpTable = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<number[]>([]);
+  const [selectedActiveUser, setSelectedActiveUser] = useState<tActiveUser[]>(
+    []
+  );
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -43,9 +46,8 @@ const LineUpTable = () => {
     []
   );
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
+  const onSelectChange = (_: React.Key[], selectedRows: tActiveUser[]) => {
+    setSelectedActiveUser(selectedRows);
   };
 
   // const DragableBodyRow = ({
@@ -111,13 +113,13 @@ const LineUpTable = () => {
         columns={columns}
         dataSource={DUMP_DATA}
         rowSelection={{
-          selectedRowKeys,
+          selectedRowKeys: selectedActiveUser.map(user => user.id),
           onChange: onSelectChange
         }}
         components={{
           body: {
             row: (props: any) => (
-              <LineUpTableRow selectedRowKeys={selectedRowKeys} {...props} />
+              <LineUpTableRow selectedUser={selectedActiveUser} {...props} />
             )
             // row: props => {
             //   console.log("props", props);

@@ -1,34 +1,55 @@
+import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
-
-import GRText from "@component/atom/text/GRText";
-import GRInfoBadge from "@component/molecule/GRInfoBadge";
-import GRFormItem from "@component/molecule/form/GRFormItem";
-import DragPreview from "@component/pageComponents/department/management/lineup/DragPreview";
-import LineUpContent from "@component/pageComponents/department/management/lineup/LineUpContent";
-import LineUpGroupContent from "@component/pageComponents/department/management/lineup/LineUpGroupContent";
-import LineUpTable from "@component/pageComponents/department/management/lineup/LineUpTable/LineUpTable";
-import { Steps } from "antd";
-import { useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { useForm } from "react-hook-form";
-import GRStylesConfig from "styles/GRStylesConfig";
-
-const STEP_GROUP = 0;
-const STEP_TABLE = 1;
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
+import { ColumnType } from "antd/es/table";
 
 const ManagementLineUpPage = () => {
-  const onClickCreateLineUpModal = () => {};
-  const { control } = useForm();
+  const lineupData = [
+    {
+      termName: "2023-01",
+      progress: "PROGRESS",
+      termOfDate: "2023-01-01 ~ 2023-01-31",
+      enrollment: 100,
+      averageAttendanceRate: "100%"
+    }
+  ];
 
-  const [current, setCurrent] = useState(0);
-
-  const onChange = (current: number) => {
-    setCurrent(current);
-  };
+  const columns: ColumnType<any>[] = [
+    {
+      title: "텀이름",
+      dataIndex: "termName",
+      key: "name",
+      align: "center",
+      width: "5rem"
+    },
+    {
+      title: "진행 상황",
+      align: "center",
+      dataIndex: "progress",
+      width: "8rem"
+    },
+    {
+      title: "기간",
+      align: "center",
+      dataIndex: "termOfDate",
+      width: "8rem"
+    },
+    {
+      title: "재적",
+      dataIndex: "enrollment",
+      align: "center",
+      width: "8rem"
+    },
+    {
+      title: "평균 출석율",
+      dataIndex: "averageAttendanceRate",
+      align: "center",
+      width: "8rem"
+    }
+  ];
 
   return (
     <>
@@ -36,7 +57,7 @@ const ManagementLineUpPage = () => {
         title={"라인업 관리"}
         headerComponent={
           <GRButtonText
-            onClick={onClickCreateLineUpModal}
+            // onClick={onClickCreateLineUpModal}
             buttonType={"default"}
             size={"large"}
           >
@@ -45,90 +66,21 @@ const ManagementLineUpPage = () => {
         }
       />
       <GRContainerView>
-        <GRFlexView marginbottom={GRStylesConfig.BASE_LONG_MARGIN}>
-          <Steps
-            current={current}
-            onChange={onChange}
-            items={[
-              {
-                title: "Step 1"
-              },
-              {
-                title: "Step 2"
-              },
-              {
-                title: "Step 3"
-              },
-              {
-                title: "Step 4"
-              }
-            ]}
-          />
-        </GRFlexView>
-        <GRFlexView flexDirection={"row"}>
-          <GRFormItem
-            type={"text"}
-            fieldName={"termTitle"}
-            textType={"input"}
-            title={"텀 제목"}
-            control={control}
-            placeholder={"텀 제목을 입력해주세요 예 ) 2023-02"}
-            required={true}
-            containStyle={{ marginRight: "1rem" }}
-          />
-          <GRFormItem
-            title={"텀 기간"}
-            type={"date"}
-            fieldName={"termRage"}
-            control={control}
-            pickerType={"range"}
-            required={true}
-            disabledDate={() => false}
-          />
-        </GRFlexView>
-        <GRFlexView>
-          <GRFormItem
-            type={"text"}
-            textType={"textarea"}
-            title={"기타 사항"}
-            fieldName={"etc"}
-            control={control}
-            placeholder={"추가 내용이 있으면 작성해 주세요"}
-            style={{
-              height: "8rem"
-            }}
-          />
-        </GRFlexView>
-      </GRContainerView>
-      <GRContainerView>
-        <GRFlexView
-          flexDirection={"row"}
-          alignItems={"center"}
-          marginbottom={GRStylesConfig.BASE_MARGIN}
-        >
-          <GRText weight={"bold"} fontSize={"b2"} marginright={0.5}>
-            그룹 지정
-          </GRText>
-          <GRInfoBadge
-            infoMessage={"라인업 하기 전에 그룹화 하기 위한 작업입니다"}
-          />
-        </GRFlexView>
-
-        <GRFlexView flexDirection="row">
-          <GRFlexView
-            flexDirection={"row"}
-            style={{
-              flexWrap: "wrap"
-            }}
-          >
-            <DndProvider backend={HTML5Backend}>
-              <DragPreview />
-              <LineUpTable />
-              {current === STEP_GROUP && <LineUpGroupContent />}
-              {current === STEP_TABLE && <LineUpContent />}
-            </DndProvider>
-          </GRFlexView>
-        </GRFlexView>
+        <GRTable
+          rowKey={"name"}
+          headerComponent={
+            <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+              <TableInfoHeader
+                count={lineupData.length}
+                totalCount={lineupData.length}
+                title={"라인업 리스트"}
+              />
+            </GRFlexView>
+          }
+          columns={columns}
+          data={lineupData}
+          scroll={{ x: 1300 }}
+        />
       </GRContainerView>
     </>
   );

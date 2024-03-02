@@ -1,3 +1,4 @@
+import { tActiveUser } from "api/account/types";
 import { FC, useEffect } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
@@ -6,7 +7,7 @@ type tLineUpTableRow = {
   moveRow: (dragIndex: number, hoverIndex: number) => void;
   className: string;
   style: React.CSSProperties;
-  selectedRowKeys: number[];
+  selectedUser: tActiveUser[];
 };
 
 const LineUpTableRow: FC<tLineUpTableRow> = ({
@@ -14,23 +15,14 @@ const LineUpTableRow: FC<tLineUpTableRow> = ({
   moveRow,
   className,
   style,
-  selectedRowKeys,
+  selectedUser,
   ...restProps
 }) => {
   const [{ isDragging }, drag, preview] = useDrag(() => ({
     type: "lineup-table",
-    item: { selectItem: selectedRowKeys },
+    item: { selectItem: selectedUser },
     canDrag: () => {
-      return selectedRowKeys.length > 1;
-    },
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult();
-      console.log("monitor", monitor);
-      console.log("item", item);
-      console.log("dropResult", dropResult);
-      if (item && dropResult) {
-        alert(`You dropped ${item.name}!`);
-      }
+      return selectedUser.length > 0;
     },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
