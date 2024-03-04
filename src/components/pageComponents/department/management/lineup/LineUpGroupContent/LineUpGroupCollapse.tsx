@@ -1,6 +1,8 @@
+import { CloseCircleOutlined } from "@ant-design/icons";
 import GRTable from "@component/atom/GRTable";
 import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Collapse } from "antd";
 import { ColumnType } from "antd/es/table";
@@ -19,10 +21,6 @@ const LineUpGroupCollapse = ({ title }) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: "lineup-table",
-    // canDrop: () => {
-    //   console.log("!");
-    //   return true;
-    // },
     drop: (item, monitor) => {
       console.log("!!!", item);
       console.log("!!", monitor.getDropResult());
@@ -75,28 +73,35 @@ const LineUpGroupCollapse = ({ title }) => {
     console.log(key);
   };
 
+  const onClcikDeleteIcon = () => {
+    confirm("삭제하시겠습니까?");
+  };
+
   return (
-    <CollapseComponent
-      className="customs"
-      defaultActiveKey={["1"]}
-      onChange={onChange}
+    <div
+      ref={drop}
+      style={{
+        // background: canDrop ? Color.green100 : Color.white,
+        border: `1px solid ${canDrop ? Color.green200 : Color.white}`,
+        backgroundColor: isOver ? Color.green100 : undefined,
+        borderRadius: "0.5rem",
+        marginBottom: "0.5rem"
+      }}
     >
-      <PanelComponent
-        header={
-          <div ref={drop}>
-            <GRView
-              isBoard={canDrop}
-              backgroundColor={isOver ? Color.green100 : undefined}
-            >
-              {title}
-            </GRView>
-          </div>
-        }
-        key="1"
-        className="custom"
-        style={{ padding: 0 }}
-      >
-        <GRView width={30}>
+      <CollapseComponent className="customs" onChange={onChange}>
+        <PanelComponent
+          header={<GRView>{title}</GRView>}
+          key="1"
+          className="custom"
+          style={{ padding: 0 }}
+          extra={
+            <CloseCircleOutlined
+              onClick={() => onClcikDeleteIcon()}
+              rev={undefined}
+              style={{ color: Color.grey80, cursor: "pointer" }}
+            />
+          }
+        >
           <GRTable
             rowKey={"id"}
             data={lineUpGroupContentData}
@@ -106,10 +111,15 @@ const LineUpGroupCollapse = ({ title }) => {
               selectedRowKeys: selectedActiveUser.map(user => user.id),
               onChange: onSelectChange
             }}
+            customCss={css`
+              .ant-table-body {
+                overflow-y: scroll !important;
+              }
+            `}
           />
-        </GRView>
-      </PanelComponent>
-    </CollapseComponent>
+        </PanelComponent>
+      </CollapseComponent>
+    </div>
   );
 };
 

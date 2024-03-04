@@ -1,7 +1,9 @@
+import { LeftOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { css } from "@emotion/react";
 import { Alert, Divider } from "antd";
+import { useRouter } from "next/router";
 import React, { ReactNode, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
@@ -12,6 +14,7 @@ type tHeaderView = {
   titleInfoType?: "success" | "info" | "warning" | "error";
   titleInfo?: ReactNode;
   showIcon?: boolean;
+  disabledBackbutton?: boolean;
 };
 
 const HeaderView: FC<tHeaderView> = ({
@@ -20,8 +23,13 @@ const HeaderView: FC<tHeaderView> = ({
   subComponent,
   titleInfoType = "warning",
   titleInfo,
-  showIcon = true
+  showIcon = true,
+  disabledBackbutton = false
 }) => {
+  const router = useRouter();
+  const onClickBack = () => {
+    router.back();
+  };
   return (
     <GRFlexView
       borderRadius={GRStylesConfig.BASE_MARGIN}
@@ -35,6 +43,17 @@ const HeaderView: FC<tHeaderView> = ({
     >
       <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
         <GRFlexView flexDirection={"row"}>
+          {disabledBackbutton && (
+            <LeftOutlined
+              rev={undefined}
+              style={{
+                fontSize: "1.5rem",
+                margin: "0rem 1rem 0rem 0rem",
+                cursor: "pointer"
+              }}
+              onClick={onClickBack}
+            />
+          )}
           <GRText
             fontSize={"h9"}
             weight={"bold"}

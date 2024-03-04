@@ -2,6 +2,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
@@ -31,7 +32,7 @@ const ManagementLineUpCreatePage = () => {
 
   return (
     <>
-      <HeaderView title={"라인업 관리"} />
+      <HeaderView title={"라인업 생성"} disabledBackbutton />
       <GRContainerView>
         <GRFlexView marginbottom={GRStylesConfig.BASE_LONG_MARGIN}>
           <Steps
@@ -115,6 +116,12 @@ const ManagementLineUpCreatePage = () => {
               {current === STEP_TABLE && <LineUpContent />}
             </DndProvider>
           </GRFlexView>
+        </GRFlexView>
+        <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
+          <GRButtonText marginright={GRStylesConfig.BASE_MARGIN}>
+            임시 저장
+          </GRButtonText>
+          <GRButtonText>다음 단계</GRButtonText>
         </GRFlexView>
       </GRContainerView>
     </>

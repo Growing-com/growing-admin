@@ -2,9 +2,10 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
+import { DUTY } from "config/const";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DUMP_DATA } from "../DUPM_data";
@@ -31,7 +32,7 @@ const LineUpTable = () => {
         key: "grade",
         align: "center",
         fixed: "left",
-        width: "5rem"
+        width: "1rem"
       },
       {
         title: "성별",
@@ -39,8 +40,62 @@ const LineUpTable = () => {
         key: "sex",
         align: "center",
         fixed: "left",
-        width: "5rem",
+        width: "1rem",
         render: (_, record) => <ColumSexRender sexData={record?.sex} />
+      },
+      {
+        title: "직전 텀",
+        children: [
+          {
+            title: "직분",
+            key: "duty",
+            dataIndex: "tags",
+            align: "center",
+            width: "1rem",
+            render: (_, item) => {
+              if (!item?.duty) return;
+              const _duty = DUTY.find(duty => duty.key === item.duty);
+              return (
+                <Tag color={_duty?.color} key={`duty_key_${_duty?.key}`}>
+                  {_duty?.value ?? ""}
+                </Tag>
+              );
+            }
+          },
+          {
+            title: "순",
+            key: "tree",
+            dataIndex: "tree",
+            align: "center",
+            width: "3rem",
+            render: (_, item) => <div>우상욱</div>
+          },
+          {
+            title: "나무",
+            key: "tree",
+            dataIndex: "tree",
+            align: "center",
+            width: "3rem",
+            render: (_, item) => <div>이지우</div>
+          },
+          {
+            title: "출석율",
+            key: "tree",
+            dataIndex: "tree",
+            align: "center",
+            width: "3rem",
+            render: (_, item) => <div>A</div>
+          }
+        ]
+      },
+      {
+        title: "비고",
+        dataIndex: "sex",
+        key: "sex",
+        align: "center",
+        fixed: "left",
+        width: "3rem",
+        render: (_, record) => <div>군파송</div>
       }
     ],
     []
@@ -105,7 +160,7 @@ const LineUpTable = () => {
 
   return (
     <GRFlexView marginright={GRStylesConfig.BASE_LONG_MARGIN}>
-      <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+      <GRView marginbottom={GRStylesConfig.BASE_LONG_MARGIN}>
         <GRText weight={"bold"}>전체 인원</GRText>
       </GRView>
       <Table

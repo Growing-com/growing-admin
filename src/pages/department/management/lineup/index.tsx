@@ -5,8 +5,10 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { ColumnType } from "antd/es/table";
+import { useRouter } from "next/router";
 
 const ManagementLineUpPage = () => {
+  const router = useRouter();
   const lineupData = [
     {
       termName: "2023-01",
@@ -51,13 +53,17 @@ const ManagementLineUpPage = () => {
     }
   ];
 
+  const onClickCreateLineUp = () => {
+    router.push("/department/management/lineup/create");
+  };
+
   return (
     <>
       <HeaderView
         title={"라인업 관리"}
         headerComponent={
           <GRButtonText
-            // onClick={onClickCreateLineUpModal}
+            onClick={onClickCreateLineUp}
             buttonType={"default"}
             size={"large"}
           >

@@ -1,4 +1,3 @@
-import { ShrinkOutlined } from "@ant-design/icons";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -29,6 +28,9 @@ const LineUpGroupContent = () => {
       { title: `그룹${lineUpGroupCollapse.length + 1}` }
     ]);
   };
+
+  const onClickRemoveGroup = () => {};
+
   const onCloseCollpse = () => {};
 
   return (
@@ -44,23 +46,38 @@ const LineUpGroupContent = () => {
           그룹
         </GRText>
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-          <GRButtonText
+          {/* 전체 collapse 닫기 버튼 */}
+          {/* <GRButtonText
             onClick={onCloseCollpse}
             buttonType={"custom"}
             size={"small"}
           >
             <ShrinkOutlined rev={undefined} />
-          </GRButtonText>
-          <GRButtonText onClick={onClickAddGroup} buttonType={"default"}>
-            그룹 추가
-          </GRButtonText>
+          </GRButtonText> */}
+          <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
+            <GRButtonText
+              onClick={onClickRemoveGroup}
+              danger
+              size={"small"}
+              marginright={GRStylesConfig.BASE_MARGIN}
+            >
+              삭제
+            </GRButtonText>
+            <GRButtonText onClick={onClickAddGroup}>그룹 추가</GRButtonText>
+          </GRFlexView>
         </GRFlexView>
       </GRView>
-      <GRFlexView>
+      <GRView
+        height={30}
+        style={{
+          minHeight: "30rem",
+          overflowY: "scroll"
+        }}
+      >
         {lineUpGroupCollapse.map((group, index) => (
           <LineUpGroupCollapse title={group.title} />
         ))}
-      </GRFlexView>
+      </GRView>
     </GRFlexView>
   );
 };
