@@ -1,8 +1,9 @@
+import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
-import { Table, Tag } from "antd";
+import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
 import { DUTY } from "config/const";
@@ -32,7 +33,7 @@ const LineUpTable = () => {
         key: "grade",
         align: "center",
         fixed: "left",
-        width: "1rem"
+        width: "3rem"
       },
       {
         title: "성별",
@@ -40,7 +41,7 @@ const LineUpTable = () => {
         key: "sex",
         align: "center",
         fixed: "left",
-        width: "1rem",
+        width: "3rem",
         render: (_, record) => <ColumSexRender sexData={record?.sex} />
       },
       {
@@ -51,7 +52,7 @@ const LineUpTable = () => {
             key: "duty",
             dataIndex: "tags",
             align: "center",
-            width: "1rem",
+            width: "3rem",
             render: (_, item) => {
               if (!item?.duty) return;
               const _duty = DUTY.find(duty => duty.key === item.duty);
@@ -163,10 +164,10 @@ const LineUpTable = () => {
       <GRView marginbottom={GRStylesConfig.BASE_LONG_MARGIN}>
         <GRText weight={"bold"}>전체 인원</GRText>
       </GRView>
-      <Table
+      <GRTable
         rowKey={"id"}
         columns={columns}
-        dataSource={DUMP_DATA}
+        data={DUMP_DATA}
         rowSelection={{
           selectedRowKeys: selectedActiveUser.map(user => user.id),
           onChange: onSelectChange

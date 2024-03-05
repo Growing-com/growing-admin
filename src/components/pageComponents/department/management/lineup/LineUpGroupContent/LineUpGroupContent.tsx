@@ -2,6 +2,7 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import { css } from "@emotion/react";
 import { Collapse } from "antd";
 import { ExpandIconPosition } from "antd/es/collapse/Collapse";
 import { useState } from "react";
@@ -57,11 +58,10 @@ const LineUpGroupContent = () => {
           <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
             <GRButtonText
               onClick={onClickRemoveGroup}
-              danger
-              size={"small"}
               marginright={GRStylesConfig.BASE_MARGIN}
+              buttonType={"custom"}
             >
-              삭제
+              불러오기
             </GRButtonText>
             <GRButtonText onClick={onClickAddGroup}>그룹 추가</GRButtonText>
           </GRFlexView>
@@ -73,6 +73,11 @@ const LineUpGroupContent = () => {
           minHeight: "30rem",
           overflowY: "scroll"
         }}
+        customCss={css`
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        `}
       >
         {lineUpGroupCollapse.map((group, index) => (
           <LineUpGroupCollapse title={group.title} />

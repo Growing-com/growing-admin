@@ -41,7 +41,7 @@ const LineUpTableRow: FC<tLineUpTableRow> = ({
         ref={drag}
         data-testid="dustbin"
         {...restProps}
-        style={{ cursor: "move", ...style, color: "red" }}
+        style={{ cursor: "move", ...style }}
       />
     </>
   );

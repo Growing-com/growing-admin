@@ -34,6 +34,10 @@ const LineUpGroupCollapse = ({ title }) => {
     })
   }));
 
+  const onClcikDeleteIcon = () => {
+    confirm("삭제하시겠습니까?");
+  };
+
   const columns: ColumnType<any>[] = useMemo(
     () => [
       {
@@ -41,16 +45,14 @@ const LineUpGroupCollapse = ({ title }) => {
         dataIndex: "name",
         key: "name",
         align: "center",
-        fixed: "left",
-        width: "3rem"
+        fixed: "left"
       },
       {
         title: "학년",
         dataIndex: "grade",
         key: "grade",
         align: "center",
-        fixed: "left",
-        width: "5rem"
+        fixed: "left"
       },
       {
         title: "성별",
@@ -58,8 +60,18 @@ const LineUpGroupCollapse = ({ title }) => {
         key: "sex",
         align: "center",
         fixed: "left",
-        width: "5rem",
         render: (_, record) => <ColumSexRender sexData={record?.sex} />
+      },
+      {
+        title: "삭제",
+        align: "center",
+        render: (_, recode) => (
+          <CloseCircleOutlined
+            onClick={() => onClcikDeleteIcon()}
+            rev={undefined}
+            style={{ color: Color.grey80, cursor: "pointer" }}
+          />
+        )
       }
     ],
     []
@@ -71,10 +83,6 @@ const LineUpGroupCollapse = ({ title }) => {
 
   const onChange = (key: string | string[]) => {
     console.log(key);
-  };
-
-  const onClcikDeleteIcon = () => {
-    confirm("삭제하시겠습니까?");
   };
 
   return (
@@ -94,23 +102,12 @@ const LineUpGroupCollapse = ({ title }) => {
           key="1"
           className="custom"
           style={{ padding: 0 }}
-          extra={
-            <CloseCircleOutlined
-              onClick={() => onClcikDeleteIcon()}
-              rev={undefined}
-              style={{ color: Color.grey80, cursor: "pointer" }}
-            />
-          }
         >
           <GRTable
             rowKey={"id"}
             data={lineUpGroupContentData}
             columns={columns}
             pagination={false}
-            rowSelection={{
-              selectedRowKeys: selectedActiveUser.map(user => user.id),
-              onChange: onSelectChange
-            }}
             customCss={css`
               .ant-table-body {
                 overflow-y: scroll !important;
