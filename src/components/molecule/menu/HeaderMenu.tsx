@@ -14,11 +14,15 @@ import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
 import { DUTY, ROLE } from "config/const";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-const HeaderMenu = ({ onClickCollapse }) => {
+type tHeaderMenu = {
+  onClickCollapse: () => void;
+};
+
+const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
   const { logoutMutate } = useLogoutMutate();
   const { data: userInfo } = useUserInfoQuery();
 

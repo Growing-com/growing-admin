@@ -1,20 +1,17 @@
 import GRText from "@component/atom/text/GRText";
 import GRView from "@component/atom/view/GRView";
+import { Identifier } from "dnd-core";
 import { useEffect, useState } from "react";
-import { useDragLayer } from "react-dnd";
+import { XYCoord, useDragLayer } from "react-dnd";
 
-const layerStyles = {
-  position: "fixed",
-  pointerEvents: "none",
-  zIndex: 100,
-  left: 0,
-  top: 0,
-  width: "100%",
-  height: "100%"
-};
+type tCoord = XYCoord | null;
 
-const getItemStyles = (currentOffset, initialOffset, mousePos) => {
-  if (!currentOffset) {
+const getItemStyles = (
+  currentOffset: tCoord,
+  initialOffset: tCoord,
+  mousePos: tCoord
+) => {
+  if (!currentOffset || !mousePos || !initialOffset) {
     return {
       display: "none"
     };
@@ -31,7 +28,7 @@ const getItemStyles = (currentOffset, initialOffset, mousePos) => {
 };
 
 const DragPreview = () => {
-  const [mousePos, setMousePos] = useState({});
+  const [mousePos, setMousePos] = useState<tCoord>({ x: 0, y: 0 });
 
   const { itemType, initialOffset, isDragging, item, currentOffset } =
     useDragLayer(monitor => ({
@@ -42,7 +39,7 @@ const DragPreview = () => {
       isDragging: monitor.isDragging()
     }));
 
-  const renderItem = (type, item) => {
+  const renderItem = (type: Identifier | null, item: any) => {
     switch (type) {
       case "lineup-table":
         const _firstName = item.selectItem[0];
@@ -60,7 +57,7 @@ const DragPreview = () => {
   };
 
   useEffect(() => {
-    const handleMouseMove = event => {
+    const handleMouseMove = (event: MouseEvent) => {
       setMousePos({ x: event.clientX, y: event.clientY });
     };
 
@@ -76,7 +73,17 @@ const DragPreview = () => {
   }
 
   return (
-    <div style={layerStyles}>
+    <div
+      style={{
+        position: "fixed",
+        pointerEvents: "none",
+        zIndex: 100,
+        left: 0,
+        top: 0,
+        width: "100%",
+        height: "100%"
+      }}
+    >
       <div style={getItemStyles(currentOffset, initialOffset, mousePos)}>
         {renderItem(itemType, item)}
       </div>

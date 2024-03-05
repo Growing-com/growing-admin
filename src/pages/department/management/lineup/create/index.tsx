@@ -7,7 +7,6 @@ import GRText from "@component/atom/text/GRText";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import DragPreview from "@component/pageComponents/department/management/lineup/DragPreview";
-import LineUpContent from "@component/pageComponents/department/management/lineup/LineUpContent";
 import LineUpGroupContent from "@component/pageComponents/department/management/lineup/LineUpGroupContent/LineUpGroupContent";
 import LineUpTable from "@component/pageComponents/department/management/lineup/LineUpTable/LineUpTable";
 import { Steps } from "antd";
@@ -113,7 +112,6 @@ const ManagementLineUpCreatePage = () => {
               <DragPreview />
               <LineUpTable />
               {current === STEP_GROUP && <LineUpGroupContent />}
-              {current === STEP_TABLE && <LineUpContent />}
             </DndProvider>
           </GRFlexView>
         </GRFlexView>

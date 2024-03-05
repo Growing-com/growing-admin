@@ -7,13 +7,17 @@ import styled from "@emotion/styled";
 import { Collapse } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tActiveUser } from "api/account/types";
-import { useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { useDrop } from "react-dnd";
 import { Color } from "styles/colors";
 
 const { Panel } = Collapse;
 
-const LineUpGroupCollapse = ({ title }) => {
+type tLineUpGroupCollapse = {
+  title: string;
+};
+
+const LineUpGroupCollapse: FC<tLineUpGroupCollapse> = ({ title }) => {
   const [selectedActiveUser, setSelectedActiveUser] = useState<tActiveUser[]>(
     []
   );
@@ -21,8 +25,7 @@ const LineUpGroupCollapse = ({ title }) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: "lineup-table",
-    drop: (item, monitor) => {
-      console.log("!!!", item);
+    drop: (item: any, monitor) => {
       console.log("!!", monitor.getDropResult());
       if (item.selectItem.length > 0) {
         setLineUpGroupContentData(item.selectItem);
@@ -34,7 +37,7 @@ const LineUpGroupCollapse = ({ title }) => {
     })
   }));
 
-  const onClcikDeleteIcon = () => {
+  const onClcikDeleteIcon = (_: any) => {
     confirm("삭제하시겠습니까?");
   };
 
@@ -67,7 +70,7 @@ const LineUpGroupCollapse = ({ title }) => {
         align: "center",
         render: (_, recode) => (
           <CloseCircleOutlined
-            onClick={() => onClcikDeleteIcon()}
+            onClick={() => onClcikDeleteIcon(recode)}
             rev={undefined}
             style={{ color: Color.grey80, cursor: "pointer" }}
           />

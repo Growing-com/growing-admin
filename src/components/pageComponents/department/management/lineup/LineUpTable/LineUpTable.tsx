@@ -5,7 +5,6 @@ import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { Tag } from "antd";
 import { ColumnType } from "antd/es/table";
-import { tActiveUser } from "api/account/types";
 import { DUTY } from "config/const";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -13,9 +12,7 @@ import { DUMP_DATA } from "../DUPM_data";
 import LineUpTableRow from "./LineUpTableRow";
 
 const LineUpTable = () => {
-  const [selectedActiveUser, setSelectedActiveUser] = useState<tActiveUser[]>(
-    []
-  );
+  const [selectedActiveUser, setSelectedActiveUser] = useState<any[]>([]);
 
   const columns: ColumnType<any>[] = useMemo(
     () => [
@@ -53,7 +50,7 @@ const LineUpTable = () => {
             dataIndex: "tags",
             align: "center",
             width: "3rem",
-            render: (_, item) => {
+            render: (_: any, item: any) => {
               if (!item?.duty) return;
               const _duty = DUTY.find(duty => duty.key === item.duty);
               return (
@@ -69,7 +66,7 @@ const LineUpTable = () => {
             dataIndex: "tree",
             align: "center",
             width: "3rem",
-            render: (_, item) => <div>우상욱</div>
+            render: () => <div>우상욱</div>
           },
           {
             title: "나무",
@@ -77,7 +74,7 @@ const LineUpTable = () => {
             dataIndex: "tree",
             align: "center",
             width: "3rem",
-            render: (_, item) => <div>이지우</div>
+            render: () => <div>이지우</div>
           },
           {
             title: "출석율",
@@ -85,7 +82,7 @@ const LineUpTable = () => {
             dataIndex: "tree",
             align: "center",
             width: "3rem",
-            render: (_, item) => <div>A</div>
+            render: () => <div>A</div>
           }
         ]
       },
@@ -96,13 +93,13 @@ const LineUpTable = () => {
         align: "center",
         fixed: "left",
         width: "3rem",
-        render: (_, record) => <div>군파송</div>
+        render: () => <div>군파송</div>
       }
     ],
     []
   );
 
-  const onSelectChange = (_: React.Key[], selectedRows: tActiveUser[]) => {
+  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
     setSelectedActiveUser(selectedRows);
   };
 

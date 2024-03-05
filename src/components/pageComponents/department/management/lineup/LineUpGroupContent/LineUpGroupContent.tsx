@@ -11,6 +11,11 @@ import LineUpGroupCollapse from "./LineUpGroupCollapse";
 
 const { Panel } = Collapse;
 
+type tlineUpGroupCollapseItem = {
+  title: string;
+  data?: any[];
+};
+
 const LineUpGroupContent = () => {
   const [expandIconPosition, setExpandIconPosition] =
     useState<ExpandIconPosition>("start");
@@ -19,9 +24,9 @@ const LineUpGroupContent = () => {
     setExpandIconPosition(newExpandIconPosition);
   };
 
-  const [lineUpGroupCollapse, setLineUpGroupCollapse] = useState<string[]>([
-    { title: "훈련생", data: [] }
-  ]);
+  const [lineUpGroupCollapse, setLineUpGroupCollapse] = useState<
+    tlineUpGroupCollapseItem[]
+  >([{ title: "훈련생", data: [] }]);
 
   const onClickAddGroup = () => {
     setLineUpGroupCollapse([
@@ -80,7 +85,7 @@ const LineUpGroupContent = () => {
         `}
       >
         {lineUpGroupCollapse.map((group, index) => (
-          <LineUpGroupCollapse title={group.title} />
+          <LineUpGroupCollapse key={index} title={group.title} />
         ))}
       </GRView>
     </GRFlexView>
