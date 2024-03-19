@@ -101,20 +101,13 @@ const ManagementLineUpCreatePage = () => {
             infoMessage={"라인업 하기 전에 그룹화 하기 위한 작업입니다"}
           />
         </GRFlexView>
-        <GRFlexView flexDirection="row">
-          <GRFlexView
-            flexDirection={"row"}
-            style={{
-              flexWrap: "wrap"
-            }}
-          >
-            <DndProvider backend={HTML5Backend}>
-              <DragPreview />
-              <LineUpTable />
-              {current === STEP_GROUP && <LineUpGroupContent />}
-            </DndProvider>
+        <DndProvider backend={HTML5Backend}>
+          <GRFlexView flexDirection="row">
+            <DragPreview />
+            <LineUpTable />
+            {current === STEP_GROUP && <LineUpGroupContent />}
           </GRFlexView>
-        </GRFlexView>
+        </DndProvider>
         <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
           <GRButtonText marginright={GRStylesConfig.BASE_MARGIN}>
             임시 저장

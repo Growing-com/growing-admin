@@ -52,7 +52,7 @@ const GRTable = <GRTableType extends object>({
         background: ${!isHoverTable && `white !important`};
       }
       .ant-table-body {
-        /* overflow: hidden !important; */
+        overflow: hidden !important;
         /* ::- ::-webkit-scrollbar { */
       }
 
@@ -83,7 +83,6 @@ const GRTable = <GRTableType extends object>({
         columns={columns}
         dataSource={data ?? []}
         pagination={pagination}
-        scroll={scroll ?? BASE_SCROLL}
         showSorterTooltip={false}
         css={[
           css`
