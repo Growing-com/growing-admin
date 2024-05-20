@@ -43,11 +43,6 @@ export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
     key: "management-newfamily",
     label: "새가족 관리",
     path: "management/newfamily"
-  },
-  {
-    key: "management-lineup",
-    label: "라인업 관리",
-    path: "management/lineup"
   }
 ];
 

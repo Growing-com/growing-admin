@@ -161,40 +161,46 @@ const LineUpTable = () => {
       <GRView marginbottom={GRStylesConfig.BASE_LONG_MARGIN}>
         <GRText weight={"bold"}>전체 인원</GRText>
       </GRView>
-      <GRTable
-        rowKey={"id"}
-        columns={columns}
-        data={DUMP_DATA}
-        rowSelection={{
-          selectedRowKeys: selectedActiveUser.map(user => user.id),
-          onChange: onSelectChange
-        }}
-        components={{
-          body: {
-            row: (props: any) => (
-              <LineUpTableRow selectedUser={selectedActiveUser} {...props} />
-            )
-            // row: props => {
-            //   console.log("props", props);
-            //   const { children, ...restProps } = props;
-            //   return (
-            //     <tr {...restProps}>
-            //       {children instanceof Array
-            //         ? children.map(child => {
-            //             const { children, key, ...restProps } = child;
-            //             return key === "dragHandle" ? (
-            //               <td {...restProps}>{child}</td>
-            //             ) : (
-            //               <td {...restProps}>{child}</td>
-            //             );
-            //           })
-            //         : children}
-            //     </tr>
-            //   );
-            // }
-          }
-        }}
-      />
+      <GRView height={30}>
+        <GRTable
+          rowKey={"id"}
+          columns={columns}
+          data={DUMP_DATA}
+          rowSelection={{
+            selectedRowKeys: selectedActiveUser.map(user => user.id),
+            onChange: onSelectChange
+          }}
+          pagination={{
+            total: DUMP_DATA.length,
+            position: ["bottomCenter"]
+          }}
+          components={{
+            body: {
+              row: (props: any) => (
+                <LineUpTableRow selectedUser={selectedActiveUser} {...props} />
+              )
+              // row: props => {
+              //   console.log("props", props);
+              //   const { children, ...restProps } = props;
+              //   return (
+              //     <tr {...restProps}>
+              //       {children instanceof Array
+              //         ? children.map(child => {
+              //             const { children, key, ...restProps } = child;
+              //             return key === "dragHandle" ? (
+              //               <td {...restProps}>{child}</td>
+              //             ) : (
+              //               <td {...restProps}>{child}</td>
+              //             );
+              //           })
+              //         : children}
+              //     </tr>
+              //   );
+              // }
+            }
+          }}
+        />
+      </GRView>
     </GRFlexView>
   );
 };

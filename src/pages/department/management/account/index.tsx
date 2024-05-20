@@ -140,7 +140,7 @@ const ManagementAccountPage: NextPage = () => {
           data={searchData}
           pagination={{
             total: searchData?.length,
-            defaultPageSize: 20,
+            defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           onRow={record => ({

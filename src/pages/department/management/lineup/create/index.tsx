@@ -114,6 +114,11 @@ const ManagementLineUpCreatePage = () => {
               {current === STEP_GROUP && <LineUpGroupContent />}
             </DndProvider>
           </GRFlexView>
+          <DndProvider backend={HTML5Backend}>
+            <DragPreview />
+            <LineUpTable />
+            {current === STEP_GROUP && <LineUpGroupContent />}
+          </DndProvider>
         </GRFlexView>
         <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
           <GRButtonText marginright={GRStylesConfig.BASE_MARGIN}>
