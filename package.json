@@ -29,6 +29,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
+    "react-use": "^17.5.0",
     "xlsx": "^0.18.5",
     "zustand": "^4.4.4"
   },
