@@ -14,6 +14,7 @@ export type tGRButtonText = {
   backgroundColor?: CSSProperties["backgroundColor"];
   textColor?: CSSProperties["color"];
   borderColor?: CSSProperties["color"];
+  borderRadius?: CSSProperties["borderRadius"];
   size?: tButtonSize;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
@@ -33,6 +34,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
   backgroundColor,
   textColor,
   borderColor,
+  borderRadius,
   width,
   height,
   textSize,
@@ -108,6 +110,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         width: ${_width};
         height: ${_height};
         border-color: ${_buttonTypeColor.borderColor};
+        border-radius: ${borderRadius};
       `}
       disabled={disabled}
       {...props}

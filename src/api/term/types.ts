@@ -1,4 +1,4 @@
-import type { tAccount, tSex } from "api/account/types";
+import type { tAccount, tDuty, tSex } from "api/account/types";
 
 /** @description "LAMP": 등불, "TREE": 나무모임 "PLANT": 순모임 "NEW": 새가족 */
 export type tTeamType = "LAMP" | "TREE" | "PLANT" | "NEW";
@@ -30,6 +30,8 @@ export type tTermMember = {
   teamId: number;
   /** @description  @example  1 */
   teamMemberId: number;
+  /** @description  @example  리더 */
+  duty: tDuty;
 };
 
 export type tTermNewFamily = {
@@ -59,4 +61,5 @@ export type tTermNewFamily = {
   | "etc"
   | "updatedBy"
   | "updatedAt"
+  | "duty"
 >;
