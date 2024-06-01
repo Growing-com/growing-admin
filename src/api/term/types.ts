@@ -1,4 +1,4 @@
-import type { tAccount, tSex } from "api/account/types";
+import type { tSex } from "api/account/types";
 
 /** @description "LAMP": 등불, "TREE": 나무모임 "PLANT": 순모임 "NEW": 새가족 */
 export type tTeamType = "LAMP" | "TREE" | "PLANT" | "NEW";
@@ -47,16 +47,14 @@ export type tTermNewFamily = {
   firstPlantLeaderName: string | null;
   /** @description 텀 코디 이름  @example "홍길동" */
   firstPlantManagerName: string | null;
-} & Pick<
-  tAccount,
-  | "teamId"
-  | "birth"
-  | "grade"
-  | "isActive"
-  | "name"
-  | "phoneNumber"
-  | "sex"
-  | "etc"
-  | "updatedBy"
-  | "updatedAt"
->;
+  teamId: number;
+  birth: string;
+  grade: number;
+  isActive: boolean;
+  name: string;
+  phoneNumber: string;
+  sex: tSex;
+  etc: string;
+  updatedAt: Date;
+  updatedBy: Date;
+};
