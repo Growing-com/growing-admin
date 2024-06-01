@@ -2,7 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import HeaderView from "@component/molecule/view/HeaderView";
-import AccountModal from "@component/pageComponents/department/management/account/AccountModal";
+import AccountModal from "@component/pages/department/management/account/AccountModal";
 import SearchBar from "@component/templates/SearchBar";
 import { Tag } from "antd";
 import type { ColumnType } from "antd/es/table";
