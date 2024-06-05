@@ -174,15 +174,16 @@ const ManagementNewFamilyPage: NextPage = () => {
             <GRButtonText
               onClick={onClickPromote}
               buttonType={"secondary"}
-              size={"large"}
-              marginright={0.5}
+              size={"small"}
               borderRadius={"15px"}
+              marginright={0.5}
             >
               등반
             </GRButtonText>
             <GRButtonText
               onClick={onClickLineUp}
-              size={"large"}
+              size={"small"}
+              width={"5rem"}
               borderRadius={"15px"}
             >
               라인업
