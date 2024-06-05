@@ -5,33 +5,20 @@ import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
-import NewFamilyDetailModal from "@component/pageComponents/department/management/newfamily/NewFamilyDetailModal";
-import NewFamilyLineOutListModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineOutListModal";
-import SearchBar from "@component/templates/SearchBar";
-import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
-import { DUTY, DUTY_NAME, SEX_NAME } from "config/const";
-import dayjs from "dayjs";
+import { DUTY_NAME, SEX_NAME } from "config/const";
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
-import { Color } from "styles/colors";
-import { dateSorter, koreanSorter } from "utils/sorter";
 
 const ManagementNewFamilyPage: NextPage = () => {
-  // const [openNewFamilyLineOutListModal, setOpenNewFamilyLineOutListModal] =
-  //   useState(false);
-  // const onClickLineOutClose = () => {
-  //   setOpenNewFamilyLineOutListModal(false);
-  // };
   const [searchText, setSearchText] = useState("");
-  // const [openPromoteModal, setOpenPromoteModal] = useState(false);
-  // const [openLineUpModal, setLineUpModal] = useState(false);
+  const [openPromoteModal, setOpenPromoteModal] = useState(false);
+  const [openLineUpModal, setOpenLineUpModal] = useState(false);
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tTermNewFamily[]
   >([]);
@@ -39,21 +26,24 @@ const ManagementNewFamilyPage: NextPage = () => {
   // query 이해필요
   const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
 
+  /* value에 스트링으로 구분이 필요할만큼 많은 탭이 있지 않기에 number로 인덱스 구성, 
+  탭이 많아져 구분이 필요하거나, 빠른 선택을 위해서는 string으로 구성해야 할 듯 */
+  // value값을 string으로 구성하고 싶은데 어떤 단어로 할지 보류라 일단 number
   const newFamilyTabOption = [
     {
-      value: "0",
+      value: 0,
       label: "새가족"
     },
     {
-      value: "1",
+      value: 1,
       label: "출석"
     },
     {
-      value: "2",
+      value: 2,
       label: "등반"
     },
     {
-      value: "3",
+      value: 3,
       label: "라인아웃"
     }
   ];
@@ -90,7 +80,9 @@ const ManagementNewFamilyPage: NextPage = () => {
       align: "center",
       width: "8rem",
       render: (_, record) => {
-        return record?.birth !== "1970-01-01" ? record?.birth : "-";
+        return record?.birth !== null && record?.birth !== "1970-01-01"
+          ? record?.birth
+          : "-";
       }
     },
     {
@@ -102,8 +94,6 @@ const ManagementNewFamilyPage: NextPage = () => {
       render: (_, item) => {
         if (!item?.duty) return;
         return DUTY_NAME[item?.duty];
-        // 성별하고 생년월일하고 render 방식 차이? undefined 검증, GRText 사용 이유?
-        // return <GRText>{DUTY[item?.duty]}</GRText>;
       }
     },
     {
@@ -113,78 +103,30 @@ const ManagementNewFamilyPage: NextPage = () => {
       align: "center",
       width: "10rem"
     }
-    // {
-    //   title: "방문일",
-    //   dataIndex: "visitDate",
-    //   key: "visitDate",
-    //   align: "center",
-    //   width: "8rem",
-    //   sorter: (valueA, valueB) =>
-    //     dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-    //   render: (_, record) => {
-    //     return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
-    //   }
-    // },
-
-    // {
-    //   title: "새가족 순장",
-    //   dataIndex: "newTeamLeaderName",
-    //   key: "newTeamLeaderName",
-    //   align: "center",
-    //   width: "6rem"
-    // },
-    // {
-    //   title: "등반 순장",
-    //   align: "center",
-    //   dataIndex: "firstPlantLeaderName",
-    //   width: "8rem",
-    //   sorter: (a, b) =>
-    //     koreanSorter(a.firstPlantLeaderName, b.firstPlantLeaderName)
-    // },
-    // {
-    //   title: "등반일",
-    //   align: "center",
-    //   width: "8rem",
-    //   render: (_, record) => {
-    //     if (!record.lineoutDate && !record.lineupDate) return "";
-    //     const date = record.lineoutDate
-    //       ? record.lineoutDate
-    //       : record.lineupDate;
-    //     return <GRText weight={"bold"}>{date}</GRText>;
-    //   }
-    // }
   ];
 
-  // 클릭 시 정보 표시
-  // const onClickRow = useCallback((_newFamily?: tTermNewFamily) => {
-  //   setSelectedNewFamily(_newFamily);
-  //   setOpenNewFamilyModal(true);
-  // }, []);
-
+  // Todo: 지체 생성 페이지로 보내야 함
   const onClickCreateNewFamily = () => {
     alert("NewFamily");
   };
   const onChangeSearchText = useCallback((e: string) => {
     setSearchText(e);
   }, []);
-  // const onClickSearch = () => {
-  //   alert("search!");
-  // };
+
+  // Todo: 등반 모달
   const onClickPromote = () => {
     alert("등반");
-    // setOpenPromoteModal(true);
+    setOpenPromoteModal(true);
   };
+
+  // Todo: 라인업 모달
   const onClickLineUp = () => {
     alert("라인업");
-    // setLineUpModal(true);
+    setOpenLineUpModal(true);
   };
 
   // any말고 데이터 타입 구조 넣어야 됨
   const rowSelection: TableRowSelection<any> = {
-    // onChange: (selectedRowKeys, selectedRows) => {
-    //   console.log('Selected Row Keys: ', selectedRowKeys);
-    //   console.log('Selected Rows: ', selectedRows);
-    // },
     getCheckboxProps: record => ({
       disabled: record.name === "Disabled User",
       name: record.name
@@ -199,19 +141,11 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   return (
     <>
-      {/* title 속성에 {}를 붙임은 JS문법을 쓴다는 뜻인데 string 인데 굳이 써야할까? 차이가 있나? 통일성?
-      titleInfo는 ReactNode 타입 */}
       <HeaderView
-        title="새가족 관리"
-        // title={"새가족 관리"}
-        // titleInfo={"현재 텀 새가족 리스트"}
+        title={"새가족 관리"}
         showIcon={false}
         headerComponent={
-          <GRButtonText
-            onClick={onClickCreateNewFamily}
-            // buttonType={"default"}
-            size={"large"}
-          >
+          <GRButtonText onClick={onClickCreateNewFamily} size={"large"}>
             지체 등록
           </GRButtonText>
         }
@@ -219,28 +153,24 @@ const ManagementNewFamilyPage: NextPage = () => {
       <GRContainerView>
         {/* /Todo : 탭에 따라 내용 변경 */}
         <GRTab items={newFamilyTabOption}></GRTab>
-
         <GRFlexView
           alignItems={"flex-start"}
           flexDirection={"row"}
           marginbottom={1}
         >
-          {/* /Todo: 텍스트바 크기조절  */}
+          {/* Todo: 검색 */}
           <GRTextInput
-            style={{ flex: 1 }}
+            style={{ flex: "0 1 25%" }}
             value={searchText}
-            marginright={2}
-            placeholder={"이름으로 검색 하세요."}
+            placeholder={"이름으로 검색하세요."}
             onChange={onChangeSearchText}
           />
-          <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
-            {/* GRFlexView는 row 되고 GRView는 왜 안될까? */}
-            {/* /Todo: 뱃지 가운데 정렬이 안되넹 */}
-            <GRInfoBadge
-              infoMessage={`*등반: \n*라인업:`}
-              fontSize={"1rem"}
-              // alignItems={"center"}
-            />
+          <GRFlexView
+            flexDirection={"row"}
+            justifyContent={"flex-end"}
+            alignItems={"center"}
+          >
+            <GRInfoBadge infoMessage={`*등반: \n*라인업:`} fontSize={"1rem"} />
             <GRButtonText
               onClick={onClickPromote}
               buttonType={"secondary"}
@@ -252,7 +182,6 @@ const ManagementNewFamilyPage: NextPage = () => {
             </GRButtonText>
             <GRButtonText
               onClick={onClickLineUp}
-              // buttonType={"default"}
               size={"large"}
               borderRadius={"15px"}
             >
@@ -262,9 +191,6 @@ const ManagementNewFamilyPage: NextPage = () => {
         </GRFlexView>
         <GRTable
           rowKey={"name"}
-          // onRow={record => ({
-          //   onClick: () => onClickRow(record)
-          // })}
           rowSelection={rowSelection}
           columns={columns}
           data={filteredNewFailyData}
@@ -276,11 +202,10 @@ const ManagementNewFamilyPage: NextPage = () => {
           scroll={{ x: 1300 }}
         />
       </GRContainerView>
+      {/* Todo: 등반 모달 생성  */}
 
-      {/* <NewFamilyLineOutListModal
-        open={openNewFamilyLineOutListModal}
-        onClose={onClickLineOutClose}
-      /> */}
+      {/* Todo: 라인업 모달 생성 */}
+
     </>
   );
 };
