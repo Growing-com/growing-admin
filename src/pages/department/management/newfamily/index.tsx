@@ -68,6 +68,15 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onChangeTab = (value: string) => {
     setCurrentTab(value);
+    if (newFamilyData) {
+      let filteredData = newFamilyData;
+      if (value === "promote") {
+        filteredData = newFamilyData.filter(item => item.lineupDate);
+      } else if (value === "lineout") {
+        filteredData = newFamilyData.filter(item => item.lineoutDate);
+      }
+      setFilteredNewFailyData(filteredData);
+    }
   };
 
   // Todo: 등반 모달
@@ -88,19 +97,11 @@ const ManagementNewFamilyPage: NextPage = () => {
       name: record.name
     })
   };
-
   useEffect(() => {
-    // 탭 변경 시 api를 요청하는건가?
     if (newFamilyData) {
-      let filteredData = newFamilyData;
-      if (currentTab === "promote") {
-        filteredData = newFamilyData.filter(item => item.lineupDate);
-      } else if (currentTab === "lineout") {
-        filteredData = newFamilyData.filter(item => item.lineoutDate);
-      }
-      setFilteredNewFailyData(filteredData);
+      setFilteredNewFailyData(newFamilyData);
     }
-  }, [newFamilyData, currentTab]);
+  }, [newFamilyData]);
 
   return (
     <>
