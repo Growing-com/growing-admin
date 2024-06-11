@@ -89,14 +89,16 @@ export const NewFamilyAttendanceTable = () => {
   ];
 
   return (
-    <GRTable
-      columns={columns}
-      data={attendanceList}
-      pagination={{
-        total: attendanceList?.length,
-        defaultPageSize: 10,
-        position: ["bottomCenter"]
-      }}
-    />
+    <>
+      <GRTable
+        columns={columns}
+        data={attendanceList}
+        pagination={{
+          total: attendanceList?.length,
+          defaultPageSize: 10,
+          position: ["bottomCenter"]
+        }}
+      />
+    </>
   );
 };

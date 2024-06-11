@@ -5,10 +5,14 @@ import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
+import { useState } from "react";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
 export const NewFamilyTable = () => {
   const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
+    []
+  );
 
   const columns: ColumnType<tTermNewFamily>[] = [
     {
@@ -38,7 +42,7 @@ export const NewFamilyTable = () => {
       width: "6rem"
     },
     {
-      title: "등반 순장",
+      title: "순장",
       align: "center",
       dataIndex: "firstPlantLeaderName",
       width: "8rem",
@@ -94,15 +98,27 @@ export const NewFamilyTable = () => {
     }
   ];
 
+  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
+    console.log("selectedRowKeys changed: ", selectedRows);
+    setSelectedNewFamily(selectedRows);
+  };
+
   return (
-    <GRTable
-      columns={columns}
-      data={newFamilyData}
-      pagination={{
-        total: newFamilyData?.length,
-        defaultPageSize: 10,
-        position: ["bottomCenter"]
-      }}
-    />
+    <>
+      <GRTable
+        rowKey={"userId"}
+        columns={columns}
+        data={newFamilyData}
+        pagination={{
+          total: newFamilyData?.length,
+          defaultPageSize: 10,
+          position: ["bottomCenter"]
+        }}
+        rowSelection={{
+          selectedRowKeys: selectedNewFamily.map(newFamily => newFamily.userId),
+          onChange: onSelectChange
+        }}
+      />
+    </>
   );
 };

@@ -41,7 +41,7 @@ export type tTermNewFamily = {
   newTeamLeaderName: string;
   /** @description 방문일  @example "2023-08-13" */
   visitDate: string;
-  userId?: number;
+  userId: number;
   teamMemberId: number;
   /** @description 라인업 된 리더  @example "" */
   firstPlantLeaderName: string | null;
