@@ -91,12 +91,23 @@ const ManagementNewFamilyPage: NextPage = () => {
     setOpenLineUpModal(true);
   };
 
+  const onClickReturn = () => {
+    alert("복귀");
+  };
+
   const rowSelection: TableRowSelection<tTermNewFamily> = {
+    // onChange: (selectedRowKeys: React.Key[], selectedRows: tTermNewFamily[]) => {
+    //   console.log(
+    //     `selectedRowKeys: ${selectedRowKeys}`,
+    //     "selectedRows: ", selectedRows
+    //   );
+    // },
     getCheckboxProps: record => ({
       disabled: currentTab === "promote",
       name: record.name
     })
   };
+
   useEffect(() => {
     if (newFamilyData) {
       setFilteredNewFailyData(newFamilyData);
@@ -134,26 +145,48 @@ const ManagementNewFamilyPage: NextPage = () => {
             justifyContent={"flex-end"}
             alignItems={"center"}
           >
-            <GRInfoBadge infoMessage={`*등반: \n*라인업:`} fontSize={"1rem"} />
-            <GRButtonText
-              onClick={onClickPromote}
-              buttonType={"secondary"}
-              size={"small"}
-              borderRadius={"15px"}
-              marginright={0.5}
-              // 등반 탭일경우 등반버튼 비활성
-              // {...(currentTab == "promote" && { disabled: true })}
-            >
-              등반
-            </GRButtonText>
-            <GRButtonText
-              onClick={onClickLineUp}
-              size={"small"}
-              width={"5rem"}
-              borderRadius={"15px"}
-            >
-              라인업
-            </GRButtonText>
+            {currentTab !== "lineout" ? (
+              <>
+                <GRInfoBadge
+                  infoMessage={`*등반: \n*라인업:`}
+                  fontSize={"1rem"}
+                />
+                <GRButtonText
+                  onClick={onClickPromote}
+                  buttonType={"secondary"}
+                  size={"small"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                  // 등반 탭일경우 등반버튼 비활성
+                  disabled={currentTab == "promote" ? true : false}
+                >
+                  등반
+                </GRButtonText>
+                <GRButtonText
+                  onClick={onClickLineUp}
+                  size={"small"}
+                  width={"5rem"}
+                  borderRadius={"15px"}
+                >
+                  라인업
+                </GRButtonText>
+              </>
+            ) : (
+              <>
+                <GRInfoBadge infoMessage={`*복귀:`} fontSize={"1rem"} />
+                <GRButtonText
+                  onClick={onClickReturn}
+                  buttonType={"custom"}
+                  backgroundColor={"#6E02F7"}
+                  textColor={"white"}
+                  size={"small"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                >
+                  복귀
+                </GRButtonText>
+              </>
+            )}
           </GRFlexView>
         </GRFlexView>
         <GRTable
