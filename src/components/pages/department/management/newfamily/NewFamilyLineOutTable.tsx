@@ -1,16 +1,25 @@
 import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextInput from "@component/atom/text/GRTextInput";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import { getInActiveUser } from "api/account";
 import queryKeys from "api/queryKeys";
+import { tTermNewFamily } from "api/term/types";
+import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
-export const NewFamilyLineOutTable = () => {
+export const NewFamilyLineOutTable = ({ onClickNewFamilyLineUp }) => {
   const { data: inActiveUser } = useQuery(
     [queryKeys.IN_ACTIVE_USERS],
     async () => await getInActiveUser(),
     { select: _data => _data.content }
+  );
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
+    []
   );
 
   const columns: ColumnType<any>[] = [
@@ -38,11 +47,14 @@ export const NewFamilyLineOutTable = () => {
       render: (_, record) => <ColumSexRender sexData={record?.sex} />
     },
     {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: "생년월일",
+      key: "birth",
+      dataIndex: "birth",
       align: "center",
-      width: "15rem"
+      width: "8rem",
+      render: (_, record) => {
+        return record?.birth !== "1970-01-01" ? record?.birth : "-";
+      }
     },
     {
       title: "방문일",
@@ -55,29 +67,49 @@ export const NewFamilyLineOutTable = () => {
       }
     },
     {
-      title: "최종 수정자",
-      dataIndex: "updatedBy",
-      key: "updatedBy",
-      align: "center",
-      width: "5rem",
-      render: (_, record) => {
-        return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
-      }
-    },
-    {
-      title: "수정자 날짜",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      title: "라인아웃 날짜",
+      dataIndex: "lineoutDate",
+      key: "lineoutDate",
       align: "center",
       width: "8rem",
       render: (_, record) => {
-        return record.updatedAt;
+        return record?.lineoutDate !== "1970-01-01" ? record?.lineoutDate : "-";
       }
     }
   ];
 
+  const onChangeSearch = () => {};
+
+  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
+    setSelectedNewFamily(selectedRows);
+  };
+
   return (
     <>
+      <GRFlexView
+        flexDirection={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        marginbottom={GRStylesConfig.BASE_MARGIN}
+      >
+        <GRView>
+          <GRTextInput
+            style={{
+              height: "2.1rem"
+            }}
+            type={"input"}
+            placeholder={"이름으로 검색하세요"}
+            onChange={onChangeSearch}
+          />
+        </GRView>
+        <GRButtonText
+          onClick={onClickNewFamilyLineUp}
+          buttonType={"custom"}
+          size={"small"}
+        >
+          복귀
+        </GRButtonText>
+      </GRFlexView>
       <GRTable
         rowKey={"id"}
         columns={columns}
@@ -88,6 +120,10 @@ export const NewFamilyLineOutTable = () => {
         pagination={{
           total: inActiveUser?.length,
           position: ["bottomCenter"]
+        }}
+        rowSelection={{
+          selectedRowKeys: selectedNewFamily.map(newFamily => newFamily.userId),
+          onChange: onSelectChange
         }}
       />
     </>

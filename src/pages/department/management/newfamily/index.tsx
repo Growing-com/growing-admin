@@ -4,6 +4,7 @@ import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { NewFamilyAttendanceTable } from "@component/pages/department/management/newfamily/NewFamilyAttendanceTable";
 import { NewFamilyLineOutTable } from "@component/pages/department/management/newfamily/NewFamilyLineOutTable";
@@ -25,22 +26,31 @@ const option = [
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [tabValue, setTabValue] = useState(NEW_FAMILY);
-  const [serachText, setSerachText] = useState();
+  const [searchText, setSearchText] = useState();
   const [isOpenLineupModal, setIsOpenLineupModal] = useState(false);
+  const [isOpenPromoteModal, setIsOpenPromoteModal] = useState(false);
+  const [selectedNewFamily, setSelectedNewFamily] = useState([]);
 
   const router = useRouter();
 
   const onClickCreateNewFamilyModal = async () => {
-    await router.push("/department/management/newfamily/11");
+    await router.push("/department/management/newfamily/create");
   };
 
   const onChangeTab = value => {
     setTabValue(value);
   };
-  const onClickPromote = () => {};
-  const onClickNewFamilyLineUp = () => {
-    setIsOpenLineupModal(true);
+
+  const onClickPromote = _newFamily => {
+    setIsOpenPromoteModal(true);
+    setSelectedNewFamily(_newFamily);
   };
+
+  const onClickNewFamilyLineUp = _newFamily => {
+    setIsOpenLineupModal(true);
+    setSelectedNewFamily(_newFamily);
+  };
+
   const onClickLineOut = () => {};
 
   const onChangeSearch = () => {};
@@ -48,6 +58,14 @@ const ManagementNewFamilyPage: NextPage = () => {
   const onClickClose = () => {
     setIsOpenLineupModal(false);
   };
+
+  const onCancelClickButton = () => {
+    setSelectedNewFamily([]);
+    setIsOpenPromoteModal(false);
+  };
+
+  const onOkClickButton = () => {};
+
   return (
     <>
       <HeaderView
@@ -71,58 +89,37 @@ const ManagementNewFamilyPage: NextPage = () => {
 
           // }
         />
-        <GRFlexView
-          flexDirection={"row"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-          marginbottom={GRStylesConfig.BASE_MARGIN}
-        >
-          <GRView>
-            <GRTextInput
-              style={{
-                height: "2.1rem"
-              }}
-              type={"input"}
-              placeholder={"이름으로 검색하세요"}
-              onChange={onChangeSearch}
-            />
-          </GRView>
-          <GRView>
-            {tabValue === NEW_FAMILY_LINE_OUT ? (
-              <GRButtonText
-                onClick={onClickNewFamilyLineUp}
-                buttonType={"primary"}
-              >
-                복귀
-              </GRButtonText>
-            ) : (
-              <>
-                <GRButtonText
-                  onClick={onClickPromote}
-                  marginright={GRStylesConfig.BASE_MARGIN}
-                  buttonType={"custom"}
-                  size={"small"}
-                >
-                  등반
-                </GRButtonText>
-                <GRButtonText
-                  onClick={onClickNewFamilyLineUp}
-                  buttonType={"primary"}
-                >
-                  라인업
-                </GRButtonText>
-              </>
-            )}
-          </GRView>
-        </GRFlexView>
-        {tabValue === NEW_FAMILY && <NewFamilyTable />}
-        {tabValue === NEW_FAMILY_ATTEND && <NewFamilyAttendanceTable />}
-        {tabValue === NEW_FAMILY_LINE_OUT && <NewFamilyLineOutTable />}
+        {tabValue === NEW_FAMILY && (
+          <NewFamilyTable
+            onClickPromote={onClickPromote}
+            onClickNewFamilyLineUp={onClickNewFamilyLineUp}
+          />
+        )}
+        {tabValue === NEW_FAMILY_ATTEND && (
+          <NewFamilyAttendanceTable
+            onClickPromote={onClickPromote}
+            onClickNewFamilyLineUp={onClickNewFamilyLineUp}
+          />
+        )}
+        {tabValue === NEW_FAMILY_LINE_OUT && (
+          <NewFamilyLineOutTable
+            onClickNewFamilyLineUp={onClickNewFamilyLineUp}
+          />
+        )}
       </GRContainerView>
       {isOpenLineupModal && (
         <NewFamilyLineUpModal
           open={isOpenLineupModal}
           onClickClose={onClickClose}
+          selectNewFamily={selectedNewFamily}
+        />
+      )}
+      {isOpenPromoteModal && (
+        <GRAlertModal
+          open={isOpenPromoteModal}
+          description={`${selectedNewFamily.length} 명의 새가족을 등반하시겠습니까?`}
+          onCancelClickButton={onCancelClickButton}
+          onOkClickButton={onOkClickButton}
         />
       )}
     </>

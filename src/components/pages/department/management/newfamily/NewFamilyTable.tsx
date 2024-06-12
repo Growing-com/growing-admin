@@ -1,14 +1,19 @@
 import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
+import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import { ColumnType } from "antd/es/table";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-export const NewFamilyTable = () => {
+export const NewFamilyTable = ({ onClickPromote, onClickNewFamilyLineUp }) => {
   const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
     []
@@ -99,12 +104,62 @@ export const NewFamilyTable = () => {
   ];
 
   const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
-    console.log("selectedRowKeys changed: ", selectedRows);
     setSelectedNewFamily(selectedRows);
+  };
+
+  const onChangeSearch = () => {};
+
+  const onClickSubPromote = () => {
+    if (selectedNewFamily.length === 0) {
+      alert("등반할 새가족을 선택해주세요.");
+      return;
+    }
+    onClickPromote(selectedNewFamily);
+  };
+
+  const onClickSubNewFamilyLineUp = () => {
+    if (selectedNewFamily.length === 0) {
+      alert("라인업 할 새가족을 선택해주세요.");
+      return;
+    }
+    onClickNewFamilyLineUp(selectedNewFamily);
   };
 
   return (
     <>
+      <GRFlexView
+        flexDirection={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        marginbottom={GRStylesConfig.BASE_MARGIN}
+      >
+        <GRView>
+          <GRTextInput
+            style={{
+              height: "2.1rem"
+            }}
+            type={"input"}
+            placeholder={"이름으로 검색하세요"}
+            onChange={onChangeSearch}
+          />
+        </GRView>
+        <GRView>
+          <GRButtonText
+            onClick={onClickSubPromote}
+            marginright={GRStylesConfig.BASE_MARGIN}
+            buttonType={"custom"}
+            size={"small"}
+          >
+            등반
+          </GRButtonText>
+          <GRButtonText
+            onClick={onClickSubNewFamilyLineUp}
+            buttonType={"primary"}
+          >
+            라인업
+          </GRButtonText>
+        </GRView>
+      </GRFlexView>
       <GRTable
         rowKey={"userId"}
         columns={columns}
