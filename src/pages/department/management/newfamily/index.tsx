@@ -6,12 +6,13 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
+import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
 import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ATTENDANCE_COLUMNS,
   INFO_COLUMNS,
@@ -21,6 +22,7 @@ import {
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [searchText, setSearchText] = useState<string>("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [openPromoteModal, setOpenPromoteModal] = useState<boolean>(false);
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
@@ -62,11 +64,8 @@ const ManagementNewFamilyPage: NextPage = () => {
     console.log(filteredNewFailyData);
   };
 
-  const onChangeSearchText = useCallback((e: string) => {
-    setSearchText(e);
-  }, []);
-
   const onChangeTab = (value: string) => {
+    setSearchText("");
     setCurrentTab(value);
     if (newFamilyData) {
       let filteredData = newFamilyData;
@@ -79,10 +78,38 @@ const ManagementNewFamilyPage: NextPage = () => {
     }
   };
 
+  const onChangeSearchText = useCallback(
+    (_searchText: string) => {
+      setSearchText(_searchText);
+      if (newFamilyData) {
+        let _filterNewFamily = newFamilyData;
+        if (_searchText) {
+          _filterNewFamily = newFamilyData.filter(newFamily => {
+            if (newFamily.name?.indexOf(_searchText) !== -1) {
+              return newFamily;
+            }
+            return null;
+          });
+        }
+        setFilteredNewFailyData(_filterNewFamily);
+      }
+    },
+    [newFamilyData]
+  );
+
   // Todo: 등반 모달
   const onClickPromote = () => {
-    alert("등반");
+    if (selectedRowKeys.length === 0) {
+      alert("등반자를 선택해주세요.");
+      return;
+    }
     setOpenPromoteModal(true);
+    console.log(selectedRowKeys);
+    console.log(selectedRowKeys.length);
+  };
+
+  const onClickPromoteClose = () => {
+    setOpenPromoteModal(false);
   };
 
   // Todo: 라인업 모달
@@ -96,12 +123,17 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const rowSelection: TableRowSelection<tTermNewFamily> = {
-    // onChange: (selectedRowKeys: React.Key[], selectedRows: tTermNewFamily[]) => {
-    //   console.log(
-    //     `selectedRowKeys: ${selectedRowKeys}`,
-    //     "selectedRows: ", selectedRows
-    //   );
-    // },
+    onChange: (
+      _selectedRowKeys: React.Key[],
+      _selectedRows: tTermNewFamily[]
+    ) => {
+      console.log(
+        `_selectedRowKeys: ${_selectedRowKeys}`,
+        "_selectedRows: ",
+        _selectedRows
+      );
+      setSelectedRowKeys(_selectedRowKeys);
+    },
     getCheckboxProps: record => ({
       disabled: currentTab === "promote",
       name: record.name
@@ -133,7 +165,6 @@ const ManagementNewFamilyPage: NextPage = () => {
           flexDirection={"row"}
           marginbottom={1}
         >
-          {/* Todo: 검색 */}
           <GRTextInput
             style={{ flex: "0 1 25%" }}
             value={searchText}
@@ -158,7 +189,7 @@ const ManagementNewFamilyPage: NextPage = () => {
                   borderRadius={"15px"}
                   marginright={0.5}
                   // 등반 탭일경우 등반버튼 비활성
-                  disabled={currentTab == "promote" ? true : false}
+                  // disabled={currentTab == "promote" ? true : false}
                 >
                   등반
                 </GRButtonText>
@@ -203,7 +234,11 @@ const ManagementNewFamilyPage: NextPage = () => {
         />
       </GRContainerView>
       {/* Todo: 등반 모달 생성  */}
-
+      <NewFamilyPromoteModal
+        open={openPromoteModal}
+        onClose={onClickPromoteClose}
+        newFamilyCount={selectedRowKeys.length}
+      ></NewFamilyPromoteModal>
       {/* Todo: 라인업 모달 생성 */}
     </>
   );
