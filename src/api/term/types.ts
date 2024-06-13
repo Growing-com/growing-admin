@@ -62,4 +62,5 @@ export type tTermNewFamily = {
   | "updatedBy"
   | "updatedAt"
   | "duty"
+  | "promotion"
 >;

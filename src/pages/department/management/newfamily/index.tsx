@@ -6,6 +6,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
+import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineUpModal";
 import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
 import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
@@ -22,11 +23,13 @@ import {
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [searchText, setSearchText] = useState<string>("");
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
+    []
+  );
   const [openPromoteModal, setOpenPromoteModal] = useState<boolean>(false);
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
-  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+  const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<
     tTermNewFamily[]
   >([]);
 
@@ -61,22 +64,23 @@ const ManagementNewFamilyPage: NextPage = () => {
   // Todo: 지체 생성 페이지로 보내야 함
   const onClickCreateNewFamily = () => {
     // alert("NewFamily");
-    console.log(filteredNewFailyData);
+    console.log(filteredNewFamilyData);
   };
 
   const onChangeTab = (value: string) => {
     setSearchText("");
     setCurrentTab(value);
-    if (newFamilyData) {
-      let filteredData = newFamilyData;
-      if (value === "promote") {
-        filteredData = newFamilyData.filter(item => item.lineupDate);
-      } else if (value === "lineout") {
-        filteredData = newFamilyData.filter(item => item.lineoutDate);
-      }
-      setFilteredNewFailyData(filteredData);
-    }
   };
+
+  useEffect(() => {
+    let _filteredData: tTermNewFamily[] = newFamilyData || [];
+    if (currentTab === "promote") {
+      _filteredData = _filteredData.filter(item => item.lineupDate);
+    } else if (currentTab === "lineout") {
+      _filteredData = _filteredData.filter(item => item.lineoutDate);
+    }
+    setFilteredNewFamilyData(_filteredData);
+  }, [newFamilyData, currentTab]);
 
   const onChangeSearchText = useCallback(
     (_searchText: string) => {
@@ -91,7 +95,7 @@ const ManagementNewFamilyPage: NextPage = () => {
             return null;
           });
         }
-        setFilteredNewFailyData(_filterNewFamily);
+        setFilteredNewFamilyData(_filterNewFamily);
       }
     },
     [newFamilyData]
@@ -99,13 +103,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   // Todo: 등반 모달
   const onClickPromote = () => {
-    if (selectedRowKeys.length === 0) {
-      alert("등반자를 선택해주세요.");
-      return;
-    }
     setOpenPromoteModal(true);
-    console.log(selectedRowKeys);
-    console.log(selectedRowKeys.length);
   };
 
   const onClickPromoteClose = () => {
@@ -114,8 +112,11 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   // Todo: 라인업 모달
   const onClickLineUp = () => {
-    alert("라인업");
     setOpenLineUpModal(true);
+  };
+
+  const onClickLineUpClose = () => {
+    setOpenLineUpModal(false);
   };
 
   const onClickReturn = () => {
@@ -132,7 +133,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         "_selectedRows: ",
         _selectedRows
       );
-      setSelectedRowKeys(_selectedRowKeys);
+      setSelectedNewFamily(_selectedRows);
     },
     getCheckboxProps: record => ({
       disabled: currentTab === "promote",
@@ -142,7 +143,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   useEffect(() => {
     if (newFamilyData) {
-      setFilteredNewFailyData(newFamilyData);
+      setFilteredNewFamilyData(newFamilyData);
     }
   }, [newFamilyData]);
 
@@ -176,6 +177,7 @@ const ManagementNewFamilyPage: NextPage = () => {
             justifyContent={"flex-end"}
             alignItems={"center"}
           >
+            {/* GRTable 헤더 컴포넌트로 작성해도 될듯 */}
             {currentTab !== "lineout" ? (
               <>
                 <GRInfoBadge
@@ -222,24 +224,29 @@ const ManagementNewFamilyPage: NextPage = () => {
         </GRFlexView>
         <GRTable
           rowKey={"name"}
-          {...(currentTab !== "lineout" && { rowSelection })}
+          // {...(currentTab !== "lineout" && { rowSelection })}
+          rowSelection={rowSelection}
           columns={columns[currentTab]}
-          data={filteredNewFailyData}
+          data={filteredNewFamilyData}
           pagination={{
-            total: filteredNewFailyData?.length,
+            total: filteredNewFamilyData?.length,
             defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           scroll={{ x: 1300 }}
         />
       </GRContainerView>
-      {/* Todo: 등반 모달 생성  */}
       <NewFamilyPromoteModal
         open={openPromoteModal}
         onClose={onClickPromoteClose}
-        newFamilyCount={selectedRowKeys.length}
+        // newFamilyCount={selectedNewFamily.length}
+        newFamilyList={selectedNewFamily}
       ></NewFamilyPromoteModal>
-      {/* Todo: 라인업 모달 생성 */}
+      <NewFamilyLineUpModal
+        open={openLineUpModal}
+        onClose={onClickLineUpClose}
+        newFamilyList={selectedNewFamily}
+      ></NewFamilyLineUpModal>
     </>
   );
 };
