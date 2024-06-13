@@ -23,6 +23,7 @@ const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       onCancel={onCancelClick}
       open={open}
       showFooter={true}
+      footerJustifyContent={"center"}
       width={"23%"}
     >
       <GRFlexView alignItems={"center"}>

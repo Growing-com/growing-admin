@@ -2,6 +2,7 @@ import { Modal, ModalProps } from "antd";
 import React, { ReactNode, useCallback, useMemo, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import GRButtonText from "../button/GRTextButton";
+import GRFlexView from "../view/GRFlexView";
 import GRView from "../view/GRView";
 
 export type tGRModal = {
@@ -9,6 +10,7 @@ export type tGRModal = {
   okButtonText?: string;
   cancelButtonText?: string;
   showFooter?: boolean;
+  footerJustifyContent?: string; 
   onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -35,6 +37,7 @@ const GRModal: FC<tGRModal> = ({
   title,
   maskClosable = true,
   keyboard = false,
+  footerJustifyContent = "end",
   ...props
 }) => {
   const onCancelClickButton = useCallback(
@@ -62,20 +65,22 @@ const GRModal: FC<tGRModal> = ({
   const _renderFooter = useMemo(() => {
     if (!!footerComponent || !showFooter) return [];
     return [
-      <GRButtonText
-        key={"cancel-button"}
-        buttonType={"cancel"}
-        onClick={onCancelClickButton}
-      >
-        {cancelButtonText ?? "취소"}
-      </GRButtonText>,
-      <GRButtonText
-        key={"ok-button"}
-        onClick={onOkClickButton}
-        htmlType={"submit"}
-      >
-        {okButtonText ?? "확인"}
-      </GRButtonText>
+      <GRFlexView key={"button-wrap"} flexDirection={'row'} justifyContent={footerJustifyContent} >
+        <GRButtonText
+          key={"cancel-button"}
+          buttonType={"cancel"}
+          onClick={onCancelClickButton}
+        >
+          {cancelButtonText ?? "취소"}
+        </GRButtonText>
+        <GRButtonText
+          key={"ok-button"}
+          onClick={onOkClickButton}
+          htmlType={"submit"}
+        >
+          {okButtonText ?? "확인"}
+        </GRButtonText>
+      </GRFlexView>
     ];
   }, [
     footerComponent,
