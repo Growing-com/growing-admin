@@ -13,6 +13,7 @@ import { TableRowSelection } from "antd/es/table/interface";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ATTENDANCE_COLUMNS,
@@ -61,10 +62,8 @@ const ManagementNewFamilyPage: NextPage = () => {
     lineout: LINEOUT_COLUMNS
   };
 
-  // Todo: 지체 생성 페이지로 보내야 함
   const onClickCreateNewFamily = () => {
-    // alert("NewFamily");
-    console.log(filteredNewFamilyData);
+    router.push("/department/management/newfamily/create");
   };
 
   const onChangeTab = (value: string) => {
@@ -101,7 +100,6 @@ const ManagementNewFamilyPage: NextPage = () => {
     [newFamilyData]
   );
 
-  // Todo: 등반 모달
   const onClickPromote = () => {
     setOpenPromoteModal(true);
   };
@@ -110,7 +108,6 @@ const ManagementNewFamilyPage: NextPage = () => {
     setOpenPromoteModal(false);
   };
 
-  // Todo: 라인업 모달
   const onClickLineUp = () => {
     setOpenLineUpModal(true);
   };
@@ -147,6 +144,7 @@ const ManagementNewFamilyPage: NextPage = () => {
     }
   }, [newFamilyData]);
 
+  const router = useRouter();
   return (
     <>
       <HeaderView
@@ -159,7 +157,6 @@ const ManagementNewFamilyPage: NextPage = () => {
         }
       ></HeaderView>
       <GRContainerView>
-        {/* /Todo : 탭에 따라 내용 변경 */}
         <GRTab items={newFamilyTabOption} onChange={onChangeTab}></GRTab>
         <GRFlexView
           alignItems={"flex-start"}
@@ -239,7 +236,6 @@ const ManagementNewFamilyPage: NextPage = () => {
       <NewFamilyPromoteModal
         open={openPromoteModal}
         onClose={onClickPromoteClose}
-        // newFamilyCount={selectedNewFamily.length}
         newFamilyList={selectedNewFamily}
       ></NewFamilyPromoteModal>
       <NewFamilyLineUpModal
