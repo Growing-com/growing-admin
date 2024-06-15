@@ -147,7 +147,7 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       onCancel={onCancelClick}
       open={open}
       showFooter={true}
-      width={"40%"}
+      width={"50%"}
     >
       <GRText weight={"bold"} fontSize={"b3"} marginleft={2} marginbottom={2}>
         라인업
