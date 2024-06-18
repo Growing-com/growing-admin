@@ -1,6 +1,7 @@
 import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -8,18 +9,22 @@ import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
 import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineUpModal";
 import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
+import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
 import { getInActiveUser } from "api/account";
+import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
+import { tAttendanceSearch } from "api/attendance/types";
 import queryKeys from "api/queryKeys";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
+import dayjs from "dayjs";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { DEFAULT_DATE_FOMAT, getSundayRangeDate } from "utils/DateUtils";
 import {
-  ATTENDANCE_COLUMNS,
   INFO_COLUMNS,
   LINEOUT_COLUMNS,
   PROMOTE_COLUMNS
@@ -34,9 +39,27 @@ const ManagementNewFamilyPage: NextPage = () => {
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
   const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
+  const [filter, setFilter] = useState<tAttendanceSearch>();
 
   // query 이해필요
   const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
+
+  const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
+
+  useEffect(() => {
+    setFilter({
+      startDate: dayjs(dayjs().subtract(1, "M")).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs(dayjs()).format(DEFAULT_DATE_FOMAT),
+      isNewOnly: true,
+      page: 1,
+      size: 10
+    });
+  }, [attendanceList]);
+
+  const searchWeek = useMemo(
+    () => getSundayRangeDate(filter?.startDate, filter?.endDate),
+    [filter]
+  );
 
   const { data: inActiveUser } = useQuery(
     [queryKeys.IN_ACTIVE_USERS],
@@ -62,9 +85,24 @@ const ManagementNewFamilyPage: NextPage = () => {
       value: "lineout"
     }
   ];
-  const columns: Record<string, ColumnType<tTermNewFamily>[]> = {
+  const columns: Record<string, ColumnType<any>[]> = {
     info: INFO_COLUMNS,
-    attendance: ATTENDANCE_COLUMNS,
+    attendance: [
+      {
+        title: "이름",
+        dataIndex: "name",
+        key: "name",
+        align: "center",
+        width: "8rem",
+        render: (_, recode) => <GRText>{recode.userName}</GRText>
+      },
+      {
+        ...(ColumDateTitleAttendanceRender({
+          attendanceList: attendanceList?.content,
+          weeks: searchWeek
+        }) as any)
+      }
+    ],
     promote: PROMOTE_COLUMNS,
     lineout: LINEOUT_COLUMNS
   };
@@ -80,14 +118,23 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   useEffect(() => {
     let _filteredData: any[] = newFamilyData || [];
-    if (currentTab === "promote") {
-      _filteredData = _filteredData.filter(item => item.lineupDate);
-      // } else if (currentTab === "lineout") {
-      //   _filteredData = _filteredData.filter(item => item.lineoutDate);
-    } else if (currentTab === "lineout") {
-      if (inActiveUser) {
-        _filteredData = inActiveUser;
-      }
+
+    switch (currentTab) {
+      case "attendance":
+        if (attendanceList?.content) {
+          _filteredData = attendanceList.content;
+        }
+        break;
+      case "promote":
+        _filteredData = _filteredData.filter(item => item.lineupDate);
+        break;
+      case "lineout":
+        if (inActiveUser) {
+          _filteredData = inActiveUser;
+        }
+        break;
+      default:
+        break;
     }
     setFilteredNewFamilyData(_filteredData);
   }, [newFamilyData, currentTab]);

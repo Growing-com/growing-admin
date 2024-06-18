@@ -13,13 +13,16 @@ import { useForm } from "react-hook-form";
 const NewFamliyDetailPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const ids = useMemo(() => {
-    return Array.isArray(id) ? id : [];
-  }, [id]);
+  // const ids = useMemo(() => {
+  //   return Array.isArray(id) ? id : [];
+  // }, [id]);
   const isCreate = useMemo(() => {
-    const firstId = ids[0];
-    return firstId === "create";
-  }, [ids]);
+    return id === "create";
+  }, [id]);
+  // const isCreate = useMemo(() => {
+  //   const firstId = ids[0];
+  //   return firstId === "create";
+  // }, [ids]);
 
   const { newFamilyLeaderOptions } = useTermInfoOptionQueries();
   const { control } = useForm();

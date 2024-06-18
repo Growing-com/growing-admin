@@ -23,7 +23,7 @@ const ColumDateTitleAttendanceRender = <DataType extends object>({
           dataIndex: "attendanceItems",
           key: `attendanceItems-${week}`,
           align: "center",
-          render: (record: tAttendanceItem[]) => {
+          render: (record: tAttendanceItem[] = []) => {
             const findData = record.find(r => r.week === week);
             return (
               <ColumAttendanceRender

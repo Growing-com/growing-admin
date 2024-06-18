@@ -24,7 +24,7 @@ const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       open={open}
       showFooter={true}
       footerJustifyContent={"center"}
-      width={"23%"}
+      width={"25%"}
     >
       <GRFlexView alignItems={"center"}>
         <GRText weight={"bold"} fontSize={"b4"}>
