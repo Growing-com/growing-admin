@@ -9,12 +9,20 @@ import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { FC, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-export const NewFamilyTable = ({ onClickPromote, onClickNewFamilyLineUp }) => {
-  const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
+type tNewFamilyTable = {
+  onClickPromote: (newFamily: tTermNewFamily[]) => void;
+  onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
+};
+
+export const NewFamilyTable: FC<tNewFamilyTable> = ({
+  onClickPromote,
+  onClickNewFamilyLineUp
+}) => {
+  const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
     []
   );

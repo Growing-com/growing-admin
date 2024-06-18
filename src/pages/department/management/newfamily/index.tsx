@@ -1,9 +1,7 @@
 import GRTab from "@component/atom/GRTab";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
-import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
+
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { NewFamilyAttendanceTable } from "@component/pages/department/management/newfamily/NewFamilyAttendanceTable";
@@ -13,7 +11,6 @@ import { NewFamilyTable } from "@component/pages/department/management/newfamily
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
 
 const NEW_FAMILY = "all";
 const NEW_FAMILY_ATTEND = "attend";

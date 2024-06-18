@@ -1,23 +1,19 @@
 import GRTable from "@component/atom/GRTable";
+import GRButtonText from "@component/atom/button/GRTextButton";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import ColumLinkText from "@component/molecule/table/ColumLinkText";
-import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { ColumnType } from "antd/es/table";
-import { tUseAttendanceQueryResposne } from "api/attendance";
-import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
-import { tAttendanceSearch } from "api/attendance/types";
-import { useMemo, useState } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
-import GRButtonText from "@component/atom/button/GRTextButton";
-import { NEWFAMILY_DUMP_ATTENDANCE_DATA } from "./newfamilyDumpData";
-import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
-import { getSundayRangeDate } from "utils/DateUtils";
+import { tAttendanceItem } from "api/attendance/types";
+import { tTermNewFamily } from "api/term/types";
 import { ATTEND_STATUS } from "common/enum";
-import GRText from "@component/atom/text/GRText";
-import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
+import { FC, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
+import { NEWFAMILY_DUMP_ATTENDANCE_DATA } from "./newfamilyDumpData";
 
 export const accountDumpData = [
   {
@@ -40,25 +36,40 @@ export const accountDumpData = [
   }
 ];
 
-export const NewFamilyAttendanceTable = (
+type tNewFamilyAttendanceTable = {
+  onClickPromote: (newFamily: tTermNewFamily[]) => void;
+  onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
+};
+
+type tNewFamilyAttendanceTableColums = {
+  userName: string;
+  attendanceItems: tAttendanceItem[];
+};
+
+export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
   onClickPromote,
   onClickNewFamilyLineUp
-) => {
-  const [filter, setFilter] = useState<tAttendanceSearch>({
-    startDate: "2023-11-02",
-    endDate: "2023-12-01",
-    page: 0,
-    size: 10,
-    codyId: 6
-  });
-  const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
-  const searchWeek = useMemo(
-    () => getSundayRangeDate(filter?.startDate, filter?.endDate),
-    [filter]
+}) => {
+  // const [filter, setFilter] = useState<tAttendanceSearch>({
+  //   startDate: "2023-11-02",
+  //   endDate: "2023-12-01",
+  //   page: 0,
+  //   size: 10,
+  //   codyId: 6
+  // });
+  // const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
+  // const searchWeek = useMemo(
+  //   () => getSundayRangeDate(filter?.startDate, filter?.endDate),
+  //   [filter]
+  // );
+  const [filterDate, setFilterDate] = useState<Dayjs[]>([]);
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
+    []
   );
-  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
 
-  const columns: ColumnType<tUseAttendanceQueryResposne>[] = [
+  const onSearch = () => {};
+
+  const columns: ColumnType<tNewFamilyAttendanceTableColums>[] = [
     {
       title: "이름",
       dataIndex: "userName",
@@ -66,10 +77,7 @@ export const NewFamilyAttendanceTable = (
       align: "center",
       width: "8rem",
       render: (_, recode) => (
-        <ColumLinkText
-          text={recode.userName}
-          onClick={() => onClickLinkText(recode)}
-        />
+        <ColumLinkText text={recode.userName} onClick={onSearch} />
       )
     },
     {
@@ -98,13 +106,13 @@ export const NewFamilyAttendanceTable = (
         ).length;
         return <GRText>{attendanceLen}</GRText>;
       }
-    },
-    {
-      ...(ColumDateTitleAttendanceRender({
-        attendanceList: NEWFAMILY_DUMP_ATTENDANCE_DATA,
-        weeks: searchWeek
-      }) as tUseAttendanceQueryResposne)
     }
+    // {
+    //   ...(ColumDateTitleAttendanceRender({
+    //     attendanceList: NEWFAMILY_DUMP_ATTENDANCE_DATA,
+    //     weeks: searchWeek
+    //   }) as tUseAttendanceQueryResposne)
+    // }
   ];
 
   const onChangeSearch = () => {};
@@ -113,6 +121,26 @@ export const NewFamilyAttendanceTable = (
     if (_date) {
       setFilterDate(_date);
     }
+  };
+
+  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
+    setSelectedNewFamily(selectedRows);
+  };
+
+  const onClickSubPromote = () => {
+    if (selectedNewFamily.length === 0) {
+      alert("등반할 새가족을 선택해주세요.");
+      return;
+    }
+    onClickPromote(selectedNewFamily);
+  };
+
+  const onClickSubNewFamilyLineUp = () => {
+    if (selectedNewFamily.length === 0) {
+      alert("라인업 할 새가족을 선택해주세요.");
+      return;
+    }
+    onClickNewFamilyLineUp(selectedNewFamily);
   };
 
   return (
@@ -144,14 +172,17 @@ export const NewFamilyAttendanceTable = (
         </GRFlexView>
         <GRView>
           <GRButtonText
-            onClick={onClickPromote}
+            onClick={onClickSubPromote}
             marginright={GRStylesConfig.BASE_MARGIN}
             buttonType={"custom"}
             size={"small"}
           >
             등반
           </GRButtonText>
-          <GRButtonText onClick={onClickNewFamilyLineUp} buttonType={"primary"}>
+          <GRButtonText
+            onClick={onClickSubNewFamilyLineUp}
+            buttonType={"primary"}
+          >
             라인업
           </GRButtonText>
         </GRView>
@@ -163,6 +194,10 @@ export const NewFamilyAttendanceTable = (
           total: NEWFAMILY_DUMP_ATTENDANCE_DATA?.length,
           defaultPageSize: 10,
           position: ["bottomCenter"]
+        }}
+        rowSelection={{
+          selectedRowKeys: selectedNewFamily.map(newFamily => newFamily.userId),
+          onChange: onSelectChange
         }}
       />
     </>

@@ -9,10 +9,12 @@ import { ColumnType } from "antd/es/table";
 import { getInActiveUser } from "api/account";
 import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
-import { useState } from "react";
+import { FC, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
-export const NewFamilyLineOutTable = ({ onClickNewFamilyLineUp }) => {
+export const NewFamilyLineOutTable: FC<{
+  onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
+}> = ({ onClickNewFamilyLineUp }) => {
   const { data: inActiveUser } = useQuery(
     [queryKeys.IN_ACTIVE_USERS],
     async () => await getInActiveUser(),
@@ -84,6 +86,10 @@ export const NewFamilyLineOutTable = ({ onClickNewFamilyLineUp }) => {
     setSelectedNewFamily(selectedRows);
   };
 
+  const onClickNewFamilySubLineUp = () => {
+    onClickNewFamilyLineUp(selectedNewFamily);
+  };
+
   return (
     <>
       <GRFlexView
@@ -103,7 +109,7 @@ export const NewFamilyLineOutTable = ({ onClickNewFamilyLineUp }) => {
           />
         </GRView>
         <GRButtonText
-          onClick={onClickNewFamilyLineUp}
+          onClick={onClickNewFamilySubLineUp}
           buttonType={"custom"}
           size={"small"}
         >
