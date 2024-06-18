@@ -8,8 +8,11 @@ import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
 import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineUpModal";
 import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
+import { getInActiveUser } from "api/account";
+import queryKeys from "api/queryKeys";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
 import { NextPage } from "next";
@@ -30,12 +33,16 @@ const ManagementNewFamilyPage: NextPage = () => {
   const [openPromoteModal, setOpenPromoteModal] = useState<boolean>(false);
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
-  const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<
-    tTermNewFamily[]
-  >([]);
+  const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
 
   // query 이해필요
   const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
+
+  const { data: inActiveUser } = useQuery(
+    [queryKeys.IN_ACTIVE_USERS],
+    async () => await getInActiveUser(),
+    { select: _data => _data.content }
+  );
 
   const newFamilyTabOption = [
     {
@@ -72,11 +79,15 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   useEffect(() => {
-    let _filteredData: tTermNewFamily[] = newFamilyData || [];
+    let _filteredData: any[] = newFamilyData || [];
     if (currentTab === "promote") {
       _filteredData = _filteredData.filter(item => item.lineupDate);
+      // } else if (currentTab === "lineout") {
+      //   _filteredData = _filteredData.filter(item => item.lineoutDate);
     } else if (currentTab === "lineout") {
-      _filteredData = _filteredData.filter(item => item.lineoutDate);
+      if (inActiveUser) {
+        _filteredData = inActiveUser;
+      }
     }
     setFilteredNewFamilyData(_filteredData);
   }, [newFamilyData, currentTab]);
