@@ -116,29 +116,6 @@ const ManagementNewFamilyPage: NextPage = () => {
     setCurrentTab(value);
   };
 
-  useEffect(() => {
-    let _filteredData: any[] = newFamilyData || [];
-
-    switch (currentTab) {
-      case "attendance":
-        if (attendanceList?.content) {
-          _filteredData = attendanceList.content;
-        }
-        break;
-      case "promote":
-        _filteredData = _filteredData.filter(item => item.lineupDate);
-        break;
-      case "lineout":
-        if (inActiveUser) {
-          _filteredData = inActiveUser;
-        }
-        break;
-      default:
-        break;
-    }
-    setFilteredNewFamilyData(_filteredData);
-  }, [newFamilyData, currentTab]);
-
   const onChangeSearchText = useCallback(
     (_searchText: string) => {
       setSearchText(_searchText);
@@ -201,6 +178,32 @@ const ManagementNewFamilyPage: NextPage = () => {
       setFilteredNewFamilyData(newFamilyData);
     }
   }, [newFamilyData]);
+
+  useEffect(() => {
+    let _filteredData: any[] = newFamilyData || [];
+
+    switch (currentTab) {
+      case "info":
+        _filteredData = _filteredData.filter(item => !item.lineupDate);
+        break;
+      case "attendance":
+        if (attendanceList?.content) {
+          _filteredData = attendanceList.content;
+        }
+        break;
+      case "promote":
+        _filteredData = _filteredData.filter(item => item.lineupDate);
+        break;
+      case "lineout":
+        if (inActiveUser) {
+          _filteredData = inActiveUser;
+        }
+        break;
+      default:
+        break;
+    }
+    setFilteredNewFamilyData(_filteredData);
+  }, [newFamilyData, currentTab]);
 
   const router = useRouter();
   return (
@@ -278,7 +281,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           </GRFlexView>
         </GRFlexView>
         <GRTable
-          rowKey={"name"}
+          rowKey={record => record.teamMemberId}
           // {...(currentTab !== "lineout" && { rowSelection })}
           rowSelection={rowSelection}
           columns={columns[currentTab]}
