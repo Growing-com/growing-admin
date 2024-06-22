@@ -1,44 +1,47 @@
 const queryKeys = {
-  TERM: "term",
+  TERM: "TERM",
   /** 텀 코디 */
-  TERM_CORDI: "term_cordi",
+  TERM_CORDI: "TERM_CORDI",
   /** 텀 코디의 리더들 */
-  MEMBERS_BY_CODY: "members_by_cody",
+  MEMBERS_BY_CODY: "MEMBERS_BY_CODY",
   /** 텀 새가족 */
-  NEW_FAMILY: "new_family",
+  NEW_FAMILY: "NEW_FAMILY",
   /** 텀 새가족 리더 */
-  NEW_FAMILY_LEADER: "new_family_leader",
+  NEW_FAMILY_LEADER: "NEW_FAMILY_LEADER",
   /** 텀 주차 통계 */
-  TERM_STATISTICS: "statistics",
+  TERM_STATISTICS: "TERM_STATISTICS",
   /** 텀 유저 통계 정보 */
-  TERM_USER_STATISTICS: "term_user_statistics",
+  TERM_USER_STATISTICS: "TERM_USER_STATISTICS",
 
   /** 활동하고 있는 유저 */
-  ACTIVE_USERS: "active_users",
-  IN_ACTIVE_USERS: "in_active_users",
+  ACTIVE_USERS: "ACTIVE_USERS",
+  IN_ACTIVE_USERS: "IN_ACTIVE_USERS",
 
   /** 통계 관련 */
-  STATISTICS_BASE: "statistics_base",
-  STATISTICS_ATTENDANCE: "statistics_attendance",
-  STATISTICS_ATTENDANCE_BENCH: "statistics_attendance_bench",
-  STATISTICS_ATTENDANCE_EXCEL: "statistics_attendance_excel",
-  STATISTICS_ATTENDANCE_PROGRESS: "statistics_attendance_progress",
+  STATISTICS_BASE: "STATISTICS_BASE",
+  STATISTICS_ATTENDANCE: "STATISTICS_ATTENDANCE",
+  STATISTICS_ATTENDANCE_BENCH: "STATISTICS_ATTENDANCE_BENCH",
+  STATISTICS_ATTENDANCE_EXCEL: "STATISTICS_ATTENDANCE_EXCEL",
+  STATISTICS_ATTENDANCE_PROGRESS: "STATISTICS_ATTENDANCE_PROGRESS",
 
   /** 출석 관련 */
-  ATTENDANCE: "attendance",
-  ATTENDANCE_CHECK: "attendance_check",
+  ATTENDANCE: "ATTENDANCE",
+  ATTENDANCE_CHECK: "ATTENDANCE_CHECK",
 
   /** 계정 관련 */
-  ACCOUNT: "account",
-  ACCOUNT_DETAIL: "account_detail",
-  ACCOUNT_LEADERS: "account_leaders",
-  ACCOUNT_ROLES: "account_roles",
-  ACCOUNT_LOGIN: "account_login",
-  ACCOUNT_INFO: "account_info",
+  ACCOUNT: "ACCOUNT",
+  ACCOUNT_DETAIL: "ACCOUNT_DETAIL",
+  ACCOUNT_LEADERS: "ACCOUNT_LEADERS",
+  ACCOUNT_ROLES: "ACCOUNT_ROLES",
+  ACCOUNT_LOGIN: "ACCOUNT_LOGIN",
+  ACCOUNT_INFO: "ACCOUNT_INFO",
 
   /** 명부 관련 */
-  TRAINING_DETAIL: "training_detail",
-  TRAINING_MEMBERS: "training_members"
+  TRAINING_DETAIL: "TRAINING_DETAIL",
+  TRAINING_MEMBERS: "TRAINING_MEMBERS",
+
+  /** V2 API */
+  NEW_FAMILY_V2: "NEW_FAMILY_V2"
 };
 
 export default queryKeys;
