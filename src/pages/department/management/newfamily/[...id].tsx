@@ -17,7 +17,7 @@ const NewFamliyDetailPage: NextPage = () => {
   //   return Array.isArray(id) ? id : [];
   // }, [id]);
   const isCreate = useMemo(() => {
-    return id === "create";
+    if (id) return id[0] === "create";
   }, [id]);
   // const isCreate = useMemo(() => {
   //   const firstId = ids[0];
@@ -124,6 +124,7 @@ const NewFamliyDetailPage: NextPage = () => {
               {isCreate ? "생성" : "수정"}
             </GRButtonText>
           </GRFlexView>
+          <button onClick={() => console.log(isCreate)}>isCreate</button>
         </GRFlexView>
       </GRContainerView>
     </>

@@ -183,9 +183,6 @@ const ManagementNewFamilyPage: NextPage = () => {
     let _filteredData: any[] = newFamilyData || [];
 
     switch (currentTab) {
-      case "info":
-        _filteredData = _filteredData.filter(item => !item.lineupDate);
-        break;
       case "attendance":
         if (attendanceList?.content) {
           _filteredData = attendanceList.content;
@@ -200,6 +197,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         }
         break;
       default:
+        _filteredData = _filteredData.filter(item => !item.lineupDate);
         break;
     }
     setFilteredNewFamilyData(_filteredData);
