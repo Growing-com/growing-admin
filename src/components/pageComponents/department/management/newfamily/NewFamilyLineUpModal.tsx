@@ -5,9 +5,10 @@ import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import { Checkbox, CheckboxProps } from "antd";
 import { ColumnType } from "antd/es/table";
+import { useUserMutate } from "api/account/mutate/useUserMutate";
 import { tTermNewFamily } from "api/term/types";
 import { TeamType } from "config/const";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
 import { FC, useCallback, useState } from "react";
 
@@ -26,6 +27,8 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
   const [lineUpDate, setLineUpDate] = useState<Dayjs>();
   const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
 
+  const { createUserMutateAsync, updateUserMutateAsync } = useUserMutate();
+
   const {
     termCordyOptions,
     termLeaderOptions,
@@ -36,10 +39,10 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
   const onCancelClick = () => {
     onClose();
   };
-
+  
   const onChangeLineUpDate = useCallback((_lineUpdDate: Dayjs | null) => {
     if (_lineUpdDate) {
-      setLineUpDate(_lineUpdDate);
+      // setLineUpDate(_lineUpdDate);
     }
   }, []);
 
@@ -55,16 +58,9 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
     setSelectedLeaderId(_leaderId);
   }, []);
 
-  // useEffect(() => {
-  //   setLineUpDate(
-  //     newFamily?.lineupDate ? dayjs(newFamily?.lineupDate) : undefined
-  //   );
-  //   setSelectedCodyId(undefined);
-  //   setSelectedLeaderId(undefined);
-  // }, [newFamily?.lineupDate, setSelectedCodyId]);
-
   const onChangeCheckBox: CheckboxProps["onChange"] = e => {
-    // console.log(`checked = ${e.target.checked}`);
+    // Todo: check 되면 등반날짜 선택한 날짜로
+    console.log(`checked = ${e.target.checked}`);
   };
 
   const columns: ColumnType<tTermNewFamily>[] = [
@@ -82,15 +78,7 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       align: "center",
       width: "5rem",
       render: (_, record) => (
-        //Todo: 등반 여부 적용
-        <Checkbox onChange={onChangeCheckBox} value={record.promotion} />
-        // <GRFlexView alignItems={"center"}>
-        //   <GRCheck
-        //     options={PROMOTION_STATUS}
-        //     // onChange={}
-        //     value={recode.promotion}
-        //   ></GRCheck>
-        // </GRFlexView>
+        <Checkbox onChange={onChangeCheckBox} checked={!!record.lineupDate} />
       )
     },
     {
@@ -101,11 +89,12 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       width: "5rem",
       render: (_, record) => (
         <GRDatePicker
-          style={{ flex: 1, width: "10em" }}
-          value={lineUpDate}
+          style={{ flex: 1, width: "8rem" }}
           pickerType={"basic"}
-          placeholder={"등반 날짜를 선택해주세요"}
+          placeholder={"등반 날짜 선택"}
           onChange={onChangeLineUpDate}
+          // vaule값 때문에 렌더 오류 발생 가능.
+          value={record.lineupDate ? dayjs(record.lineupDate) : undefined}
         />
       )
     },
@@ -117,8 +106,7 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       width: "5rem",
       render: (_, record) => (
         <GRSelect
-          style={{ width: "7rem" }}
-          value={selectedCodyId}
+          style={{ width: "6rem" }}
           options={termCordyOptions}
           onChange={onChangeCordySelect}
           placeholder={"나무 선택"}
@@ -132,9 +120,9 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       align: "center",
       width: "5rem",
       render: (_, record) => (
+        // 드롭박스 형태
         <GRSelect
-          style={{ width: "7rem" }}
-          value={selectedLeaderId}
+          style={{ width: "6rem" }}
           options={termLeaderOptions}
           onChange={onChangeLeaderSelect}
           placeholder={"리더 선택"}
@@ -152,7 +140,12 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
       <GRText weight={"bold"} fontSize={"b3"} marginleft={2} marginbottom={2}>
         라인업
       </GRText>
-      <GRTable rowKey={"id"} columns={columns} data={newFamilyList} />
+      <GRTable
+        style={{ overflow: "auto" }}
+        rowKey={"id"}
+        columns={columns}
+        data={newFamilyList}
+      />
     </GRModal>
   );
 };
