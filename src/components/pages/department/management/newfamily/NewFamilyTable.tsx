@@ -4,13 +4,16 @@ import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
+import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
+import { getNewFamilies } from "apiV2/newFamily";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tNewFamilyTable = {
@@ -22,12 +25,22 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
   onClickPromote,
   onClickNewFamilyLineUp
 }) => {
-  const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
     []
   );
 
-  const columns: ColumnType<tTermNewFamily>[] = [
+  const { data: newFamilyData } = useQuery(
+    [queryKeys.ACCOUNT_ROLES],
+    async () =>
+      await getNewFamilies({
+        newFamilyGroupId: 1
+      }),
+    {
+      select: _data => _data.content
+    }
+  );
+
+  const columns: ColumnType<any>[] = [
     {
       title: "이름",
       dataIndex: "name",
@@ -37,30 +50,29 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     },
     {
       title: "등반일",
+      dataIndex: "promoteDate",
+      key: "promoteDate",
       align: "center",
       width: "8rem",
-      render: (_, record) => {
-        if (!record.lineoutDate && !record.lineupDate) return "";
-        const date = record.lineoutDate
-          ? record.lineoutDate
-          : record.lineupDate;
-        return <GRText weight={"bold"}>{date}</GRText>;
-      }
+      render: (_, record) => checkDefaultDate(record.promoteDate)
     },
     {
       title: "새가족 순장",
-      dataIndex: "newTeamLeaderName",
-      key: "newTeamLeaderName",
+      dataIndex: "smallGroupLeaderName",
+      key: "smallGroupLeaderName",
       align: "center",
       width: "6rem"
     },
     {
       title: "순장",
       align: "center",
-      dataIndex: "firstPlantLeaderName",
+      dataIndex: "promotedSmallGroupLeaderName",
       width: "8rem",
       sorter: (a, b) =>
-        koreanSorter(a.firstPlantLeaderName, b.firstPlantLeaderName)
+        koreanSorter(
+          a.promotedSmallGroupLeaderName,
+          b.promotedSmallGroupLeaderName
+        )
     },
     {
       title: "학년",
@@ -71,8 +83,8 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     },
     {
       title: "성별",
-      dataIndex: "sex",
-      key: "sex",
+      dataIndex: "gender",
+      key: "gender",
       align: "center",
       width: "5rem",
       render: (_, item) => {
@@ -86,9 +98,7 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
-      render: (_, record) => {
-        return record?.birth !== "1970-01-01" ? record?.birth : "-";
-      }
+      render: (_, record) => checkDefaultDate(record.birth)
     },
     {
       title: "전화번호",
@@ -105,9 +115,7 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
       width: "8rem",
       sorter: (valueA, valueB) =>
         dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-      render: (_, record) => {
-        return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
-      }
+      render: (_, record) => checkDefaultDate(record.visitDate)
     }
   ];
 

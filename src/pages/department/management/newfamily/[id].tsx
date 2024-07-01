@@ -3,6 +3,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import HeaderView from "@component/molecule/view/HeaderView";
+import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -12,19 +13,19 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
   if (!router.query.id) {
     return <></>;
   }
-  const { control, handleSubmit, reset } = useForm<tAccountForm>();
+  const { control, handleSubmit, reset } = useForm<tNewFamilyV2>();
 
   const onClickCreateNewFamilyModal = () => {};
 
   return (
     <>
       <HeaderView
-        title={"새가족 관리"}
+        title={"새가족 수정"}
         showIcon={false}
         headerComponent={
           <GRButtonText
             onClick={onClickCreateNewFamilyModal}
-            uttonType={"default"}
+            buttonType={"default"}
             size={"large"}
           >
             지체 등록

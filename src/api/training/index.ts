@@ -1,6 +1,6 @@
 import { REQUEST_METHOD, request } from "api";
 import { Dayjs } from "dayjs";
-import { convertDateString } from "utils/DateUtils";
+import { convertDateStringByDefaultForm } from "utils/DateUtils";
 import { tTrainingDetail, tTrainingType } from "./type";
 
 type tGetTrainingDetailParam = {
@@ -41,8 +41,8 @@ export const createTraining = (data: tCreateTraining) => {
     url: `/training`,
     data: {
       ...data,
-      startDate: convertDateString(data.startDate),
-      endDate: convertDateString(data.endDate)
+      startDate: convertDateStringByDefaultForm(data.startDate),
+      endDate: convertDateStringByDefaultForm(data.endDate)
     }
   });
 };
@@ -65,8 +65,8 @@ export const updateTraining = ({
     url: `/trainings/${trainingId}`,
     data: {
       ...data,
-      startDate: convertDateString(data.startDate),
-      endDate: convertDateString(data.endDate)
+      startDate: convertDateStringByDefaultForm(data.startDate),
+      endDate: convertDateStringByDefaultForm(data.endDate)
     }
   });
 };
@@ -108,8 +108,8 @@ export const createDiscipleShip = (data: tCreateDiscipleShipParams) => {
     url: `/discipleship`,
     data: {
       ...data,
-      startDate: convertDateString(data.startDate),
-      endDate: convertDateString(data.endDate)
+      startDate: convertDateStringByDefaultForm(data.startDate),
+      endDate: convertDateStringByDefaultForm(data.endDate)
     }
   });
 };
@@ -132,8 +132,8 @@ export const updateDiscipleShip = ({
     url: `/discipleship/${discipleshipId}`,
     data: {
       ...data,
-      startDate: convertDateString(data.startDate),
-      endDate: convertDateString(data.endDate)
+      startDate: convertDateStringByDefaultForm(data.startDate),
+      endDate: convertDateStringByDefaultForm(data.endDate)
     }
   });
 };

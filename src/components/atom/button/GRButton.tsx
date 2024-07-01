@@ -3,7 +3,6 @@ import { Button, ButtonProps } from "antd";
 import React, { CSSProperties, useMemo } from "react";
 import { Color } from "styles/colors";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
-import GRText from "../text/GRText";
 
 type tButtonSize = "large" | "normal" | "small";
 
@@ -12,16 +11,16 @@ type tGRButton = {
   isTextButton?: boolean;
   backgroundColor?: CSSProperties["backgroundColor"];
   textColor?: CSSProperties["color"];
-  size?: tButtonSize;
+  buttonSize?: tButtonSize;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
   buttonType?: "default" | "primary" | "cancel" | "custom";
-} & Omit<ButtonProps, "size"> &
+} & ButtonProps &
   tGetMargin;
 
 const GRButton: React.FC<tGRButton> = ({
   children,
-  size = "normal",
+  buttonSize,
   onClick,
   buttonType = "primary",
   backgroundColor,
@@ -59,14 +58,14 @@ const GRButton: React.FC<tGRButton> = ({
       onClick={onClick}
       css={css`
         background-color: ${_type.backgroundColor};
-        ${BUTTON_SIZE_STYLE[size]};
+        ${buttonSize && BUTTON_SIZE_STYLE[buttonSize]};
         ${_margin};
         width: ${width};
         height: ${height};
       `}
       {...props}
     >
-      <GRText color={_type.textColor}>{children}</GRText>
+      {children}
     </Button>
   );
 };

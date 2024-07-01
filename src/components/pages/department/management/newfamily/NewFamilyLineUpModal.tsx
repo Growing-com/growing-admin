@@ -1,17 +1,27 @@
 import GRTable from "@component/atom/GRTable";
-import GRCheck from "@component/atom/dataEntry/GRCheck";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
-import GRText from "@component/atom/text/GRText";
 import GRView from "@component/atom/view/GRView";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
-import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { Checkbox } from "antd";
+import { ColumnType } from "antd/es/table";
 import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 
-export const NewFamilyLineUpModal = ({
+type newFamilyLineUpColumns = {
+  name: string;
+  climb: string;
+  cordy: string;
+  leader: string;
+};
+
+type tNewFamilyLineUpModal = {
+  open: boolean;
+  onClickClose: () => void;
+  selectNewFamily: any;
+};
+export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
   onClickClose,
   selectNewFamily
@@ -25,7 +35,7 @@ export const NewFamilyLineUpModal = ({
     selectedCodyId
   } = useTermInfoOptionQueries();
 
-  const columns = [
+  const columns: ColumnType<newFamilyLineUpColumns>[] = [
     {
       title: "이름",
       dataIndex: "name",
@@ -35,11 +45,11 @@ export const NewFamilyLineUpModal = ({
     },
     {
       title: "등반 여부",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "climb",
+      key: "climb",
       align: "center",
       width: "5rem",
-      render: (_, item) => {
+      render: (_, _item) => {
         return <Checkbox />;
       }
     },
@@ -49,7 +59,7 @@ export const NewFamilyLineUpModal = ({
       key: "cordy",
       align: "center",
       width: "5rem",
-      render: (_, item) => {
+      render: (_, _item) => {
         return (
           <GRSelect
             style={{ width: "10rem" }}
@@ -70,7 +80,7 @@ export const NewFamilyLineUpModal = ({
       key: "leader",
       align: "center",
       width: "5rem",
-      render: (_, item) => {
+      render: (_, _item) => {
         return (
           <GRSelect
             marginright={GRStylesConfig.BASE_MARGIN}

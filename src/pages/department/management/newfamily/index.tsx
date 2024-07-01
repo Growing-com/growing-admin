@@ -34,16 +34,16 @@ const ManagementNewFamilyPage: NextPage = () => {
     await router.push("/department/management/newfamily/create");
   };
 
-  const onChangeTab = value => {
+  const onChangeTab = (value: string) => {
     setTabValue(value);
   };
 
-  const onClickPromote = _newFamily => {
+  const onClickPromote = (_newFamily: any) => {
     setIsOpenPromoteModal(true);
     setSelectedNewFamily(_newFamily);
   };
 
-  const onClickNewFamilyLineUp = _newFamily => {
+  const onClickNewFamilyLineUp = (_newFamily: any) => {
     setIsOpenLineupModal(true);
     setSelectedNewFamily(_newFamily);
   };

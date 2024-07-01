@@ -9,7 +9,7 @@ dayjs.extend(weekday);
 export const DEFAULT_DATE_FOMAT = "YYYY-MM-DD";
 export const DEFAULT_EXCEL_DATE_FOMAT = "YYYY-MM-DD_HH-mm-ss";
 
-const convertDateString = (date: Dayjs) => {
+const convertDateStringByDefaultForm = (date: Dayjs) => {
   if (!date) return date;
   return date.format(DEFAULT_DATE_FOMAT);
 };
@@ -94,12 +94,17 @@ const getWeekDataFromToday = {
   thisSaturday: dayjs().weekday(THIS_SATURDAY).format(DEFAULT_DATE_FOMAT)
 };
 
+const checkDefaultDate = (_date: string) => {
+  return _date !== "1970-01-01" ? _date : "-";
+};
+
 export {
+  checkDefaultDate,
+  convertDateStringByDefaultForm,
   getSundayOfMonth,
   getSundayRangeDate,
   getTime,
   getTimeLine,
   getWeekDataFromToday,
-  getWeekOfMonth,
-  convertDateString
+  getWeekOfMonth
 };

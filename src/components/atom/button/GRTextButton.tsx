@@ -7,7 +7,13 @@ import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText, { tFontSizeType } from "../text/GRText";
 
 export type tButtonSize = "large" | "normal" | "small";
-export type tButtonType = "default" | "primary" | "cancel" | "text" | "custom";
+export type tButtonType =
+  | "default"
+  | "primary"
+  | "cancel"
+  | "text"
+  | "custom"
+  | "blod";
 export type tGRButtonText = {
   style?: CSSProperties;
   isTextButton?: boolean;
@@ -70,6 +76,11 @@ const GRButtonText: React.FC<tGRButtonText> = ({
     switch (buttonType) {
       case "custom":
         buttonProps.type = "default";
+        break;
+      case "blod":
+        buttonProps.textColor = Color.black;
+        buttonProps.backgroundColor = Color.white;
+        buttonProps.borderColor = Color.black;
         break;
       case "default":
         buttonProps.textColor = Color.green200;

@@ -11,7 +11,9 @@ import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import getConfig from "next/config";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
+import menuStore from "store/clientStore/menuStore";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -23,7 +25,8 @@ const Login = () => {
 
   const { mutateAsync } = useLoginMutate();
   const [handleRouterCheck] = useLogin();
-
+  const router = useRouter();
+  const { menu: mainMenu, addMenu } = menuStore();
   const onClickLogin = useCallback(async () => {
     if (!userId || !userPW) {
       confirm("아이디 입력해주세요.");
@@ -34,6 +37,10 @@ const Login = () => {
         username: userId,
         password: userPW
       });
+      // DEPARTMENT_MAIN_MENU.forEach(menu => {
+      //   addMenu(menu);
+      // });
+      // router.replace(`/department/attendance/check`);
       await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");

@@ -1,6 +1,5 @@
 import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -62,7 +61,7 @@ export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
   //   () => getSundayRangeDate(filter?.startDate, filter?.endDate),
   //   [filter]
   // );
-  const [filterDate, setFilterDate] = useState<Dayjs[]>([]);
+  const [filterDate, setFilterDate] = useState<Dayjs>();
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
     []
   );
@@ -163,12 +162,12 @@ export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
               onChange={onChangeSearch}
             />
           </GRView>
-          <GRDatePicker
+          {/* <GRDatePicker
             pickerType={"range"}
             picker={"date"}
             defaultValue={filterDate}
             onChange={onChangeWeek}
-          />
+          /> */}
         </GRFlexView>
         <GRView>
           <GRButtonText

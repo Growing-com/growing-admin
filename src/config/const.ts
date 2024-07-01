@@ -1,4 +1,5 @@
 import { tTeamType } from "api/term/types";
+import { BELIEVE_STATUS, VISIT_REASON } from "common/enum";
 import { Color } from "styles/colors";
 
 export const SEX_NAME: { [key: string]: string } = {
@@ -61,6 +62,16 @@ export const STATUS_OPTIONS = [
 export const SEX_OPTIONS = [
   { label: "남", value: "MALE" },
   { label: "여", value: "FEMALE" }
+];
+
+export const YES_NO_OPTIONS = [
+  { label: "예", value: "true" },
+  { label: "아니오", value: "false" }
+];
+
+export const THERE_OPTIONS = [
+  { label: "있다", value: "true" },
+  { label: "없다.", value: "false" }
 ];
 
 export const TeamType: Record<tTeamType, tTeamType> = {
@@ -131,4 +142,34 @@ export const CONFIRMATION_OPTIONS = [
 export const PRE_BAPTISM_OPTIONS = [
   ...EMPTY_OPTIONS,
   { label: "학습", value: "PRE_BAPTISM" }
+];
+
+export const VISIT_REASON_OPTIONS = [
+  { label: "훈련 받고 싶어서", value: VISIT_REASON.DISCIPLE_TRAINING },
+  { label: "아는 사람 소개", value: VISIT_REASON.INTRODUCE },
+  {
+    label: "종교를 가져야 겠다는 생각에",
+    value: VISIT_REASON.RELIGION
+  },
+  {
+    label: "대학부 새생명축제(전도집회)를 계기로",
+    value: VISIT_REASON.NEW_LIFE_FESTIVAL
+  },
+  { label: "기타", value: VISIT_REASON.ETC }
+];
+
+export const BELIEVE_STATUS_OPTIONS = [
+  {
+    label: "나를 구원해 주신 주님으로 믿고 있다.",
+    value: BELIEVE_STATUS.LORD
+  },
+  {
+    label: "믿고 싶지만 어떻게 해야 할지 모르겠다.",
+    value: BELIEVE_STATUS.HESITANT
+  },
+  { label: "잘 모른다.", value: BELIEVE_STATUS.NONE },
+  {
+    label: "알고 싶지도 않고 관심도 없다.",
+    value: BELIEVE_STATUS.NOT_INTERESTED
+  }
 ];

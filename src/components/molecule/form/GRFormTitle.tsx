@@ -10,26 +10,23 @@ type tGRFormTitle = {
   title?: string;
   alertMessage?: string;
   required?: boolean;
+  width?: number;
 };
 const GRFormTitle: FC<tGRFormTitle> = ({
   title,
   required = false,
-  alertMessage
+  alertMessage,
+  width = 5
 }) => {
   return (
-    <GRView width={5} marginright={0.5}>
+    <GRView width={width} marginright={0.5}>
       <GRFlexView flexDirection={"row"} alignItems={"center"}>
-        <GRText weight={"bold"}>
-          {title ?? ""}
-          {!!required && (
-            <GRText
-              marginleft={GRStylesConfig.BASE_MARGIN}
-              color={Color.red100}
-            >
-              *
-            </GRText>
-          )}
-        </GRText>
+        <GRText weight={"bold"}>{title ?? ""}</GRText>
+        {!!required && (
+          <GRText marginleft={GRStylesConfig.BASE_MARGIN} color={Color.red100}>
+            *
+          </GRText>
+        )}
         {!!alertMessage && <GRInfoBadge infoMessage={alertMessage} />}
       </GRFlexView>
     </GRView>

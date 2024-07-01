@@ -36,8 +36,6 @@ const useLogin = () => {
 
         const firstMenu = head(_mainMenu);
         if (firstMenu && firstMenu?.children?.length) {
-          // const _firstPath = firstMenu?.children[0].path;
-          // if (_firstPath && router.pathname.localeCompare(`/login`) === 0) {
           if (router.pathname.localeCompare(`/login`) === 0) {
             router.replace(`/department/attendance/check`);
           }

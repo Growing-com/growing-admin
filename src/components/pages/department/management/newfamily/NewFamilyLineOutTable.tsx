@@ -6,20 +6,21 @@ import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getInActiveUser } from "api/account";
 import queryKeys from "api/queryKeys";
 import { tTermNewFamily } from "api/term/types";
+import { getLineOutNewFamiles } from "apiV2/newFamily";
 import { FC, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 export const NewFamilyLineOutTable: FC<{
   onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
 }> = ({ onClickNewFamilyLineUp }) => {
-  const { data: inActiveUser } = useQuery(
+  const { data: lineOutNewFamiles } = useQuery(
     [queryKeys.IN_ACTIVE_USERS],
-    async () => await getInActiveUser(),
+    async () => await getLineOutNewFamiles(),
     { select: _data => _data.content }
   );
+
   const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
     []
   );
@@ -119,12 +120,12 @@ export const NewFamilyLineOutTable: FC<{
       <GRTable
         rowKey={"id"}
         columns={columns}
-        data={inActiveUser}
+        data={lineOutNewFamiles}
         isHoverTable={false}
         marginbottom={GRStylesConfig.BASE_MARGIN}
         scroll={{ y: "20rem" }}
         pagination={{
-          total: inActiveUser?.length,
+          total: lineOutNewFamiles?.length,
           position: ["bottomCenter"]
         }}
         rowSelection={{
