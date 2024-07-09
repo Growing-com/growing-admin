@@ -1,5 +1,4 @@
 import GRTab from "@component/atom/GRTab";
-import GRTable from "@component/atom/GRTable";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
@@ -9,6 +8,7 @@ import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
 import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineUpModal";
 import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
+import NewFamilyInfoTable from '@component/pageComponents/department/management/newfamily/NewfamilyInfoTable';
 import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
@@ -40,6 +40,7 @@ const ManagementNewFamilyPage: NextPage = () => {
   const [currentTab, setCurrentTab] = useState<string>("info");
   const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
   const [filter, setFilter] = useState<tAttendanceSearch>();
+  // const [currentTable, setCurrentTable] = useState();
 
   // query 이해필요
   const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
@@ -203,6 +204,19 @@ const ManagementNewFamilyPage: NextPage = () => {
     setFilteredNewFamilyData(_filteredData);
   }, [newFamilyData, currentTab]);
 
+  const renderCurrentTable = () => {
+    switch (currentTab) {
+        // case "attendance":
+        //     return <AttendanceComponent param={param} />;
+        // case "promote":
+        //     return <PromoteComponent param={param} />;
+        // case "lineout":
+        //     return <LineoutComponent param={param} />;
+        default:
+          return <NewFamilyInfoTable data={filteredNewFamilyData}  rowSelection={rowSelection}/>;
+    }
+};
+
   const router = useRouter();
   return (
     <>
@@ -278,9 +292,8 @@ const ManagementNewFamilyPage: NextPage = () => {
             )}
           </GRFlexView>
         </GRFlexView>
-        <GRTable
+        {/* <GRTable
           rowKey={record => record.teamMemberId}
-          // {...(currentTab !== "lineout" && { rowSelection })}
           rowSelection={rowSelection}
           columns={columns[currentTab]}
           data={filteredNewFamilyData}
@@ -290,7 +303,8 @@ const ManagementNewFamilyPage: NextPage = () => {
             position: ["bottomCenter"]
           }}
           scroll={{ x: 1300 }}
-        />
+        /> */}
+        {renderCurrentTable()}
       </GRContainerView>
       <NewFamilyPromoteModal
         open={openPromoteModal}
