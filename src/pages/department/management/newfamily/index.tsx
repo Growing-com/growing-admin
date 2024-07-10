@@ -35,6 +35,7 @@ const ManagementNewFamilyPage: NextPage = () => {
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
   const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
+  const [searchedNewFamilyData, setSearchedNewFamilyData] = useState<any[]>([]);
   const [filter, setFilter] = useState<tAttendanceSearch>();
 
   // query 이해필요
@@ -94,10 +95,10 @@ const ManagementNewFamilyPage: NextPage = () => {
   const onChangeSearchText = useCallback(
     (_searchText: string) => {
       setSearchText(_searchText);
-      if (newFamilyData) {
-        let _filterNewFamily = newFamilyData;
+      if (searchedNewFamilyData) {
+        let _filterNewFamily = searchedNewFamilyData;
         if (_searchText) {
-          _filterNewFamily = newFamilyData.filter(newFamily => {
+          _filterNewFamily = searchedNewFamilyData.filter(newFamily => {
             if (newFamily.name?.indexOf(_searchText) !== -1) {
               return newFamily;
             }
@@ -107,7 +108,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         setFilteredNewFamilyData(_filterNewFamily);
       }
     },
-    [newFamilyData]
+    [searchedNewFamilyData]
   );
 
   const onClickPromote = () => {
@@ -184,6 +185,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         break;
     }
     setFilteredNewFamilyData(_filteredData);
+    setSearchedNewFamilyData(_filteredData);
   }, [newFamilyData, currentTab]);
 
   const renderCurrentTable = () => {
