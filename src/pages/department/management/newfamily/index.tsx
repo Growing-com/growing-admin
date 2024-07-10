@@ -1,17 +1,17 @@
 import GRTab from "@component/atom/GRTab";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
-import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineUpModal";
-import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyPromoteModal";
-import NewFamilyInfoTable from '@component/pageComponents/department/management/newfamily/NewfamilyInfoTable';
-import ColumDateTitleAttendanceRender from "@component/templates/table/ColumDateTitleAttendanceRender";
+import NewFamilyLineOutModal from '@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyLineOutModal';
+import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyLineUpModal";
+import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyPromoteModal";
+import NewFamilyInfoTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyInfoTable';
+import NewFamilyLineOutTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyLineOutTable';
+import NewFamilyPromoteTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyPromoteTable';
 import { useQuery } from "@tanstack/react-query";
-import { ColumnType } from "antd/es/table";
 import { TableRowSelection } from "antd/es/table/interface";
 import { getInActiveUser } from "api/account";
 import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
@@ -24,11 +24,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DEFAULT_DATE_FOMAT, getSundayRangeDate } from "utils/DateUtils";
-import {
-  INFO_COLUMNS,
-  LINEOUT_COLUMNS,
-  PROMOTE_COLUMNS
-} from "utils/newfamily/constants";
 
 const ManagementNewFamilyPage: NextPage = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -36,11 +31,11 @@ const ManagementNewFamilyPage: NextPage = () => {
     []
   );
   const [openPromoteModal, setOpenPromoteModal] = useState<boolean>(false);
+  const [openLineOutModal, setOpenLineOutModal] = useState<boolean>(false);
   const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("info");
   const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
   const [filter, setFilter] = useState<tAttendanceSearch>();
-  // const [currentTable, setCurrentTable] = useState();
 
   // query 이해필요
   const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
@@ -86,27 +81,6 @@ const ManagementNewFamilyPage: NextPage = () => {
       value: "lineout"
     }
   ];
-  const columns: Record<string, ColumnType<any>[]> = {
-    info: INFO_COLUMNS,
-    attendance: [
-      {
-        title: "이름",
-        dataIndex: "name",
-        key: "name",
-        align: "center",
-        width: "8rem",
-        render: (_, recode) => <GRText>{recode.userName}</GRText>
-      },
-      {
-        ...(ColumDateTitleAttendanceRender({
-          attendanceList: attendanceList?.content,
-          weeks: searchWeek
-        }) as any)
-      }
-    ],
-    promote: PROMOTE_COLUMNS,
-    lineout: LINEOUT_COLUMNS
-  };
 
   const onClickCreateNewFamily = () => {
     router.push("/department/management/newfamily/create");
@@ -142,6 +116,14 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onClickPromoteClose = () => {
     setOpenPromoteModal(false);
+  };
+
+  const onClickLineOut = () => {
+    setOpenLineOutModal(true);
+  };
+
+  const onClickLineOutClose = () => {
+    setOpenLineOutModal(false);
   };
 
   const onClickLineUp = () => {
@@ -208,10 +190,10 @@ const ManagementNewFamilyPage: NextPage = () => {
     switch (currentTab) {
         // case "attendance":
         //     return <AttendanceComponent param={param} />;
-        // case "promote":
-        //     return <PromoteComponent param={param} />;
-        // case "lineout":
-        //     return <LineoutComponent param={param} />;
+        case "promote":
+            return <NewFamilyPromoteTable data={filteredNewFamilyData}  rowSelection={rowSelection} />;
+        case "lineout":
+            return <NewFamilyLineOutTable data={filteredNewFamilyData}  rowSelection={rowSelection} />;
         default:
           return <NewFamilyInfoTable data={filteredNewFamilyData}  rowSelection={rowSelection}/>;
     }
@@ -266,6 +248,16 @@ const ManagementNewFamilyPage: NextPage = () => {
                   등반
                 </GRButtonText>
                 <GRButtonText
+                  onClick={onClickLineOut}
+                  buttonType={"secondary"}
+                  size={"small"}
+                  width={"5.5rem"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                >
+                  라인아웃
+                </GRButtonText>
+                <GRButtonText
                   onClick={onClickLineUp}
                   size={"small"}
                   width={"5rem"}
@@ -311,6 +303,11 @@ const ManagementNewFamilyPage: NextPage = () => {
         onClose={onClickPromoteClose}
         newFamilyList={selectedNewFamily}
       ></NewFamilyPromoteModal>
+      <NewFamilyLineOutModal
+        open={openLineOutModal}
+        onClose={onClickLineOutClose}
+        newFamilyList={selectedNewFamily}
+      ></NewFamilyLineOutModal>
       <NewFamilyLineUpModal
         open={openLineUpModal}
         onClose={onClickLineUpClose}

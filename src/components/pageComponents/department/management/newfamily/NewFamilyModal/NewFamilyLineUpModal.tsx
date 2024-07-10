@@ -63,6 +63,30 @@ const NewFamilyLineUpModal: FC<tNewFamilyPromoteModal> = ({
     console.log(`checked = ${e.target.checked}`);
   };
 
+  // const insertDataInFormResult = useCallback(
+  //   (_teamMemberId: number, key: string, value: any) => {
+  //     const _formResult = formResult.map(result => {
+  //       if (_teamMemberId === result.teamMemberId) {
+  //         return {
+  //           ...result,
+  //           [key]: value
+  //         };
+  //       }
+  //       return result;
+  //     });
+  //     setFormResult(_formResult);
+  //   },
+  //   [formResult]
+  // );
+
+  // const onChangeAttendStatus = useCallback(
+  //   (_teamMemberId: number, e: RadioChangeEvent) => {
+  //     insertDataInFormResult(_teamMemberId, "status", e.target.value);
+  //     console.log("dd",e.target.value);
+  //   },
+  //   [insertDataInFormResult]
+  // );
+
   const columns: ColumnType<tTermNewFamily>[] = [
     {
       title: "이름",
