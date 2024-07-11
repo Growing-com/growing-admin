@@ -12,6 +12,15 @@ export const ATTENDANCE_STATUS = [
   { label: "온라인", value: "ONLINE", color: "#ffd400" }
 ];
 
+export const DUTY_NAME: {[key: string]: string} = {
+  PASTOR: "교역자",
+  GANSA: "간사",
+  CODY: "코디",
+  LEADER: "리더",
+  MEMBER: "조원",
+  NEW_COMER: "새가족"
+}
+
 export const DUTY = [
   {
     key: "PASTOR",

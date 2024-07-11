@@ -57,6 +57,7 @@ export type tAccount = {
   visitTermId?: number;
   updatedBy: string;
   updatedAt: string;
+  promotion?: boolean;
 };
 
 export type tRoleResponse = {

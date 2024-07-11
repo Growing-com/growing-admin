@@ -7,13 +7,14 @@ import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText, { tFontSizeType } from "../text/GRText";
 
 export type tButtonSize = "large" | "normal" | "small";
-export type tButtonType = "default" | "primary" | "cancel" | "text" | "custom";
+export type tButtonType = "default" | "primary" | "secondary" | "cancel" | "text" | "custom";
 export type tGRButtonText = {
   style?: CSSProperties;
   isTextButton?: boolean;
   backgroundColor?: CSSProperties["backgroundColor"];
   textColor?: CSSProperties["color"];
   borderColor?: CSSProperties["color"];
+  borderRadius?: CSSProperties["borderRadius"];
   size?: tButtonSize;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
@@ -33,6 +34,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
   backgroundColor,
   textColor,
   borderColor,
+  borderRadius,
   width,
   height,
   textSize,
@@ -79,6 +81,11 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         buttonProps.textColor = Color.white;
         buttonProps.backgroundColor = Color.green200;
         break;
+      case "secondary":
+        buttonProps.textColor = Color.black;
+        buttonProps.backgroundColor = Color.white;
+        buttonProps.borderColor = "black";
+        break;
       case "cancel":
         buttonProps.textColor = Color.grey40;
         buttonProps.backgroundColor = Color.grey140;
@@ -103,6 +110,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
         width: ${_width};
         height: ${_height};
         border-color: ${_buttonTypeColor.borderColor};
+        border-radius: ${borderRadius};
       `}
       disabled={disabled}
       {...props}

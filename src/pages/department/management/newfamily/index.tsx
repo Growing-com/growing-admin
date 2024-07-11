@@ -1,254 +1,320 @@
-import GRTable from "@component/atom/GRTable";
+import GRTab from "@component/atom/GRTab";
 import GRButtonText from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
+import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
+import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import HeaderView from "@component/molecule/view/HeaderView";
-import NewFamilyDetailModal from "@component/pageComponents/department/management/newfamily/NewFamilyDetailModal";
-import NewFamilyLineOutListModal from "@component/pageComponents/department/management/newfamily/NewFamilyLineOutListModal";
-import SearchBar from "@component/templates/SearchBar";
-import TableInfoHeader from "@component/templates/table/TableInfoHeader";
-import { ColumnType } from "antd/es/table";
+import NewFamilyLineOutModal from '@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyLineOutModal';
+import NewFamilyLineUpModal from "@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyLineUpModal";
+import NewFamilyPromoteModal from "@component/pageComponents/department/management/newfamily/NewFamilyModal/NewFamilyPromoteModal";
+import NewFamilyInfoTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyInfoTable';
+import NewFamilyLineOutTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyLineOutTable';
+import NewFamilyPromoteTable from '@component/pageComponents/department/management/newfamily/NewFamilyTab/NewFamilyPromoteTable';
+import { useQuery } from "@tanstack/react-query";
+import { TableRowSelection } from "antd/es/table/interface";
+import { getInActiveUser } from "api/account";
+import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
+import { tAttendanceSearch } from "api/attendance/types";
+import queryKeys from "api/queryKeys";
 import { useTermNewFamily } from "api/term/queries/useTermNewFamily";
 import { tTermNewFamily } from "api/term/types";
-import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
-import { Color } from "styles/colors";
-import { dateSorter, koreanSorter } from "utils/sorter";
-
-const LINE_STAUTS = {
-  lineout: { name: "라인아웃", color: "red" },
-  lineup: { name: "등반", color: "green" }
-};
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { DEFAULT_DATE_FOMAT, getSundayRangeDate } from "utils/DateUtils";
 
 const ManagementNewFamilyPage: NextPage = () => {
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily>();
-  const [openNewFamilyModal, setOpenNewFamilyModal] = useState(false);
-  const [openNewFamilyLineOutListModal, setOpenNewFamilyLineOutListModal] =
-    useState(false);
-  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tTermNewFamily[]
-  >([]);
+  const [searchText, setSearchText] = useState<string>("");
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
+    []
+  );
+  const [openPromoteModal, setOpenPromoteModal] = useState<boolean>(false);
+  const [openLineOutModal, setOpenLineOutModal] = useState<boolean>(false);
+  const [openLineUpModal, setOpenLineUpModal] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState<string>("info");
+  const [filteredNewFamilyData, setFilteredNewFamilyData] = useState<any[]>([]);
+  const [searchedNewFamilyData, setSearchedNewFamilyData] = useState<any[]>([]);
+  const [filter, setFilter] = useState<tAttendanceSearch>();
 
-  const { data: newFamilyData, refetch } = useTermNewFamily({ termId: 1 });
+  // query 이해필요
+  const { data: newFamilyData } = useTermNewFamily({ termId: 1 });
 
-  const columns: ColumnType<tTermNewFamily>[] = [
-    {
-      title: "이름",
-      dataIndex: "name",
-      key: "name",
-      align: "center",
-      width: "5rem"
-    },
-    {
-      title: "학년",
-      dataIndex: "grade",
-      key: "grade",
-      align: "center",
-      width: "5rem"
-    },
-    {
-      title: "성별",
-      dataIndex: "sex",
-      key: "sex",
-      align: "center",
-      width: "5rem",
-      render: (_, item) => {
-        if (!item?.sex) return;
-        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-      }
-    },
-    {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => {
-        return record?.birth !== "1970-01-01" ? record?.birth : "-";
-      }
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-      width: "10rem"
-    },
-    {
-      title: "방문일",
-      dataIndex: "visitDate",
-      key: "visitDate",
-      align: "center",
-      width: "8rem",
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-      render: (_, record) => {
-        return record?.visitDate !== "1970-01-01" ? record?.visitDate : "-";
-      }
-    },
+  const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
 
+  useEffect(() => {
+    setFilter({
+      startDate: dayjs(dayjs().subtract(1, "M")).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs(dayjs()).format(DEFAULT_DATE_FOMAT),
+      isNewOnly: true,
+      page: 1,
+      size: 10
+    });
+  }, [attendanceList]);
+
+  const searchWeek = useMemo(
+    () => getSundayRangeDate(filter?.startDate, filter?.endDate),
+    [filter]
+  );
+
+  const { data: inActiveUser } = useQuery(
+    [queryKeys.IN_ACTIVE_USERS],
+    async () => await getInActiveUser(),
+    { select: _data => _data.content }
+  );
+
+  const newFamilyTabOption = [
     {
-      title: "새가족 순장",
-      dataIndex: "newTeamLeaderName",
-      key: "newTeamLeaderName",
-      align: "center",
-      width: "6rem"
+      label: "새가족",
+      value: "info"
     },
-    // {
-    //   title: "기타 사항",
-    //   dataIndex: "etc",
-    //   key: "etc",
-    //   align: "center",
-    //   width: "8rem",
-    //   onCell: () => ({ onClick: e => e.stopPropagation() }),
-    //   render: (_, record) => (
-    //     <ColumPopoverRender content={record?.etc} label={"내용"} />
-    //   )
-    // },
     {
-      title: "등반 순장",
-      align: "center",
-      dataIndex: "firstPlantLeaderName",
-      width: "8rem",
-      sorter: (a, b) =>
-        koreanSorter(a.firstPlantLeaderName, b.firstPlantLeaderName)
+      label: "출석",
+      value: "attendance"
     },
     {
-      title: "등반일",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => {
-        if (!record.lineoutDate && !record.lineupDate) return "";
-        const date = record.lineoutDate
-          ? record.lineoutDate
-          : record.lineupDate;
-        return <GRText weight={"bold"}>{date}</GRText>;
-      }
+      label: "등반",
+      value: "promote"
+    },
+    {
+      label: "라인아웃",
+      value: "lineout"
     }
   ];
 
-  const onClickRow = useCallback((_newFamily?: tTermNewFamily) => {
-    setSelectedNewFamily(_newFamily);
-    setOpenNewFamilyModal(true);
-  }, []);
-
-  const onCloseNewFamilyModal = () => {
-    setOpenNewFamilyModal(false);
-    setSelectedNewFamily(undefined);
+  const onClickCreateNewFamily = () => {
+    router.push("/department/management/newfamily/create");
   };
 
-  const onClickCreateNewFamilyModal = () => {
-    setSelectedNewFamily(undefined);
-    setOpenNewFamilyModal(true);
+  const onChangeTab = (value: string) => {
+    setSearchText("");
+    setCurrentTab(value);
   };
 
-  const onRegister = () => {
-    setSelectedNewFamily(undefined);
-    setOpenNewFamilyModal(false);
-    refetch();
-  };
-
-  const onClickSearch = useCallback(
-    (_searchText?: string) => {
-      if (newFamilyData?.length) {
-        let _filterNewFamily = newFamilyData;
-        if (newFamilyData?.length && _searchText) {
-          _filterNewFamily = newFamilyData.filter(newFamily => {
-            if (
-              newFamily.name?.indexOf(_searchText) !== -1 ||
-              newFamily.phoneNumber?.indexOf(_searchText) !== -1
-            ) {
+  const onChangeSearchText = useCallback(
+    (_searchText: string) => {
+      setSearchText(_searchText);
+      if (searchedNewFamilyData) {
+        let _filterNewFamily = searchedNewFamilyData;
+        if (_searchText) {
+          _filterNewFamily = searchedNewFamilyData.filter(newFamily => {
+            if (newFamily.name?.indexOf(_searchText) !== -1) {
               return newFamily;
             }
             return null;
           });
         }
-        setFilteredNewFailyData(_filterNewFamily);
+        setFilteredNewFamilyData(_filterNewFamily);
       }
     },
-    [newFamilyData]
+    [searchedNewFamilyData]
   );
 
+  const onClickPromote = () => {
+    setOpenPromoteModal(true);
+  };
+
+  const onClickPromoteClose = () => {
+    setOpenPromoteModal(false);
+  };
+
   const onClickLineOut = () => {
-    setOpenNewFamilyLineOutListModal(true);
+    setOpenLineOutModal(true);
   };
 
   const onClickLineOutClose = () => {
-    setOpenNewFamilyLineOutListModal(false);
+    setOpenLineOutModal(false);
+  };
+
+  const onClickLineUp = () => {
+    setOpenLineUpModal(true);
+  };
+
+  const onClickLineUpClose = () => {
+    setOpenLineUpModal(false);
+  };
+
+  const onClickReturn = () => {
+    alert("복귀");
+  };
+
+  const rowSelection: TableRowSelection<tTermNewFamily> = {
+    onChange: (
+      _selectedRowKeys: React.Key[],
+      _selectedRows: tTermNewFamily[]
+    ) => {
+      console.log(
+        `_selectedRowKeys: ${_selectedRowKeys}`,
+        "_selectedRows: ",
+        _selectedRows
+      );
+      setSelectedNewFamily(_selectedRows);
+    },
+    getCheckboxProps: record => ({
+      disabled: currentTab === "promote",
+      name: record.name
+    })
   };
 
   useEffect(() => {
     if (newFamilyData) {
-      setFilteredNewFailyData(newFamilyData);
+      setFilteredNewFamilyData(newFamilyData);
     }
   }, [newFamilyData]);
 
+  useEffect(() => {
+    let _filteredData: any[] = newFamilyData || [];
+
+    switch (currentTab) {
+      case "attendance":
+        if (attendanceList?.content) {
+          _filteredData = attendanceList.content;
+        }
+        break;
+      case "promote":
+        _filteredData = _filteredData.filter(item => item.lineupDate);
+        break;
+      case "lineout":
+        if (inActiveUser) {
+          _filteredData = inActiveUser;
+        }
+        break;
+      default:
+        _filteredData = _filteredData.filter(item => !item.lineupDate);
+        break;
+    }
+    setFilteredNewFamilyData(_filteredData);
+    setSearchedNewFamilyData(_filteredData);
+  }, [newFamilyData, currentTab]);
+
+  const renderCurrentTable = () => {
+    switch (currentTab) {
+        // case "attendance":
+        //     return <AttendanceComponent param={param} />;
+        case "promote":
+            return <NewFamilyPromoteTable data={filteredNewFamilyData}  rowSelection={rowSelection} />;
+        case "lineout":
+            return <NewFamilyLineOutTable data={filteredNewFamilyData}  rowSelection={rowSelection} />;
+        default:
+          return <NewFamilyInfoTable data={filteredNewFamilyData}  rowSelection={rowSelection}/>;
+    }
+};
+
+  const router = useRouter();
   return (
     <>
       <HeaderView
         title={"새가족 관리"}
-        titleInfo={"현재 텀 새가족 리스트"}
         showIcon={false}
         headerComponent={
-          <GRButtonText
-            onClick={onClickCreateNewFamilyModal}
-            buttonType={"default"}
-            size={"large"}
-          >
-            새가족 등록
+          <GRButtonText onClick={onClickCreateNewFamily} size={"large"}>
+            지체 등록
           </GRButtonText>
         }
-        subComponent={<SearchBar onClickSearch={onClickSearch} />}
-      />
+      ></HeaderView>
       <GRContainerView>
-        <GRTable
-          rowKey={"name"}
-          headerComponent={
-            <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
-              <TableInfoHeader
-                count={filteredNewFailyData.length}
-                totalCount={filteredNewFailyData.length}
-                title={"새가족 리스트"}
-              />
-              <GRView onClick={onClickLineOut}>
-                <GRText
-                  color={Color.grey80}
-                  style={{ textDecoration: "underline" }}
+        <GRTab items={newFamilyTabOption} onChange={onChangeTab}></GRTab>
+        <GRFlexView
+          alignItems={"flex-start"}
+          flexDirection={"row"}
+          marginbottom={1}
+        >
+          <GRTextInput
+            style={{ flex: "0 1 25%" }}
+            value={searchText}
+            placeholder={"이름으로 검색하세요."}
+            onChange={onChangeSearchText}
+          />
+          <GRFlexView
+            flexDirection={"row"}
+            justifyContent={"flex-end"}
+            alignItems={"center"}
+          >
+            {/* GRTable 헤더 컴포넌트로 작성해도 될듯 */}
+            {currentTab !== "lineout" ? (
+              <>
+                <GRInfoBadge
+                  infoMessage={`*등반: \n*라인업:`}
+                  fontSize={"1rem"}
+                />
+                <GRButtonText
+                  onClick={onClickPromote}
+                  buttonType={"secondary"}
+                  size={"small"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                  // 등반 탭일경우 등반버튼 비활성
+                  // disabled={currentTab == "promote" ? true : false}
                 >
-                  라인 아웃 리스트
-                </GRText>
-              </GRView>
-            </GRFlexView>
-          }
-          onRow={record => ({
-            onClick: () => onClickRow(record)
-          })}
-          columns={columns}
-          data={filteredNewFailyData}
+                  등반
+                </GRButtonText>
+                <GRButtonText
+                  onClick={onClickLineOut}
+                  buttonType={"secondary"}
+                  size={"small"}
+                  width={"5.5rem"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                >
+                  라인아웃
+                </GRButtonText>
+                <GRButtonText
+                  onClick={onClickLineUp}
+                  size={"small"}
+                  width={"5rem"}
+                  borderRadius={"15px"}
+                >
+                  라인업
+                </GRButtonText>
+              </>
+            ) : (
+              <>
+                <GRInfoBadge infoMessage={`*복귀:`} fontSize={"1rem"} />
+                <GRButtonText
+                  onClick={onClickReturn}
+                  buttonType={"custom"}
+                  backgroundColor={"#6E02F7"}
+                  textColor={"white"}
+                  size={"small"}
+                  borderRadius={"15px"}
+                  marginright={0.5}
+                >
+                  복귀
+                </GRButtonText>
+              </>
+            )}
+          </GRFlexView>
+        </GRFlexView>
+        {/* <GRTable
+          rowKey={record => record.teamMemberId}
+          rowSelection={rowSelection}
+          columns={columns[currentTab]}
+          data={filteredNewFamilyData}
           pagination={{
-            total: filteredNewFailyData?.length,
+            total: filteredNewFamilyData?.length,
             defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           scroll={{ x: 1300 }}
-        />
+        /> */}
+        {renderCurrentTable()}
       </GRContainerView>
-      {openNewFamilyModal && (
-        <NewFamilyDetailModal
-          open={openNewFamilyModal}
-          newFamily={selectedNewFamily}
-          onClose={onCloseNewFamilyModal}
-          onRegister={onRegister}
-        />
-      )}
-      <NewFamilyLineOutListModal
-        open={openNewFamilyLineOutListModal}
+      <NewFamilyPromoteModal
+        open={openPromoteModal}
+        onClose={onClickPromoteClose}
+        newFamilyList={selectedNewFamily}
+      ></NewFamilyPromoteModal>
+      <NewFamilyLineOutModal
+        open={openLineOutModal}
         onClose={onClickLineOutClose}
-      />
+        newFamilyList={selectedNewFamily}
+      ></NewFamilyLineOutModal>
+      <NewFamilyLineUpModal
+        open={openLineUpModal}
+        onClose={onClickLineUpClose}
+        newFamilyList={selectedNewFamily}
+      ></NewFamilyLineUpModal>
     </>
   );
 };
