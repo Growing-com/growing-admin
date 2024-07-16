@@ -1,31 +1,26 @@
 import GRTable from "@component/atom/GRTable";
-import GRButtonText from "@component/atom/button/GRTextButton";
-import GRTextInput from "@component/atom/text/GRTextInput";
-import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
 import ColumSexRender from "@component/molecule/table/ColumSexRender";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import queryKeys from "api/queryKeys";
-import { tTermNewFamily } from "api/term/types";
 import { getLineOutNewFamiles } from "apiV2/newFamily";
-import { FC, useState } from "react";
+import { tLineOutNewFamilyV2 } from "apiV2/newFamily/type";
 import GRStylesConfig from "styles/GRStylesConfig";
 
-export const NewFamilyLineOutTable: FC<{
-  onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
-}> = ({ onClickNewFamilyLineUp }) => {
+type tNewFamilyLineOutTable = {
+  onSelectLineOut: (key: React.Key[], selectedRows: any[]) => void;
+};
+
+export const NewFamilyLineOutTable = ({
+  onSelectLineOut
+}: tNewFamilyLineOutTable) => {
   const { data: lineOutNewFamiles } = useQuery(
-    [queryKeys.IN_ACTIVE_USERS],
+    [queryKeys.NEW_FAMILY_LINE_OUT_V2],
     async () => await getLineOutNewFamiles(),
     { select: _data => _data.content }
   );
 
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
-    []
-  );
-
-  const columns: ColumnType<any>[] = [
+  const columns: ColumnType<tLineOutNewFamilyV2>[] = [
     {
       title: "이름",
       dataIndex: "name",
@@ -71,68 +66,32 @@ export const NewFamilyLineOutTable: FC<{
     },
     {
       title: "라인아웃 날짜",
-      dataIndex: "lineoutDate",
-      key: "lineoutDate",
+      dataIndex: "lineoutAt",
+      key: "lineoutAt",
       align: "center",
       width: "8rem",
       render: (_, record) => {
-        return record?.lineoutDate !== "1970-01-01" ? record?.lineoutDate : "-";
+        return record?.lineoutAt !== "1970-01-01" ? record?.lineoutAt : "-";
       }
     }
   ];
 
-  const onChangeSearch = () => {};
-
-  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
-    setSelectedNewFamily(selectedRows);
-  };
-
-  const onClickNewFamilySubLineUp = () => {
-    onClickNewFamilyLineUp(selectedNewFamily);
-  };
-
   return (
-    <>
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-      >
-        <GRView>
-          <GRTextInput
-            style={{
-              height: "2.1rem"
-            }}
-            type={"input"}
-            placeholder={"이름으로 검색하세요"}
-            onChange={onChangeSearch}
-          />
-        </GRView>
-        <GRButtonText
-          onClick={onClickNewFamilySubLineUp}
-          buttonType={"custom"}
-          size={"small"}
-        >
-          복귀
-        </GRButtonText>
-      </GRFlexView>
-      <GRTable
-        rowKey={"id"}
-        columns={columns}
-        data={lineOutNewFamiles}
-        isHoverTable={false}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-        scroll={{ y: "20rem" }}
-        pagination={{
-          total: lineOutNewFamiles?.length,
-          position: ["bottomCenter"]
-        }}
-        rowSelection={{
-          selectedRowKeys: selectedNewFamily.map(newFamily => newFamily.userId),
-          onChange: onSelectChange
-        }}
-      />
-    </>
+    <GRTable
+      rowKey={"id"}
+      columns={columns}
+      data={lineOutNewFamiles}
+      isHoverTable={false}
+      marginbottom={GRStylesConfig.BASE_MARGIN}
+      scroll={{ y: "20rem" }}
+      pagination={{
+        total: lineOutNewFamiles?.length,
+        position: ["bottomCenter"]
+      }}
+      rowSelection={{
+        type: "radio",
+        onChange: onSelectLineOut
+      }}
+    />
   );
 };

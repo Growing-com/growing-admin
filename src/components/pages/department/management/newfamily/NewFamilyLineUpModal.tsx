@@ -1,4 +1,5 @@
 import GRTable from "@component/atom/GRTable";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRView from "@component/atom/view/GRView";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
@@ -27,6 +28,8 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   selectNewFamily
 }) => {
   const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
+  const [selectPromteDate, setSelectPromteDate] = useState(false);
+
   const { control, handleSubmit, reset } = useForm();
   const {
     setSelectedCodyId,
@@ -45,32 +48,22 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     },
     {
       title: "등반 여부",
-      dataIndex: "climb",
-      key: "climb",
+      dataIndex: "promote",
+      key: "promote",
       align: "center",
       width: "5rem",
       render: (_, _item) => {
-        return <Checkbox />;
+        return <Checkbox onChange={() => setSelectPromteDate(pre => !pre)} />;
       }
     },
     {
-      title: "나무",
-      dataIndex: "cordy",
-      key: "cordy",
+      title: "등반일",
+      dataIndex: "promoteDate",
+      key: "promoteDate",
       align: "center",
-      width: "5rem",
       render: (_, _item) => {
         return (
-          <GRSelect
-            style={{ width: "10rem" }}
-            marginright={GRStylesConfig.BASE_MARGIN}
-            value={selectedCodyId}
-            options={termCordyOptions}
-            onChange={_cordy => {
-              setSelectedCodyId(_cordy);
-            }}
-            placeholder={"나무 선택"}
-          />
+          <GRDatePicker pickerType={"basic"} disabled={!selectPromteDate} />
         );
       }
     },
@@ -79,16 +72,13 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       dataIndex: "leader",
       key: "leader",
       align: "center",
-      width: "5rem",
       render: (_, _item) => {
         return (
           <GRSelect
             marginright={GRStylesConfig.BASE_MARGIN}
-            style={{ width: "10rem" }}
             value={selectedLeaderId}
             options={termLeaderOptions}
             onChange={() => {}}
-            disabled={!selectedCodyId}
             placeholder={"리더 선택"}
           />
         );
@@ -100,7 +90,9 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     onClickClose();
   };
 
-  const onClickModalOk = () => {};
+  const onClickModalOk = item => {
+    console.log("item", item);
+  };
 
   return (
     <GRFormModal

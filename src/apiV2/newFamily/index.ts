@@ -1,6 +1,6 @@
 import { REQUEST_METHOD, request } from "api";
 import { Nullable } from "common/type-aliases";
-import { tNewFamilyV2 } from "./type";
+import { tLineOutNewFamilyV2, tNewFamilyV2 } from "./type";
 
 const version = "v2";
 
@@ -16,14 +16,8 @@ export const getNewFamilies = (params?: getNewFamiliesParmas) => {
   });
 };
 
-interface tLineOutNewFamilesResponse extends tNewFamilyV2 {
-  lineOutNewFamilyId?: number;
-  newFamilyGroupLeaderName: Nullable<string>;
-  lineoutAt: string;
-}
-
 export const getLineOutNewFamiles = () => {
-  return request<tLineOutNewFamilesResponse[]>({
+  return request<tLineOutNewFamilyV2[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/lined-out-new-families`
   });
@@ -34,5 +28,54 @@ export const createNewFamily = (data: tNewFamilyV2) => {
     method: REQUEST_METHOD.POST,
     url: `${version}/new-families/register`,
     data
+  });
+};
+
+// 등반과 라인업 동시에 하기 위해서 smallGroupId 값 넣어주면 된다.
+export type tPromoteNewFamilyParams = {
+  promoteDate: string;
+  smallGroupId: Nullable<number>;
+};
+
+export const promteNewFamily = (data: tPromoteNewFamilyParams) => {
+  return request<tNewFamilyV2>({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/register`,
+    data
+  });
+};
+
+export const lineOutNewFamily = (newFamilyId: number) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/${newFamilyId}/line-out`
+  });
+};
+
+type tLineOutRollBackNewFamily = {
+  lineOutNewFamilyId: number;
+  data?: {
+    newFamilyGroupId?: number;
+  };
+};
+
+export const lineOutRollBackNewFamily = (params: tLineOutRollBackNewFamily) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/lined-out-new-families/${params.lineOutNewFamilyId}/rollback`,
+    data: params.data
+  });
+};
+
+type tnewFamilyAttendancesParams = {
+  startDate: string;
+  endDate: string;
+};
+
+export const newFamilyAttendances = (params: tnewFamilyAttendancesParams) => {
+  return request({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/new-family-attendances`,
+    params
   });
 };

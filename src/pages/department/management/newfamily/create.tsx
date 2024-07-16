@@ -21,6 +21,7 @@ import {
   YES_NO_OPTIONS
 } from "config/const";
 import { Dayjs } from "dayjs";
+import useTerm from "hooks/api/term/useTerm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -32,8 +33,13 @@ const FORM_TITLE_WIDTH = 10;
 
 const ManagementNewFamilyCreatePage: NextPage = () => {
   const { control, handleSubmit, reset } = useForm<tNewFamilyV2>();
+
   const router = useRouter();
 
+  const { termNewFamilyLeaderOptions } = useTerm({
+    termId: 1
+  });
+  console.log("termNewFamilyLeaderOptions", termNewFamilyLeaderOptions);
   const { mutateAsync } = useMutation(createNewFamily, {
     onError: error => {
       console.log("error", error);
@@ -307,24 +313,14 @@ const ManagementNewFamilyCreatePage: NextPage = () => {
               flexDirection="row"
             >
               <GRFormItem
-                title={"나무"}
-                type={"text"}
-                textType={"input"}
-                fieldName={"name"}
-                control={control}
-                placeholder={"인도자을 작성해 주세요"}
-                required={true}
-                containStyle={{ marginRight: "1rem" }}
-              />
-              <GRFormItem
                 title={"순장"}
-                type={"text"}
+                type={"select"}
                 textType={"input"}
-                fieldName={"name"}
+                fieldName={"newFamilyGroupId"}
                 control={control}
-                placeholder={"인도자을 작성해 주세요"}
-                required={true}
+                placeholder={"새가족 순장을 선택해 주세요"}
                 containStyle={{ marginRight: "1rem" }}
+                options={termNewFamilyLeaderOptions}
               />
             </GRFlexView>
             <Divider />
