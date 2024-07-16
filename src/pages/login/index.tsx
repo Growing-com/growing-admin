@@ -6,6 +6,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
+import { DEPARTMENT_MAIN_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import getConfig from "next/config";
@@ -37,11 +38,11 @@ const Login = () => {
         username: userId,
         password: userPW
       });
-      // DEPARTMENT_MAIN_MENU.forEach(menu => {
-      //   addMenu(menu);
-      // });
-      // router.replace(`/department/attendance/check`);
-      await handleRouterCheck();
+      DEPARTMENT_MAIN_MENU.forEach(menu => {
+        addMenu(menu);
+      });
+      router.replace(`/department/attendance/check`);
+      // await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
     }

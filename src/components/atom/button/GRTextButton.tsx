@@ -13,7 +13,8 @@ export type tButtonType =
   | "cancel"
   | "text"
   | "custom"
-  | "blod";
+  | "blod"
+  | "warning";
 export type tGRButtonText = {
   style?: CSSProperties;
   isTextButton?: boolean;
@@ -93,6 +94,11 @@ const GRButtonText: React.FC<tGRButtonText> = ({
       case "cancel":
         buttonProps.textColor = Color.grey40;
         buttonProps.backgroundColor = Color.grey140;
+        buttonProps.borderColor = "transparent";
+        break;
+      case "warning":
+        buttonProps.textColor = Color.white;
+        buttonProps.backgroundColor = Color.red100;
         buttonProps.borderColor = "transparent";
         break;
       case "text":

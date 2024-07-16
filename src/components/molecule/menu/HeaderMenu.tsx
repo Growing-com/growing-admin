@@ -10,11 +10,9 @@ import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
 import { useLogoutMutate } from "api/account/mutate/useLogoutMutate";
-import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
-import { DUTY, ROLE } from "config/const";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -24,22 +22,22 @@ type tHeaderMenu = {
 
 const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
   const { logoutMutate } = useLogoutMutate();
-  const { data: userInfo } = useUserInfoQuery();
+  // const { data: userInfo } = useUserInfoQuery();
 
-  const DUTY_NAME = useMemo(
-    () => DUTY.find(duty => duty?.key === userInfo?.duty)?.value ?? "",
-    [userInfo?.duty]
-  );
+  // const DUTY_NAME = useMemo(
+  //   () => DUTY.find(duty => duty?.key === userInfo?.duty)?.value ?? "",
+  //   [userInfo?.duty]
+  // );
 
-  const GRADE_NAME = useMemo(
-    () => (userInfo?.grade ? `${userInfo?.grade}학년` : ""),
-    [userInfo?.grade]
-  );
+  // const GRADE_NAME = useMemo(
+  //   () => (userInfo?.grade ? `${userInfo?.grade}학년` : ""),
+  //   [userInfo?.grade]
+  // );
 
-  const ROLE_NAME = useMemo(
-    () => ROLE.find(role => role?.key === userInfo?.role)?.value ?? "",
-    [userInfo?.role]
-  );
+  // const ROLE_NAME = useMemo(
+  //   () => ROLE.find(role => role?.key === userInfo?.role)?.value ?? "",
+  //   [userInfo?.role]
+  // );
 
   const onClickLogout = useCallback(async () => {
     await logoutMutate();
