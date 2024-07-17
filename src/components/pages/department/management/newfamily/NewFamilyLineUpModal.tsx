@@ -1,59 +1,61 @@
 import GRTable from "@component/atom/GRTable";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { Checkbox } from "antd";
 import { ColumnType } from "antd/es/table";
-import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
+import { tNewFamilyV2 } from "apiV2/newFamily/type";
+import useTerm from "hooks/api/term/useTerm";
+import { concat } from "lodash";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 
-type newFamilyLineUpColumns = {
-  name: string;
-  climb: string;
-  cordy: string;
-  leader: string;
-};
-
 type tNewFamilyLineUpModal = {
   open: boolean;
   onClickClose: () => void;
-  selectNewFamily: any;
+  selectNewFamily: tNewFamilyV2[];
 };
 export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
   onClickClose,
   selectNewFamily
 }) => {
+  console.log("selectNewFamily", selectNewFamily);
   const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
-  const [selectPromteDate, setSelectPromteDate] = useState(false);
+  const [selectPromteDate, setSelectPromteDate] = useState<number[]>([]);
 
   const { control, handleSubmit, reset } = useForm();
-  const {
-    setSelectedCodyId,
-    termCordyOptions,
-    termLeaderOptions,
-    selectedCodyId
-  } = useTermInfoOptionQueries();
+  const { termSamllGroupLeaderOptions } = useTerm({ termId: 1 });
 
-  const columns: ColumnType<newFamilyLineUpColumns>[] = [
+  const columns: ColumnType<tNewFamilyV2>[] = [
     {
       title: "이름",
       dataIndex: "name",
       key: "name",
-      align: "center",
-      width: "5rem"
+      align: "center"
     },
     {
       title: "등반 여부",
       dataIndex: "promote",
       key: "promote",
       align: "center",
-      width: "5rem",
       render: (_, _item) => {
-        return <Checkbox onChange={() => setSelectPromteDate(pre => !pre)} />;
+        return (
+          <Checkbox
+            onChange={value => {
+              if (value.target.checked) {
+                setSelectPromteDate(pre => concat(pre, [_item.newFamilyId]));
+              } else {
+                setSelectPromteDate(pre =>
+                  pre.filter(item => item !== _item.newFamilyId)
+                );
+              }
+            }}
+          />
+        );
       }
     },
     {
@@ -62,8 +64,17 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       key: "promoteDate",
       align: "center",
       render: (_, _item) => {
+        const includeNewFamilyId = selectPromteDate.includes(_item.newFamilyId);
         return (
-          <GRDatePicker pickerType={"basic"} disabled={!selectPromteDate} />
+          <GRFlexView>
+            <GRDatePicker
+              pickerType={"basic"}
+              disabled={!includeNewFamilyId}
+              placeholder={
+                !includeNewFamilyId ? "등반 여부를 선택해주세요" : "등반일 선택"
+              }
+            />
+          </GRFlexView>
         );
       }
     },
@@ -74,13 +85,14 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       align: "center",
       render: (_, _item) => {
         return (
-          <GRSelect
-            marginright={GRStylesConfig.BASE_MARGIN}
-            value={selectedLeaderId}
-            options={termLeaderOptions}
-            onChange={() => {}}
-            placeholder={"리더 선택"}
-          />
+          <GRFlexView>
+            <GRSelect
+              value={selectedLeaderId}
+              options={termSamllGroupLeaderOptions}
+              onChange={() => {}}
+              placeholder={"리더 선택"}
+            />
+          </GRFlexView>
         );
       }
     }
@@ -103,7 +115,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       width={"60%"}
       maskClosable={false}
     >
-      <GRView flexDirection={"row"}>
+      <GRView flexDirection={"row"} marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable columns={columns} data={selectNewFamily} />
       </GRView>
     </GRFormModal>
