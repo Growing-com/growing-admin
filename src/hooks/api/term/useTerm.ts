@@ -11,24 +11,26 @@ const useTerm = ({ termId }: { termId: number }) => {
   if (!termId) {
     throw new Error("termId is required");
   }
-  //   const [termSamllGroupLeaderOptions, setTermSamllGroupLeaderOptions] =
-  //     useState<tOptions[]>();
+  const [termSamllGroupLeaderOptions, setTermSamllGroupLeaderOptions] =
+    useState<tOptions[]>();
   const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] =
     useState<tOptions[]>();
 
-  const { data: termSamllLeader, isSuccess: termSamllLeaderIsSuccess } =
-    useQuery(
-      [queryKeys.TERM_SMALL_GROUP_LEADER],
-      async () =>
-        await getSamllGroupLeader({
-          termId
-        }),
-      {
-        cacheTime: Infinity,
-        staleTime: Infinity,
-        onSuccess: _data => _data.content
-      }
-    );
+  const {
+    data: termSamllGroupLeader,
+    isSuccess: termSamllGroupLeaderIsSuccess
+  } = useQuery(
+    [queryKeys.TERM_SMALL_GROUP_LEADER],
+    async () =>
+      await getSamllGroupLeader({
+        termId
+      }),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      select: _data => _data.content
+    }
+  );
 
   const { data: termNewFamilyLeader, isSuccess: termNewFamilyLeaderIsSuccess } =
     useQuery(
@@ -55,9 +57,22 @@ const useTerm = ({ termId }: { termId: number }) => {
     }
   }, [termNewFamilyLeaderIsSuccess]);
 
+  useEffect(() => {
+    if (termSamllGroupLeaderIsSuccess) {
+      const smallGroupOptions = convertOptions(
+        termSamllGroupLeader,
+        "smallGroupId",
+        "smallGroupLeaderName"
+      );
+      setTermSamllGroupLeaderOptions(smallGroupOptions);
+    }
+  }, [termSamllGroupLeaderIsSuccess]);
+
   return {
     termNewFamilyLeader,
-    termNewFamilyLeaderOptions
+    termNewFamilyLeaderOptions,
+    termSamllGroupLeader,
+    termSamllGroupLeaderOptions
   };
 };
 
