@@ -1,34 +1,54 @@
 import GRTable from "@component/atom/GRTable";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
+import GRModal from "@component/atom/modal/GRModal";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { Checkbox } from "antd";
 import { ColumnType } from "antd/es/table";
 import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import useTerm from "hooks/api/term/useTerm";
-import { concat } from "lodash";
-import { FC, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FC, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { convertDateStringByDefaultForm } from "utils/DateUtils";
 
 type tNewFamilyLineUpModal = {
   open: boolean;
   onClickClose: () => void;
   selectNewFamily: tNewFamilyV2[];
 };
+interface tNewFamilyLineUpForm extends tNewFamilyV2 {
+  isPromote: boolean;
+}
 export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
   onClickClose,
   selectNewFamily
 }) => {
-  console.log("selectNewFamily", selectNewFamily);
   const [selectedLeaderId, setSelectedLeaderId] = useState<number>();
   const [selectPromteDate, setSelectPromteDate] = useState<number[]>([]);
+  const [selectFormData, setSelectFormData] = useState<tNewFamilyLineUpForm[]>(
+    []
+  );
 
-  const { control, handleSubmit, reset } = useForm();
   const { termSamllGroupLeaderOptions } = useTerm({ termId: 1 });
+
+  const insertDataInFormResult = (
+    _teamMemberId: number,
+    key: string,
+    value: any
+  ) => {
+    const _formResult = selectFormData.map(result => {
+      if (_teamMemberId === result.newFamilyId) {
+        return {
+          ...result,
+          [key]: value
+        };
+      }
+      return result;
+    });
+    setSelectFormData(_formResult);
+  };
 
   const columns: ColumnType<tNewFamilyV2>[] = [
     {
@@ -46,13 +66,11 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         return (
           <Checkbox
             onChange={value => {
-              if (value.target.checked) {
-                setSelectPromteDate(pre => concat(pre, [_item.newFamilyId]));
-              } else {
-                setSelectPromteDate(pre =>
-                  pre.filter(item => item !== _item.newFamilyId)
-                );
-              }
+              insertDataInFormResult(
+                _item.newFamilyId,
+                "isPromote",
+                value.target.checked
+              );
             }}
           />
         );
@@ -64,15 +82,28 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       key: "promoteDate",
       align: "center",
       render: (_, _item) => {
-        const includeNewFamilyId = selectPromteDate.includes(_item.newFamilyId);
+        const includeNewFamilyId = selectFormData.find(
+          i => i.newFamilyId === _item.newFamilyId
+        );
         return (
           <GRFlexView>
             <GRDatePicker
               pickerType={"basic"}
-              disabled={!includeNewFamilyId}
+              disabled={!includeNewFamilyId?.isPromote}
               placeholder={
-                !includeNewFamilyId ? "등반 여부를 선택해주세요" : "등반일 선택"
+                !includeNewFamilyId?.isPromote
+                  ? "등반 여부를 선택해주세요"
+                  : "등반일 선택"
               }
+              onChange={value => {
+                if (value) {
+                  insertDataInFormResult(
+                    _item.newFamilyId,
+                    "promoteDate",
+                    convertDateStringByDefaultForm(value)
+                  );
+                }
+              }}
             />
           </GRFlexView>
         );
@@ -83,13 +114,20 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       dataIndex: "leader",
       key: "leader",
       align: "center",
+      width: "20rem",
       render: (_, _item) => {
         return (
           <GRFlexView>
             <GRSelect
               value={selectedLeaderId}
               options={termSamllGroupLeaderOptions}
-              onChange={() => {}}
+              onChange={value => {
+                insertDataInFormResult(
+                  _item.newFamilyId,
+                  "smallGroupId",
+                  value
+                );
+              }}
               placeholder={"리더 선택"}
             />
           </GRFlexView>
@@ -102,15 +140,24 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     onClickClose();
   };
 
-  const onClickModalOk = item => {
-    console.log("item", item);
+  const onClickModalOk = () => {
+    console.log("확인!", selectFormData);
   };
 
+  useEffect(() => {
+    if (selectNewFamily.length === 0) return;
+    const initSelectNewFamily = selectNewFamily.map(item => ({
+      ...item,
+      isPromote: false
+    }));
+    setSelectFormData(initSelectNewFamily);
+  }, []);
+
   return (
-    <GRFormModal
+    <GRModal
       open={open}
       onCancel={onCloseModal}
-      onSubmit={handleSubmit(onClickModalOk)}
+      onOk={onClickModalOk}
       title={"새가족 라인업"}
       width={"60%"}
       maskClosable={false}
@@ -118,6 +165,6 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       <GRView flexDirection={"row"} marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable columns={columns} data={selectNewFamily} />
       </GRView>
-    </GRFormModal>
+    </GRModal>
   );
 };

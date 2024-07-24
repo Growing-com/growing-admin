@@ -79,3 +79,17 @@ export const newFamilyAttendances = (params: tnewFamilyAttendancesParams) => {
     params
   });
 };
+
+export type tNewFamiliesLineUpParams = {
+  newFamilyId: number;
+  smallGroupId: number;
+  promoteDate: string;
+};
+
+export const newFamiliesLineUp = (data: tNewFamiliesLineUpParams[]) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/batch-line-up`,
+    data
+  });
+};
