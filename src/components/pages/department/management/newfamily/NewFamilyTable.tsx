@@ -7,19 +7,24 @@ import { getNewFamilies } from "apiV2/newFamily";
 import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tNewFamilyTable = {
   selectedNewFamily: tNewFamilyV2[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
+  searchName: string;
 };
 
 export const NewFamilyTable: FC<tNewFamilyTable> = ({
   selectedNewFamily,
-  onSelect
+  onSelect,
+  searchName
 }) => {
+  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+    tNewFamilyV2[]
+  >([]);
   const { data: newFamilyData } = useQuery(
     [queryKeys.NEW_FAMILY_V2],
     async () => await getNewFamilies(),
@@ -107,13 +112,27 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     }
   ];
 
+  useEffect(() => {
+    if (newFamilyData?.length) {
+      let _filterNewFamily = newFamilyData;
+      if (newFamilyData?.length && searchName) {
+        _filterNewFamily = newFamilyData.filter(newFamily => {
+          return newFamily.name?.indexOf(searchName) !== -1;
+        });
+      }
+      setFilteredNewFailyData(_filterNewFamily);
+    } else {
+      setFilteredNewFailyData([]);
+    }
+  }, [newFamilyData, searchName]);
+
   return (
     <GRTable
       rowKey={"newFamilyId"}
       columns={columns}
-      data={newFamilyData}
+      data={filteredNewFailyData}
       pagination={{
-        total: newFamilyData?.length,
+        total: filteredNewFailyData?.length,
         defaultPageSize: 10,
         position: ["bottomCenter"]
       }}

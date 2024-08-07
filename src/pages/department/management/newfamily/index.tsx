@@ -76,6 +76,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onChangeTab = (value: string) => {
     setSelectedNewFamily([]);
+    setSearchName("");
     setTabValue(value);
   };
 
@@ -164,6 +165,7 @@ const ManagementNewFamilyPage: NextPage = () => {
               type={"input"}
               placeholder={"이름으로 검색하세요"}
               onChange={onChangeSearch}
+              value={searchName}
             />
           </GRView>
           {(tabValue == NEW_FAMILY || tabValue == NEW_FAMILY_ATTEND) && (
@@ -195,6 +197,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           <NewFamilyTable
             selectedNewFamily={selectedNewFamily}
             onSelect={onSelectChange}
+            searchName={searchName}
           />
         )}
         {/* 출석 탭 */}
@@ -202,11 +205,12 @@ const ManagementNewFamilyPage: NextPage = () => {
           <NewFamilyAttendanceTable
             selectedNewFamily={selectedNewFamily}
             onSelect={onSelectChange}
+            searchName={searchName}
           />
         )}
         {/* 라인 아웃 탭 */}
         {tabValue === NEW_FAMILY_LINE_OUT && (
-          <NewFamilyLineOutTable onSelectLineOut={onSelectLineOut} />
+          <NewFamilyLineOutTable onSelectLineOut={onSelectLineOut} searchName={searchName}/>
         )}
       </GRContainerView>
       {isOpenLineupModal && (

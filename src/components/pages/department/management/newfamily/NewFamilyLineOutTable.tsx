@@ -5,15 +5,22 @@ import { ColumnType } from "antd/es/table";
 import queryKeys from "api/queryKeys";
 import { getLineOutNewFamiles } from "apiV2/newFamily";
 import { tLineOutNewFamilyV2 } from "apiV2/newFamily/type";
+import { useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 type tNewFamilyLineOutTable = {
   onSelectLineOut: (key: React.Key[], selectedRows: any[]) => void;
+  searchName: string;
 };
 
 export const NewFamilyLineOutTable = ({
-  onSelectLineOut
+  onSelectLineOut,
+  searchName
 }: tNewFamilyLineOutTable) => {
+  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+    tLineOutNewFamilyV2[]
+  >([]);
+
   const { data: lineOutNewFamiles } = useQuery(
     [queryKeys.NEW_FAMILY_LINE_OUT_V2],
     async () => await getLineOutNewFamiles(),
@@ -76,16 +83,30 @@ export const NewFamilyLineOutTable = ({
     }
   ];
 
+  useEffect(() => {
+    if (lineOutNewFamiles?.length) {
+      let _filterNewFamily = lineOutNewFamiles;
+      if (lineOutNewFamiles?.length && searchName) {
+        _filterNewFamily = lineOutNewFamiles.filter(newFamily => {
+          return newFamily.name?.indexOf(searchName) !== -1;
+        });
+      }
+      setFilteredNewFailyData(_filterNewFamily);
+    } else {
+      setFilteredNewFailyData([]);
+    }
+  }, [lineOutNewFamiles, searchName]);
+
   return (
     <GRTable
       rowKey={"id"}
       columns={columns}
-      data={lineOutNewFamiles}
+      data={filteredNewFailyData}
       isHoverTable={false}
       marginbottom={GRStylesConfig.BASE_MARGIN}
       scroll={{ y: "20rem" }}
       pagination={{
-        total: lineOutNewFamiles?.length,
+        total: filteredNewFailyData?.length,
         position: ["bottomCenter"]
       }}
       rowSelection={{
