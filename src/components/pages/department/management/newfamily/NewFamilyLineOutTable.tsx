@@ -99,7 +99,7 @@ export const NewFamilyLineOutTable = ({
 
   return (
     <GRTable
-      rowKey={"id"}
+      rowKey={"lineOutNewFamilyId"}
       columns={columns}
       data={filteredNewFailyData}
       isHoverTable={false}
