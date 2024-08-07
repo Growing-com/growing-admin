@@ -5,7 +5,7 @@ import { ColumnType } from "antd/es/table";
 import { tAttendanceItem } from "api/attendance/types";
 import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import { ATTEND_STATUS } from "common/enum";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { NEWFAMILY_DUMP_ATTENDANCE_DATA } from "./newfamilyDumpData";
 
 export const accountDumpData = [
@@ -32,6 +32,7 @@ export const accountDumpData = [
 type tNewFamilyAttendanceTable = {
   selectedNewFamily: tNewFamilyV2[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
+  searchName: string;
 };
 
 type tNewFamilyAttendanceTableColums = {
@@ -41,9 +42,13 @@ type tNewFamilyAttendanceTableColums = {
 
 export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
   selectedNewFamily,
-  onSelect
+  onSelect,
+  searchName
 }) => {
   const onSearch = () => {};
+  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+    tNewFamilyV2[]
+  >([]);
   const columns: ColumnType<tNewFamilyAttendanceTableColums>[] = [
     {
       title: "이름",
@@ -89,6 +94,21 @@ export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
     //   }) as tUseAttendanceQueryResposne)
     // }
   ];
+
+  // useEffect(() => {
+  //   if (NEWFAMILY_DUMP_ATTENDANCE_DATA?.length) {
+  //     let _filterNewFamily = NEWFAMILY_DUMP_ATTENDANCE_DATA;
+  //     if (NEWFAMILY_DUMP_ATTENDANCE_DATA?.length && searchName) {
+  //       _filterNewFamily = NEWFAMILY_DUMP_ATTENDANCE_DATA.filter(newFamily => {
+  //         if (newFamily.name?.indexOf(searchName) !== -1) {
+  //           return newFamily;
+  //         }
+  //         return null;
+  //       });
+  //     }
+  //     setFilteredNewFailyData(_filterNewFamily);
+  //   }
+  // }, [NEWFAMILY_DUMP_ATTENDANCE_DATA, searchName]);
 
   return (
     <GRTable
