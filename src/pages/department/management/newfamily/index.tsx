@@ -70,7 +70,7 @@ const ManagementNewFamilyPage: NextPage = () => {
     }
   );
 
-  const onClickCreateNewFamilyModal = async () => {
+  const onClickCreateNewFamily = async () => {
     await router.push("/department/management/newfamily/create");
   };
 
@@ -144,7 +144,7 @@ const ManagementNewFamilyPage: NextPage = () => {
         showIcon={false}
         headerComponent={
           <GRButtonText
-            onClick={onClickCreateNewFamilyModal}
+            onClick={onClickCreateNewFamily}
             buttonType={"default"}
             size={"large"}
           >

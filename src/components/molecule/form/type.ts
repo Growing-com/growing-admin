@@ -8,7 +8,8 @@ import {
   ControllerRenderProps,
   UseFormStateReturn,
   type Control,
-  type FieldValues
+  type FieldValues,
+  RegisterOptions
 } from "react-hook-form";
 
 export type tFormItemType =
@@ -31,7 +32,7 @@ export type tGRFormItem = {
   options?: tOptions[];
   customComponent?: ReactNode;
   /** @description register options */
-  required?: boolean;
+  rules?: RegisterOptions;
   style?: CSSProperties;
   placeholder?: string;
   disabled?: boolean;
