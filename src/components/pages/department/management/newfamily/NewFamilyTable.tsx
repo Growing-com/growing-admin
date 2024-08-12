@@ -115,7 +115,7 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
   useEffect(() => {
     if (newFamilyData?.length) {
       let _filterNewFamily = newFamilyData;
-      if (newFamilyData?.length && searchName) {
+      if (searchName) {
         _filterNewFamily = newFamilyData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });

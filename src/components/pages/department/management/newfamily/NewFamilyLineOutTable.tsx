@@ -86,7 +86,7 @@ export const NewFamilyLineOutTable = ({
   useEffect(() => {
     if (lineOutNewFamiles?.length) {
       let _filterNewFamily = lineOutNewFamiles;
-      if (lineOutNewFamiles?.length && searchName) {
+      if (searchName) {
         _filterNewFamily = lineOutNewFamiles.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
