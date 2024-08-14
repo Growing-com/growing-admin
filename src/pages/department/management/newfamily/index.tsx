@@ -95,15 +95,14 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const onClickLineUp = () => {
+    if (!selectedNewFamily.length) {
+      return alert("선택된 새가족이 없습니다.");
+    }
     setIsOpenLineupModal(true);
   };
 
   const onChangeSearch = (_text: string) => {
     setSearchName(_text);
-  };
-
-  const onClickClose = () => {
-    setIsOpenLineupModal(false);
   };
 
   const onOkLineOutClickButton = async () => {
@@ -213,10 +212,11 @@ const ManagementNewFamilyPage: NextPage = () => {
           <NewFamilyLineOutTable onSelectLineOut={onSelectLineOut} searchName={searchName}/>
         )}
       </GRContainerView>
+      {/* 라인업 모달 */}
       {isOpenLineupModal && (
         <NewFamilyLineUpModal
           open={isOpenLineupModal}
-          onClickClose={onClickClose}
+          onClickClose={() => setIsOpenLineupModal(false)}
           selectNewFamily={selectedNewFamily}
         />
       )}
