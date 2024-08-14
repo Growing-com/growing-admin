@@ -55,7 +55,7 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
     termId: 1
   });
 
-  console.log("termNewFamilyLeaderOptions", termNewFamilyLeaderOptions);
+  // console.log("termNewFamilyLeaderOptions", termNewFamilyLeaderOptions);
 
   const { mutateAsync } = useMutation(createNewFamily, {
     onError: error => {
@@ -88,7 +88,6 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
         disabledBackbutton={true}
         headerComponent={
           isEdit ? (
-            <>
               <GRButton
                 onClick={onClickCreateNewFamilyModal}
                 buttonType={"primary"}
@@ -102,7 +101,6 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
                   // rev={undefined}
                 />
               </GRButton>
-            </>
           ) : null
         }
       />
