@@ -75,7 +75,7 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const onChangeTab = (value: string) => {
-    setSelectedNewFamily([]);
+    resetSelection();
     setSearchName("");
     setTabValue(value);
   };
@@ -134,6 +134,10 @@ const ManagementNewFamilyPage: NextPage = () => {
     if (selectedRows.length !== 0) {
       setSelectedLineOutNewFamily(selectedRows[0]);
     }
+  };
+
+  const resetSelection = () => {
+    setSelectedNewFamily([]); 
   };
 
   return (
@@ -218,6 +222,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           open={isOpenLineupModal}
           onClickClose={() => setIsOpenLineupModal(false)}
           selectNewFamily={selectedNewFamily}
+          resetSelection={resetSelection}
         />
       )}
       {/* 라인아웃 모달 */}

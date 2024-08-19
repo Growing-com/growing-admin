@@ -61,11 +61,15 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
       align: "center",
       dataIndex: "promotedSmallGroupLeaderName",
       width: "8rem",
-      sorter: (a, b) =>
-        koreanSorter(
-          a.promotedSmallGroupLeaderName,
-          b.promotedSmallGroupLeaderName
-        )
+      render: (_, item) => {
+        if (!item) return;
+        return <GRText>{item?.promotedSmallGroupLeaderName ?? item?.smallGroupLeaderName}</GRText>;
+      },
+      sorter: (a, b) => {
+        const nameA = a.promotedSmallGroupLeaderName ?? a.smallGroupLeaderName;
+        const nameB = b.promotedSmallGroupLeaderName ?? b.smallGroupLeaderName;
+        return koreanSorter(nameA, nameB);
+      },
     },
     {
       title: "학년",
