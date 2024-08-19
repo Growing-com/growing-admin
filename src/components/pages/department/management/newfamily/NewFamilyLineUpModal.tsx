@@ -19,16 +19,18 @@ type tNewFamilyLineUpModal = {
   open: boolean;
   onClickClose: () => void;
   selectNewFamily: tNewFamilyV2[];
+  resetSelection: () => void;
 };
 interface tNewFamilyLineUpForm extends tNewFamilyV2 {
-  isPromote: boolean;
+  isPromote?: boolean;
   smallGroupId?: number;
   promoteDate?: string;
 }
 export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
   onClickClose,
-  selectNewFamily
+  selectNewFamily,
+  resetSelection
 }) => {
   const queryClient = useQueryClient();
 
@@ -45,7 +47,8 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     newFamiliesLineUp,
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT_V2]);
+        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
+        resetSelection();
         onClickClose();
       }
     }
@@ -187,11 +190,11 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
 
   useEffect(() => {
     if (selectNewFamily.length === 0) return;
-    const initSelectNewFamily = selectNewFamily.map(item => ({
-      ...item,
-      isPromote: false,
-    }));
-    setSelectFormData(initSelectNewFamily);
+  //   const initSelectNewFamily = selectNewFamily.map(item => ({
+  //     ...item,
+  //     isPromote: false,
+  //   }));
+    setSelectFormData(selectNewFamily);
   }, []);
 
   return (
@@ -204,6 +207,8 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       width={"60%"}
       maskClosable={false}
     >
+      {/* <button onClick={resetSelection}>reset</button>
+      <button onClick={onClickModalOk}>check</button> */}
       <GRView flexDirection={"row"} marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable columns={columns} data={selectNewFamily} />
       </GRView>
