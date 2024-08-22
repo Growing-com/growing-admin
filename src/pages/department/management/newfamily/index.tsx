@@ -15,7 +15,7 @@ import { NewFamilyTable } from "@component/pages/department/management/newfamily
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { lineOutNewFamily, lineOutRollBackNewFamily } from "apiV2/newFamily";
-import { tLineOutNewFamilyV2, tNewFamilyV2 } from "apiV2/newFamily/type";
+import { tLineOutNewFamilyV2, tLineUpNewFamilyV2 } from "apiV2/newFamily/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -40,7 +40,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const [searchName, setSearchName] = useState("");
 
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tNewFamilyV2[]>(
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tLineUpNewFamilyV2[]>(
     []
   );
   const [selectedLineOutNewFamily, setSelectedLineOutNewFamily] =
