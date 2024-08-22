@@ -1,40 +1,33 @@
 import GRTable from "@component/atom/GRTable";
-import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
-import GRTextInput from "@component/atom/text/GRTextInput";
-import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import queryKeys from "api/queryKeys";
-import { tTermNewFamily } from "api/term/types";
 import { getNewFamilies } from "apiV2/newFamily";
+import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
-import GRStylesConfig from "styles/GRStylesConfig";
+import { FC, useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tNewFamilyTable = {
-  onClickPromote: (newFamily: tTermNewFamily[]) => void;
-  onClickNewFamilyLineUp: (newFamily: tTermNewFamily[]) => void;
+  selectedNewFamily: tNewFamilyV2[];
+  onSelect: (key: React.Key[], selectedRows: any[]) => void;
+  searchName: string;
 };
 
 export const NewFamilyTable: FC<tNewFamilyTable> = ({
-  onClickPromote,
-  onClickNewFamilyLineUp
+  selectedNewFamily,
+  onSelect,
+  searchName
 }) => {
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tTermNewFamily[]>(
-    []
-  );
-
+  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
+    tNewFamilyV2[]
+  >([]);
   const { data: newFamilyData } = useQuery(
-    [queryKeys.ACCOUNT_ROLES],
-    async () =>
-      await getNewFamilies({
-        newFamilyGroupId: 1
-      }),
+    [queryKeys.NEW_FAMILY_V2],
+    async () => await getNewFamilies(),
     {
       select: _data => _data.content
     }
@@ -58,8 +51,8 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     },
     {
       title: "새가족 순장",
-      dataIndex: "smallGroupLeaderName",
-      key: "smallGroupLeaderName",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem"
     },
@@ -68,11 +61,15 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
       align: "center",
       dataIndex: "promotedSmallGroupLeaderName",
       width: "8rem",
-      sorter: (a, b) =>
-        koreanSorter(
-          a.promotedSmallGroupLeaderName,
-          b.promotedSmallGroupLeaderName
-        )
+      render: (_, item) => {
+        if (!item) return;
+        return <GRText>{item?.promotedSmallGroupLeaderName ?? item?.smallGroupLeaderName}</GRText>;
+      },
+      sorter: (a, b) => {
+        const nameA = a.promotedSmallGroupLeaderName ?? a.smallGroupLeaderName;
+        const nameB = b.promotedSmallGroupLeaderName ?? b.smallGroupLeaderName;
+        return koreanSorter(nameA, nameB);
+      },
     },
     {
       title: "학년",
@@ -119,77 +116,36 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     }
   ];
 
-  const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
-    setSelectedNewFamily(selectedRows);
-  };
-
-  const onChangeSearch = () => {};
-
-  const onClickSubPromote = () => {
-    if (selectedNewFamily.length === 0) {
-      alert("등반할 새가족을 선택해주세요.");
-      return;
+  useEffect(() => {
+    if (newFamilyData?.length) {
+      let _filterNewFamily = newFamilyData;
+      if (searchName) {
+        _filterNewFamily = newFamilyData.filter(newFamily => {
+          return newFamily.name?.indexOf(searchName) !== -1;
+        });
+      }
+      setFilteredNewFailyData(_filterNewFamily);
+    } else {
+      setFilteredNewFailyData([]);
     }
-    onClickPromote(selectedNewFamily);
-  };
-
-  const onClickSubNewFamilyLineUp = () => {
-    if (selectedNewFamily.length === 0) {
-      alert("라인업 할 새가족을 선택해주세요.");
-      return;
-    }
-    onClickNewFamilyLineUp(selectedNewFamily);
-  };
+  }, [newFamilyData, searchName]);
 
   return (
-    <>
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-      >
-        <GRView>
-          <GRTextInput
-            style={{
-              height: "2.1rem"
-            }}
-            type={"input"}
-            placeholder={"이름으로 검색하세요"}
-            onChange={onChangeSearch}
-          />
-        </GRView>
-        <GRView>
-          <GRButtonText
-            onClick={onClickSubPromote}
-            marginright={GRStylesConfig.BASE_MARGIN}
-            buttonType={"custom"}
-            size={"small"}
-          >
-            등반
-          </GRButtonText>
-          <GRButtonText
-            onClick={onClickSubNewFamilyLineUp}
-            buttonType={"primary"}
-          >
-            라인업
-          </GRButtonText>
-        </GRView>
-      </GRFlexView>
-      <GRTable
-        rowKey={"userId"}
-        columns={columns}
-        data={newFamilyData}
-        pagination={{
-          total: newFamilyData?.length,
-          defaultPageSize: 10,
-          position: ["bottomCenter"]
-        }}
-        rowSelection={{
-          selectedRowKeys: selectedNewFamily.map(newFamily => newFamily.userId),
-          onChange: onSelectChange
-        }}
-      />
-    </>
+    <GRTable
+      rowKey={"newFamilyId"}
+      columns={columns}
+      data={filteredNewFailyData}
+      pagination={{
+        total: filteredNewFailyData?.length,
+        defaultPageSize: 10,
+        position: ["bottomCenter"]
+      }}
+      rowSelection={{
+        selectedRowKeys: selectedNewFamily.map(
+          newFamily => newFamily.newFamilyId
+        ),
+        onChange: onSelect
+      }}
+    />
   );
 };

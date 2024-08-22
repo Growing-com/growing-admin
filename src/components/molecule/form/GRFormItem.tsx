@@ -18,7 +18,6 @@ const GRFormItem = ({
   control,
   fieldName,
   title,
-  required = false,
   containStyle,
   type,
   options,
@@ -27,8 +26,10 @@ const GRFormItem = ({
   textType,
   pickerType,
   defaultValue,
+  rules,
   ...props
 }: tGRFormItem) => {
+  const required = !!rules?.required;
   const renderFormItems = useCallback(
     ({ field, formState }: tRenderProps) => {
       let formItemComponent;
@@ -120,7 +121,7 @@ const GRFormItem = ({
         control={control}
         name={fieldName}
         render={renderFormItems}
-        rules={{ required: required }}
+        rules={rules}
         defaultValue={defaultValue}
       />
     </GRFlexView>

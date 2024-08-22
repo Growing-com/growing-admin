@@ -1,7 +1,9 @@
+import { tSex } from "api/account/types";
 import { BELIEVE_STATUS, VISIT_REASON } from "common/enum";
+import { Nullable } from "common/type-aliases";
 
 // TODO: 추후 v2 는 모두 지워지고 하나의 type 으로 이동해야 한다.
-export type tNewFamilyEtcV2 = {
+type tNewFamilyEtcV2 = {
   /** example: "서울대학교 감자학과 6학년"; */
   school: string;
 
@@ -27,6 +29,9 @@ export type tNewFamilyEtcV2 = {
 };
 
 export type tNewFamilyV2 = {
+  /** @description 새가족 ID  @example: 1 */
+  newFamilyId: number;
+
   /** @description 이름  @example: "홍길동" */
   name: string;
 
@@ -37,10 +42,10 @@ export type tNewFamilyV2 = {
   birth: string;
 
   /** @description 성별  @example: "MALE" */
-  sex: string;
+  sex: tSex;
 
   /** @description 학년  @example: 9 */
-  grade: string;
+  grade: number;
 
   /** @description 방문일 @example: "2024-06-01" */
   visitDate: string;
@@ -48,3 +53,15 @@ export type tNewFamilyV2 = {
   /** @description 기타  @example: tNewFamilyEtc_v2 */
   etc: tNewFamilyEtcV2;
 };
+
+export interface tLineOutNewFamilyV2 extends tNewFamilyV2 {
+  lineOutNewFamilyId: number;
+  newFamilyGroupLeaderName: Nullable<string>;
+  lineoutAt: string;
+}
+
+export interface tLineUpNewFamilyV2 extends tNewFamilyV2 {
+  promotedSmallGroupLeaderName: Nullable<string>;
+  smallGroupLeaderName: Nullable<string>;
+  promoteDate: Nullable<string>;
+}

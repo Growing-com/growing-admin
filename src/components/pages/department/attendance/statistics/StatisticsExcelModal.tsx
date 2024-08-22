@@ -15,8 +15,8 @@ import {
 } from "hooks/useStatisticsDataToExcel";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { calculatePercentage } from "utils";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import { calculatePercentage } from "utils/indext";
 
 type tStatisticsExcelModal = {
   onClickStatisticsExcel: () => void;
