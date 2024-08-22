@@ -35,13 +35,15 @@ export const createNewFamily = (data: tNewFamilyV2) => {
 export type tPromoteNewFamilyParams = {
   promoteDate: string;
   smallGroupId: Nullable<number>;
+  newFamilyId: number;
 };
 
 export const promteNewFamily = (data: tPromoteNewFamilyParams) => {
+  const { newFamilyId, ...restData } = data;
   return request<tNewFamilyV2>({
     method: REQUEST_METHOD.POST,
-    url: `${version}/new-families/register`,
-    data
+    url: `${version}/new-families/${data.newFamilyId}/promote`,
+    data: restData
   });
 };
 
@@ -83,13 +85,18 @@ export const newFamilyAttendances = (params: tnewFamilyAttendancesParams) => {
 export type tNewFamiliesLineUpParams = {
   newFamilyId: number;
   smallGroupId: number;
-  promoteDate: string;
+  promoteDate: Nullable<string>;
 };
 
+// 새가족 대량 라인업
 export const newFamiliesLineUp = (data: tNewFamiliesLineUpParams[]) => {
+  const requestBody = {
+    requests: data,
+  }
+  
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/new-families/batch-line-up`,
-    data
+    data: requestBody
   });
 };

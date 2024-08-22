@@ -6,7 +6,7 @@ import { Progress, Tooltip } from "antd";
 import { tAttendanceCheckItem } from "api/attendance/types";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
-import { calculatePercentage } from "utils/indext";
+import { calculatePercentage } from "utils";
 
 const AttendanceProgress = ({
   attendanceData

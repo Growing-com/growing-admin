@@ -2,13 +2,13 @@ import { REQUEST_METHOD, request } from "api";
 
 const version = "v2";
 
-type tSamllGroup = {
+type tSmallGroup = {
   smallGroupId: number;
   smallGroupLeaderName: string;
 };
 
-export const getSamllGroupLeader = ({ termId }: { termId: number }) => {
-  return request<tSamllGroup[]>({
+export const getSmallGroupLeader = ({ termId }: { termId: number }) => {
+  return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/term/${termId}/small-groups`
   });
