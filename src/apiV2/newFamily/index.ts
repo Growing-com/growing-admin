@@ -82,7 +82,6 @@ export const newFamilyAttendances = (params: tnewFamilyAttendancesParams) => {
   });
 };
 
-// smallGroup 필수 
 export type tNewFamiliesLineUpParams = {
   newFamilyId: number;
   smallGroupId: number;

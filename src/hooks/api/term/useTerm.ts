@@ -1,9 +1,9 @@
 import { tOptions } from "@component/atom/dataEntry/type";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
-import { getNewFamilies, getSamllGroupLeader } from "apiV2/term";
+import { getNewFamilies, getSmallGroupLeader } from "apiV2/term";
 import { useEffect, useState } from "react";
-import { convertOptions } from "utils/indext";
+import { convertOptions } from "utils";
 
 // v2
 
@@ -11,18 +11,18 @@ const useTerm = ({ termId }: { termId: number }) => {
   if (!termId) {
     throw new Error("termId is required");
   }
-  const [termSamllGroupLeaderOptions, setTermSamllGroupLeaderOptions] =
+  const [termSmallGroupLeaderOptions, setTermSmallGroupLeaderOptions] =
     useState<tOptions[]>();
   const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] =
     useState<tOptions[]>();
 
   const {
-    data: termSamllGroupLeader,
-    isSuccess: termSamllGroupLeaderIsSuccess
+    data: termSmallGroupLeader,
+    isSuccess: termSmallGroupLeaderIsSuccess
   } = useQuery(
     [queryKeys.TERM_SMALL_GROUP_LEADER],
     async () =>
-      await getSamllGroupLeader({
+      await getSmallGroupLeader({
         termId
       }),
     {
@@ -58,21 +58,21 @@ const useTerm = ({ termId }: { termId: number }) => {
   }, [termNewFamilyLeaderIsSuccess]);
 
   useEffect(() => {
-    if (termSamllGroupLeaderIsSuccess) {
+    if (termSmallGroupLeaderIsSuccess) {
       const smallGroupOptions = convertOptions(
-        termSamllGroupLeader,
+        termSmallGroupLeader,
         "smallGroupId",
         "smallGroupLeaderName"
       );
-      setTermSamllGroupLeaderOptions(smallGroupOptions);
+      setTermSmallGroupLeaderOptions(smallGroupOptions);
     }
-  }, [termSamllGroupLeaderIsSuccess]);
+  }, [termSmallGroupLeaderIsSuccess]);
 
   return {
     termNewFamilyLeader,
     termNewFamilyLeaderOptions,
-    termSamllGroupLeader,
-    termSamllGroupLeaderOptions
+    termSmallGroupLeader,
+    termSmallGroupLeaderOptions
   };
 };
 
