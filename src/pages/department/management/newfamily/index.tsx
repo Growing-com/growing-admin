@@ -15,7 +15,7 @@ import { NewFamilyTable } from "@component/pages/department/management/newfamily
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { lineOutNewFamily, lineOutRollBackNewFamily } from "apiV2/newFamily";
-import { tLineOutNewFamilyV2, tNewFamilyV2 } from "apiV2/newFamily/type";
+import { tLineOutNewFamilyV2, tLineUpNewFamilyV2 } from "apiV2/newFamily/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -40,7 +40,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const [searchName, setSearchName] = useState("");
 
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tNewFamilyV2[]>(
+  const [selectedNewFamily, setSelectedNewFamily] = useState<tLineUpNewFamilyV2[]>(
     []
   );
   const [selectedLineOutNewFamily, setSelectedLineOutNewFamily] =
@@ -75,7 +75,7 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const onChangeTab = (value: string) => {
-    setSelectedNewFamily([]);
+    resetSelection();
     setSearchName("");
     setTabValue(value);
   };
@@ -95,15 +95,14 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const onClickLineUp = () => {
+    if (!selectedNewFamily.length) {
+      return alert("선택된 새가족이 없습니다.");
+    }
     setIsOpenLineupModal(true);
   };
 
   const onChangeSearch = (_text: string) => {
     setSearchName(_text);
-  };
-
-  const onClickClose = () => {
-    setIsOpenLineupModal(false);
   };
 
   const onOkLineOutClickButton = async () => {
@@ -135,6 +134,10 @@ const ManagementNewFamilyPage: NextPage = () => {
     if (selectedRows.length !== 0) {
       setSelectedLineOutNewFamily(selectedRows[0]);
     }
+  };
+
+  const resetSelection = () => {
+    setSelectedNewFamily([]); 
   };
 
   return (
@@ -213,11 +216,13 @@ const ManagementNewFamilyPage: NextPage = () => {
           <NewFamilyLineOutTable onSelectLineOut={onSelectLineOut} searchName={searchName}/>
         )}
       </GRContainerView>
+      {/* 라인업 모달 */}
       {isOpenLineupModal && (
         <NewFamilyLineUpModal
           open={isOpenLineupModal}
-          onClickClose={onClickClose}
+          onClickClose={() => setIsOpenLineupModal(false)}
           selectNewFamily={selectedNewFamily}
+          resetSelection={resetSelection}
         />
       )}
       {/* 라인아웃 모달 */}

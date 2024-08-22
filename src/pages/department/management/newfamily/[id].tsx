@@ -1,4 +1,5 @@
 import { MoreOutlined } from "@ant-design/icons";
+import GRAlert from '@component/atom/alert/GRAlert';
 import GRButton from "@component/atom/button/GRButton";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
@@ -55,13 +56,14 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
     termId: 1
   });
 
-  console.log("termNewFamilyLeaderOptions", termNewFamilyLeaderOptions);
+  // console.log("termNewFamilyLeaderOptions", termNewFamilyLeaderOptions);
 
   const { mutateAsync } = useMutation(createNewFamily, {
     onError: error => {
       console.log("error", error);
     },
     onSuccess: () => {
+      GRAlert.success("지체 생성 완료");
       router.back();
     }
   });
@@ -88,7 +90,6 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
         disabledBackbutton={true}
         headerComponent={
           isEdit ? (
-            <>
               <GRButton
                 onClick={onClickCreateNewFamilyModal}
                 buttonType={"primary"}
@@ -102,7 +103,6 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
                   // rev={undefined}
                 />
               </GRButton>
-            </>
           ) : null
         }
       />
@@ -159,7 +159,7 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
                   },
                   pattern: {
                     value: REGEXP_PHONE_HYPHEN_PATTERN,
-                    message: "유효한 전화번호를 입력하세요."
+                    message: "010-1234-5678 형식으로 입력하세요."
                   }
                 }}
                 containStyle={{ marginRight: "1rem" }}
