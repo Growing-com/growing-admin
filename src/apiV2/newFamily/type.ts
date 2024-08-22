@@ -59,3 +59,9 @@ export interface tLineOutNewFamilyV2 extends tNewFamilyV2 {
   newFamilyGroupLeaderName: Nullable<string>;
   lineoutAt: string;
 }
+
+export interface tLineUpNewFamilyV2 extends tNewFamilyV2 {
+  promotedSmallGroupLeaderName: Nullable<string>;
+  smallGroupLeaderName: Nullable<string>;
+  promoteDate: Nullable<string>;
+}
