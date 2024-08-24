@@ -100,7 +100,7 @@ const ManagementNewFamilyDetailPage: NextPage = () => {
                     fontWeight: "bold",
                     color: Color.white
                   }}
-                  // rev={undefined}
+                  rev={undefined}
                 />
               </GRButton>
           ) : null

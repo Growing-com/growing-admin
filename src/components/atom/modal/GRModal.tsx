@@ -104,9 +104,9 @@ const GRModal: FC<tGRModal> = ({
       closable={closable}
       footer={_renderFooter}
       maskClosable={maskClosable}
-      styles={{ body: {
+      bodyStyle={{
         padding: "1rem"
-      }}}
+      }}
       title={renderModalHeader()}
       keyboard={keyboard}
       {...props}

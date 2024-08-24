@@ -320,7 +320,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               control={control}
               options={TRAINING_MAIN_TITLE}
               placeholder={"훈련을 선택해주세요"}
-              required={true}
+              // required={true}
               containStyle={{ marginRight: "1rem" }}
               disabled={!isCreate}
             />
@@ -331,7 +331,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               fieldName={"name"}
               control={control}
               placeholder={"훈련 이름을 작성해 주세요"}
-              required={true}
+              // required={true}
               maxLength={30}
             />
           </GRFlexView>
@@ -342,7 +342,7 @@ const TrainingRosterModal: FC<tTrainingRosterModal> = ({
               fieldName={"rangeDate"}
               control={control}
               pickerType={"range"}
-              required={true}
+              // required={true}
               disabledDate={() => false}
             />
           </GRFlexView>

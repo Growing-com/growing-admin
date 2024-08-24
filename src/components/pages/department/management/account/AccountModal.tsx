@@ -121,7 +121,7 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"name"}
             control={control}
             placeholder={"이름을 작성해 주세요"}
-            required={true}
+            // required={true}
             containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
@@ -130,7 +130,7 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"sex"}
             control={control}
             options={SEX_OPTIONS}
-            required={true}
+            // required={true}
           />
         </GRFlexView>
         <GRFlexView flexDirection={"row"}>
@@ -141,7 +141,7 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"phoneNumber"}
             control={control}
             placeholder={"-를 넣어주세요. 예) 010-1234-5678"}
-            required={true}
+            // required={true}
             maxLength={13}
             containStyle={{ marginRight: "1rem"}}
           />
@@ -162,7 +162,7 @@ const AccountModal: FC<tAccountModal> = ({
             fieldName={"grade"}
             control={control}
             placeholder={"학년 숫자만 작성해주세요"}
-            required={true}
+            // required={true}
             containStyle={{ marginRight: "1rem"}}
           />
           <GRFormItem
