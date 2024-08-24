@@ -208,7 +208,7 @@ const ManagementNewFamilyPage: NextPage = () => {
           <NewFamilyAttendanceTable
             selectedNewFamily={selectedNewFamily}
             onSelect={onSelectChange}
-            searchName={searchName}
+            // searchName={searchName}
           />
         )}
         {/* 라인 아웃 탭 */}

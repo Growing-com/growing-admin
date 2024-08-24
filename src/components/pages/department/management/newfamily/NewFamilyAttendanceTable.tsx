@@ -32,7 +32,7 @@ export const accountDumpData = [
 type tNewFamilyAttendanceTable = {
   selectedNewFamily: tNewFamilyV2[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
-  searchName: string;
+  // searchName: string;
 };
 
 type tNewFamilyAttendanceTableColums = {
@@ -43,7 +43,7 @@ type tNewFamilyAttendanceTableColums = {
 export const NewFamilyAttendanceTable: FC<tNewFamilyAttendanceTable> = ({
   selectedNewFamily,
   onSelect,
-  searchName
+  // searchName
 }) => {
   const onSearch = () => {};
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<

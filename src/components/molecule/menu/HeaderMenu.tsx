@@ -99,7 +99,7 @@ const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
             trigger={"click"}
             content={() => (
               <GRView width={10}>
-                <GRText weight={"bold"} fontSize={"b4"}>
+                {/* <GRText weight={"bold"} fontSize={"b4"}>
                   {userInfo?.name}
                 </GRText>
                 <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
@@ -114,7 +114,7 @@ const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
                   >
                     {ROLE_NAME}
                   </GRText>
-                </GRFlexView>
+                </GRFlexView> */}
                 <GRFlexView
                   alignItems={"flex-end"}
                   margintop={GRStylesConfig.BASE_MARGIN}

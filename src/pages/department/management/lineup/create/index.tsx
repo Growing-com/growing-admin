@@ -61,7 +61,7 @@ const ManagementLineUpCreatePage = () => {
             title={"텀 제목"}
             control={control}
             placeholder={"텀 제목을 입력해주세요 예 ) 2023-02"}
-            required={true}
+            // required={true}
             containStyle={{ marginRight: "1rem" }}
           />
           <GRFormItem
@@ -70,7 +70,7 @@ const ManagementLineUpCreatePage = () => {
             fieldName={"termRage"}
             control={control}
             pickerType={"range"}
-            required={true}
+            // required={true}
             disabledDate={() => false}
           />
         </GRFlexView>
