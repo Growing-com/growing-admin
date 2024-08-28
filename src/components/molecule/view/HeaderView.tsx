@@ -43,7 +43,7 @@ const HeaderView: FC<tHeaderView> = ({
         box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
       `}
     >
-      <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
+      <GRFlexView flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
         <GRFlexView flexDirection={"row"} alignItems={"center"}>
           {disabledBackbutton && (
             <StyledLeftOutlined

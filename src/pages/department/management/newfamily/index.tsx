@@ -1,4 +1,5 @@
 import GRTab from "@component/atom/GRTab";
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
@@ -12,14 +13,14 @@ import { NewFamilyAttendanceTable } from "@component/pages/department/management
 import { NewFamilyLineOutTable } from "@component/pages/department/management/newfamily/NewFamilyLineOutTable";
 import { NewFamilyLineUpModal } from "@component/pages/department/management/newfamily/NewFamilyLineUpModal";
 import { NewFamilyTable } from "@component/pages/department/management/newfamily/NewFamilyTable";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import queryKeys from "api/queryKeys";
-import { lineOutNewFamily, lineOutRollBackNewFamily } from "apiV2/newFamily";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNewFamilyLineOutMutate } from "apiV2/newFamily/mutate/useNewfamilyLineOutMutate";
 import { tLineOutNewFamilyV2, tLineUpNewFamilyV2 } from "apiV2/newFamily/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { useNewFamilyRollBackMutate } from "./useNewFamilyRollBackMutate";
 
 const NEW_FAMILY = "all";
 const NEW_FAMILY_ATTEND = "attend";
@@ -40,35 +41,16 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const [searchName, setSearchName] = useState("");
 
-  const [selectedNewFamily, setSelectedNewFamily] = useState<tLineUpNewFamilyV2[]>(
-    []
-  );
+  const [selectedNewFamily, setSelectedNewFamily] = useState<
+    tLineUpNewFamilyV2[]
+  >([]);
   const [selectedLineOutNewFamily, setSelectedLineOutNewFamily] =
     useState<tLineOutNewFamilyV2>();
 
   const router = useRouter();
 
-  /** 라인 아웃 mutate */
-  const { mutateAsync: lineOutNewFamilyMutateAsync } = useMutation(
-    lineOutNewFamily,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
-        setIsOpenLineOutModal(false);
-      }
-    }
-  );
-
-  /** 복귀 mutate */
-  const { mutateAsync: lineOutRollBackNewFamilyMutateAsync } = useMutation(
-    lineOutRollBackNewFamily,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT_V2]);
-        setIsOpenRollBackModal(false);
-      }
-    }
-  );
+  const { lineOutNewFamilyMutateAsync } = useNewFamilyLineOutMutate();
+  const { lineOutRollBackNewFamilyMutateAsync } = useNewFamilyRollBackMutate();
 
   const onClickCreateNewFamily = async () => {
     await router.push("/department/management/newfamily/create");
@@ -109,21 +91,29 @@ const ManagementNewFamilyPage: NextPage = () => {
     if (selectedNewFamily.length === 0) {
       return alert("선택된 새가족이 없습니다");
     }
-    await Promise.all(
-      selectedNewFamily.map(
-        async family => await lineOutNewFamilyMutateAsync(family.newFamilyId)
-      )
-    );
+    try {
+      await Promise.all(
+        selectedNewFamily.map(
+          async family => await lineOutNewFamilyMutateAsync(family.newFamilyId)
+        )
+      );
+      setIsOpenLineOutModal(false);
+      GRAlert.success("라인아웃 완료");
+    } catch (error) {}
   };
 
   const onOkRollBackClickButton = async () => {
     if (!selectedLineOutNewFamily) {
       return alert("선택된 이탈자가 없습니다");
     }
-    await lineOutRollBackNewFamilyMutateAsync({
-      lineOutNewFamilyId: selectedLineOutNewFamily.lineOutNewFamilyId,
-      data: { newFamilyGroupId: 1 }
-    });
+    try {
+      await lineOutRollBackNewFamilyMutateAsync({
+        lineOutNewFamilyId: selectedLineOutNewFamily.lineOutNewFamilyId,
+        data: { newFamilyGroupId: 2 }
+      });
+      GRAlert.success("복귀 완료");
+      setIsOpenRollBackModal(false);
+    } catch (error) {}
   };
 
   const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
@@ -137,7 +127,7 @@ const ManagementNewFamilyPage: NextPage = () => {
   };
 
   const resetSelection = () => {
-    setSelectedNewFamily([]); 
+    setSelectedNewFamily([]);
   };
 
   return (
@@ -213,7 +203,10 @@ const ManagementNewFamilyPage: NextPage = () => {
         )}
         {/* 라인 아웃 탭 */}
         {tabValue === NEW_FAMILY_LINE_OUT && (
-          <NewFamilyLineOutTable onSelectLineOut={onSelectLineOut} searchName={searchName}/>
+          <NewFamilyLineOutTable
+            onSelectLineOut={onSelectLineOut}
+            searchName={searchName}
+          />
         )}
       </GRContainerView>
       {/* 라인업 모달 */}
