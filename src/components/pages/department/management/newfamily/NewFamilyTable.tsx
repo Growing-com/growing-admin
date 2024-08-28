@@ -7,6 +7,7 @@ import { getNewFamilies } from "apiV2/newFamily";
 import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
@@ -22,9 +23,12 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
   onSelect,
   searchName
 }) => {
+  const router = useRouter();
+
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewFamilyV2[]
   >([]);
+
   const { data: newFamilyData } = useQuery(
     [queryKeys.NEW_FAMILY_V2],
     async () => await getNewFamilies(),
@@ -63,13 +67,17 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
       width: "8rem",
       render: (_, item) => {
         if (!item) return;
-        return <GRText>{item?.promotedSmallGroupLeaderName ?? item?.smallGroupLeaderName}</GRText>;
+        return (
+          <GRText>
+            {item?.promotedSmallGroupLeaderName ?? item?.smallGroupLeaderName}
+          </GRText>
+        );
       },
       sorter: (a, b) => {
         const nameA = a.promotedSmallGroupLeaderName ?? a.smallGroupLeaderName;
         const nameB = b.promotedSmallGroupLeaderName ?? b.smallGroupLeaderName;
         return koreanSorter(nameA, nameB);
-      },
+      }
     },
     {
       title: "학년",
@@ -116,6 +124,10 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
     }
   ];
 
+  const onClickUpdateNewFamily = async (_newFamilyId: number) => {
+    await router.push(`/department/management/newfamily/${_newFamilyId}`);
+  };
+
   useEffect(() => {
     if (newFamilyData?.length) {
       let _filterNewFamily = newFamilyData;
@@ -146,6 +158,9 @@ export const NewFamilyTable: FC<tNewFamilyTable> = ({
         ),
         onChange: onSelect
       }}
+      onRow={record => ({
+        onClick: () => onClickUpdateNewFamily(record.newFamilyId)
+      })}
     />
   );
 };

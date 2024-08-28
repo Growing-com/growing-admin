@@ -52,11 +52,16 @@ export type tNewFamilyV2 = {
 
   /** @description 기타  @example: tNewFamilyEtc_v2 */
   etc: tNewFamilyEtcV2;
+  
+  /** @description 새가족 그룹 ID  @example: 1 */
+  newFamilyGroupId: number;
+  
+  /** @description 새가족 그룹 리더 이름  @example: 고길동 */
+  newFamilyGroupLeaderName: string;
 };
 
 export interface tLineOutNewFamilyV2 extends tNewFamilyV2 {
   lineOutNewFamilyId: number;
-  newFamilyGroupLeaderName: Nullable<string>;
   lineoutAt: string;
 }
 

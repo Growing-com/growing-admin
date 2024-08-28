@@ -22,12 +22,11 @@ type tNewFamilyLineUpModal = {
   open: boolean;
   onClickClose: () => void;
   selectNewFamily: tLineUpNewFamilyV2[];
-  resetSelection: () => void;
+  resetSelection?: () => void;
 };
 interface tNewFamilyLineUpForm extends tLineUpNewFamilyV2 {
   promoteChecked?: boolean;
   smallGroupId?: number;
-  newFamilyGroupLeaderName?: string;
 }
 export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
@@ -51,8 +50,18 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     let promoteSuccess = false;
 
     const validateFormData = (item: tNewFamilyLineUpForm) => {
-      const { name, promoteDate, smallGroupId, newFamilyGroupLeaderName } =
-        item;
+      const {
+        name,
+        promoteDate,
+        smallGroupId,
+        smallGroupLeaderName,
+        newFamilyGroupLeaderName
+      } = item;
+
+      if (smallGroupId == null) {
+        GRAlert.error(`${name}의 순장을 선택해주세요.`);
+        return false;
+      }
 
       // 등반 날짜, 순장 선택 둘 다 없는 경우
       if (promoteDate === null && smallGroupId == null) {
@@ -65,6 +74,13 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         GRAlert.error(`${name}의 등반일을 선택해주세요.`);
         return false;
       }
+
+      // 라인업은 되어있는데 등반 날짜를 선택하지 않은 경우
+      if (promoteDate === null && smallGroupLeaderName) {
+        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
+        return false;
+      }
+
       return true;
     };
 
@@ -106,15 +122,12 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         continue;
       }
 
-      if (smallGroupId) {
+      if (smallGroupId != null) {
         newFamiliesData.push({
           newFamilyId,
           smallGroupId,
           promoteDate
         });
-      } else {
-        GRAlert.error(`${name}의 순장을 선택해주세요.`);
-        return;
       }
     }
 
@@ -125,15 +138,19 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     }
 
     if (promoteSuccess) {
-      GRAlert.success("등반 완료!");
+      if (resetSelection) {
+        resetSelection();
+      }
       onClickClose();
-      resetSelection();
+      GRAlert.success("등반 완료!");
       return;
     }
 
     try {
       await newFamiliesLineUpMutateAsync(newFamiliesData);
-      resetSelection();
+      if (resetSelection) {
+        resetSelection();
+      }
       onClickClose();
       GRAlert.success("라인업 완료!");
     } catch (error: unknown) {

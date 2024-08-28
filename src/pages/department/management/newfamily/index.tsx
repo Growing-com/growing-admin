@@ -113,7 +113,7 @@ const ManagementNewFamilyPage: NextPage = () => {
     try {
       await lineOutRollBackNewFamilyMutateAsync({
         lineOutNewFamilyId: selectedLineOutNewFamily.lineOutNewFamilyId,
-        data: { newFamilyGroupId: 2 }
+        data: { newFamilyGroupId: 1 }
       });
       setIsOpenRollBackModal(false);
       GRAlert.success("복귀 완료");
