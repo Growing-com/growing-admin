@@ -13,14 +13,14 @@ import { NewFamilyAttendanceTable } from "@component/pages/department/management
 import { NewFamilyLineOutTable } from "@component/pages/department/management/newfamily/NewFamilyLineOutTable";
 import { NewFamilyLineUpModal } from "@component/pages/department/management/newfamily/NewFamilyLineUpModal";
 import { NewFamilyTable } from "@component/pages/department/management/newfamily/NewFamilyTable";
-import { useQueryClient } from "@tanstack/react-query";
 import { useNewFamilyLineOutMutate } from "apiV2/newFamily/mutate/useNewfamilyLineOutMutate";
 import { tLineOutNewFamilyV2, tLineUpNewFamilyV2 } from "apiV2/newFamily/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { useNewFamilyRollBackMutate } from "./useNewFamilyRollBackMutate";
+import { isError } from "utils/validation";
+import { useNewFamilyRollBackMutate } from "../../../../apiV2/newFamily/mutate/useNewFamilyRollBackMutate";
 
 const NEW_FAMILY = "all";
 const NEW_FAMILY_ATTEND = "attend";
@@ -32,8 +32,6 @@ const option = [
 ];
 
 const ManagementNewFamilyPage: NextPage = () => {
-  const queryClient = useQueryClient();
-
   const [tabValue, setTabValue] = useState(NEW_FAMILY);
   const [isOpenLineupModal, setIsOpenLineupModal] = useState(false);
   const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
@@ -99,7 +97,13 @@ const ManagementNewFamilyPage: NextPage = () => {
       );
       setIsOpenLineOutModal(false);
       GRAlert.success("라인아웃 완료");
-    } catch (error) {}
+    } catch (error) {
+      if (isError(error)) {
+        GRAlert.error(`${error.message}`);
+      } else {
+        GRAlert.error("라인아웃 오류");
+      }
+    }
   };
 
   const onOkRollBackClickButton = async () => {
@@ -111,9 +115,15 @@ const ManagementNewFamilyPage: NextPage = () => {
         lineOutNewFamilyId: selectedLineOutNewFamily.lineOutNewFamilyId,
         data: { newFamilyGroupId: 2 }
       });
-      GRAlert.success("복귀 완료");
       setIsOpenRollBackModal(false);
-    } catch (error) {}
+      GRAlert.success("복귀 완료");
+    } catch (error) {
+      if (isError(error)) {
+        GRAlert.error(`${error.message}`);
+      } else {
+        GRAlert.error("복귀 오류");
+      }
+    }
   };
 
   const onSelectChange = (_: React.Key[], selectedRows: any[]) => {

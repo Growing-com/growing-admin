@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
-import { lineOutNewFamily } from "..";
+import { newFamiliesLineUp } from "..";
 
-export const useNewFamilyLineOutMutate = () => {
+export const useNewfamiliesLineUpMutate = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync: lineOutNewFamilyMutateAsync } = useMutation(
-    lineOutNewFamily,
+
+  const { mutateAsync: newFamiliesLineUpMutateAsync } = useMutation(
+    newFamiliesLineUp,
     {
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
@@ -15,6 +16,5 @@ export const useNewFamilyLineOutMutate = () => {
       }
     }
   );
-
-  return { lineOutNewFamilyMutateAsync };
+  return { newFamiliesLineUpMutateAsync };
 };
