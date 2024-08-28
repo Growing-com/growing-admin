@@ -16,7 +16,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Divider, Dropdown, MenuProps } from "antd";
 import queryKeys from "api/queryKeys";
 import { getNewFamily, updateNewFamily } from "apiV2/newFamily";
-import { tLineUpNewFamilyV2, tNewFamilyV2 } from "apiV2/newFamily/type";
+import {
+  tLineUpNewFamilyV2,
+  tNewFamilyEtcV2,
+  tNewFamilyV2
+} from "apiV2/newFamily/type";
 import {
   BELIEVE_STATUS_OPTIONS,
   SEX_OPTIONS,
@@ -37,11 +41,16 @@ import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const FORM_TITLE_WIDTH = 10;
 
+type tNewFamilyEtcForm = {
+  hasCertaintityOfSalvation: string;
+  isFirstChurch: string;
+} & Omit<tNewFamilyEtcV2, "hasCertaintityOfSalvation" | "isFirstChurch">;
+
 type tNewFamilyForm = {
   visitDate: Dayjs;
   birth: Dayjs;
-  // etc: tNewFamilyEtcForm
-} & Omit<tNewFamilyV2, "visitDate" | "birth">;
+  etc: tNewFamilyEtcForm;
+} & Omit<tNewFamilyV2, "visitDate" | "birth" | "etc">;
 
 const ManagementNewFamilyUpdatePage: NextPage = () => {
   const router = useRouter();
@@ -75,12 +84,13 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
       onSuccess: data => {
         reset({
           ...data,
-          // etc: {
-          //   isFirstChurch: data.etc.isFirstChurch ? "true" : "false",,
-          //   hasCertaintityOfSalvation: data.etc.hasCertaintityOfSalvation,
-          // },
-
-          // "etc.isFirstChurch" : `${data.etc.hasCertaintityOfSalvation}`,
+          etc: {
+            ...data.etc,
+            isFirstChurch: data.etc.isFirstChurch ? "true" : "false",
+            hasCertaintityOfSalvation: data.etc.hasCertaintityOfSalvation
+              ? "true"
+              : "false"
+          },
 
           // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
           birth:
@@ -96,7 +106,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
               data.newFamilyGroupLeaderName === leader.newFamilyGroupLeaderName
           )?.newFamilyGroupId
         });
-        setNewFamilyLineUpData([data])
+        setNewFamilyLineUpData([data]);
       },
       onError: error => {
         console.log("새가족 정보가 로드되지 않았습니다.");
@@ -117,9 +127,20 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     }
   });
 
+  const convertStringToBoolean = (string: string) => {
+    return string === "true";
+  };
+
   const onUpdateNewFamily = handleSubmit(async (_value: tNewFamilyForm) => {
     await mutateAsync({
       ..._value,
+      etc: {
+        ..._value.etc,
+        isFirstChurch: convertStringToBoolean(_value.etc.isFirstChurch),
+        hasCertaintityOfSalvation: convertStringToBoolean(
+          _value.etc.hasCertaintityOfSalvation
+        )
+      },
       birth: convertDateStringByDefaultForm(_value.birth as unknown as Dayjs),
       visitDate: convertDateStringByDefaultForm(
         _value.visitDate as unknown as Dayjs
@@ -158,19 +179,8 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     }
   ];
 
-  const date = () => {
-    console.log("date");
-  };
-
   return (
     <>
-      <button onClick={() => console.log(termNewFamilyLeader)}>
-        termLeader
-      </button>
-      <button onClick={() => console.log(id)}>id</button>
-      <button onClick={() => console.log(newFamilyDetailData)}>
-        newFamilyDetailData
-      </button>
       <HeaderView
         title={"새가족 수정"}
         showIcon={false}
@@ -432,8 +442,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
               <GRButtonText
                 marginright={GRStylesConfig.BASE_MARGIN}
                 block
-                // onClick={onUpdateNewFamily}
-                onClick={check}
+                onClick={onUpdateNewFamily}
               >
                 수정
               </GRButtonText>

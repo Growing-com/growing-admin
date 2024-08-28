@@ -19,11 +19,13 @@ import {
   VISIT_REASON_OPTIONS,
   YES_NO_OPTIONS
 } from "config/const";
+import { Dayjs } from "dayjs";
 import useTerm from "hooks/api/term/useTerm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { convertDateStringByDefaultForm } from "utils/DateUtils";
 import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const FORM_TITLE_WIDTH = 10;
@@ -31,7 +33,7 @@ const FORM_TITLE_WIDTH = 10;
 const ManagementNewFamilyCreatePage: NextPage = () => {
   const router = useRouter();
 
-  const { control, handleSubmit, reset } = useForm<tNewFamilyV2>();
+  const { control, handleSubmit } = useForm<tNewFamilyV2>();
 
   const { termNewFamilyLeaderOptions } = useTerm({
     termId: 1
@@ -42,20 +44,19 @@ const ManagementNewFamilyCreatePage: NextPage = () => {
       console.log("error", error);
     },
     onSuccess: () => {
-      GRAlert.success("지체 생성 완료");
       router.back();
+      GRAlert.success("지체 생성 완료");
     }
   });
 
   const onRegisterNewFamily = handleSubmit(async (_value: tNewFamilyV2) => {
-    console.log(_value);
-    // await mutateAsync({
-    //   ..._value,
-    //   birth: convertDateStringByDefaultForm(_value.birth as unknown as Dayjs),
-    //   visitDate: convertDateStringByDefaultForm(
-    //     _value.visitDate as unknown as Dayjs
-    //   )
-    // });
+    await mutateAsync({
+      ..._value,
+      birth: convertDateStringByDefaultForm(_value.birth as unknown as Dayjs),
+      visitDate: convertDateStringByDefaultForm(
+        _value.visitDate as unknown as Dayjs
+      )
+    });
   });
 
   return (
