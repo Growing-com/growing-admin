@@ -79,6 +79,24 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     const newFamiliesData: tNewFamiliesLineUpParams[] = [];
     let promoteSuccess = false;
 
+    const validateFormData = (item: tNewFamilyLineUpForm)  => {
+      const { name, promoteDate, smallGroupId, newFamilyGroupLeaderName } =
+        item;
+
+      // 등반 날짜, 순장 선택 둘 다 없는 경우
+      if (promoteDate === null && smallGroupId == null) {
+        GRAlert.error(`${name}의 변경사항을 선택해주세요.`);
+        return false;
+      }
+
+      // 등반일이 없는데 새가족반이 있는 경우
+      if (promoteDate === null && newFamilyGroupLeaderName) {
+        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
+        return false;
+      }
+      return true;
+    };
+
     const filteredSelectFormData = selectFormData
       .filter(item => !item.promotedSmallGroupLeaderName)
       .map(item => {
@@ -86,7 +104,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           const leader = termSmallGroupLeader?.find(
             leader => leader.smallGroupLeaderName === item.smallGroupLeaderName
           );
-          item.smallGroupId = leader?.smallGroupId;
+          return { ...item, smallGroupId: leader?.smallGroupId };
         }
         return item;
       });
@@ -97,21 +115,12 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         newFamilyId,
         promoteDate,
         smallGroupId,
-        newFamilyGroupLeaderName
       } = item;
 
-      // 등반 날짜, 순장 선택 둘 다 없는 경우
-      if (promoteDate === null && smallGroupId == null) {
-        GRAlert.error(`${name}의 변경사항을 선택해주세요.`);
+      if(!validateFormData(item)){
         return;
       }
-
-      // 등반일이 없는데 새가족반이 있는 경우
-      if (promoteDate === null && newFamilyGroupLeaderName) {
-        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
-        return;
-      }
-
+      
       // 등반만 할 경우
       if (smallGroupId == null && promoteDate) {
         try {
@@ -136,7 +145,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           promoteDate
         });
       } else {
-        GRAlert.error(`${name}의 순장이 존재하지 않습니다.`);
+        GRAlert.error(`${name}의 순장을 선택해주세요.`);
       }
     }
 
@@ -281,7 +290,6 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     <GRModal
       open={open}
       onCancel={onCloseModal}
-      // onOk={onClickModalOk}
       onOk={onOkNewFamiliesLineUpClickButton}
       title={"새가족 라인업"}
       width={"60%"}
