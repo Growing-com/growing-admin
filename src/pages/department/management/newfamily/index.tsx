@@ -62,21 +62,21 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onClickLineOut = () => {
     if (!selectedNewFamily.length) {
-      return alert("선택된 새가족이 없습니다.");
+      return GRAlert.error("선택된 새가족이 없습니다.");
     }
     setIsOpenLineOutModal(true);
   };
 
   const onClickRollback = () => {
     if (!selectedLineOutNewFamily) {
-      return alert("선택된 이탈자가 없습니다.");
+      return GRAlert.error("선택된 이탈자가 없습니다.");
     }
     setIsOpenRollBackModal(true);
   };
 
   const onClickLineUp = () => {
     if (!selectedNewFamily.length) {
-      return alert("선택된 새가족이 없습니다.");
+      return GRAlert.error("선택된 새가족이 없습니다.");
     }
     setIsOpenLineupModal(true);
   };
@@ -87,7 +87,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onOkLineOutClickButton = async () => {
     if (selectedNewFamily.length === 0) {
-      return alert("선택된 새가족이 없습니다");
+      return GRAlert.error("선택된 새가족이 없습니다");
     }
     try {
       await Promise.all(
@@ -104,7 +104,7 @@ const ManagementNewFamilyPage: NextPage = () => {
 
   const onOkRollBackClickButton = async () => {
     if (!selectedLineOutNewFamily) {
-      return alert("선택된 이탈자가 없습니다");
+      return GRAlert.error("선택된 이탈자가 없습니다");
     }
     try {
       await lineOutRollBackNewFamilyMutateAsync({
