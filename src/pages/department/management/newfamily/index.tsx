@@ -19,7 +19,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { isError } from "utils/boolean";
+import { isError } from "utils/error";
 import { useNewFamilyRollBackMutate } from "../../../../apiV2/newFamily/mutate/useNewFamilyRollBackMutate";
 
 const NEW_FAMILY = "all";

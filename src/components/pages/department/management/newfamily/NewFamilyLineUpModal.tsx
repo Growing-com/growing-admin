@@ -16,7 +16,7 @@ import useTerm from "hooks/api/term/useTerm";
 import { FC, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
-import { isError } from "utils/boolean";
+import { isError } from "utils/error";
 
 type tNewFamilyLineUpModal = {
   open: boolean;

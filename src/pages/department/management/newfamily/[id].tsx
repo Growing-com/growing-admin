@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Divider, Dropdown, MenuProps } from "antd";
 import queryKeys from "api/queryKeys";
 import { getNewFamily, updateNewFamily } from "apiV2/newFamily";
+import { useNewFamilyLineOutMutate } from "apiV2/newFamily/mutate/useNewfamilyLineOutMutate";
 import {
   tLineUpNewFamilyV2,
   tNewFamilyEtcV2,
@@ -37,6 +38,7 @@ import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
+import { handleError } from "utils/error";
 import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const FORM_TITLE_WIDTH = 10;
@@ -67,6 +69,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
   const { termNewFamilyLeader, termNewFamilyLeaderOptions } = useTerm({
     termId: 1
   });
+  const { lineOutNewFamilyMutateAsync } = useNewFamilyLineOutMutate();
 
   const numericId = id ? Number(id) : null;
 
@@ -115,7 +118,6 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     }
   );
 
-  // TODO: 수정 mutate
   const { mutateAsync } = useMutation(updateNewFamily, {
     onError: error => {
       console.log("error", error);
@@ -148,11 +150,19 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     });
   });
 
-  const check = handleSubmit((_value: tNewFamilyForm) => {
-    console.log(_value);
-  });
+  const onOkLineOutClickButton = async () => {
+    if (newFamilyDetailData) {
+      try {
+        await lineOutNewFamilyMutateAsync(newFamilyDetailData.newFamilyId);
+        router.back();
+      } catch (error) {
+        handleError(error, "라인아웃 에러");
+      }
+    } else {
+      console.error("새가족 정보를 불러오지 못했습니다.");
+    }
+  };
 
-  // TODO: 라인업, 라인아웃 클릭 시 해당 모달 오픈
   const onClick: MenuProps["onClick"] = ({ key }) => {
     switch (key) {
       case "LineUp":
@@ -464,7 +474,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
           open={isOpenLineOutModal}
           description={`${newFamilyDetailData?.name}을 라인 아웃 하시겠습니까?`}
           onCancelClickButton={() => setIsOpenLineOutModal(false)}
-          onOkClickButton={() => console.log(23)}
+          onOkClickButton={onOkLineOutClickButton}
         />
       )}
     </>
