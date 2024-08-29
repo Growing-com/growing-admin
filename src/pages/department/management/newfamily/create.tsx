@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
+import { handleError } from "utils/error";
 import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const FORM_TITLE_WIDTH = 10;
@@ -41,7 +42,7 @@ const ManagementNewFamilyCreatePage: NextPage = () => {
 
   const { mutateAsync } = useMutation(createNewFamily, {
     onError: error => {
-      console.log("error", error);
+      handleError(error, "지체 생성 오류");
     },
     onSuccess: () => {
       router.back();

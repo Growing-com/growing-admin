@@ -19,7 +19,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { isError } from "utils/error";
+import { handleError } from "utils/error";
 import { useNewFamilyRollBackMutate } from "../../../../apiV2/newFamily/mutate/useNewFamilyRollBackMutate";
 
 const NEW_FAMILY = "all";
@@ -98,11 +98,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       setIsOpenLineOutModal(false);
       GRAlert.success("라인아웃 완료");
     } catch (error) {
-      if (isError(error)) {
-        GRAlert.error(`${error.message}`);
-      } else {
-        GRAlert.error("라인아웃 오류");
-      }
+      handleError(error, "라인아웃 오류");
     }
   };
 
@@ -118,11 +114,7 @@ const ManagementNewFamilyPage: NextPage = () => {
       setIsOpenRollBackModal(false);
       GRAlert.success("복귀 완료");
     } catch (error) {
-      if (isError(error)) {
-        GRAlert.error(`${error.message}`);
-      } else {
-        GRAlert.error("복귀 오류");
-      }
+      handleError(error, "복귀 오류");
     }
   };
 

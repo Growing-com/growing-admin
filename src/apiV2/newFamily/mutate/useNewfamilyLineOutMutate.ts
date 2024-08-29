@@ -10,9 +10,6 @@ export const useNewFamilyLineOutMutate = () => {
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
       },
-      onError: (error: unknown) => {
-        console.log("error", error);
-      }
     }
   );
 

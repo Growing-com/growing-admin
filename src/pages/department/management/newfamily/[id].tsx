@@ -120,8 +120,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
 
   const { mutateAsync } = useMutation(updateNewFamily, {
     onError: error => {
-      console.log("error", error);
-      GRAlert.error("지체 수정 오류");
+      handleError(error, "지체 수정 오류");
     },
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);

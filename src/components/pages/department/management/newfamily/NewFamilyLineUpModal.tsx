@@ -16,7 +16,7 @@ import useTerm from "hooks/api/term/useTerm";
 import { FC, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
-import { isError } from "utils/error";
+import { handleError } from "utils/error";
 
 type tNewFamilyLineUpModal = {
   open: boolean;
@@ -115,8 +115,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           });
           promoteSuccess = true;
         } catch (error) {
-          console.log("등반 실패", error);
-          GRAlert.error(`${name} 등반 실패`);
+          handleError(error, `${name} 등반 실패`);
           promoteSuccess = false;
         }
         continue;
@@ -154,9 +153,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
       onClickClose();
       GRAlert.success("라인업 완료!");
     } catch (error: unknown) {
-      if (isError(error)) {
-        GRAlert.error(`${error.message}`);
-      } else GRAlert.error("라인업 오류");
+      handleError(error, "대량 라인업 오류");
     }
   };
 
