@@ -58,11 +58,6 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         newFamilyGroupLeaderName
       } = item;
 
-      if (smallGroupId == null) {
-        GRAlert.error(`${name}의 순장을 선택해주세요.`);
-        return false;
-      }
-
       // 등반 날짜, 순장 선택 둘 다 없는 경우
       if (promoteDate === null && smallGroupId == null) {
         GRAlert.error(`${name}의 변경사항을 선택해주세요.`);
@@ -121,7 +116,10 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
         continue;
       }
 
-      if (smallGroupId != null) {
+      if (smallGroupId == null) {
+        GRAlert.error(`${name}의 순장을 선택해주세요.`);
+        return;
+      } else {
         newFamiliesData.push({
           newFamilyId,
           smallGroupId,

@@ -112,8 +112,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
         setNewFamilyLineUpData([data]);
       },
       onError: error => {
-        console.log("새가족 정보가 로드되지 않았습니다.");
-        console.log(error);
+        console.log("새가족 정보가 로드되지 않았습니다.",error);
       }
     }
   );
@@ -133,6 +132,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
   };
 
   const onUpdateNewFamily = handleSubmit(async (_value: tNewFamilyForm) => {
+    console.log(_value);
     await mutateAsync({
       ..._value,
       etc: {
@@ -153,6 +153,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     if (newFamilyDetailData) {
       try {
         await lineOutNewFamilyMutateAsync(newFamilyDetailData.newFamilyId);
+        GRAlert.success(`${newFamilyDetailData.name} 라인아웃 완료`);
         router.back();
       } catch (error) {
         handleError(error, "라인아웃 에러");
@@ -190,6 +191,7 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
 
   return (
     <>
+    <button onClick={()=>console.log(newFamilyDetailData)}>newFamilyDetailData</button>
       <HeaderView
         title={"새가족 수정"}
         showIcon={false}
