@@ -1,6 +1,6 @@
 import { REQUEST_METHOD, request } from "api";
 import { Nullable } from "common/type-aliases";
-import { tLineOutNewFamilyV2, tNewFamilyV2 } from "./type";
+import { tLineOutNewFamilyV2, tLineUpNewFamilyV2, tNewFamilyV2 } from "./type";
 
 const version = "v2";
 
@@ -13,6 +13,13 @@ export const getNewFamilies = (params?: getNewFamiliesParmas) => {
     method: REQUEST_METHOD.GET,
     url: `${version}/new-families`,
     params
+  });
+};
+
+export const getNewFamily = (_newFamilyId: number) => {
+  return request<tLineUpNewFamilyV2>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/new-families/${_newFamilyId}`
   });
 };
 
@@ -31,8 +38,17 @@ export const createNewFamily = (data: tNewFamilyV2) => {
   });
 };
 
+export const updateNewFamily = (data: tNewFamilyV2) => {
+  const _newFamilyId = data.newFamilyId;
+  return request<tNewFamilyV2>({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/${_newFamilyId}/update-info`,
+    data
+  });
+};
+
 // 등반과 라인업 동시에 하기 위해서 smallGroupId 값 넣어주면 된다.
-export type tPromoteNewFamilyParams = {
+type tPromoteNewFamilyParams = {
   promoteDate: string;
   smallGroupId: Nullable<number>;
   newFamilyId: number;
@@ -91,9 +107,9 @@ export type tNewFamiliesLineUpParams = {
 // 새가족 대량 라인업
 export const newFamiliesLineUp = (data: tNewFamiliesLineUpParams[]) => {
   const requestBody = {
-    requests: data,
-  }
-  
+    requests: data
+  };
+
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/new-families/batch-line-up`,

@@ -6,31 +6,27 @@ import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Checkbox } from "antd";
 import { ColumnType } from "antd/es/table";
-import queryKeys from "api/queryKeys";
-import {
-  newFamiliesLineUp,
-  promteNewFamily,
-  tNewFamiliesLineUpParams
-} from "apiV2/newFamily";
+import { tNewFamiliesLineUpParams } from "apiV2/newFamily";
+import { useNewfamiliesLineUpMutate } from "apiV2/newFamily/mutate/useNewfamiliesLineUpMutate ";
+import { useNewfamilyPromoteMutate } from "apiV2/newFamily/mutate/useNewfamilyPromoteMutate";
 import { tLineUpNewFamilyV2 } from "apiV2/newFamily/type";
 import useTerm from "hooks/api/term/useTerm";
 import { FC, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
+import { handleError } from "utils/error";
 
 type tNewFamilyLineUpModal = {
   open: boolean;
   onClickClose: () => void;
   selectNewFamily: tLineUpNewFamilyV2[];
-  resetSelection: () => void;
+  resetSelection?: () => void;
 };
 interface tNewFamilyLineUpForm extends tLineUpNewFamilyV2 {
-  isPromote?: boolean;
+  promoteChecked?: boolean;
   smallGroupId?: number;
-  newFamilyGroupLeaderName?: string;
 }
 export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   open,
@@ -38,8 +34,6 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
   selectNewFamily,
   resetSelection
 }) => {
-  const queryClient = useQueryClient();
-
   const [selectFormData, setSelectFormData] = useState<tNewFamilyLineUpForm[]>(
     []
   );
@@ -48,36 +42,42 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     termId: 1
   });
 
-  /** 대량 라인업 mutate */
-  const { mutateAsync: newFamiliesLineUpMutateAsync } = useMutation(
-    newFamiliesLineUp,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
-        resetSelection();
-        onClickClose();
-        GRAlert.success("라인업 완료!");
-      }
-    }
-  );
-
-  /** 등반 mutate */
-  const { mutateAsync: newFamilyPromoteMutateAsync } = useMutation(
-    promteNewFamily,
-    {
-      onError: error => {
-        console.log("error", error);
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
-        resetSelection();
-      }
-    }
-  );
+  const { newFamiliesLineUpMutateAsync } = useNewfamiliesLineUpMutate();
+  const { newFamilyPromoteMutateAsync } = useNewfamilyPromoteMutate();
 
   const onOkNewFamiliesLineUpClickButton = async () => {
     const newFamiliesData: tNewFamiliesLineUpParams[] = [];
     let promoteSuccess = false;
+
+    const validateFormData = (item: tNewFamilyLineUpForm) => {
+      const {
+        name,
+        promoteDate,
+        smallGroupId,
+        smallGroupLeaderName,
+        newFamilyGroupLeaderName
+      } = item;
+
+      // 등반 날짜, 순장 선택 둘 다 없는 경우
+      if (promoteDate === null && smallGroupId == null) {
+        GRAlert.error(`${name}의 변경사항을 선택해주세요.`);
+        return false;
+      }
+
+      // 등반일이 없는데 새가족반이 있는 경우
+      if (promoteDate === null && newFamilyGroupLeaderName) {
+        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
+        return false;
+      }
+
+      // 라인업은 되어있는데 등반 날짜를 선택하지 않은 경우
+      if (promoteDate === null && smallGroupLeaderName) {
+        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
+        return false;
+      }
+
+      return true;
+    };
 
     const filteredSelectFormData = selectFormData
       .filter(item => !item.promotedSmallGroupLeaderName)
@@ -86,34 +86,22 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           const leader = termSmallGroupLeader?.find(
             leader => leader.smallGroupLeaderName === item.smallGroupLeaderName
           );
-          item.smallGroupId = leader?.smallGroupId;
+          return { ...item, smallGroupId: leader?.smallGroupId };
         }
         return item;
       });
 
     for (const item of filteredSelectFormData) {
-      const {
-        name,
-        newFamilyId,
-        promoteDate,
-        smallGroupId,
-        newFamilyGroupLeaderName
-      } = item;
+      const { name, newFamilyId, promoteDate, smallGroupId, promoteChecked } =
+        item;
+      const isPromote = promoteChecked && promoteDate;
 
-      // 등반 날짜, 순장 선택 둘 다 없는 경우
-      if (promoteDate === null && smallGroupId == null) {
-        GRAlert.error(`${name}의 변경사항을 선택해주세요.`);
-        return;
-      }
-
-      // 등반일이 없는데 새가족반이 있는 경우
-      if (promoteDate === null && newFamilyGroupLeaderName) {
-        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
+      if (!validateFormData(item)) {
         return;
       }
 
       // 등반만 할 경우
-      if (smallGroupId == null && promoteDate) {
+      if (smallGroupId == null && isPromote) {
         try {
           await newFamilyPromoteMutateAsync({
             promoteDate,
@@ -122,21 +110,21 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           });
           promoteSuccess = true;
         } catch (error) {
-          console.log("등반 실패", error);
-          GRAlert.error(`${name} 등반 실패`);
+          handleError(error, `${name} 등반 실패`);
           promoteSuccess = false;
         }
         continue;
       }
 
-      if (smallGroupId) {
+      if (smallGroupId == null) {
+        GRAlert.error(`${name}의 순장을 선택해주세요.`);
+        return;
+      } else {
         newFamiliesData.push({
           newFamilyId,
           smallGroupId,
           promoteDate
         });
-      } else {
-        GRAlert.error(`${name}의 순장이 존재하지 않습니다.`);
       }
     }
 
@@ -147,12 +135,24 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     }
 
     if (promoteSuccess) {
-      GRAlert.success("등반 완료!");
+      if (resetSelection) {
+        resetSelection();
+      }
       onClickClose();
+      GRAlert.success("등반 완료!");
       return;
     }
 
-    await newFamiliesLineUpMutateAsync(newFamiliesData);
+    try {
+      await newFamiliesLineUpMutateAsync(newFamiliesData);
+      if (resetSelection) {
+        resetSelection();
+      }
+      onClickClose();
+      GRAlert.success("라인업 완료!");
+    } catch (error: unknown) {
+      handleError(error, "대량 라인업 오류");
+    }
   };
 
   const insertDataInFormResult = (
@@ -192,7 +192,7 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
             onChange={value => {
               insertDataInFormResult(
                 _item.newFamilyId,
-                "isPromote",
+                "promoteChecked",
                 value.target.checked
               );
             }}
@@ -215,9 +215,9 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
           <GRFlexView>
             <GRDatePicker
               pickerType={"basic"}
-              disabled={!includeNewFamilyId?.isPromote}
+              disabled={!includeNewFamilyId?.promoteChecked}
               placeholder={
-                !includeNewFamilyId?.isPromote
+                !includeNewFamilyId?.promoteChecked
                   ? "등반 여부를 선택해주세요"
                   : "등반일 선택"
               }
@@ -281,7 +281,6 @@ export const NewFamilyLineUpModal: FC<tNewFamilyLineUpModal> = ({
     <GRModal
       open={open}
       onCancel={onCloseModal}
-      // onOk={onClickModalOk}
       onOk={onOkNewFamiliesLineUpClickButton}
       title={"새가족 라인업"}
       width={"60%"}

@@ -13,6 +13,7 @@ export type tGRTextInputType =
   | "input"
   | "password"
   | "textarea"
+  | "name"
   | "number"
   | "phoneNumber";
 
@@ -49,7 +50,9 @@ const GRTextInput = (
   const renderValue = (
     _value?: string | number | readonly string[] | undefined
   ) => {
-    if (
+    if (typeof _value === "string" && type === "name") {
+      return _value.replace(/\s+/g, "");
+    } else if (
       typeof _value === "string" &&
       type === "phoneNumber" &&
       _value?.length === 11

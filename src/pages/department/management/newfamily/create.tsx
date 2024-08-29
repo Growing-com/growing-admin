@@ -1,6 +1,4 @@
-import { MoreOutlined } from "@ant-design/icons";
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButton from "@component/atom/button/GRButton";
 import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
@@ -9,19 +7,11 @@ import GRView from "@component/atom/view/GRView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormTitle from "@component/molecule/form/GRFormTitle";
-import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { NewFamilyLineUpModal } from "@component/pages/department/management/newfamily/NewFamilyLineUpModal";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Divider, Dropdown, MenuProps } from "antd";
-import queryKeys from "api/queryKeys";
-import { getNewFamily, updateNewFamily } from "apiV2/newFamily";
-import { useNewFamilyLineOutMutate } from "apiV2/newFamily/mutate/useNewfamilyLineOutMutate";
-import {
-  tLineUpNewFamilyV2,
-  tNewFamilyEtcV2,
-  tNewFamilyV2
-} from "apiV2/newFamily/type";
+import { useMutation } from "@tanstack/react-query";
+import { Divider } from "antd";
+import { createNewFamily } from "apiV2/newFamily";
+import { tNewFamilyV2 } from "apiV2/newFamily/type";
 import {
   BELIEVE_STATUS_OPTIONS,
   SEX_OPTIONS,
@@ -29,119 +19,40 @@ import {
   VISIT_REASON_OPTIONS,
   YES_NO_OPTIONS
 } from "config/const";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import useTerm from "hooks/api/term/useTerm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { Color } from "styles/colors";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
 import { handleError } from "utils/error";
 import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const FORM_TITLE_WIDTH = 10;
 
-type tNewFamilyEtcForm = {
-  hasCertaintityOfSalvation: string;
-  isFirstChurch: string;
-} & Omit<tNewFamilyEtcV2, "hasCertaintityOfSalvation" | "isFirstChurch">;
-
-type tNewFamilyForm = {
-  visitDate: Dayjs;
-  birth: Dayjs;
-  etc: tNewFamilyEtcForm;
-} & Omit<tNewFamilyV2, "visitDate" | "birth" | "etc">;
-
-const ManagementNewFamilyUpdatePage: NextPage = () => {
+const ManagementNewFamilyCreatePage: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const queryClient = useQueryClient();
 
-  const [isOpenLineupModal, setIsOpenLineupModal] = useState(false);
-  const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
-  const [newFamilyLineUpData, setNewFamilyLineUpData] = useState<
-    tLineUpNewFamilyV2[]
-  >([]);
-  const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
+  const { control, handleSubmit } = useForm<tNewFamilyV2>();
 
-  const { termNewFamilyLeader, termNewFamilyLeaderOptions } = useTerm({
+  const { termNewFamilyLeaderOptions } = useTerm({
     termId: 1
   });
-  const { lineOutNewFamilyMutateAsync } = useNewFamilyLineOutMutate();
 
-  const numericId = id ? Number(id) : null;
-
-  const { data: newFamilyDetailData } = useQuery(
-    [queryKeys.NEW_FAMILY_DETAIL_V2, numericId],
-    async () => {
-      if (numericId === null || isNaN(numericId)) {
-        throw new Error("Invalid ID");
-      }
-      return await getNewFamily(numericId);
-    },
-    {
-      select: _data => _data.content,
-      enabled: numericId !== null,
-      onSuccess: data => {
-        reset({
-          ...data,
-          etc: {
-            ...data.etc,
-            isFirstChurch: data.etc.isFirstChurch ? "true" : "false",
-            hasCertaintityOfSalvation: data.etc.hasCertaintityOfSalvation
-              ? "true"
-              : "false"
-          },
-
-          // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
-          birth:
-            data.birth && data?.birth !== "1970-01-01"
-              ? dayjs(data.birth)
-              : undefined,
-          visitDate:
-            data?.visitDate && data?.visitDate !== "1970-01-01"
-              ? dayjs(data?.visitDate)
-              : undefined,
-          newFamilyGroupId: termNewFamilyLeader?.find(
-            leader =>
-              data.newFamilyGroupLeaderName === leader.newFamilyGroupLeaderName
-          )?.newFamilyGroupId
-        });
-        setNewFamilyLineUpData([data]);
-      },
-      onError: error => {
-        console.log("새가족 정보가 로드되지 않았습니다.",error);
-      }
-    }
-  );
-
-  const { mutateAsync } = useMutation(updateNewFamily, {
+  const { mutateAsync } = useMutation(createNewFamily, {
     onError: error => {
-      handleError(error, "지체 수정 오류");
+      handleError(error, "지체 생성 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_V2]);
-      GRAlert.success("지체 수정 완료");
+      router.back();
+      GRAlert.success("지체 생성 완료");
     }
   });
 
-  const convertStringToBoolean = (string: string) => {
-    return string === "true";
-  };
-
-  const onUpdateNewFamily = handleSubmit(async (_value: tNewFamilyForm) => {
-    console.log(_value);
+  const onRegisterNewFamily = handleSubmit(async (_value: tNewFamilyV2) => {
     await mutateAsync({
       ..._value,
-      etc: {
-        ..._value.etc,
-        isFirstChurch: convertStringToBoolean(_value.etc.isFirstChurch),
-        hasCertaintityOfSalvation: convertStringToBoolean(
-          _value.etc.hasCertaintityOfSalvation
-        )
-      },
       birth: convertDateStringByDefaultForm(_value.birth as unknown as Dayjs),
       visitDate: convertDateStringByDefaultForm(
         _value.visitDate as unknown as Dayjs
@@ -149,73 +60,12 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
     });
   });
 
-  const onOkLineOutClickButton = async () => {
-    if (newFamilyDetailData) {
-      try {
-        await lineOutNewFamilyMutateAsync(newFamilyDetailData.newFamilyId);
-        GRAlert.success(`${newFamilyDetailData.name} 라인아웃 완료`);
-        router.back();
-      } catch (error) {
-        handleError(error, "라인아웃 에러");
-      }
-    } else {
-      console.error("새가족 정보를 불러오지 못했습니다.");
-    }
-  };
-
-  const onClick: MenuProps["onClick"] = ({ key }) => {
-    switch (key) {
-      case "LineUp":
-        setIsOpenLineupModal(true);
-        break;
-      case "LineOut":
-        setIsOpenLineOutModal(true);
-        break;
-      default:
-        break;
-    }
-  };
-
-  // style을 적용하고 싶으면 label에 컴포넌트를 넣고 적용
-  const items: MenuProps["items"] = [
-    {
-      label: "라인업",
-      key: "LineUp"
-    },
-    {
-      label: "라인아웃",
-      key: "LineOut",
-      danger: true
-    }
-  ];
-
   return (
     <>
-    <button onClick={()=>console.log(newFamilyDetailData)}>newFamilyDetailData</button>
       <HeaderView
-        title={"새가족 수정"}
+        title={"새가족 등록"}
         showIcon={false}
         disabledBackbutton={true}
-        headerComponent={
-          <Dropdown
-            menu={{ items, onClick }}
-            trigger={["click"]}
-            placement={"bottomRight"}
-            overlayStyle={{ minWidth: "90px" }}
-            overlayClassName="custom-dropdown"
-          >
-            <GRButton buttonType={"primary"}>
-              <MoreOutlined
-                style={{
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  color: Color.white
-                }}
-                rev={undefined}
-              />
-            </GRButton>
-          </Dropdown>
-        }
       />
       <GRContainerView>
         <GRFlexView alignItems="center">
@@ -453,33 +303,16 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
               <GRButtonText
                 marginright={GRStylesConfig.BASE_MARGIN}
                 block
-                onClick={onUpdateNewFamily}
+                onClick={onRegisterNewFamily}
               >
-                수정
+                등록
               </GRButtonText>
             </GRFlexView>
           </GRView>
         </GRFlexView>
       </GRContainerView>
-      {/* 라인업 모달 */}
-      {isOpenLineupModal && (
-        <NewFamilyLineUpModal
-          open={isOpenLineupModal}
-          onClickClose={() => setIsOpenLineupModal(false)}
-          selectNewFamily={newFamilyLineUpData}
-        />
-      )}
-      {/* 라인아웃 모달 */}
-      {isOpenLineOutModal && (
-        <GRAlertModal
-          open={isOpenLineOutModal}
-          description={`${newFamilyDetailData?.name}을 라인 아웃 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineOutModal(false)}
-          onOkClickButton={onOkLineOutClickButton}
-        />
-      )}
     </>
   );
 };
 
-export default ManagementNewFamilyUpdatePage;
+export default ManagementNewFamilyCreatePage;

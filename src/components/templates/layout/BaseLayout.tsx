@@ -53,6 +53,12 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
     [router]
   );
 
+  // useLayoutEffect가 서버에서는 동작하지 않게.
+  const STR_UNDEFINED = 'undefined'
+  const isWindowDefined = typeof window != STR_UNDEFINED 
+  const IS_NODE = !isWindowDefined || 'process' in globalThis;
+  const useIsomorphicLayoutEffect = IS_NODE ? useEffect : useLayoutEffect
+
   const onOpenChange = (keys: string[]) => {
     setDefaultOpen(keys);
   };
@@ -73,7 +79,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (router.pathname) {
       const _path = router.pathname.split("/");
       openMetMainMenu([_path[2]]);
