@@ -3,9 +3,9 @@ import { tTrainingType } from "api/training/type";
 /**
  * @descriptio 성
  * MALE : 남
- * FEMAL : 여
+ * FEMALE : 여
  */
-export type tSex = "MALE" | "FEMAL";
+export type tSex = "MALE" | "FEMALE";
 
 /**
  * * @descriptio 직분

@@ -132,7 +132,6 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
   };
 
   const onUpdateNewFamily = handleSubmit(async (_value: tNewFamilyForm) => {
-    console.log(_value);
     await mutateAsync({
       ..._value,
       etc: {
@@ -191,7 +190,6 @@ const ManagementNewFamilyUpdatePage: NextPage = () => {
 
   return (
     <>
-    <button onClick={()=>console.log(newFamilyDetailData)}>newFamilyDetailData</button>
       <HeaderView
         title={"새가족 수정"}
         showIcon={false}
