@@ -1,106 +1,144 @@
-import {
-  BankOutlined,
-  CheckOutlined,
-  SearchOutlined,
-  TeamOutlined
-} from "@ant-design/icons";
-
 export type tDepartmentMainMenu = {
-  key: "search" | "management" | "attendance" | "training";
-  label: "전체 검색" | "관리" | "출석" | "훈련";
+  key:
+    | "personalData"
+    | "attendance"
+    | "lineOut"
+    | "lineUp"
+    | "archive"
+    | "discipleship";
+  label:
+    | "인적사항"
+    | "출석관리"
+    | "라인 인 아웃"
+    | "라인업"
+    | "아카이브"
+    | "훈련 사항";
   children?:
-    | tDepartmentManagementSubMenu[]
+    | tDepartmentPersonalDataSubMenu[]
     | tDepartmentAttendanceSubMenu[]
-    | tDepartmentTrainingSubMenu[];
+    | tDepartmentLineOutSubMenu[]
+    | tDepartmentLineUpSubMenu[]
+    | tDepartmentArchiveSubMenu[]
+    | tDepartmentDiscipleshipSubMenu[]
+    ;
   icon?: React.ReactNode;
 };
 
-type tDepartmentManagementSubMenu = {
-  key: "management-account" | "management-newfamily" | "management-lineup";
-  label: "계정 관리" | "새가족 관리" | "라인업 관리";
+type tDepartmentPersonalDataSubMenu = {
+  key: "personalData-management";
+  label: "인적 사항";
   path: string;
 };
 
 type tDepartmentAttendanceSubMenu = {
-  key: "attendance-management" | "attendance-check" | "attendance-statistics";
-  label: "출석 체크" | "출석 통계" | "출석 열람";
+  key: "attendance-management";
+  label: "출석 관리";
   path: string;
 };
 
-type tDepartmentTrainingSubMenu = {
-  key: "training-roster";
-  label: "명부 관리";
+type tDepartmentLineOutSubMenu = {
+  key: "lineOut-management";
+  label: "라인아웃 관리";
   path: string;
 };
 
-export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
-  {
-    key: "management-account",
-    label: "계정 관리",
-    path: "management/account"
-  },
-  {
-    key: "management-newfamily",
-    label: "새가족 관리",
-    path: "management/newfamily"
-  }
-  // TODO: 라인업 관리 추후 추가
-  // {
-  //   key: "management-lineup",
-  //   label: "라인업 관리",
-  //   path: "management/lineup"
-  // }
-];
+type tDepartmentLineUpSubMenu = {
+  key: "lineUp-management";
+  label: "라인업 관리";
+  path: string;
+};
+
+type tDepartmentArchiveSubMenu = {
+  key: "archive-management";
+  label: "사역 관리";
+  path: string;
+};
+
+type tDepartmentDiscipleshipSubMenu = {
+  key: "discipleship-management";
+  label: "훈련 관리";
+  path: string;
+};
+
+const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] =
+  [
+    {
+      key: "personalData-management",
+      label: "인적 사항",
+      path: "personalData/management"
+    }
+  ];
 
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
-    key: "attendance-check",
-    label: "출석 체크",
-    path: "attendance/check"
-  },
-  {
-    key: "attendance-statistics",
-    label: "출석 통계",
-    path: "attendance/statistics"
-  },
-  {
     key: "attendance-management",
-    label: "출석 열람",
+    label: "출석 관리",
     path: "attendance/management"
   }
 ];
 
-const DEPARTMENT_TRAINING_SUB_MENU: tDepartmentTrainingSubMenu[] = [
+const DEPARTMENT_LINEOUT_SUB_MENU: tDepartmentLineOutSubMenu[] = [
   {
-    key: "training-roster",
-    label: "명부 관리",
-    path: "training/roster"
+    key: "lineOut-management",
+    label: "라인아웃 관리",
+    path: "lineOut/management"
+  }
+];
+
+const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
+  {
+    key: "lineUp-management",
+    label: "라인업 관리",
+    path: "lineUp/management"
+  }
+];
+
+const DEPARTMENT_ARCHIVE_SUB_MENU: tDepartmentArchiveSubMenu[] = [
+  {
+    key: "archive-management",
+    label: "사역 관리",
+    path: "archive/management"
+  }
+];
+
+const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
+  {
+    key: "discipleship-management",
+    label: "훈련 관리",
+    path: "discipleship/management"
   }
 ];
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
-    key: "management",
-    label: "관리",
-    children: DEPARTMENT_MANAGEMENT_SUB_MENU,
-    icon: <TeamOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
-  },
-  {
-    key: "training",
-    label: "훈련",
-    children: DEPARTMENT_TRAINING_SUB_MENU,
-    icon: <BankOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    key: "personalData",
+    label: "인적사항",
+    // children: DEPARTMENT_PERSONALDATE_SUB_MENU
   },
   {
     key: "attendance",
-    label: "출석",
-    children: DEPARTMENT_ATTENDANCE_SUB_MENU,
-    icon: <CheckOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    label: "출석관리",
+    // children: DEPARTMENT_ATTENDANCE_SUB_MENU
   },
   {
-    key: "search",
-    label: "전체 검색",
-    icon: <SearchOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    key: "lineOut",
+    label: "라인 인 아웃",
+    // children: DEPARTMENT_LINEOUT_SUB_MENU
+  },
+  {
+    key: "lineUp",
+    label: "라인업",
+    // children: DEPARTMENT_LINEUP_SUB_MENU
+  },
+  {
+    key: "archive",
+    label: "아카이브",
+    // children:DEPARTMENT_ARCHIVE_SUB_MENU
+  },
+  {
+    key: "discipleship",
+    label: "훈련 사항",
+    // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
   }
 ];
 
@@ -115,10 +153,17 @@ export const TAB_MENU = [
 export const DUTY_MENU = [
   {
     key: "MANAGER",
-    value: ["search", "attendance"]
+    value: ["personalData", "attendance", "archive"]
   },
   {
     key: "ADMIN",
-    value: ["search", "training", "management", "attendance"]
+    value: [
+      "personalData",
+      "attendance",
+      "lineOut",
+      "lineUp",
+      "archive",
+      "discipleship"
+    ]
   }
 ];

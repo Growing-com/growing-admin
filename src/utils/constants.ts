@@ -1,4 +1,4 @@
-import { tTrainingType } from "api/training/type";
+import { tTrainingType } from "apiV1_prefix/training/type";
 
 export type tTrainingMainTitle = {
   label: string;

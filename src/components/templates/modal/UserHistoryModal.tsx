@@ -1,8 +1,8 @@
 import GRModal from "@component/atom/modal/GRModal";
 import GRView from "@component/atom/view/GRView";
 import { Descriptions } from "antd";
-import { useUserDetailQuery } from "api/account/queries/useUserDetailQuery";
-import type { tAccount } from "api/account/types";
+import { useUserDetailQuery } from "apiV1_prefix/account/queries/useUserDetailQuery";
+import type { tAccount } from "apiV1_prefix/account/types";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { FC, useCallback, useEffect, useState } from "react";

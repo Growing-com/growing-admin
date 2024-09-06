@@ -1,7 +1,7 @@
 import { tOptions } from "@component/atom/dataEntry/type";
 import { useQuery } from "@tanstack/react-query";
-import queryKeys from "api/queryKeys";
-import { getNewFamilies, getSmallGroupLeader } from "apiV2/term";
+import queryKeys from 'api/queryKeys';
+import { getNewFamilyGroup, getSmallGroupLeader } from 'api/term';
 import { useEffect, useState } from "react";
 import { convertOptions } from "utils";
 
@@ -36,7 +36,7 @@ const useTerm = ({ termId }: { termId: number }) => {
     useQuery(
       [queryKeys.TERM_NEW_FAMILY_LEADER],
       async () =>
-        await getNewFamilies({
+        await getNewFamilyGroup({
           termId
         }),
       {
