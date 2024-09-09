@@ -61,7 +61,7 @@ const GRFlexView: FC<tGRFlexView> = ({
         isBoard &&
           css`
             border: 0.1rem solid ${Color.grey100};
-            border-radius: 1rem;
+            border-radius: 0.5rem;
           `,
         { customCss }
       ]}

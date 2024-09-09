@@ -11,12 +11,14 @@ export type tColor =
   | "grey60"
   | "grey40"
   | "grey20"
+  | "grey10"
   | "red100"
   | "red200"
   | "red300"
   | "blue100"
   | "blue80"
   | "black"
+  | "black100"
   | "white";
 
 export const Color: Record<tColor, string> = {
@@ -32,11 +34,13 @@ export const Color: Record<tColor, string> = {
   grey60: "#5C5C5C",
   grey40: "#222222",
   grey20: "rgba(0, 0, 0, 0.45)",
+  grey10: "#757575",
   red100: "#EA3928",
   red200: "#eb6559",
   red300: "#ed8077",
   blue100: "#508DE9",
   blue80: "#5E6C84",
   black: "#000000",
+  black100: "#2C2C2C",
   white: "#FFFFFF"
 };

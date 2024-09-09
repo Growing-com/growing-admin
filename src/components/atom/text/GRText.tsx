@@ -13,6 +13,7 @@ export type tFontSizeType =
   | "h7"
   | "h8"
   | "h9"
+  | "h10"
   | "b1"
   | "b2"
   | "b3"
@@ -130,6 +131,11 @@ const TEXT_SIZE: Record<tFontSizeType, SerializedStyles> = {
     font-size: 1.5rem;
     line-height: 2.1rem;
     letter-spacing: -0.01rem;
+  `,
+  h10: css`
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    letter-spacing: -0.02rem;
   `,
   b1: css`
     font-size: 1.4rem;

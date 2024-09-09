@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Input } from "antd";
 import { InputProps, TextAreaProps } from "antd/es/input";
-import { ChangeEvent, ForwardedRef, forwardRef, useMemo } from "react";
+import { CSSProperties, ChangeEvent, ForwardedRef, forwardRef, useMemo } from "react";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import {
   REGEXP_NUM,
@@ -20,13 +20,14 @@ export type tGRTextInputType =
 export type tGRTextInput = {
   onChange?: (value: string) => void;
   type?: tGRTextInputType;
+  height?: CSSProperties["height"];
 } & Omit<InputProps, "type" | "onChange"> &
   Omit<TextAreaProps, "onChange"> &
   tGetMargin;
 
 const PHONE_NUM_LEN = 13;
 const GRTextInput = (
-  { placeholder, type = "input", onChange, value, ...props }: tGRTextInput,
+  { placeholder, type = "input", onChange, value, height, ...props }: tGRTextInput,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _ref: ForwardedRef<HTMLDivElement>
 ) => {
@@ -107,6 +108,7 @@ const GRTextInput = (
       value={renderValue(value)}
       maxLength={_maxLen}
       css={css`
+        height: ${`${height}rem`};
         ${_margin}
       `}
       {...props}
