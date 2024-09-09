@@ -53,7 +53,7 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: Color.green200,
+            colorPrimary: Color.black100,
             colorBgBase: Color.white
           }
         }}
