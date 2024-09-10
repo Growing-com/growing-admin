@@ -3,14 +3,12 @@ import GRButtonText from "@component/atom/button/GRTextButton";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
-import { Avatar, Menu, Popover } from "antd";
-import { TAB_MENU } from 'config/router';
+import { Avatar, Popover } from "antd";
 import useLogin from "hooks/auth/useLogin";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, useCallback, useEffect, useLayoutEffect, useState } from "react";
-import menuStore from "store/clientStore/menuStore";
+import { FC, useEffect } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -25,58 +23,8 @@ export type tSelectInfo = tMenuInfo & {
 };
 
 const HlowHeaderMenu: FC = ({}) => {
-  const router = useRouter();
-  const isLogin = router.pathname === "/login";
-
-  const { menu: mainMenu } = menuStore();
-
   const [handleRouterCheck] = useLogin();
-
-  const [defaultOpen, setDefaultOpen] = useState<string[]>();
-  const [openMainMenu, openMetMainMenu] = useState<string[]>();
-  const [defaultSelected, setDefaultSelected] = useState<string[]>();
-  const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
-
-  const onSelectMenu = useCallback(
-    async (info: tSelectInfo) => {
-      const newPath = info.key.replace("-", "/");
-      setSelectedSubMenu([info.key]);
-      router.push(`/department/${newPath}`);
-    },
-    [router]
-  );
-
-  // useLayoutEffect가 서버에서는 동작하지 않게.
-  const STR_UNDEFINED = "undefined";
-  const isWindowDefined = typeof window != STR_UNDEFINED;
-  const IS_NODE = !isWindowDefined || "process" in globalThis;
-  const useIsomorphicLayoutEffect = IS_NODE ? useEffect : useLayoutEffect;
-
-  const onOpenChange = (keys: string[]) => {
-    setDefaultOpen(keys);
-  };
-
-  useEffect(() => {
-    const _mainDefault = TAB_MENU.find(
-      tab => tab.key === "department"
-    )?.children;
-    if (_mainDefault) {
-      const _defaultOpen = _mainDefault.map(menu => menu.key);
-      setDefaultOpen(_defaultOpen);
-      const _subDefault = [_mainDefault[0].key];
-      setDefaultSelected(_subDefault);
-    }
-  }, []);
-
-  useIsomorphicLayoutEffect(() => {
-    if (router.pathname) {
-      const _path = router.pathname.split("/");
-      openMetMainMenu([_path[2]]);
-      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
-      console.log('_path[2]',_path[2])
-      console.log('_path[3]',_path[3])
-    }
-  }, [router.pathname]);
+  const router = useRouter();
 
   useEffect(() => {
     handleRouterCheck();
@@ -98,14 +46,6 @@ const HlowHeaderMenu: FC = ({}) => {
           priority
         />
       </GRView>
-      <BaseLayoutMenu
-        mode={"inline"}
-        items={mainMenu}
-        selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
-        openKeys={defaultOpen} // 열리게 되는 sub menu
-        onSelect={onSelectMenu}
-        onOpenChange={onOpenChange}
-      />
       <GRFlexView justifyContent={"space-between"} flexDirection={"row"}>
         <GRFlexView flexDirection="row" justifyContent={"end"}>
           <Avatar
@@ -177,32 +117,4 @@ const Header = styled.header`
   max-width: 100%;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03),
     0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-`;
-
-const BaseLayoutMenu = styled(Menu)`
-  height: "100%";
-  border-right: 0;
-  .ant-menu {
-    background-color: ${Color.white} !important;
-  }
-  .ant-menu-submenu-selected {
-    .ant-menu-submenu-title {
-      .ant-menu-title-content {
-        font-weight: bold;
-      }
-    }
-  }
-  .ant-menu-item-selected {
-    font-weight: bold;
-  }
-  .ant-menu-submenu-title {
-    :hover {
-      background-color: ${Color.green100} !important;
-    }
-  }
-  .ant-menu-item {
-    :hover {
-      background-color: ${Color.green100} !important;
-    }
-  }
 `;

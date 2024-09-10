@@ -1,5 +1,8 @@
+import { NewfamilyIcon, PersonalDataIcon } from './icon';
+
 export type tDepartmentMainMenu = {
   key:
+    | "newfamily"
     | "personalData"
     | "attendance"
     | "lineOut"
@@ -7,20 +10,20 @@ export type tDepartmentMainMenu = {
     | "archive"
     | "discipleship";
   label:
+    | "새가족 관리"
     | "인적사항"
     | "출석관리"
-    | "라인 인 아웃"
+    | "라인인 & 아웃"
     | "라인업"
     | "아카이브"
-    | "훈련 사항";
+    | "훈련사항";
   children?:
     | tDepartmentPersonalDataSubMenu[]
     | tDepartmentAttendanceSubMenu[]
     | tDepartmentLineOutSubMenu[]
     | tDepartmentLineUpSubMenu[]
     | tDepartmentArchiveSubMenu[]
-    | tDepartmentDiscipleshipSubMenu[]
-    ;
+    | tDepartmentDiscipleshipSubMenu[];
   icon?: React.ReactNode;
 };
 
@@ -60,14 +63,13 @@ type tDepartmentDiscipleshipSubMenu = {
   path: string;
 };
 
-const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] =
-  [
-    {
-      key: "personalData-management",
-      label: "인적 사항",
-      path: "personalData/management"
-    }
-  ];
+const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] = [
+  {
+    key: "personalData-management",
+    label: "인적 사항",
+    path: "personalData/management"
+  }
+];
 
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
@@ -111,34 +113,42 @@ const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
+    key: "newfamily",
+    label: "새가족 관리",
+    icon: <NewfamilyIcon style={{width:20, height:20}}/>
+  },
+  {
     key: "personalData",
     label: "인적사항",
+    icon: <PersonalDataIcon style={{width:20, height:20}}/>
+    // icon: <TeamOutlined rev={undefined}  />
+
     // children: DEPARTMENT_PERSONALDATE_SUB_MENU
   },
   {
     key: "attendance",
-    label: "출석관리",
+    label: "출석관리"
     // children: DEPARTMENT_ATTENDANCE_SUB_MENU
   },
   {
     key: "lineOut",
-    label: "라인 인 아웃",
+    label: "라인인 & 아웃"
     // children: DEPARTMENT_LINEOUT_SUB_MENU
   },
   {
     key: "lineUp",
-    label: "라인업",
+    label: "라인업"
     // children: DEPARTMENT_LINEUP_SUB_MENU
   },
   {
-    key: "archive",
-    label: "아카이브",
-    // children:DEPARTMENT_ARCHIVE_SUB_MENU
+    key: "discipleship",
+    label: "훈련사항"
+    // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
   },
   {
-    key: "discipleship",
-    label: "훈련 사항",
-    // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
+    key: "archive",
+    label: "아카이브"
+    // children:DEPARTMENT_ARCHIVE_SUB_MENU
   }
 ];
 
@@ -158,6 +168,7 @@ export const DUTY_MENU = [
   {
     key: "ADMIN",
     value: [
+      "newfamily",
       "personalData",
       "attendance",
       "lineOut",

@@ -1,4 +1,3 @@
-import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import { TAB_MENU } from "config/Growingrouter";
@@ -94,7 +93,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <HeaderMenu onClickCollapse={onClickCollapse} />
+      {/* <HeaderMenu onClickCollapse={onClickCollapse} /> */}
       <Layout>
         <Sider
           style={{

@@ -1,5 +1,5 @@
 import AuthProvider from "@component/templates/AuthProvider";
-import BaseLayout from '@component/templates/layout/BaseLayout';
+import BaseLayout from "@component/templates/layout/BaseLayout";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -51,10 +51,22 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
         `}
       </Script>
       <ConfigProvider
+        // theme={{
+        // }}
         theme={{
           token: {
             colorPrimary: Color.black100,
-            colorBgBase: Color.white
+            colorBgBase: Color.white,
+          },
+          components: {
+            Menu: {
+              colorItemBg:Color.black200,
+              colorItemBgSelected: Color.black100,
+              colorItemText: Color.white,
+              colorItemTextSelected: Color.white,
+              colorItemBgActive: Color.red100,
+
+            },
           }
         }}
       >

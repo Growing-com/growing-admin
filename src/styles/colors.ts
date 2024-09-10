@@ -19,6 +19,7 @@ export type tColor =
   | "blue80"
   | "black"
   | "black100"
+  | "black200"
   | "white";
 
 export const Color: Record<tColor, string> = {
@@ -42,5 +43,6 @@ export const Color: Record<tColor, string> = {
   blue80: "#5E6C84",
   black: "#000000",
   black100: "#2C2C2C",
+  black200: "#444444",
   white: "#FFFFFF"
 };

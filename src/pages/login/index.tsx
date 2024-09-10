@@ -39,7 +39,7 @@ const Login = () => {
       DEPARTMENT_MAIN_MENU.forEach(menu => {
         addMenu(menu);
       });
-      router.replace(`/department/personalData/management`);
+      router.replace(`/department/personalData`);
       // await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
@@ -65,7 +65,7 @@ const Login = () => {
         </GRView> */}
           <GRFlexView isBoard={true} padding={1.5}>
             <GRFlexView>
-              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"}>
+              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"} color={"white"}>
                 환영합니다~
               </GRText>
               <GRView marginbottom={1.5}>
