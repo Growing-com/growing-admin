@@ -16,6 +16,7 @@ type tGRFlexView = {
   borderRadius?: CSSProperties["borderRadius"];
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
+  minHeight?: CSSProperties["height"];
   style?: CSSProperties;
   css?: SerializedStyles;
   flex?: number;
@@ -33,6 +34,7 @@ const GRFlexView: FC<tGRFlexView> = ({
   borderRadius,
   width,
   height,
+  minHeight, 
   css: customCss,
   style,
   flex = 1,
@@ -55,6 +57,7 @@ const GRFlexView: FC<tGRFlexView> = ({
           border-radius: ${borderRadius}rem;
           width: ${`${width}rem`};
           height: ${`${height}rem`};
+          min-height: ${`${minHeight}rem`};
           ${_margin}
           ${_padding}
         `,

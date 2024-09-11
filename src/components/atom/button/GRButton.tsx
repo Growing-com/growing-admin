@@ -14,6 +14,7 @@ type tGRButton = {
   buttonSize?: tButtonSize;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
+  borderRadius?: CSSProperties["borderRadius"];
   buttonType?: "default" | "primary" | "cancel" | "custom";
 } & ButtonProps &
   tGetMargin;
@@ -27,6 +28,7 @@ const GRButton: React.FC<tGRButton> = ({
   textColor,
   width,
   height,
+  borderRadius,
   ...props
 }) => {
   const _margin = getMargin(props);
@@ -38,7 +40,7 @@ const GRButton: React.FC<tGRButton> = ({
         buttonProps.type = "default";
         break;
       case "default":
-        buttonProps.textColor = Color.green200;
+        buttonProps.textColor = Color.black;
         buttonProps.backgroundColor = Color.white;
         break;
       case "primary":
@@ -62,6 +64,7 @@ const GRButton: React.FC<tGRButton> = ({
         ${_margin};
         width: ${width};
         height: ${height};
+        border-radius: ${borderRadius};
       `}
       {...props}
     >
@@ -82,7 +85,7 @@ export const BUTTON_SIZE_STYLE: Record<tButtonSize, SerializedStyles> = {
     height: 2rem;
   `,
   large: css`
-    width: 8rem;
-    height: 2rem;
+    width: 13rem;
+    height: 2.5rem;
   `
 };

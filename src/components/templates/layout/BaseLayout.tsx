@@ -11,6 +11,7 @@ import {
   type FC
 } from "react";
 import menuStore from "store/clientStore/menuStore";
+import GRStylesConfig from 'styles/GRStylesConfig';
 import { Color } from "styles/colors";
 
 const { Content, Sider } = Layout;
@@ -24,7 +25,6 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const { menu: mainMenu } = menuStore();
   const [handleRouterCheck] = useLogin();
 
-  const [collapsed, setCollapsed] = useState(true);
   const [openMainMenu, openMetMainMenu] = useState<string[]>();
 
   const onSelectMenu = useCallback(
@@ -54,18 +54,15 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* <button onClick={()=> console.log(mainMenu)}>mainMenu</button> */}
       <LayoutSider
         style={{
-          backgroundColor: "white"
+          backgroundColor: "white",
         }}
         trigger={null}
-        collapsed={collapsed}
-        // collapsedWidth={200}
+        collapsed={true}
+        collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
-        {/* <button onClick={() => setCollapsed(!collapsed)}>
-          {collapsed ? "펼치기" : "접기"}
-        </button> */}
+        <div>HLOW LOGO</div>
         <BaseLayoutMenu
           mode={"inline"}
           items={mainMenu}
@@ -76,6 +73,12 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
       <Layout>
         <LayoutContent>{children}</LayoutContent>
       </Layout>
+      <LayoutSider
+        collapsed={true}
+        collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
+      >
+        왼쪽 사이드바
+      </LayoutSider>
     </Layout>
   );
 };
@@ -85,13 +88,12 @@ export default BaseLayout;
 const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
-  padding: 1rem 1.5rem;
   background-color: ${Color.black200};
+  // padding: 1rem 1.5rem;
 `;
 
 const LayoutSider = styled(Sider)`
   background-color: ${Color.black200} !important;
-  border-right: 0px;
 `;
 
 const BaseLayoutMenu = styled(Menu)`
