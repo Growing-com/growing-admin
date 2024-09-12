@@ -77,7 +77,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
         collapsed={true}
         collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
-        왼쪽 사이드바
+        오른쪽 사이드바
       </LayoutSider>
     </Layout>
   );

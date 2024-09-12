@@ -20,6 +20,7 @@ type tGRFlexView = {
   style?: CSSProperties;
   css?: SerializedStyles;
   flex?: number;
+  gap? : number;
 } & AreaType &
   HTMLAttributes<HTMLDivElement>;
 
@@ -38,6 +39,7 @@ const GRFlexView: FC<tGRFlexView> = ({
   css: customCss,
   style,
   flex = 1,
+  gap,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -58,6 +60,7 @@ const GRFlexView: FC<tGRFlexView> = ({
           width: ${`${width}rem`};
           height: ${`${height}rem`};
           min-height: ${`${minHeight}rem`};
+          gap: ${gap}rem;
           ${_margin}
           ${_padding}
         `,

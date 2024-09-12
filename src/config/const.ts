@@ -60,8 +60,8 @@ export const STATUS_OPTIONS = [
 ];
 
 export const SEX_OPTIONS = [
-  { label: "남", value: "MALE" },
-  { label: "여", value: "FEMALE" }
+  { label: "남자", value: "MALE" },
+  { label: "여자", value: "FEMALE" }
 ];
 
 export const YES_NO_OPTIONS = [

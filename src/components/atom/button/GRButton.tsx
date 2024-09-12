@@ -45,7 +45,7 @@ const GRButton: React.FC<tGRButton> = ({
         break;
       case "primary":
         buttonProps.textColor = Color.white;
-        buttonProps.backgroundColor = Color.green200;
+        buttonProps.backgroundColor = Color.black100;
         break;
       case "cancel":
         buttonProps.textColor = Color.grey40;

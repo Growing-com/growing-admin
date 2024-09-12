@@ -1,5 +1,5 @@
 import GRText from "@component/atom/text/GRText";
-import type { tSex } from "apiV1_prefix/account/types";
+import { tSex } from 'api/account/types';
 import { SEX_NAME } from "config/const";
 import React, { FC } from "react";
 
