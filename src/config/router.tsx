@@ -1,4 +1,5 @@
-import { NewfamilyIcon, PersonalDataIcon } from './icon';
+import { TeamOutlined } from '@ant-design/icons';
+import { NewfamilyIcon } from './icon';
 
 export type tDepartmentMainMenu = {
   key:
@@ -9,7 +10,7 @@ export type tDepartmentMainMenu = {
     | "lineUp"
     | "archive"
     | "discipleship";
-  label:
+  title:
     | "새가족 관리"
     | "인적사항"
     | "출석관리"
@@ -29,44 +30,44 @@ export type tDepartmentMainMenu = {
 
 type tDepartmentPersonalDataSubMenu = {
   key: "personalData-management";
-  label: "인적 사항";
+  title: "인적 사항";
   path: string;
 };
 
 type tDepartmentAttendanceSubMenu = {
   key: "attendance-management";
-  label: "출석 관리";
+  title: "출석 관리";
   path: string;
 };
 
 type tDepartmentLineOutSubMenu = {
   key: "lineOut-management";
-  label: "라인아웃 관리";
+  title: "라인아웃 관리";
   path: string;
 };
 
 type tDepartmentLineUpSubMenu = {
   key: "lineUp-management";
-  label: "라인업 관리";
+  title: "라인업 관리";
   path: string;
 };
 
 type tDepartmentArchiveSubMenu = {
   key: "archive-management";
-  label: "사역 관리";
+  title: "사역 관리";
   path: string;
 };
 
 type tDepartmentDiscipleshipSubMenu = {
   key: "discipleship-management";
-  label: "훈련 관리";
+  title: "훈련 관리";
   path: string;
 };
 
 const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] = [
   {
     key: "personalData-management",
-    label: "인적 사항",
+    title: "인적 사항",
     path: "personalData/management"
   }
 ];
@@ -74,7 +75,7 @@ const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] = [
 const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
   {
     key: "attendance-management",
-    label: "출석 관리",
+    title: "출석 관리",
     path: "attendance/management"
   }
 ];
@@ -82,7 +83,7 @@ const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
 const DEPARTMENT_LINEOUT_SUB_MENU: tDepartmentLineOutSubMenu[] = [
   {
     key: "lineOut-management",
-    label: "라인아웃 관리",
+    title: "라인아웃 관리",
     path: "lineOut/management"
   }
 ];
@@ -90,7 +91,7 @@ const DEPARTMENT_LINEOUT_SUB_MENU: tDepartmentLineOutSubMenu[] = [
 const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
   {
     key: "lineUp-management",
-    label: "라인업 관리",
+    title: "라인업 관리",
     path: "lineUp/management"
   }
 ];
@@ -98,7 +99,7 @@ const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
 const DEPARTMENT_ARCHIVE_SUB_MENU: tDepartmentArchiveSubMenu[] = [
   {
     key: "archive-management",
-    label: "사역 관리",
+    title: "사역 관리",
     path: "archive/management"
   }
 ];
@@ -106,7 +107,7 @@ const DEPARTMENT_ARCHIVE_SUB_MENU: tDepartmentArchiveSubMenu[] = [
 const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
   {
     key: "discipleship-management",
-    label: "훈련 관리",
+    title: "훈련 관리",
     path: "discipleship/management"
   }
 ];
@@ -114,40 +115,40 @@ const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "newfamily",
-    label: "새가족 관리",
-    icon: <NewfamilyIcon style={{width:20, height:20}}/>
+    title: "새가족 관리",
+    icon: <NewfamilyIcon style={{width:20, height:20}}/>,
   },
   {
     key: "personalData",
-    label: "인적사항",
-    icon: <PersonalDataIcon style={{width:20, height:20}}/>
-    // icon: <TeamOutlined rev={undefined}  />
+    title: "인적사항",
+    // icon: <PersonalDataIcon style={{width:20, height:20}}/>
+    icon: <TeamOutlined   />
 
     // children: DEPARTMENT_PERSONALDATE_SUB_MENU
   },
   {
     key: "attendance",
-    label: "출석관리"
+    title: "출석관리"
     // children: DEPARTMENT_ATTENDANCE_SUB_MENU
   },
   {
     key: "lineOut",
-    label: "라인인 & 아웃"
+    title: "라인인 & 아웃"
     // children: DEPARTMENT_LINEOUT_SUB_MENU
   },
   {
     key: "lineUp",
-    label: "라인업"
+    title: "라인업"
     // children: DEPARTMENT_LINEUP_SUB_MENU
   },
   {
     key: "discipleship",
-    label: "훈련사항"
+    title: "훈련사항"
     // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
   },
   {
     key: "archive",
-    label: "아카이브"
+    title: "아카이브"
     // children:DEPARTMENT_ARCHIVE_SUB_MENU
   }
 ];

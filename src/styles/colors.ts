@@ -25,7 +25,7 @@ export type tColor =
 export const Color: Record<tColor, string> = {
   green200: "#20C895",
   green100: "#27fbbc33",
-  grey160: "#f5f5f7",
+  grey160: "#f5f5f5",
   grey140: "#EEF0F6",
   grey120: "#EAEAEA",
   grey100: "#E0E0E0",

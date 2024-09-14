@@ -9,6 +9,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
 import { ReactElement, ReactNode } from "react";
+import { ComponentsToken } from 'styles/ComponentsToken';
 import { Color } from "styles/colors";
 import "styles/globals.css";
 
@@ -51,23 +52,12 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
         `}
       </Script>
       <ConfigProvider
-        // theme={{
-        // }}
         theme={{
           token: {
             colorPrimary: Color.black100,
-            colorBgBase: Color.white,
+            colorBgBase: Color.white
           },
-          components: {
-            Menu: {
-              colorItemBg:Color.black200,
-              colorItemBgSelected: Color.black100,
-              colorItemText: Color.white,
-              colorItemTextSelected: Color.white,
-              colorItemBgActive: Color.red100,
-
-            },
-          }
+          components: ComponentsToken
         }}
       >
         <QueryClientProvider client={queryClient}>

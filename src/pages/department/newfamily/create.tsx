@@ -39,7 +39,7 @@ const NewfamilyCreatePage: NextPage = () => {
           <GRFlexView
             flexDirection={"row"}
             marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-            gap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+            xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
           >
             <GRView width={15}>
               <GRFormItem
@@ -68,16 +68,6 @@ const NewfamilyCreatePage: NextPage = () => {
                     message: "1학년부터 19학년까지 입력하세요."
                   }
                 }}
-              />
-            </GRView>
-            <GRView isFlex width={10}>
-              <GRFormItem
-                type={"radio"}
-                options={SEX_OPTIONS}
-                title={"성별"}
-                fieldName={"sex"}
-                control={control}
-                rules={{ required: "성별은 필수 입니다." }}
               />
             </GRView>
             <GRView width={15}>
@@ -116,8 +106,18 @@ const NewfamilyCreatePage: NextPage = () => {
           </GRFlexView>
           <GRFlexView
             flexDirection={"row"}
-            gap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+            xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
           >
+            <GRView isFlex width={15}>
+              <GRFormItem
+                type={"radio"}
+                options={SEX_OPTIONS}
+                title={"성별"}
+                fieldName={"sex"}
+                control={control}
+                rules={{ required: "성별은 필수 입니다." }}
+              />
+            </GRView>
             <GRView width={18}>
               <GRFormItem
                 type={"date"}
@@ -154,7 +154,7 @@ const NewfamilyCreatePage: NextPage = () => {
           <GRFlexView
             flexDirection={"row"}
             marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-            gap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+            xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
           >
             <GRFormItem
               type={"radio"}
@@ -179,6 +179,8 @@ const NewfamilyCreatePage: NextPage = () => {
               control={control}
               placeholder={"사랑의 교회 대학부에 오게 된 이유를 선택해 주세요"}
             />
+          </GRFlexView>
+          <GRFlexView flexDirection={"row"}>
             <GRFormItem
               type={"radio"}
               options={THERE_OPTIONS}
@@ -186,8 +188,6 @@ const NewfamilyCreatePage: NextPage = () => {
               fieldName={"etc.hasCertaintityOfSalvation"}
               control={control}
             />
-          </GRFlexView>
-          <GRFlexView flexDirection={"row"}>
             <GRFormItem
               type={"select"}
               options={BELIEVE_STATUS_OPTIONS}
@@ -213,7 +213,7 @@ const NewfamilyCreatePage: NextPage = () => {
               marginBottom: `${GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}rem`
             }}
           />
-          {/* <GRFormItem
+          <GRFormItem
             type={"text"}
             textType={"textarea"}
             title={"새가족 순원 기록지"}
@@ -224,7 +224,7 @@ const NewfamilyCreatePage: NextPage = () => {
               height: "5rem",
               marginBottom: `${GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}rem`
             }}
-          /> */}
+          />
           <GRFormItem
             type={"select"}
             options={termNewFamilyLeaderOptions}

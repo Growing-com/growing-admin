@@ -1,4 +1,3 @@
-import { tSelectInfo } from "@component/molecule/menu/HlowHeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import useLogin from "hooks/auth/useLogin";
@@ -13,6 +12,16 @@ import {
 import menuStore from "store/clientStore/menuStore";
 import GRStylesConfig from 'styles/GRStylesConfig';
 import { Color } from "styles/colors";
+
+export type tMenuInfo = {
+  key: string;
+  keyPath: string[];
+  domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+};
+
+export type tSelectInfo = tMenuInfo & {
+  selectedKeys: string[];
+};
 
 const { Content, Sider } = Layout;
 
@@ -98,7 +107,6 @@ const LayoutSider = styled(Sider)`
 
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
-  border-right: 0;
   .ant-menu {
     background-color: ${Color.red100} !important;
   }
@@ -118,6 +126,9 @@ const BaseLayoutMenu = styled(Menu)`
     }
   }
   .ant-menu-item {
+    // background-color: ${Color.white} !important;
+    // width: 10px !important;
+    // border-radius: 100px !important;
     :hover {
       // background-color: ${Color.red100} !important;
     }

@@ -16,7 +16,7 @@ type tNewfamilyInfoTable = {
   searchName: string;
 };
 
-const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
+const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   const router = useRouter();
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
@@ -139,6 +139,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       >
         newFamilyData
       </button> */}
+      라인업 테이블
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
@@ -156,4 +157,4 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   );
 };
 
-export default NewfamilyInfoTable;
+export default NewfamilyLineUpTable;
