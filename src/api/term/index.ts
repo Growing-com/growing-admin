@@ -1,6 +1,6 @@
 import { REQUEST_METHOD, request } from "api";
 
-const version = "v2";
+const version = "v1";
 
 type tSmallGroup = {
   smallGroupId: number;
@@ -19,9 +19,15 @@ type tGetNewFamilyGroup = {
   newFamilyGroupLeaderName: string;
 };
 
-export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
+export const getNewFamilyGroup = () => {
   return request<tGetNewFamilyGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/term/${termId}/new-family-groups`
+    url: `${version}/active-new-family-groups`
   });
 };
+// export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
+//   return request<tGetNewFamilyGroup[]>({
+//     method: REQUEST_METHOD.GET,
+//     url: `${version}/term/${termId}/new-family-groups`
+//   });
+// };
