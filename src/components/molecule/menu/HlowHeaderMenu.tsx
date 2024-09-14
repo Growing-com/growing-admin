@@ -12,16 +12,6 @@ import { FC, useEffect } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-export type tMenuInfo = {
-  key: string;
-  keyPath: string[];
-  domEvent: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
-};
-
-export type tSelectInfo = tMenuInfo & {
-  selectedKeys: string[];
-};
-
 const HlowHeaderMenu: FC = ({}) => {
   const [handleRouterCheck] = useLogin();
   const router = useRouter();
@@ -58,7 +48,7 @@ const HlowHeaderMenu: FC = ({}) => {
                 href={`${process.env.NEXT_PUBLIC_ANNOUNCEMENT}`}
                 target={"_blank"}
               >
-                <NotificationOutlined rev={undefined} />
+                <NotificationOutlined  />
               </Link>
             }
           />
@@ -99,7 +89,7 @@ const HlowHeaderMenu: FC = ({}) => {
                 backgroundColor: Color.green200,
                 marginRight: "6rem"
               }}
-              icon={<UserOutlined rev={undefined} />}
+              icon={<UserOutlined  />}
             />
           </Popover>
         </GRFlexView>

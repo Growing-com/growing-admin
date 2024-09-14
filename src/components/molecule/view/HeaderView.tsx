@@ -50,7 +50,7 @@ const HeaderView: FC<tHeaderView> = ({
       >
         <GRFlexView flexDirection={"row"} alignItems={"center"}>
           {disabledBackbutton && (
-            <StyledLeftOutlined rev={undefined} onClick={onClickBack} />
+            <StyledLeftOutlined onClick={onClickBack} />
           )}
           <GRText
             fontSize={"h5"}

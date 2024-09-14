@@ -57,9 +57,9 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
             onClick={onClickOpenFilter}
           >
             {isShowFilter ? (
-              <CaretUpOutlined rev={undefined} style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
+              <CaretUpOutlined  style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
             ) : (
-              <CaretDownOutlined rev={undefined} style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
+              <CaretDownOutlined  style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
             )}
             필터
           </GRButtonText>

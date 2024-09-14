@@ -1,3 +1,4 @@
+import { Table } from 'antd';
 import { Color } from "./colors";
 
 export const ComponentsToken = {
@@ -17,5 +18,8 @@ export const ComponentsToken = {
     // itemHoverColor: Color.white,
     // itemSelectedColor: Color.white,
     // itemActiveBg: Color.red100
+  },
+  Table: {
+    headerBorderRadius: 12
   }
 };

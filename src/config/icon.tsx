@@ -1,4 +1,8 @@
+import Icon from '@ant-design/icons';
+import type { GetProps } from 'antd';
 import { CSSProperties } from "react";
+
+type CustomIconComponentProps = GetProps<typeof Icon>;
 
 type tPersonalDataIcon = {
   style?: CSSProperties;

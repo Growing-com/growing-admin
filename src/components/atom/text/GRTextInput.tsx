@@ -49,7 +49,7 @@ const GRTextInput = (
   }, [type]);
 
   const renderValue = (
-    _value?: string | number | readonly string[] | undefined
+    _value?: string | number | bigint | readonly string[] | undefined
   ) => {
     if (typeof _value === "string" && type === "name") {
       return _value.replace(/\s+/g, "");

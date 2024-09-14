@@ -28,6 +28,7 @@ const NewfamilyPage: NextPage = () => {
   const [searchName, setSearchName] = useState("");
   const [tabValue, setTabVaule] = useState<string>(NEW_FAMILY_INFO);
 
+
   const onClickCreateNewFamily = async () => {
     await router.push("/department/newfamily/create");
   };
@@ -94,9 +95,7 @@ const NewfamilyPage: NextPage = () => {
           selectedKeys={[tabValue]}
           onClick={onClickTabMenu}
         />
-        <GRFlexView>
-          <GRFlexView>{newfamilyTable(tabValue)}</GRFlexView>
-        </GRFlexView>
+        <GRFlexView paddingleft={3} >{newfamilyTable(tabValue)}</GRFlexView>
       </GRFlexView>
     </>
   );

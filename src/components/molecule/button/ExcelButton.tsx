@@ -43,7 +43,6 @@ const ExcelButton = ({
           {...props}
         >
           <FileExcelOutlined
-            rev={undefined}
             style={{
               fontSize: "1rem",
               marginRight: !onlyIcon ? "0.3rem" : "0rem"

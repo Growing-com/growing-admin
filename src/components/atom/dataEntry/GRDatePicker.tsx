@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import { DatePicker, type DatePickerProps } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import { PickerComponentClass } from "antd/es/date-picker/generatePicker/interface";
 import locale from "antd/lib/date-picker/locale/ko_KR";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ko"; // 한국어 locale 추가
@@ -39,7 +38,7 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
     () =>
       (pickerType === "basic"
         ? DatePicker
-        : RangePicker) as PickerComponentClass<
+        : RangePicker) as React.FC<
         Omit<tGRDatePicker<tPickerType>, "pickerType">
       >,
     [pickerType]

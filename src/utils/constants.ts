@@ -1,32 +1,32 @@
-import { tTrainingType } from "apiV1_prefix/training/type";
 
-export type tTrainingMainTitle = {
-  label: string;
-  value: tTrainingType;
-};
 
-export const DISCIPLE: tTrainingMainTitle[] = [
-  { label: "제자학교A", value: "DISCIPLE_SCHOOL_A" },
-  { label: "제자학교B", value: "DISCIPLE_SCHOOL_B" },
-  { label: "제자반", value: "DISCIPLE" }
-];
+// export type tTrainingMainTitle = {
+//   label: string;
+//   value: tTrainingType;
+// };
 
-export const BAPTISM: tTrainingMainTitle[] = [
-  { label: "유아 세례", value: "INFANT_BAPTISM" },
-  { label: "성인 세례", value: "NORMAL_BAPTISM" },
-  { label: "군대 세례", value: "MILITARY_BAPTISM" }
-];
+// export const DISCIPLE: tTrainingMainTitle[] = [
+//   { label: "제자학교A", value: "DISCIPLE_SCHOOL_A" },
+//   { label: "제자학교B", value: "DISCIPLE_SCHOOL_B" },
+//   { label: "제자반", value: "DISCIPLE" }
+// ];
 
-export const TRAINING: tTrainingMainTitle[] = [
-  { label: "입교", value: "CONFIRMATION" },
-  { label: "학습", value: "PRE_BAPTISM" }
-];
+// export const BAPTISM: tTrainingMainTitle[] = [
+//   { label: "유아 세례", value: "INFANT_BAPTISM" },
+//   { label: "성인 세례", value: "NORMAL_BAPTISM" },
+//   { label: "군대 세례", value: "MILITARY_BAPTISM" }
+// ];
 
-export const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
-  ...DISCIPLE,
-  ...BAPTISM,
-  ...TRAINING
-];
+// export const TRAINING: tTrainingMainTitle[] = [
+//   { label: "입교", value: "CONFIRMATION" },
+//   { label: "학습", value: "PRE_BAPTISM" }
+// ];
+
+// export const TRAINING_MAIN_TITLE: tTrainingMainTitle[] = [
+//   ...DISCIPLE,
+//   ...BAPTISM,
+//   ...TRAINING
+// ];
 
 // const EMPTY_FILTER = [
 //   {
