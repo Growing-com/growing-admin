@@ -1,10 +1,14 @@
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRButton from "@component/atom/button/GRButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
-import { tNewFamily } from "api/newfamily/type";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNewfamily } from "api/newfamily";
+import { tNewfamily } from "api/newfamily/type";
+import queryKeys from 'api/queryKeys';
 import {
   BELIEVE_STATUS_OPTIONS,
   SEX_OPTIONS,
@@ -12,17 +16,45 @@ import {
   VISIT_REASON_OPTIONS,
   YES_NO_OPTIONS
 } from "config/const";
+import { Dayjs } from "dayjs";
 import useTerm from "hooks/api/term/useTerm";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { convertDateStringByDefaultForm } from "utils/DateUtils";
+import { handleError } from "utils/error";
 import { REGEXP_GRADE_NUM, REGEXP_PHONE_HYPHEN_PATTERN } from "utils/regexp";
 
 const NewfamilyCreatePage: NextPage = () => {
-  const { control, handleSubmit } = useForm<tNewFamily>();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { control, handleSubmit } = useForm<tNewfamily>();
 
   const { termNewFamilyLeaderOptions } = useTerm({
     termId: 1
+  });
+
+  const { mutateAsync } = useMutation(createNewfamily, {
+    onError: error => {
+      handleError(error, "지체 생성 오류");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
+      router.back();
+      GRAlert.success("지체 생성 완료");
+    }
+  });
+
+  const onRegisterNewFamily = handleSubmit(async (_value: tNewfamily) => {
+    await mutateAsync({
+      ..._value,
+      birth: convertDateStringByDefaultForm(_value.birth as unknown as Dayjs),
+      visitDate: convertDateStringByDefaultForm(
+        _value.visitDate as unknown as Dayjs
+      )
+    });
   });
 
   return (
@@ -194,9 +226,9 @@ const NewfamilyCreatePage: NextPage = () => {
               title={"나는 예수님을 ( )"}
               fieldName={"etc.relationshipWithJesus"}
               control={control}
-              // placeholder={
-              //   "사랑의 교회 대학부에 오게 된 이유를 선택해 주세요"
-              // }
+              placeholder={
+                "해당하는 답변을 선택해주세요."
+              }
             />
           </GRFlexView>
         </GRView>
@@ -214,18 +246,6 @@ const NewfamilyCreatePage: NextPage = () => {
             }}
           />
           <GRFormItem
-            type={"text"}
-            textType={"textarea"}
-            title={"새가족 순원 기록지"}
-            fieldName={"etc.lineUpMemo"}
-            control={control}
-            placeholder={"라인업에 참고할 사항을 입력해 주세요"}
-            style={{
-              height: "5rem",
-              marginBottom: `${GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}rem`
-            }}
-          />
-          <GRFormItem
             type={"select"}
             options={termNewFamilyLeaderOptions}
             title={"새가족 순장"}
@@ -236,7 +256,9 @@ const NewfamilyCreatePage: NextPage = () => {
           />
         </GRView>
         <GRFlexView>
-          <GRButton type={"primary"}>등록</GRButton>
+          <GRButton type={"primary"} onClick={onRegisterNewFamily}>
+            등록
+          </GRButton>
         </GRFlexView>
       </GRView>
     </GRContainerView>

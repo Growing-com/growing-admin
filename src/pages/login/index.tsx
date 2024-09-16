@@ -63,9 +63,9 @@ const Login = () => {
             style={{ objectFit: "contain" }}
           />
         </GRView> */}
-          <GRFlexView isBoard={true} padding={1.5}>
-            <GRFlexView>
-              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"} color={"white"}>
+          <LoginBox isBoard={true} padding={1.5}>
+            <GRFlexView >
+              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"} >
                 환영합니다~
               </GRText>
               <GRView marginbottom={1.5}>
@@ -106,12 +106,12 @@ const Login = () => {
               비밀번호 변경
             </GRButtonText> */}
             </GRFlexView>
-          </GRFlexView>
+          </LoginBox>
           <GRFlexView alignItems={"center"}>
             {/* <GRText fontSize={"b8"} color={Color.grey80}>
               {`v${publicRuntimeConfig?.version}` ?? ""}
             </GRText> */}
-            <GRText margintop={2.5} color={Color.grey10}>
+            <GRText margintop={2} weight={"bold"} fontSize={"h11"}>
               흐르는 시간, 흐르는 우리
             </GRText>
           </GRFlexView>
@@ -149,3 +149,7 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const LoginBox = styled(GRFlexView)`
+  box-shadow: 3px 4px 15px 4px rgba(0, 0, 0, 25%);
+`

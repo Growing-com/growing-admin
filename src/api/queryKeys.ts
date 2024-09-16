@@ -6,6 +6,7 @@ const queryKeys = {
 //   MEMBERS_BY_CODY: "MEMBERS_BY_CODY",
   /** 텀 새가족 */
   NEW_FAMILY: "NEW_FAMILY",
+  NEW_FAMILY_DETAIL: "NEW_FAMILY_DETAIL",
   /** 텀 새가족 리더 */
   NEW_FAMILY_LEADER: "NEW_FAMILY_LEADER",
 

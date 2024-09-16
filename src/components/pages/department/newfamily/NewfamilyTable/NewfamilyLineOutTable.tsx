@@ -3,7 +3,7 @@ import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import { getNewfamilies } from "api/newfamily";
-import { tNewFamily } from "api/newfamily/type";
+import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
@@ -20,7 +20,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) =>
   const router = useRouter();
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewFamily[]
+    tNewfamily[]
   >([]);
 
   const { data: newFamilyData } = useQuery(

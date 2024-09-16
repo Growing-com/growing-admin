@@ -145,7 +145,7 @@ const BaseLayoutMenu = styled(Menu)`
     margin-bottom: 39px;
     margin-left: 1.125rem !important;
     padding: 22px !important;
-    border-radius: 3rem !important;
+    border-radius: 50% !important;
     
     :hover {
     }

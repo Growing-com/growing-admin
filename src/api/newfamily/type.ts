@@ -2,7 +2,7 @@ import { tSex } from "api/account/types";
 import { BELIEVE_STATUS, VISIT_REASON, YES_NO_STATUS } from "common/enum";
 // import { Nullable } from "common/type-aliases";
 
-export type tNewFamilyEtc = {
+export type tNewfamilyEtc = {
   /** @description 학교 @example: "서울대학교 감자학과 6학년"; */
   school: string;
 
@@ -31,7 +31,7 @@ export type tNewFamilyEtc = {
   lineUpMemo: string;
 };
 
-export type tNewFamily = {
+export type tNewfamily = {
   /** @description 새가족 ID  @example: 1 */
   newFamilyId: number;
 
@@ -54,7 +54,7 @@ export type tNewFamily = {
   grade: number;
 
   /** @description 기타  @example: tNewFamilyEtc_ */
-  etc: tNewFamilyEtc;
+  etc: tNewfamilyEtc;
 
   /** @description 새가족 그룹 리더 이름  @example: 고길동 */
   newFamilyGroupLeaderName: string;
