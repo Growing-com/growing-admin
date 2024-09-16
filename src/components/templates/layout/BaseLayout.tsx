@@ -1,5 +1,7 @@
+import GRFlexView from "@component/atom/view/GRFlexView";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
+import { HlowLogoWhiteIcon } from "config/icon";
 import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
@@ -10,7 +12,7 @@ import {
   type FC
 } from "react";
 import menuStore from "store/clientStore/menuStore";
-import GRStylesConfig from 'styles/GRStylesConfig';
+import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 export type tMenuInfo = {
@@ -38,8 +40,10 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
-      const newPath = info.key.replace("-", "/");
-      router.push(`/department/${newPath}`);
+      // console.log(info);
+      // const newPath = info.key.replace("-", "/");
+      // router.push(`/department/${newPath}`);
+      router.push(`/department/${info.key}`);
     },
     [router]
   );
@@ -65,13 +69,15 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
     <Layout style={{ minHeight: "100vh" }}>
       <LayoutSider
         style={{
-          backgroundColor: "white",
+          backgroundColor: "white"
         }}
         trigger={null}
         collapsed={true}
         collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
-        <div>HLOW LOGO</div>
+        <GRFlexView justifyContent='center' marginleft={1.125} margintop={2}>
+          <HlowLogoWhiteIcon />
+        </GRFlexView>
         <BaseLayoutMenu
           mode={"inline"}
           items={mainMenu}
@@ -83,6 +89,9 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
         <LayoutContent>{children}</LayoutContent>
       </Layout>
       <LayoutSider
+        style={{
+          backgroundColor: "white"
+        }}
         collapsed={true}
         collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
@@ -110,6 +119,7 @@ const BaseLayoutMenu = styled(Menu)`
   .ant-menu {
     background-color: ${Color.red100} !important;
   }
+
   .ant-menu-submenu-selected {
     .ant-menu-submenu-title {
       .ant-menu-title-content {
@@ -117,20 +127,29 @@ const BaseLayoutMenu = styled(Menu)`
       }
     }
   }
-  .ant-menu-item-selected {
-    font-weight: bold;
+
+  
+  .ant-menu-item.ant-menu-item-selected {
+    background-color: ${Color.black100} !important;
+    color: ${Color.white} !important;
+    box-shadow: inset 0px 4px 4px 0px #000000;
   }
-  .ant-menu-submenu-title {
-    :hover {
-      background-color: ${Color.red100} !important;
-    }
-  }
+
   .ant-menu-item {
-    // background-color: ${Color.white} !important;
-    // width: 10px !important;
-    // border-radius: 100px !important;
+    background-color: ${Color.white} !important;
+    color: ${Color.black200} !important;
+
+    // height: 2.5rem !important;
+    width: 2.5rem !important;
+    margin-top: 39px;
+    margin-bottom: 39px;
+    margin-left: 1.125rem !important;
+    padding: 22px !important;
+    border-radius: 3rem !important;
+    
     :hover {
-      // background-color: ${Color.red100} !important;
     }
+
+    display: flex; !important;
   }
 `;

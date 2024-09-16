@@ -1,5 +1,12 @@
-import { TeamOutlined } from '@ant-design/icons';
-import { NewfamilyIcon } from './icon';
+import {
+  ArchiveIcon,
+  AttendanceIcon,
+  DiscipleshipIcon,
+  LineOutIcon,
+  LineUpIcon,
+  NewfamilyWhiteIcon,
+  PersonalDataIcon
+} from "./icon";
 
 export type tDepartmentMainMenu = {
   key:
@@ -18,138 +25,48 @@ export type tDepartmentMainMenu = {
     | "라인업"
     | "아카이브"
     | "훈련사항";
-  children?:
-    | tDepartmentPersonalDataSubMenu[]
-    | tDepartmentAttendanceSubMenu[]
-    | tDepartmentLineOutSubMenu[]
-    | tDepartmentLineUpSubMenu[]
-    | tDepartmentArchiveSubMenu[]
-    | tDepartmentDiscipleshipSubMenu[];
   icon?: React.ReactNode;
 };
 
-type tDepartmentPersonalDataSubMenu = {
-  key: "personalData-management";
-  title: "인적 사항";
-  path: string;
+const iconStyle = {
+  transform: "translate(-10px,-16px)"
 };
-
-type tDepartmentAttendanceSubMenu = {
-  key: "attendance-management";
-  title: "출석 관리";
-  path: string;
-};
-
-type tDepartmentLineOutSubMenu = {
-  key: "lineOut-management";
-  title: "라인아웃 관리";
-  path: string;
-};
-
-type tDepartmentLineUpSubMenu = {
-  key: "lineUp-management";
-  title: "라인업 관리";
-  path: string;
-};
-
-type tDepartmentArchiveSubMenu = {
-  key: "archive-management";
-  title: "사역 관리";
-  path: string;
-};
-
-type tDepartmentDiscipleshipSubMenu = {
-  key: "discipleship-management";
-  title: "훈련 관리";
-  path: string;
-};
-
-const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] = [
-  {
-    key: "personalData-management",
-    title: "인적 사항",
-    path: "personalData/management"
-  }
-];
-
-const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
-  {
-    key: "attendance-management",
-    title: "출석 관리",
-    path: "attendance/management"
-  }
-];
-
-const DEPARTMENT_LINEOUT_SUB_MENU: tDepartmentLineOutSubMenu[] = [
-  {
-    key: "lineOut-management",
-    title: "라인아웃 관리",
-    path: "lineOut/management"
-  }
-];
-
-const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
-  {
-    key: "lineUp-management",
-    title: "라인업 관리",
-    path: "lineUp/management"
-  }
-];
-
-const DEPARTMENT_ARCHIVE_SUB_MENU: tDepartmentArchiveSubMenu[] = [
-  {
-    key: "archive-management",
-    title: "사역 관리",
-    path: "archive/management"
-  }
-];
-
-const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
-  {
-    key: "discipleship-management",
-    title: "훈련 관리",
-    path: "discipleship/management"
-  }
-];
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "newfamily",
     title: "새가족 관리",
-    icon: <NewfamilyIcon style={{width:20, height:20}}/>,
+    icon: <NewfamilyWhiteIcon style={iconStyle} />
   },
   {
     key: "personalData",
     title: "인적사항",
-    // icon: <PersonalDataIcon style={{width:20, height:20}}/>
-    icon: <TeamOutlined   />
-
-    // children: DEPARTMENT_PERSONALDATE_SUB_MENU
+    icon: <PersonalDataIcon style={iconStyle} />
   },
   {
     key: "attendance",
-    title: "출석관리"
-    // children: DEPARTMENT_ATTENDANCE_SUB_MENU
+    title: "출석관리",
+    icon: <AttendanceIcon style={{ transform: "translate(-10px,-18px)" }} />
   },
   {
     key: "lineOut",
-    title: "라인인 & 아웃"
-    // children: DEPARTMENT_LINEOUT_SUB_MENU
+    title: "라인인 & 아웃",
+    icon: <LineOutIcon style={{ transform: "translate(-10px,-18px)" }} />
   },
   {
     key: "lineUp",
-    title: "라인업"
-    // children: DEPARTMENT_LINEUP_SUB_MENU
+    title: "라인업",
+    icon: <LineUpIcon style={{ transform: "translate(-10px,-18px)" }} />
   },
   {
     key: "discipleship",
-    title: "훈련사항"
-    // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
+    title: "훈련사항",
+    icon: <DiscipleshipIcon style={{ transform: "translate(-7px,-16px)" }} />
   },
   {
     key: "archive",
-    title: "아카이브"
-    // children:DEPARTMENT_ARCHIVE_SUB_MENU
+    title: "아카이브",
+    icon: <ArchiveIcon style={iconStyle} />
   }
 ];
 
