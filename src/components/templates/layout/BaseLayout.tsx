@@ -136,6 +136,8 @@ const BaseLayoutMenu = styled(Menu)`
   }
 
   .ant-menu-item {
+    border: solid 1px; 
+    border-color: ${Color.black100};
     background-color: ${Color.white} !important;
     color: ${Color.black200} !important;
 
@@ -144,7 +146,7 @@ const BaseLayoutMenu = styled(Menu)`
     margin-top: 39px;
     margin-bottom: 39px;
     margin-left: 1.125rem !important;
-    padding: 22px !important;
+    padding: 21px !important;
     border-radius: 50% !important;
     
     :hover {

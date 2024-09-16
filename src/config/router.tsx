@@ -66,7 +66,7 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "archive",
     title: "아카이브",
-    icon: <ArchiveIcon style={iconStyle} />
+    icon: <ArchiveIcon style={{ transform: "translate(-10px,-18px)" }} />
   }
 ];
 
