@@ -33,6 +33,7 @@
     "zustand": "^4.4.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query-devtools": "^4.26.1",
     "@types/lodash": "^4.14.194",
     "@types/node": "18.15.0",

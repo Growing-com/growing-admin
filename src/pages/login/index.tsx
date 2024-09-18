@@ -4,21 +4,28 @@ import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import FlowSvg from "@component/pages/login/FlowSvg";
 import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
+import { NextPage } from "next";
 import getConfig from "next/config";
 import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
 import menuStore from "store/clientStore/menuStore";
 import { Color } from "styles/colors";
+import HlowFlowSvg from "/public/svg/Hlowflow.svg";
 // import Image from "next/image";
 
 const { publicRuntimeConfig } = getConfig();
 
-const Login = () => {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactElement;
+};
+
+const Login: NextPageWithLayout = () => {
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
 
@@ -63,9 +70,9 @@ const Login = () => {
             style={{ objectFit: "contain" }}
           />
         </GRView> */}
-          <LoginBox isBoard={true} padding={1.5}>
+          <LoginBox isBoard={true} padding={1.5} backgroundColor='white'>
             <GRFlexView >
-              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"} >
+              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"}>
                 환영합니다~
               </GRText>
               <GRView marginbottom={1.5}>
@@ -118,6 +125,19 @@ const Login = () => {
         </GRView>
       </LoginContainer>
       {/* <div>bottom</div> */}
+      <div style={{
+          position: "absolute",
+          top: "45%",
+          bottom: "50%",
+          zIndex:1,
+      }}>
+        <FlowSvg
+          svg={HlowFlowSvg}
+          animationKey={"flowLeft"}
+          direction={"left"}
+          duration={10}
+        />
+      </div>
     </AppContainer>
   );
 };
@@ -148,8 +168,9 @@ const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 `;
 
 const LoginBox = styled(GRFlexView)`
   box-shadow: 3px 4px 15px 4px rgba(0, 0, 0, 25%);
-`
+`;
