@@ -1,4 +1,4 @@
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRModal from "@component/atom/modal/GRModal";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { ModalProps } from "antd";
@@ -72,7 +72,7 @@ const GRFormModal: FC<tGRFormModal> = ({
         <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
           {isShowDeleteButton && (
             <GRFlexView>
-              <GRButtonText
+              <GRTextButton
                 key={"delete-button"}
                 buttonType={"custom"}
                 onClick={onDeleteClickButton}
@@ -82,21 +82,21 @@ const GRFormModal: FC<tGRFormModal> = ({
                 textSize={"b7"}
               >
                 {deleteButtonText ?? "삭제"}
-              </GRButtonText>
+              </GRTextButton>
             </GRFlexView>
           )}
           <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
-            <GRButtonText
+            <GRTextButton
               key={"cancel-button"}
               buttonType={"cancel"}
               onClick={onCancelClickButton}
               marginright={GRStylesConfig.BASE_MARGIN}
             >
               {cancelButtonText ?? "취소"}
-            </GRButtonText>
-            <GRButtonText key={"ok-button"} htmlType={"submit"}>
+            </GRTextButton>
+            <GRTextButton key={"ok-button"} htmlType={"submit"}>
               {okButtonText ?? "확인"}
-            </GRButtonText>
+            </GRTextButton>
           </GRFlexView>
         </GRFlexView>
       </form>

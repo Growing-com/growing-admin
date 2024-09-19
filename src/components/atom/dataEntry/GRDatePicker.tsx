@@ -7,7 +7,7 @@ import "dayjs/locale/ko"; // 한국어 locale 추가
 import { CSSProperties, FC, useCallback, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import GRButtonText from "../button/GRTextButton";
+import GRTextButton from "../button/GRTextButton";
 import GRFlexView from "../view/GRFlexView";
 
 dayjs.locale("ko");
@@ -76,12 +76,12 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
         alignItems={"center"}
         marginvertical={GRStylesConfig.BASE_MARGIN}
       >
-        <GRButtonText
+        <GRTextButton
           buttonType={"default"}
           onClick={() => onChangeDate(dayjs())}
         >
           TODAY
-        </GRButtonText>
+        </GRTextButton>
       </GRFlexView>
     );
   };

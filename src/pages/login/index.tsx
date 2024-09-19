@@ -1,5 +1,5 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -94,7 +94,7 @@ const Login: NextPageWithLayout = () => {
               </GRView>
             </GRFlexView>
             <GRFlexView>
-              <GRButtonText
+              <GRTextButton
                 width={"100%"}
                 height={2.5}
                 buttonType={"custom"}
@@ -104,7 +104,7 @@ const Login: NextPageWithLayout = () => {
                 onClick={onClickLogin}
               >
                 로그인
-              </GRButtonText>
+              </GRTextButton>
               {/* <GRButtonText
               buttonType={"text"}
               width={"100%"}

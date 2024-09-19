@@ -1,5 +1,5 @@
 import { NotificationOutlined, UserOutlined } from "@ant-design/icons";
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
@@ -77,9 +77,9 @@ const HlowHeaderMenu: FC = ({}) => {
                   alignItems={"flex-end"}
                   margintop={GRStylesConfig.BASE_MARGIN}
                 >
-                  <GRButtonText width={"100%"} buttonType={"default"}>
+                  <GRTextButton width={"100%"} buttonType={"default"}>
                     로그아웃
-                  </GRButtonText>
+                  </GRTextButton>
                 </GRFlexView>
               </GRView>
             )}

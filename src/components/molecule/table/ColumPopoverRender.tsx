@@ -1,4 +1,4 @@
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import { Popover } from "antd";
 import { FC } from "react";
@@ -17,13 +17,13 @@ const ColumPopoverRender: FC<tColumPopoverRender> = ({ content, label }) => {
         width: "20rem"
       }}
     >
-      <GRButtonText buttonType={"default"} disabled={!content}>
+      <GRTextButton buttonType={"default"} disabled={!content}>
         {/* <PlusCircleOutlined
           
           style={{ marginRight: `${GRStylesConfig.BASE_MARGIN}rem` }}
         /> */}
         <GRText>{label ?? " "}</GRText>
-      </GRButtonText>
+      </GRTextButton>
     </Popover>
   );
 };

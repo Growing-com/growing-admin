@@ -26,7 +26,7 @@ const NewfamilyPage: NextPage = () => {
   const router = useRouter();
 
   const [searchName, setSearchName] = useState("");
-  const [tabValue, setTabVaule] = useState<string>(NEW_FAMILY_INFO);
+  const [tabValue, setTabValue] = useState<string>(NEW_FAMILY_INFO);
 
 
   const onClickCreateNewFamily = async () => {
@@ -34,7 +34,7 @@ const NewfamilyPage: NextPage = () => {
   };
 
   const onClickTabMenu: MenuProps["onClick"] = e => {
-    setTabVaule(e.key);
+    setTabValue(e.key);
   };
 
   const tabItems: tTabItems[] = [

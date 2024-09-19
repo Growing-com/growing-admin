@@ -1,4 +1,4 @@
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRModal, { tGRModal } from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -53,7 +53,7 @@ const GRAlertModal: FC<tGRAlertModal> = ({
           </GRFlexView>
         </GRFlexView>
         <GRFlexView flexDirection={"row"} justifyContent={"center"}>
-          <GRButtonText
+          <GRTextButton
             onClick={onCancelClickButton}
             key={"modal-cancel-button"}
             marginright={2}
@@ -61,14 +61,14 @@ const GRAlertModal: FC<tGRAlertModal> = ({
             buttonType={"cancel"}
           >
             {cancelButtonText ?? "취소"}
-          </GRButtonText>
-          <GRButtonText
+          </GRTextButton>
+          <GRTextButton
             onClick={onOkClickButton}
             key={"modal-ok-button"}
             size={"large"}
           >
             {okButtonText ?? "확인"}
-          </GRButtonText>
+          </GRTextButton>
         </GRFlexView>
       </GRFlexView>
     </GRModal>

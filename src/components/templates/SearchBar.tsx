@@ -1,5 +1,5 @@
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -47,11 +47,11 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
           placeholder={"이름, 전화번호로 검색 하세요."}
           onChange={onChangeSearchText}
         />
-        <GRButtonText onClick={onClickSearchButton} size={"large"}>
+        <GRTextButton onClick={onClickSearchButton} size={"large"}>
           조회
-        </GRButtonText>
+        </GRTextButton>
         {filterComponent && (
-          <GRButtonText
+          <GRTextButton
             buttonType={"default"}
             marginleft={GRStylesConfig.BASE_MARGIN}
             onClick={onClickOpenFilter}
@@ -62,7 +62,7 @@ const SearchBar: FC<tSearchBar> = ({ onClickSearch, filterComponent }) => {
               <CaretDownOutlined  style={{ fontSize: "1rem", marginRight: "0.3rem" }}/>
             )}
             필터
-          </GRButtonText>
+          </GRTextButton>
         )}
       </GRFlexView>
       {isShowFilter && filterComponent && (

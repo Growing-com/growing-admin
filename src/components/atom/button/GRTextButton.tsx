@@ -32,7 +32,7 @@ export type tGRButtonText = {
 
 type tType = "default" | "primary";
 
-const GRButtonText: React.FC<tGRButtonText> = ({
+const GRTextButton: React.FC<tGRButtonText> = ({
   size = "normal",
   children,
   onClick,
@@ -135,7 +135,7 @@ const GRButtonText: React.FC<tGRButtonText> = ({
   );
 };
 
-export default GRButtonText;
+export default GRTextButton;
 
 const ButtonCompon = styled(Button)`
   /* .ant-btn {
@@ -153,7 +153,7 @@ export const BUTTON_SIZE_STYLE: Record<tButtonSize, SerializedStyles> = {
     height: 2rem;
   `,
   normal: css`
-    width: 5.3rem;
+    width: 7rem;
     height: 2rem;
   `,
   large: css`
