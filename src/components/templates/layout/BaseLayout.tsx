@@ -72,7 +72,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
           backgroundColor: "white"
         }}
         trigger={null}
-        collapsed={true}
+        collapsed={false}
         collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
         <GRFlexView justifyContent='center' marginleft={1.125} margintop={2}>
@@ -88,15 +88,6 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
       <Layout>
         <LayoutContent>{children}</LayoutContent>
       </Layout>
-      <LayoutSider
-        style={{
-          backgroundColor: "white"
-        }}
-        collapsed={true}
-        collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
-      >
-        오른쪽 사이드바
-      </LayoutSider>
     </Layout>
   );
 };
@@ -107,7 +98,7 @@ const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
   background-color: ${Color.black200};
-  // padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem;
 `;
 
 const LayoutSider = styled(Sider)`
@@ -129,29 +120,29 @@ const BaseLayoutMenu = styled(Menu)`
   }
 
   
-  .ant-menu-item.ant-menu-item-selected {
-    background-color: ${Color.black100} !important;
-    color: ${Color.white} !important;
-    box-shadow: inset 0px 4px 4px 0px #000000;
-  }
+  // .ant-menu-item.ant-menu-item-selected {
+  //   background-color: ${Color.black100} !important;
+  //   color: ${Color.white} !important;
+  //   box-shadow: inset 0px 4px 4px 0px #000000;
+  // }
 
-  .ant-menu-item {
-    border: solid 1px; 
-    border-color: ${Color.black100};
-    background-color: ${Color.white} !important;
-    color: ${Color.black200} !important;
+  // .ant-menu-item {
+  //   border: solid 1px; 
+  //   border-color: ${Color.black100};
+  //   background-color: ${Color.white} !important;
+  //   color: ${Color.black200} !important;
 
-    // height: 2.5rem !important;
-    width: 2.5rem !important;
-    margin-top: 39px;
-    margin-bottom: 39px;
-    margin-left: 1.125rem !important;
-    padding: 21px !important;
-    border-radius: 50% !important;
+  //   // height: 2.5rem !important;
+  //   width: 2.5rem !important;
+  //   margin-top: 39px;
+  //   margin-bottom: 39px;
+  //   margin-left: 1.125rem !important;
+  //   padding: 21px !important;
+  //   border-radius: 50% !important;
     
-    :hover {
-    }
+  //   :hover {
+  //   }
 
-    display: flex; !important;
-  }
+  //   display: flex; !important;
+  // }
 `;

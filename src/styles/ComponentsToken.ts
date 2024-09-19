@@ -15,10 +15,11 @@ export const ComponentsToken = {
     // itemSelectedColor: Color.white,
     itemColor: Color.white,
 
-    itemHoverBg: Color.red100,
-    // itemHoverColor: Color.white,
+    itemHoverBg: Color.green100,
+    itemHoverColor: Color.white,
+    // itemHoverColor: Color.green100,
   },
   Table: {
-    headerBorderRadius: 12
+    // headerBorderRadius: 12
   }
 };

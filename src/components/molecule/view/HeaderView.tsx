@@ -38,6 +38,7 @@ const HeaderView: FC<tHeaderView> = ({
   return (
     <GRFlexView
       borderRadius={GRStylesConfig.BASE_MARGIN}
+      paddinghorizontal={3}
       paddingvertical={2}
       marginbottom={GRStylesConfig.BASE_MARGIN}
       backgroundColor={backgroundColor}
@@ -56,7 +57,6 @@ const HeaderView: FC<tHeaderView> = ({
             fontSize={"h5"}
             weight={"bold"}
             marginright={GRStylesConfig.BASE_MARGIN}
-            color={titleColor}
           >
             {title}
           </GRText>

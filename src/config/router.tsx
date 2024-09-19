@@ -1,3 +1,4 @@
+import GRFlexView from "@component/atom/view/GRFlexView";
 import {
   ArchiveIcon,
   AttendanceIcon,
@@ -17,7 +18,7 @@ export type tDepartmentMainMenu = {
     | "lineUp"
     | "archive"
     | "discipleship";
-  title:
+  label:
     | "새가족 관리"
     | "인적사항"
     | "출석관리"
@@ -29,44 +30,73 @@ export type tDepartmentMainMenu = {
 };
 
 const iconStyle = {
-  transform: "translate(-10px,-16px)"
+  transform: "translate(0px,0px)",
+  fontSize: "1.3rem"
 };
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
     key: "newfamily",
-    title: "새가족 관리",
-    icon: <NewfamilyWhiteIcon style={iconStyle} />
+    label: "새가족 관리",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <NewfamilyWhiteIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "personalData",
-    title: "인적사항",
-    icon: <PersonalDataIcon style={iconStyle} />
+    label: "인적사항",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <PersonalDataIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "attendance",
-    title: "출석관리",
-    icon: <AttendanceIcon style={{ transform: "translate(-10px,-18px)" }} />
+    label: "출석관리",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <AttendanceIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "lineOut",
-    title: "라인인 & 아웃",
-    icon: <LineOutIcon style={{ transform: "translate(-10px,-18px)" }} />
+    label: "라인인 & 아웃",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <LineOutIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "lineUp",
-    title: "라인업",
-    icon: <LineUpIcon style={{ transform: "translate(-10px,-18px)" }} />
+    label: "라인업",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <LineUpIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "discipleship",
-    title: "훈련사항",
-    icon: <DiscipleshipIcon style={{ transform: "translate(-7px,-16px)" }} />
+    label: "훈련사항",
+    icon: (
+      <GRFlexView marginright={0.6}>
+        <DiscipleshipIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "archive",
-    title: "아카이브",
-    icon: <ArchiveIcon style={{ transform: "translate(-10px,-18px)" }} />
+    label: "아카이브",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <ArchiveIcon style={iconStyle} />
+      </GRFlexView>
+    )
   }
 ];
 
