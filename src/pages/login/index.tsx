@@ -1,31 +1,26 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRTextButton from "@component/atom/button/GRTextButton";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import FlowSvg from "@component/pages/login/FlowSvg";
 import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
 import { DEPARTMENT_MAIN_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
-import { NextPage } from "next";
 import getConfig from "next/config";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
 import menuStore from "store/clientStore/menuStore";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
-import HlowFlowSvg from "/public/svg/Hlowflow.svg";
-// import Image from "next/image";
 
 const { publicRuntimeConfig } = getConfig();
 
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactElement;
-};
-
-const Login: NextPageWithLayout = () => {
+const Login = () => {
   const [userId, setUserId] = useState<string>();
   const [userPW, setUserPW] = useState<string>();
 
@@ -58,87 +53,72 @@ const Login: NextPageWithLayout = () => {
   });
 
   return (
-    <AppContainer>
-      {/* <div>top</div> */}
-      <LoginContainer>
-        <GRView width={20} height={16.81}>
-          {/* <GRView width={15} height={12} style={{ position: "relative" }}>
+    <LoginContainer>
+      <GRView>
+        <GRView width={15} height={12} style={{ position: "relative" }}>
           <Image
             src={"/logo_name.png"}
             fill={true}
             alt={"logo"}
             style={{ objectFit: "contain" }}
           />
-        </GRView> */}
-          <LoginBox isBoard={true} padding={1.5} backgroundColor='white'>
-            <GRFlexView >
-              <GRText marginbottom={1.5} weight={"bold"} fontSize={"h10"}>
-                환영합니다~
-              </GRText>
-              <GRView marginbottom={1.5}>
-                <GRTextInput
-                  value={userId}
-                  placeholder={"아이디를 입력해 주세요"}
-                  height={2.5}
-                  onChange={e => setUserId(e)}
-                />
-              </GRView>
-              <GRView marginbottom={1.5}>
-                <GRTextInput
-                  value={userPW}
-                  placeholder={"비밀번호를 입력해 주세요"}
-                  type={"password"}
-                  height={2.5}
-                  onChange={e => setUserPW(e)}
-                />
-              </GRView>
-            </GRFlexView>
-            <GRFlexView>
-              <GRTextButton
-                width={"100%"}
-                height={2.5}
-                buttonType={"custom"}
-                backgroundColor={Color.black100}
-                borderColor={Color.black100}
-                textColor={Color.white}
-                onClick={onClickLogin}
+        </GRView>
+        <GRFlexView margintop={1}>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+              아이디
+            </GRText>
+            <GRTextInput
+              value={userId}
+              placeholder={"아이디를 입력해 주세요"}
+              onChange={e => setUserId(e)}
+            />
+          </GRView>
+          <GRView marginbottom={1}>
+            <GRText marginbottom={GRStylesConfig.BASE_MARGIN} weight={"bold"}>
+              비밀번호
+            </GRText>
+            <GRTextInput
+              value={userPW}
+              placeholder={"비밀번호를 입력해 주세요"}
+              type={"password"}
+              onChange={e => setUserPW(e)}
+            />
+          </GRView>
+        </GRFlexView>
+        <GRFlexView>
+          <GRButtonText width={"100%"} onClick={onClickLogin}>
+            로그인
+          </GRButtonText>
+          <GRFlexView
+            flexDirection={"row"}
+            justifyContent={"center"}
+            margintop={1}
+          >
+            <GRButtonText buttonType={"text"} width={"100%"}>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_OPEN_KAKAO}`}
+                target={"_blank"}
               >
-                로그인
-              </GRTextButton>
-              {/* <GRButtonText
+                카카오 문의
+              </Link>
+            </GRButtonText>
+            {/* <GRButtonText
               buttonType={"text"}
               width={"100%"}
               onClick={onClickChangePassword}
             >
               비밀번호 변경
             </GRButtonText> */}
-            </GRFlexView>
-          </LoginBox>
+          </GRFlexView>
           <GRFlexView alignItems={"center"}>
-            {/* <GRText fontSize={"b8"} color={Color.grey80}>
+            <GRText fontSize={"b8"} color={Color.grey80}>
               {`v${publicRuntimeConfig?.version}` ?? ""}
-            </GRText> */}
-            <GRText margintop={2} weight={"bold"} fontSize={"h11"}>
-              흐르는 시간, 흐르는 우리
             </GRText>
           </GRFlexView>
-        </GRView>
-      </LoginContainer>
-      {/* <div>bottom</div> */}
-      <div style={{
-          position: "absolute",
-          top: "45%",
-          bottom: "50%",
-          zIndex:1,
-      }}>
-        <FlowSvg
-          svg={HlowFlowSvg}
-          animationKey={"flowLeft"}
-          direction={"left"}
-          duration={10}
-        />
-      </div>
-    </AppContainer>
+        </GRFlexView>
+      </GRView>
+    </LoginContainer>
   );
 };
 
@@ -148,29 +128,10 @@ Login.getLayout = function getLayout(page: ReactElement) {
   return <>{page}</>;
 };
 
-// const LoginContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100vw;
-//   height: 100vh;
-// `;
-
-const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-`;
-
 const LoginContainer = styled.div`
-  flex: 1; /* 로그인 컨테이너가 남은 공간을 차지하도록 설정 */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
-`;
-
-const LoginBox = styled(GRFlexView)`
-  box-shadow: 3px 4px 15px 4px rgba(0, 0, 0, 25%);
+  width: 100vw;
+  height: 100vh;
 `;
