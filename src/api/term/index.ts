@@ -2,9 +2,15 @@ import { REQUEST_METHOD, request } from "api";
 
 const version = "v1";
 
-type tSmallGroup = {
+type tSmallGroupLeaders = {
+  codyName: string;
   smallGroupId: number;
   smallGroupLeaderName: string;
+}
+
+type tSmallGroup = {
+  codyName: string;
+  smallGroupLeaders: tSmallGroupLeaders[];
 };
 
 export const getSmallGroupLeader = ({ termId }: { termId: number }) => {

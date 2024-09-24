@@ -1,15 +1,18 @@
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRButton from "@component/atom/button/GRButton";
 import GRTextButton from "@component/atom/button/GRTextButton";
+import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
 import NewfamilyAttendanceTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyAttendanceTable";
 import NewfamilyInfoTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyInfoTable";
 import NewfamilyLineOutTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyLineOutTable";
 import NewfamilyLineUpTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyLineUpTable";
+import { NewFamilyPromoteModal } from "@component/pages/department/newfamily/NewfamilyTable/modal/NewfamilyPromoteModal";
 import styled from "@emotion/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Menu, MenuProps } from "antd";
@@ -17,9 +20,7 @@ import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
 import {
   lineInNewfamily,
   lineOutNewfamily,
-  promoteNewfamily,
-  requestLineUpNewfamily,
-  tPromoteNewfamily
+  requestLineUpNewfamily
 } from "api/newfamily";
 import { tLineOutNewFamily, tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
@@ -63,6 +64,11 @@ const NewfamilyPage: NextPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const [isOpenLineupRequestModal, setIsOpenLineupRequestModal] =
+    useState(false);
+  const [isOpenPromoteModal, setIsOpenPromoteModal] = useState(false);
+  const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
+  const [isOpenLineInModal, setIsOpenLineInModal] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [tabValue, setTabValue] = useState<string>(NEW_FAMILY_INFO);
   const [selectedNewFamily, setSelectedNewFamily] = useState<tNewfamily[]>([]);
@@ -79,6 +85,8 @@ const NewfamilyPage: NextPage = () => {
       },
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
+        setIsOpenLineupRequestModal(false);
+        resetSelection();
         GRAlert.success("라인업 요청 완료");
       }
     }
@@ -92,20 +100,8 @@ const NewfamilyPage: NextPage = () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
+      setIsOpenLineOutModal(false);
       GRAlert.success("라인아웃 완료");
-    }
-  });
-
-  const { mutateAsync: promoteMutateAsync } = useMutation(promoteNewfamily, {
-    onError: error => {
-      handleError(error, "등반 오류");
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-      // TODO: 출석 데이터 쿼리 삭제
-
-      GRAlert.success("등반 완료");
     }
   });
 
@@ -116,6 +112,7 @@ const NewfamilyPage: NextPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
+      setIsOpenLineInModal(false);
       GRAlert.success("복귀 완료");
     }
   });
@@ -134,64 +131,45 @@ const NewfamilyPage: NextPage = () => {
     setSearchName(_text);
   };
 
-  const onClickLineUpRequest = async () => {
+  const onClickLineUpRequest = () => {
     if (selectedNewFamily.length === 0) {
       return GRAlert.error("선택된 새가족이 없습니다");
     }
-
-    const newFamilyIds = selectedNewFamily.map(item => item.newFamilyId);
-    await lineUpRequestMutateAsync({ newFamilyIds });
+    setIsOpenLineupRequestModal(true);
   };
 
-  const onClickLineOut = async () => {
+  const onClickLineOut = () => {
     if (selectedNewFamily.length === 0) {
       return GRAlert.error("선택된 새가족이 없습니다");
     }
-
-    const newFamilyIds = selectedNewFamily.map(item => item.newFamilyId);
-    await lineOutMutateAsync({ newFamilyIds });
-  };
-
-  const validatePromote = (selectedNewFamily: tNewfamily[]) => {
-    selectedNewFamily.map(item => {
-      const { name, smallGroupLeaderName, promoteDate } = item;
-      console.log(name, smallGroupLeaderName, promoteDate);
-      if (smallGroupLeaderName === null) {
-        GRAlert.error(`${name}은 라인업이 되어야 합니다.`);
-        return false;
-      }
-      if (promoteDate === undefined) {
-        GRAlert.error(`${name}의 등반일을 선택해주세요.`);
-        return false;
-      }
-    });
-
-    return true;
+    setIsOpenLineOutModal(true);
   };
 
   const onClickPromote = () => {
     if (selectedNewFamily.length === 0) {
       return GRAlert.error("선택된 새가족이 없습니다");
     }
-
-    console.log("등반");
-    if (!validatePromote(selectedNewFamily)) {
-      console.log("검증실패");
-      return;
-    }
-    const newFamiliesData: tPromoteNewfamily[] = [];
-    const newfamilyPromoteData = selectedNewFamily.map(
-      ({ newFamilyId, promoteDate }) => ({ newFamilyId, promoteDate })
-    );
-
-    // promoteMutateAsync
+    setIsOpenPromoteModal(true);
   };
 
   const onClickLineIn = async () => {
     if (!selectedLineOutNewFamily) {
       return GRAlert.error("선택된 이탈자가 없습니다");
     }
+    setIsOpenLineInModal(true);
+  };
 
+  const onOkLineUpRequestClickButton = async () => {
+    const newFamilyIds = selectedNewFamily.map(item => item.newFamilyId);
+    await lineUpRequestMutateAsync({ newFamilyIds });
+  };
+
+  const onOkLineOutClickButton = async () => {
+    const newFamilyIds = selectedNewFamily.map(item => item.newFamilyId);
+    await lineOutMutateAsync({ newFamilyIds });
+  };
+
+  const onOkLineInClickButton = async () => {
     const _newFamilyId = selectedLineOutNewFamily?.lineOutNewFamilyId;
     if (_newFamilyId) await LineinMutateAsync(_newFamilyId);
   };
@@ -212,7 +190,10 @@ const NewfamilyPage: NextPage = () => {
 
   return (
     <>
-      {/* <button onClick={() => console.log(userInfo)}>userInfo</button> */}
+      <button onClick={() => console.log(userInfo)}>userInfo</button>
+      <button onClick={() => console.log(selectedNewFamily)}>
+        selectedNewFamily
+      </button>
       <HeaderView
         title={"새가족 관리"}
         titleColor={Color.white}
@@ -324,6 +305,51 @@ const NewfamilyPage: NextPage = () => {
           </GRFlexView>
         </GRFlexView>
       </GRContainerView>
+      {/* 라인업 요청 모달 */}
+      {isOpenLineupRequestModal && (
+        <GRAlertModal
+          open={isOpenLineupRequestModal}
+          description={`${selectedNewFamily.length} 명을 라인업 요청 하시겠습니까?`}
+          onCancelClickButton={() => setIsOpenLineupRequestModal(false)}
+          onOkClickButton={onOkLineUpRequestClickButton}
+          subComponent={
+            <GRText>
+              {selectedNewFamily.map(family => family.name).join(",")}
+            </GRText>
+          }
+        />
+      )}
+      {/* 등반 모달 */}
+      {isOpenPromoteModal && (
+        <NewFamilyPromoteModal
+          open={isOpenPromoteModal}
+          onClickClose={() => setIsOpenPromoteModal(false)}
+          selectedNewFamily={selectedNewFamily}
+        />
+      )}
+      {/* 라인 아웃 모달 */}
+      {isOpenLineOutModal && (
+        <GRAlertModal
+          open={isOpenLineOutModal}
+          description={`${selectedNewFamily.length} 명을 라인 아웃 하시겠습니까?`}
+          onCancelClickButton={() => setIsOpenLineOutModal(false)}
+          onOkClickButton={onOkLineOutClickButton}
+          subComponent={
+            <GRText>
+              {selectedNewFamily.map(family => family.name).join(",")}
+            </GRText>
+          }
+        />
+      )}
+      {/* 복귀 모달 */}
+      {isOpenLineInModal && (
+        <GRAlertModal
+          open={isOpenLineInModal}
+          description={`${selectedLineOutNewFamily?.name}을 복귀 하시겠습니까?`}
+          onCancelClickButton={() => setIsOpenLineInModal(false)}
+          onOkClickButton={onOkLineInClickButton}
+        />
+      )}
     </>
   );
 };

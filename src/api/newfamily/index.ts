@@ -68,16 +68,37 @@ export const lineOutNewfamily = (data: tPostNewfamilyIds) => {
   });
 }
 
-export type tPromoteNewfamily = {
+type tLineUpNewfamily = {
+  newFamilyId: number;
+  smallGroupId:number;
+}
+
+export const lineUpNewfamily = (data:tLineUpNewfamily[]) => {
+  const requestBody = {
+    content: data
+  };
+
+  return request<tLineUpNewfamily[]>({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/line-up`,
+    data: requestBody
+  });
+}
+
+type tPromoteNewfamily = {
   newFamilyId: number;
   promoteDate: string
 }
 
 export const promoteNewfamily = (data: tPromoteNewfamily[]) => {
+  const requestBody = {
+    content: data
+  };
+
   return request<tPromoteNewfamily[]>({
     method: REQUEST_METHOD.POST,
     url: `${version}/new-families/promote`,
-    data
+    data: requestBody
   });
 }
 

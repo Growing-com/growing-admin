@@ -19,16 +19,20 @@ const useLogin = () => {
       await refetch();
     }
   }, [refetch, userInfo]);
-
   useEffect(() => {
     (async () => {
       const _mainMenu = [] as tDepartmentMainMenu[];
       if (!!userInfo && !mainMenu.length) {
         const _findMenuByRole = DUTY_MENU.find(
-          duty => duty.key === userInfo?.role
+          duty => duty.key === userInfo[0]?.role
         );
+        // const _findMenuByRole = DUTY_MENU.find(
+        //   duty => duty.key === userInfo?.role
+        // );
+
         DEPARTMENT_MAIN_MENU.forEach(menu => {
           if (includes(_findMenuByRole?.value, menu.key)) {
+            console.log("_findMenuByRole?.value, menu.key",_findMenuByRole?.value, menu.key)
             _mainMenu.push(menu);
             addMenu(menu);
           }

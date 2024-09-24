@@ -58,7 +58,8 @@ const useTerm = ({ termId }: { termId: number }) => {
   useEffect(() => {
     if (termSmallGroupLeaderIsSuccess) {
       const smallGroupOptions = convertOptions(
-        termSmallGroupLeader,
+        // 라인업 페이지 생성시 수정 필요
+        termSmallGroupLeader[0].smallGroupLeaders,
         "smallGroupId",
         "smallGroupLeaderName"
       );
