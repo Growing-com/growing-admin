@@ -8,7 +8,7 @@ export type tNewfamilyEtc = {
 
   /** @description 인도자 @example: "박똘똘" */
   introducer: string;
-  
+
   /** @description 교회가 처음? @example: false */
   isFirstChurch: YES_NO_STATUS;
 
@@ -28,7 +28,7 @@ export type tNewfamilyEtc = {
   comment: string;
 
   /** @description 새가족 순원 기록지 @example: "낯을 많이 가립니다." */
-  lineUpMemo: string;
+  lineUpMemo?: string;
 };
 
 export type tNewfamily = {
@@ -57,22 +57,37 @@ export type tNewfamily = {
   etc: tNewfamilyEtc;
 
   /** @description 새가족 그룹 리더 이름  @example: 고길동 */
-  newFamilyGroupLeaderName: string;
+  newFamilyGroupLeaderName?: string;
 
   /** @description 일반 그룹 리더 이름  @example: 고길동 */
-  smallGroupLeaderName: string;
-  
+  smallGroupLeaderName?: string;
+
   /** @description 등반 날짜  @example: "2024-07-01" */
-  promoteDate: string;
+  promoteDate?: string;
+
+  /** @description 새가족 그룹 ID  @example: 1 */
+  newFamilyGroupId?: number;
 };
 
-// export interface tLineOutNewFamily extends tNewFamily {
-//   lineOutNewFamilyId: number;
-//   lineoutAt: string;
-// }
+export type tLineOutNewFamily = {
+  /** @description 라인아웃된 새가족 아이디  @example: 1 */
+  lineOutNewFamilyId: number;
 
-// export interface tLineUpNewFamily extends tNewFamily {
-//   promotedSmallGroupLeaderName: Nullable<string>;
-//   smallGroupLeaderName: Nullable<string>;
-//   promoteDate: Nullable<string>;
-// }
+  /** @description 이름  @example: "홍길동" */
+  name: string;
+
+  /** @description 성별  @example: "MALE" */
+  sex: tSex;
+
+  /** @description 생년 월일  @example: "2000-10-16" */
+  birth: string;
+
+  /** @description 방문일 @example: "2024-06-01" */
+  visitDate: string;
+  
+  /** @description 학년  @example: 9 */
+  grade: number;
+
+  /** @description 방문일 @example: "2024-06-01" */
+  lineOutDate: string;
+};

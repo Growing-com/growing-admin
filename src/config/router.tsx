@@ -124,5 +124,42 @@ export const DUTY_MENU = [
       "archive",
       "discipleship"
     ]
-  }
+  },
+  {
+    key: "SUPER_ADMIN",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "lineUp",
+      "archive",
+      "discipleship"
+    ]
+  },
+  {
+    key: "NEW_FAMILY_GANSA",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "archive",
+      "discipleship"
+    ] 
+  },
+  {
+    key: "LINE_UP_GANSA",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "lineUp",
+      "archive",
+      "discipleship"
+    ] 
+  },
+  
+
 ];

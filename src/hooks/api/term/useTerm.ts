@@ -20,11 +20,9 @@ const useTerm = ({ termId }: { termId: number }) => {
   } = useQuery(
     [queryKeys.TERM_SMALL_GROUP_LEADER],
     async () =>
-      await getSmallGroupLeader(
-      //   {
-      //   termId
-      // }
-      ),
+      await getSmallGroupLeader({
+        termId
+      }),
     {
       cacheTime: Infinity,
       staleTime: Infinity,
@@ -36,11 +34,9 @@ const useTerm = ({ termId }: { termId: number }) => {
     useQuery(
       [queryKeys.TERM_NEW_FAMILY_LEADER],
       async () =>
-        await getNewFamilyGroup(
-          // {
-          //   termId
-          // }
-          ),
+        await getNewFamilyGroup({
+          termId
+        }),
       {
         cacheTime: Infinity,
         staleTime: Infinity,

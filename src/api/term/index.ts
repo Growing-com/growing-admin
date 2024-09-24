@@ -7,36 +7,25 @@ type tSmallGroup = {
   smallGroupLeaderName: string;
 };
 
-export const getSmallGroupLeader = () => {
+export const getSmallGroupLeader = ({ termId }: { termId: number }) => {
   return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/active-small-groups`
+    url: `${version}/terms/${termId}/small-groups`
   });
 };
-// export const getSmallGroupLeader = ({ termId }: { termId: number }) => {
-//   return request<tSmallGroup[]>({
-//     method: REQUEST_METHOD.GET,
-//     url: `${version}/term/${termId}/small-groups`
-//   });
-// };
 
 type tGetNewFamilyGroup = {
   newFamilyGroupId: number;
   newFamilyGroupLeaderName: string;
 };
 
-export const getNewFamilyGroup = () => {
+export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
   return request<tGetNewFamilyGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/active-new-family-groups`
+    url: `${version}/terms/${termId}/new-family-groups`
+
   });
 };
-// export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
-//   return request<tGetNewFamilyGroup[]>({
-//     method: REQUEST_METHOD.GET,
-//     url: `${version}/term/${termId}/new-family-groups`
-//   });
-// };
 
 type tTerm = { 
   termId: Number;

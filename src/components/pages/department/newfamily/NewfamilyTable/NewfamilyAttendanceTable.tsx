@@ -7,20 +7,21 @@ import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
-import { dateSorter, koreanSorter } from "utils/sorter";
+import { dateSorter } from "utils/sorter";
 
 type tNewfamilyInfoTable = {
   searchName: string;
+  selectedNewFamily: tNewfamily[];
+  onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
 const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
   searchName,
+  selectedNewFamily,
+  onSelect
 }) => {
-  const router = useRouter();
-
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamily[]
   >([]);
@@ -75,48 +76,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem"
-    },
-    {
-      title: "일반 순장",
-      align: "center",
-      dataIndex: "smallGroupLeaderName",
-      width: "8rem",
-      render: (_, item) => {
-        if (!item) return;
-        return <GRText>{item?.smallGroupLeaderName}</GRText>;
-      },
-      sorter: (a, b) => {
-        return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
-      }
-    },
-    {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
-    },
-    {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-      width: "10rem"
     }
   ];
-
-  const onClickUpdateNewFamily = async (_newFamilyId: number) => {
-    await router.push(`/department/newfamily/${_newFamilyId}`);
-  };
 
   useEffect(() => {
     if (newFamilyData?.length) {
@@ -141,7 +102,6 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
       >
         newFamilyData
       </button> */}
-      출첵 테이블
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
@@ -151,8 +111,11 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
           defaultPageSize: 10,
           position: ["bottomCenter"]
         }}
-        onRow={record => {
-          return { onClick: () => onClickUpdateNewFamily(record.newFamilyId) };
+        rowSelection={{
+          selectedRowKeys: selectedNewFamily.map(
+            newFamily => newFamily.newFamilyId
+          ),
+          onChange: onSelect
         }}
       />
     </>

@@ -10,7 +10,6 @@ export type tSex = "MALE" | "FEMALE";
  * * @descriptio 직분
  * PASTOR: 교역자
  * GANSA: 간사
- * CODY: 코디
  * LEADER: 리더
  * MEMBER: 조원
  * NEW_COMER: 새가족
@@ -18,7 +17,6 @@ export type tSex = "MALE" | "FEMALE";
 export type tDuty =
   | "PASTOR"
   | "GANSA"
-  | "CODY"
   | "LEADER"
   | "MEMBER"
   | "NEW_COMER";
@@ -32,6 +30,10 @@ export type tDuty =
 export type tRole = "ADMIN" | "MANAGER" | "NORMAL";
 
 export type tAccount = {
+  /** @description 유저 아이디 @example 1 */
+  userId: number;
+  duty?: tDuty;
+  role?: tRole;
   /** @description 이름  @example   "윤동건", */
   name: string;
   /** @description 성 @example   "MALE", */
@@ -42,18 +44,17 @@ export type tAccount = {
   birth: string;
   /** @description 학년  @example  9, */
   grade: number;
+  
   /** @description 활성화 여부  @example   true, */
   isActive?: boolean;
-  /** @description 팀 아이디  @example  2 */
-  teamId: number;
-  /** @description 기타 사항  @example null */
-  etc: string | null;
-  id?: number;
-  visitDate?: string;
-  duty?: tDuty;
-  role?: tRole;
+
+  /** @description 현재 텀 아이디 @example 2 */
   termId?: number;
-  visitTermId?: number;
+  /** @description 현재 텀의 팀 아이디  @example  3 */
+  teamId?: number;
+  /** @description 기타 사항  @example null */
+  etc?: string | null;
+  
   updatedBy: string;
   updatedAt: string;
 };
@@ -62,3 +63,14 @@ export type tLoginParam = {
     username: string;
     password: string;
   };
+
+export type tUserAccount = {
+  /** @description 유저 아이디 @example 1 */
+  userId: number;
+  /** 직분 */ 
+  // duty: tDuty;
+  /** 역할 */ 
+  role: tRole;
+  /** @description 이름  @example   "윤동건", */
+  name: string;
+}

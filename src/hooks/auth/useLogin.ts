@@ -35,10 +35,10 @@ const useLogin = () => {
         });
 
         const firstMenu = head(_mainMenu);
-        if (firstMenu?.children?.length) {
+        // if (firstMenu?.children?.length) {
           if (router.pathname.localeCompare(`/login`) === 0) {
             router.replace(`/department/personalData`);
-          }
+          // }
         }
       }
     })();

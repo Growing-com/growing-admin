@@ -2,30 +2,31 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getNewfamilies } from "api/newfamily";
-import { tNewfamily } from "api/newfamily/type";
+import { getLineOutNewfamilies } from "api/newfamily";
+import { tLineOutNewFamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
-import { dateSorter, koreanSorter } from "utils/sorter";
+import { dateSorter } from "utils/sorter";
 
 type tNewfamilyInfoTable = {
   searchName: string;
+  onSelectLineOut: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
-  const router = useRouter();
-
+const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({
+  searchName,
+  onSelectLineOut
+}) => {
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewfamily[]
+    tLineOutNewFamily[]
   >([]);
 
   const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY],
-    async () => await getNewfamilies(),
+    [queryKeys.NEW_FAMILY_LINE_OUT],
+    async () => await getLineOutNewfamilies(),
     {
       select: _data => _data.content
     }
@@ -58,6 +59,14 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) =>
       width: "5rem"
     },
     {
+      title: "생년월일",
+      key: "birth",
+      dataIndex: "birth",
+      align: "center",
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.birth)
+    },
+    {
       title: "방문일",
       dataIndex: "visitDate",
       key: "visitDate",
@@ -68,53 +77,14 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) =>
       render: (_, record) => checkDefaultDate(record.visitDate)
     },
     {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "6rem"
-    },
-    {
-      title: "일반 순장",
-      align: "center",
-      dataIndex: "smallGroupLeaderName",
-      width: "8rem",
-      render: (_, item) => {
-        if (!item) return;
-        return <GRText>{item?.smallGroupLeaderName}</GRText>;
-      },
-      sorter: (a, b) => {
-        return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
-      }
-    },
-    {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
+      title: "라인아웃날짜",
+      key: "lineOutDate",
+      dataIndex: "lineOutDate",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
-    },
-    {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-      width: "10rem"
+      render: (_, record) => checkDefaultDate(record.lineOutDate)
     }
   ];
-
-  const onClickUpdateNewFamily = async (_newFamilyId: number) => {
-    await router.push(`/department/newfamily/${_newFamilyId}`);
-  };
 
   useEffect(() => {
     if (newFamilyData?.length) {
@@ -139,9 +109,8 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) =>
       >
         newFamilyData
       </button> */}
-      라인아웃 테이블
       <GRTable
-        rowKey={"newFamilyId"}
+        rowKey={"lineOutNewFamilyId"}
         columns={columns}
         data={filteredNewFailyData}
         pagination={{
@@ -149,8 +118,9 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) =>
           defaultPageSize: 10,
           position: ["bottomCenter"]
         }}
-        onRow={record => {
-          return { onClick: () => onClickUpdateNewFamily(record.newFamilyId) };
+        rowSelection={{
+          type: "radio",
+          onChange: onSelectLineOut
         }}
       />
     </>

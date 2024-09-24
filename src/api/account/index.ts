@@ -1,10 +1,12 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAccount, tLoginParam } from "./types";
+import { tAccount, tLoginParam, tUserAccount } from "./types";
+
+const version = "v1";
 
 export const postAccountLogin = (loginData: tLoginParam) => {
   return request({
     method: REQUEST_METHOD.POST,
-    url: "/auth/login",
+    url: `${version}/auth/login`,
     data: loginData
   });
 };
@@ -12,12 +14,13 @@ export const postAccountLogin = (loginData: tLoginParam) => {
 export const postAccountLogout = () => {
   return request({
     method: REQUEST_METHOD.POST,
-    url: "/auth/logout"
+    url: `${version}/auth/logout`
   });
 };
+
 export const getUserInfo = () => {
-  return request<tAccount>({
+  return request<tUserAccount>({
     method: REQUEST_METHOD.GET,
-    url: `/user/myInfo`
+    url: `${version}/my-info`
   });
 };

@@ -112,8 +112,8 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
     }
   ];
 
-  const onClickUpdateNewFamily = async (_newFamilyId: number) => {
-    await router.push(`/department/newfamily/${_newFamilyId}`);
+  const onClickUpdateNewFamily = (_newFamilyId: number) => {
+    router.push(`/department/newfamily/${_newFamilyId}`);
   };
 
   useEffect(() => {

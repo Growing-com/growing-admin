@@ -1,7 +1,5 @@
-import GRFlexView from "@component/atom/view/GRFlexView";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { HlowLogoWhiteIcon } from "config/icon";
 import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
@@ -75,9 +73,6 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
         collapsed={false}
         collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
       >
-        <GRFlexView justifyContent='center' marginleft={1.125} margintop={2}>
-          <HlowLogoWhiteIcon />
-        </GRFlexView>
         <BaseLayoutMenu
           mode={"inline"}
           items={mainMenu}

@@ -60,7 +60,7 @@ const NewfamilyUpdatePage: NextPage = () => {
       return await getNewfamily(numericId);
     },
     {
-      // select: _data => _data.content,
+      select: _data => _data.content,
       enabled: numericId !== null,
       onSuccess: data => {
         reset({

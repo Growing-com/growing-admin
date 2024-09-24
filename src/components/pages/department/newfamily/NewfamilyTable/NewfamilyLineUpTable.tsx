@@ -2,7 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getNewfamilies } from "api/newfamily";
+import { getLineUpRequestNewfamilies } from 'api/newfamily';
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
@@ -14,9 +14,15 @@ import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tNewfamilyInfoTable = {
   searchName: string;
+  selectedNewFamily: tNewfamily[];
+  onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
+const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
+  searchName,
+  selectedNewFamily,
+  onSelect
+}) => {
   const router = useRouter();
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
@@ -24,8 +30,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => 
   >([]);
 
   const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY],
-    async () => await getNewfamilies(),
+    [queryKeys.NEW_FAMILY_LINE_UP_REQUEST],
+    async () => await getLineUpRequestNewfamilies(),
     {
       select: _data => _data.content
     }
@@ -112,8 +118,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => 
     }
   ];
 
-  const onClickUpdateNewFamily = async (_newFamilyId: number) => {
-    await router.push(`/department/newfamily/${_newFamilyId}`);
+  const onClickUpdateNewFamily = (_newFamilyId: number) => {
+    router.push(`/department/newfamily/${_newFamilyId}`);
   };
 
   useEffect(() => {
@@ -139,7 +145,6 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => 
       >
         newFamilyData
       </button> */}
-      라인업 테이블
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
@@ -149,8 +154,11 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => 
           defaultPageSize: 10,
           position: ["bottomCenter"]
         }}
-        onRow={record => {
-          return { onClick: () => onClickUpdateNewFamily(record.newFamilyId) };
+        rowSelection={{
+          selectedRowKeys: selectedNewFamily.map(
+            newFamily => newFamily.newFamilyId
+          ),
+          onChange: onSelect
         }}
       />
     </>
