@@ -2,30 +2,31 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getNewfamilies } from "api/newfamily";
-import { tNewfamily } from "api/newfamily/type";
+import { getPromotedNewfamilies } from "api/newfamily";
+import { tNewfamilyPromoted } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
-import { dateSorter, koreanSorter } from "utils/sorter";
+import { koreanSorter } from "utils/sorter";
 
-type tNewfamilyInfoTable = {
+type tNewfamilyPromotedTable = {
   searchName: string;
 };
 
-const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
+const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
+  searchName
+}) => {
   const router = useRouter();
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewfamily[]
+    tNewfamilyPromoted[]
   >([]);
 
-  const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY],
-    async () => await getNewfamilies(),
+  const { data: newFamilyPromotedData } = useQuery(
+    [queryKeys.NEW_FAMILY_PROMOTED],
+    async () => await getPromotedNewfamilies(),
     {
       select: _data => _data.content
     }
@@ -58,14 +59,11 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       width: "5rem"
     },
     {
-      title: "방문일",
-      dataIndex: "visitDate",
-      key: "visitDate",
+      title: "전화번호",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
       align: "center",
-      width: "8rem",
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-      render: (_, record) => checkDefaultDate(record.visitDate)
+      width: "10rem"
     },
     {
       title: "새가족 순장",
@@ -96,19 +94,14 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       render: (_, record) => checkDefaultDate(record.promoteDate)
     },
     {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
+      title: "등반 후 경과 주",
+      dataIndex: "weeksAfterPromotion",
+      key: "weeksAfterPromotion",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-      width: "10rem"
+      render: (_, record) => (
+        <GRText>{`${record.weeksAfterPromotion} 주`}</GRText>
+      )
     }
   ];
 
@@ -117,10 +110,10 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   };
 
   useEffect(() => {
-    if (newFamilyData?.length) {
-      let _filterNewFamily = newFamilyData;
+    if (newFamilyPromotedData?.length) {
+      let _filterNewFamily = newFamilyPromotedData;
       if (searchName) {
-        _filterNewFamily = newFamilyData.filter(newFamily => {
+        _filterNewFamily = newFamilyPromotedData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -128,7 +121,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyData, searchName]);
+  }, [newFamilyPromotedData, searchName]);
 
   return (
     <>
@@ -149,4 +142,4 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   );
 };
 
-export default NewfamilyInfoTable;
+export default NewfamilyPromotedTable;

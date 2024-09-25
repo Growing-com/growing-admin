@@ -138,13 +138,6 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
 
   return (
     <>
-      {/* <button
-        onClick={() => {
-          console.log(newFamilyData);
-        }}
-      >
-        newFamilyData
-      </button> */}
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

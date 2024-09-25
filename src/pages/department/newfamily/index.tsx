@@ -12,6 +12,7 @@ import NewfamilyAttendanceTable from "@component/pages/department/newfamily/Newf
 import NewfamilyInfoTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyInfoTable";
 import NewfamilyLineOutTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyLineOutTable";
 import NewfamilyLineUpTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyLineUpTable";
+import NewfamilyPromotedTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyPromotedTable";
 import { NewFamilyPromoteModal } from "@component/pages/department/newfamily/NewfamilyTable/modal/NewfamilyPromoteModal";
 import styled from "@emotion/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -110,6 +111,7 @@ const NewfamilyPage: NextPage = () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
+      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
       setIsOpenLineOutModal(false);
       GRAlert.success("라인아웃 완료");
     }
@@ -122,6 +124,7 @@ const NewfamilyPage: NextPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
+      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
       setIsOpenLineInModal(false);
       GRAlert.success("복귀 완료");
     }
@@ -200,10 +203,6 @@ const NewfamilyPage: NextPage = () => {
 
   return (
     <>
-      {/* <button onClick={() => console.log(userInfo)}>userInfo</button>
-      <button onClick={() => console.log(selectedNewFamily)}>
-        selectedNewFamily
-      </button> */}
       <HeaderView
         title={"새가족 관리"}
         headerComponent={
@@ -310,7 +309,7 @@ const NewfamilyPage: NextPage = () => {
             )}
             {/* 등반자 탭 */}
             {tabValue === NEW_FAMILY_PROMOTED && (
-              <div>등반자 탭</div>
+              <NewfamilyPromotedTable searchName={searchName} />
             )}
             {/* 라인 아웃 탭 */}
             {tabValue === NEW_FAMILY_LINEOUT && (

@@ -98,13 +98,13 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => {
           console.log(newFamilyAttendanceData);
         }}
       >
         newFamilyAttendanceData
-      </button>
+      </button> */}
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

@@ -69,6 +69,14 @@ export type tNewfamily = {
   newFamilyGroupId?: number;
 };
 
+export type tNewfamilyPromoted = Omit<
+  tNewfamily,
+  "birth" | "visitDate" | "etc" | "newFamilyGroupId"
+> & {
+  /** @description 등반 후 몇 주가 지났는지  @example: 2 */
+  weeksAfterPromotion: number;
+};
+
 type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE" | "NONE";
 type tAttendanceCheckStatus = Exclude<tAttendanceStatus, "NONE">;
 

@@ -105,13 +105,8 @@ const NewfamilyUpdatePage: NextPage = () => {
   });
 
   return (
-    <GRView paddingvertical={3}>
       <GRContainerView>
         <GRView>
-          {/* <button onClick={() => console.log(newFamilyDetailData)}>
-          newFamilyDetailData
-        </button> */}
-          {/* <button onClick={()=>console.log(termList)}>termList</button> */}
           <GRView marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}>
             <GRFlexView alignItems={"center"} margintop={0}>
               <GRText weight={"bold"} fontSize={"h9"}>
@@ -328,7 +323,6 @@ const NewfamilyUpdatePage: NextPage = () => {
           </GRFlexView>
         </GRView>
       </GRContainerView>
-    </GRView>
   );
 };
 
