@@ -1,4 +1,3 @@
-import { tTrainingType } from "api/training/type";
 
 /**
  * @descriptio 성
@@ -59,52 +58,7 @@ export type tAccount = {
   updatedAt: string;
 };
 
-export type tRoleResponse = {
-  name: string;
-  value: string;
-};
-
 export type tLoginParam = {
-  username: string;
-  password: string;
-};
-
-export type tUser = {
-  /**@description  @example 10 */
-  grade: number;
-  /**@description  @example "홍길동" */
-  leaderName: string;
-  /**@description  @example "FEMALE" */
-  sex: tSex;
-  /**@description  @example 5 */
-  userId: number;
-  /**@description  @example "김철수" */
-  userName: string;
-};
-
-type tTraining = {
-  name: string;
-  type: tTrainingType;
-  userId: number;
-};
-
-export type tActiveUser = {
-  id: number;
-  name: string;
-  grade: number;
-  sex: tSex;
-  discipleship?: {
-    name: string;
-    userId: number;
+    username: string;
+    password: string;
   };
-  duty: tDuty;
-  role: tRole;
-  phoneNumber: string;
-  birth?: string;
-  isActive: boolean;
-  visitDate: Date;
-  etc: string;
-  updatedAt: Date;
-  updatedBy: Date;
-  trainings: tTraining[];
-};

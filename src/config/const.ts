@@ -1,4 +1,4 @@
-import { tTeamType } from "api/term/types";
+import { tTeamType } from "apiV1_prefix/term/types";
 import { BELIEVE_STATUS, VISIT_REASON } from "common/enum";
 import { Color } from "styles/colors";
 

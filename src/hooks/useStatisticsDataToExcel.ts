@@ -1,9 +1,45 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import { tAttendanceCheckListItem } from "api/attendance/types";
+import { tSex } from "api/account/types";
 import { ATTENDANCE_STATUS, SEX_OPTIONS } from "config/const";
 import dayjs from "dayjs";
 import { concat, isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
+
+export type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE";
+
+export type tAttendanceItem = {
+  /** @description  @example 7 */
+  attendanceId: number;
+  /** @description 출석 사유  @example "12341" */
+  etc?: string;
+  /** @description 출석 상태  @example "ATTEND" */
+  status: tAttendanceStatus;
+  /** @description 통계 날짜  @example "2023-09-17" */
+  week: string;
+  /** @description 재적 @example 20 */
+  totalRegistered?: number;
+  /** @description 통계 숫자 @example 20 */
+  totalAttendance?: number;
+};
+
+export type tAttendanceCheckListItem = {
+  //** 7, */
+  managerId: number;
+  //** "유지현", */
+  managerName: string;
+  //** "강성혁", */
+  leaderName: string;
+  //** "한예찬", */
+  userName: string;
+  //** "MALE", */
+  sex: tSex;
+  //** 2, */
+  grade: number;
+  //** "010-2832-6075", */
+  phoneNumber: string;
+  attendanceItems: tAttendanceItem[];
+  userId?: number;
+};
 
 export type tStatisticsName =
   | "leader"

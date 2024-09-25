@@ -1,6 +1,6 @@
 import GRView from "@component/atom/view/GRView";
 import { Popover, Tag } from "antd";
-import { tAttendanceStatus } from "api/attendance/types";
+import { tAttendanceStatus } from "apiV1_prefix/attendance/types";
 import { ATTENDANCE_STATUS } from "config/const";
 import { FC } from "react";
 import GRDot from "../GRDot";

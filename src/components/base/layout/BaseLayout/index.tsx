@@ -3,7 +3,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { DEPARTMENT_MAIN_MENU } from "config/router";
+import { DEPARTMENT_MAIN_MENU } from "config/Growingrouter";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ReactNode, useCallback, useEffect, useState } from "react";

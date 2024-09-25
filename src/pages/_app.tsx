@@ -1,5 +1,6 @@
 import AuthProvider from "@component/templates/AuthProvider";
-import BaseLayout from "@component/templates/layout/BaseLayout";
+import BaseLayout from '@component/templates/layout/BaseLayout';
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConfigProvider } from "antd";
@@ -34,9 +35,9 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Growing</title>
-        <meta property="description" content="환영합니다 그로잉입니다." />
-        <meta property="og:description" content="환영합니다 그로잉입니다." />
+        <title>Hlow</title>
+        <meta property="description" content="환영합니다 흘로우입니다." />
+        <meta property="og:description" content="환영합니다 흘로우입니다." />
       </Head>
       {/*  Google tag (gtag.js) */}
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-9MRD9LGEVY" />

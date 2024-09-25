@@ -35,9 +35,9 @@ const useLogin = () => {
         });
 
         const firstMenu = head(_mainMenu);
-        if (firstMenu && firstMenu?.children?.length) {
+        if (firstMenu?.children?.length) {
           if (router.pathname.localeCompare(`/login`) === 0) {
-            router.replace(`/department/attendance/check`);
+            router.replace(`/department/personalData`);
           }
         }
       }

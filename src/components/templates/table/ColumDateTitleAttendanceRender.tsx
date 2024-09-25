@@ -1,5 +1,5 @@
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
-import { tAttendanceItem } from "api/attendance/types";
+import { tAttendanceItem } from "apiV1_prefix/attendance/types";
 import { head } from "lodash";
 type tColumDateTitleAttendanceRender<T> = {
   attendanceList?: T[];
