@@ -259,10 +259,11 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       {/* 임시 라인업 삭제할 때 같이 지우기 */}
       {/* <button onClick={()=>console.log(termNewFamilyLeader)}>termNewFamilyLeader</button> */}
       {/* <button onClick={()=>console.log(termSmallGroupLeader)}>termSmallGroupLeader</button> */}
-      <button onClick={() => console.log(selectFormData)}>
+      {/* <button onClick={() => console.log(selectFormData)}>
         selectFormData
-      </button>
-      <GRButton onClick={LineUpTemporary}>순장 임시 라인업</GRButton>
+      </button> */}
+      {/* 라인업 페이지 생성 전 임시로 만든 라인업 기능 */}
+      <GRButton onClick={LineUpTemporary}>순장 라인업</GRButton>
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable columns={columns} data={selectedNewFamily} />
       </GRView>

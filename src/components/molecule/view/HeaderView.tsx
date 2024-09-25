@@ -4,7 +4,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import styled from "@emotion/styled";
 import { Alert, Divider } from "antd";
 import { useRouter } from "next/router";
-import React, { CSSProperties, ReactNode, type FC } from "react";
+import React, { ReactNode, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -14,8 +14,6 @@ type tHeaderView = {
   subComponent?: ReactNode;
   titleInfoType?: "success" | "info" | "warning" | "error";
   titleInfo?: ReactNode;
-  titleColor?: CSSProperties["color"];
-  backgroundColor?: CSSProperties["backgroundColor"];
   showIcon?: boolean;
   disabledBackbutton?: boolean;
 };
@@ -26,8 +24,6 @@ const HeaderView: FC<tHeaderView> = ({
   subComponent,
   titleInfoType = "warning",
   titleInfo,
-  titleColor = "black",
-  backgroundColor = "white",
   showIcon = true,
   disabledBackbutton = false
 }) => {
@@ -40,8 +36,8 @@ const HeaderView: FC<tHeaderView> = ({
       borderRadius={GRStylesConfig.BASE_MARGIN}
       paddinghorizontal={3}
       paddingvertical={2}
+      backgroundColor={"white"}
       marginbottom={GRStylesConfig.BASE_MARGIN}
-      backgroundColor={backgroundColor}
       minHeight={6.4375}
     >
       <GRFlexView

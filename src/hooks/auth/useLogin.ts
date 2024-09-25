@@ -32,7 +32,6 @@ const useLogin = () => {
 
         DEPARTMENT_MAIN_MENU.forEach(menu => {
           if (includes(_findMenuByRole?.value, menu.key)) {
-            console.log("_findMenuByRole?.value, menu.key",_findMenuByRole?.value, menu.key)
             _mainMenu.push(menu);
             addMenu(menu);
           }

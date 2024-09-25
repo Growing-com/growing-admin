@@ -58,9 +58,11 @@ const Login = () => {
         <GRView width={15} height={12} style={{ position: "relative" }}>
           <Image
             src={"/logo_name.png"}
-            fill={true}
+            fill
+            priority
             alt={"logo"}
             style={{ objectFit: "contain" }}
+            sizes="(max-width: 600px) 15rem, (max-width: 1200px) 10rem, 15rem"
           />
         </GRView>
         <GRFlexView margintop={1}>
@@ -113,7 +115,7 @@ const Login = () => {
           </GRFlexView>
           <GRFlexView alignItems={"center"}>
             <GRText fontSize={"b8"} color={Color.grey80}>
-              {`v${publicRuntimeConfig?.version}` ?? ""}
+              {`v${publicRuntimeConfig?.version || ""}`}
             </GRText>
           </GRFlexView>
         </GRFlexView>

@@ -43,11 +43,19 @@ const tabItems: tTabItems[] = [
   },
   {
     key: "newfamily-tab-attendance",
-    label: <GRFlexView alignItems="center">출석</GRFlexView>
+    label: <GRFlexView alignItems="center">출석 현황</GRFlexView>
+  },
+  {
+    key: "newfamily-tab-attendance-check",
+    label: <GRFlexView alignItems="center">출석 체크</GRFlexView>
   },
   {
     key: "newfamily-tab-lineUp",
-    label: <GRFlexView alignItems="center">등반 라인업</GRFlexView>
+    label: <GRFlexView alignItems="center">등반 및 라인업</GRFlexView>
+  },
+  {
+    key: "newfamily-tab-promoted",
+    label: <GRFlexView alignItems="center">등반자 명단</GRFlexView>
   },
   {
     key: "newfamily-tab-lineOut",
@@ -57,6 +65,8 @@ const tabItems: tTabItems[] = [
 
 const NEW_FAMILY_INFO = "newfamily-tab-info";
 const NEW_FAMILY_ATTENDANCE = "newfamily-tab-attendance";
+const NEW_FAMILY_ATTENDANCE_CHECK = "newfamily-tab-attendance-check";
+const NEW_FAMILY_PROMOTED = "newfamily-tab-promoted";
 const NEW_FAMILY_LINEOUT = "newfamily-tab-lineOut";
 const NEW_FAMILY_LINEUP = "newfamily-tab-lineUp";
 
@@ -190,20 +200,19 @@ const NewfamilyPage: NextPage = () => {
 
   return (
     <>
-      <button onClick={() => console.log(userInfo)}>userInfo</button>
+      {/* <button onClick={() => console.log(userInfo)}>userInfo</button>
       <button onClick={() => console.log(selectedNewFamily)}>
         selectedNewFamily
-      </button>
+      </button> */}
       <HeaderView
         title={"새가족 관리"}
-        titleColor={Color.white}
         headerComponent={
           <GRButton
             onClick={onClickCreateNewFamily}
             buttonType={"default"}
             buttonSize={"large"}
           >
-            등록
+            새가족 등록
           </GRButton>
         }
       />
@@ -279,13 +288,17 @@ const NewfamilyPage: NextPage = () => {
             {tabValue === NEW_FAMILY_INFO && (
               <NewfamilyInfoTable searchName={searchName} />
             )}
-            {/* 출석 탭 */}
+            {/* 출석 현황 탭 */}
             {tabValue === NEW_FAMILY_ATTENDANCE && (
               <NewfamilyAttendanceTable
                 searchName={searchName}
                 selectedNewFamily={selectedNewFamily}
                 onSelect={onSelectChange}
               />
+            )}
+            {/* 출석 체크 탭 */}
+            {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
+              <div>출석 체크 탭</div>
             )}
             {/* 라인업 요청 탭 */}
             {tabValue === NEW_FAMILY_LINEUP && (
@@ -294,6 +307,10 @@ const NewfamilyPage: NextPage = () => {
                 selectedNewFamily={selectedNewFamily}
                 onSelect={onSelectChange}
               />
+            )}
+            {/* 등반자 탭 */}
+            {tabValue === NEW_FAMILY_PROMOTED && (
+              <div>등반자 탭</div>
             )}
             {/* 라인 아웃 탭 */}
             {tabValue === NEW_FAMILY_LINEOUT && (

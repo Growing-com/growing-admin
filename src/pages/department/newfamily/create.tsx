@@ -257,7 +257,7 @@ const NewfamilyCreatePage: NextPage = () => {
         </GRView>
         <GRFlexView>
           <GRButton type={"primary"} onClick={onRegisterNewFamily}>
-            등록
+            새가족 등록
           </GRButton>
         </GRFlexView>
       </GRView>

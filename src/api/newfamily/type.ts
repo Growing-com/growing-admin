@@ -69,6 +69,43 @@ export type tNewfamily = {
   newFamilyGroupId?: number;
 };
 
+type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE" | "NONE";
+type tAttendanceCheckStatus = Exclude<tAttendanceStatus, "NONE">;
+
+type tAttendanceItems = {
+  /** @description 출결 날짜  @example: “2024-08-08” */
+  date: string;
+  /** @description 출결 정보  @example: “ABSENT” */
+  status: tAttendanceStatus;
+  /** @description 출결 이유  @example: "감기 걸림" */
+  reason?: string;
+};
+
+export type tNewfamilyAttendances = {
+  /** @description 새가족 ID  @example: 1 */
+  newFamilyId: number;
+
+  /** @description 이름  @example: "홍길동" */
+  name: string;
+
+  /** @description 성별  @example: "MALE" */
+  sex: tSex;
+
+  /** @description 학년  @example: 9 */
+  grade: number;
+
+  /** @description 새가족 그룹 리더 이름  @example: 고길동 */
+  newFamilyGroupLeaderName?: string;
+
+  /** @description 총 출석 수  @example: 4 */
+  totalAttendCount: number;
+
+  /** @description 총 결석 수  @example: 1 */
+  totalAbsentCount: number;
+
+  attendanceItems: tAttendanceItems[];
+};
+
 export type tLineOutNewFamily = {
   /** @description 라인아웃된 새가족 아이디  @example: 1 */
   lineOutNewFamilyId: number;
@@ -84,7 +121,7 @@ export type tLineOutNewFamily = {
 
   /** @description 방문일 @example: "2024-06-01" */
   visitDate: string;
-  
+
   /** @description 학년  @example: 9 */
   grade: number;
 

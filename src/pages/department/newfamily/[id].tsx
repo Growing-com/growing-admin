@@ -63,19 +63,33 @@ const NewfamilyUpdatePage: NextPage = () => {
       select: _data => _data.content,
       enabled: numericId !== null,
       onSuccess: data => {
+        const _selectedItem = data[0];
         reset({
-          ...data,
+          ..._selectedItem,
 
           // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
           birth:
-            data.birth && data?.birth !== "1970-01-01"
-              ? dayjs(data.birth)
+            _selectedItem.birth && _selectedItem?.birth !== "1970-01-01"
+              ? dayjs(_selectedItem.birth)
               : undefined,
           visitDate:
-            data?.visitDate && data?.visitDate !== "1970-01-01"
-              ? dayjs(data?.visitDate)
+            _selectedItem?.visitDate && _selectedItem?.visitDate !== "1970-01-01"
+              ? dayjs(_selectedItem?.visitDate)
               : undefined
         });
+        // reset({
+        //   ...data,
+
+        //   // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
+        //   birth:
+        //     data.birth && data?.birth !== "1970-01-01"
+        //       ? dayjs(data.birth)
+        //       : undefined,
+        //   visitDate:
+        //     data?.visitDate && data?.visitDate !== "1970-01-01"
+        //       ? dayjs(data?.visitDate)
+        //       : undefined
+        // });
       },
       onError: error => {
         handleError(error, "새가족 정보가 로드되지 않았습니다.");

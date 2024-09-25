@@ -2,14 +2,11 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getNewfamilies } from "api/newfamily";
-import { tNewfamily } from "api/newfamily/type";
+import { getNewfamiliesAttendances } from "api/newfamily";
+import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { checkDefaultDate } from "utils/DateUtils";
-import { dateSorter } from "utils/sorter";
 
 type tNewfamilyInfoTable = {
   searchName: string;
@@ -23,12 +20,13 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
   onSelect
 }) => {
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewfamily[]
+  tNewfamilyAttendances[]
   >([]);
 
-  const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY],
-    async () => await getNewfamilies(),
+
+  const { data: newFamilyAttendanceData } = useQuery(
+    [queryKeys.NEW_FAMILY_ATTENDANCE],
+    async () => await getNewfamiliesAttendances(),
     {
       select: _data => _data.content
     }
@@ -61,29 +59,34 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
       width: "5rem"
     },
     {
-      title: "방문일",
-      dataIndex: "visitDate",
-      key: "visitDate",
-      align: "center",
-      width: "8rem",
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-      render: (_, record) => checkDefaultDate(record.visitDate)
-    },
-    {
       title: "새가족 순장",
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem"
+    },
+    {
+      title: "출석수",
+      dataIndex: "totalAttendCount",
+      key: "totalAttendCount",
+      align: "center",
+      width: "5rem",
+    },
+    {
+      title: "결석수",
+      dataIndex: "totalAbsentCount",
+      key: "totalAbsentCount",
+      align: "center",
+      fixed: "left",
+      width: "5rem",
     }
   ];
 
   useEffect(() => {
-    if (newFamilyData?.length) {
-      let _filterNewFamily = newFamilyData;
+    if (newFamilyAttendanceData?.length) {
+      let _filterNewFamily = newFamilyAttendanceData;
       if (searchName) {
-        _filterNewFamily = newFamilyData.filter(newFamily => {
+        _filterNewFamily = newFamilyAttendanceData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -91,17 +94,17 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyData, searchName]);
+  }, [newFamilyAttendanceData, searchName]);
 
   return (
     <>
-      {/* <button
+      <button
         onClick={() => {
-          console.log(newFamilyData);
+          console.log(newFamilyAttendanceData);
         }}
       >
-        newFamilyData
-      </button> */}
+        newFamilyAttendanceData
+      </button>
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

@@ -92,12 +92,12 @@ export default BaseLayout;
 const LayoutContent = styled(Content)`
   margin: 0;
   height: "100%";
-  background-color: ${Color.black200};
   padding: 1rem 1.5rem;
+  background-color: ${Color.grey160};
 `;
 
 const LayoutSider = styled(Sider)`
-  background-color: ${Color.black200} !important;
+  // background-color: ${Color.black200} !important;
 `;
 
 const BaseLayoutMenu = styled(Menu)`

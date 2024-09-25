@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tLineOutNewFamily, tNewfamily } from "./type";
+import { tLineOutNewFamily, tNewfamily, tNewfamilyAttendances } from "./type";
 
 const version = "v1";
 
@@ -21,7 +21,8 @@ export const updateNewfamily = (data: tNewfamily) => {
 };
 
 export const getNewfamily = (_newFamilyId: number) => {
-  return request<tNewfamily>({
+  // return request<tNewfamily>({
+  return request<tNewfamily[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/new-families/${_newFamilyId}`
   });
@@ -33,6 +34,13 @@ export const getNewfamilies = () => {
     url: `${version}/new-families`
   });
 };
+
+export const getNewfamiliesAttendances = () => {
+  return request<tNewfamilyAttendances[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/new-families/attendances`
+  });
+}
 
 export const getLineUpRequestNewfamilies = () => {
   return request<tNewfamily[]>({
