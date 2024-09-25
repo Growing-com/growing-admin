@@ -44,13 +44,6 @@ const NewfamilyUpdatePage: NextPage = () => {
 
   const numericId = id ? Number(id) : null;
 
-  // const {data: termList } = useQuery(
-  //   ["termList"],
-  //   async () => {
-  //     return await getTermList();
-  //   },
-  // )
-
   const { data: newFamilyDetailData } = useQuery(
     [queryKeys.NEW_FAMILY_DETAIL, id],
     async () => {
