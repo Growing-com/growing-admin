@@ -1,7 +1,7 @@
 import { Modal, ModalProps } from "antd";
 import React, { ReactNode, useCallback, useMemo, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import GRButtonText from "../button/GRTextButton";
+import GRTextButton from "../button/GRTextButton";
 import GRView from "../view/GRView";
 
 export type tGRModal = {
@@ -62,20 +62,20 @@ const GRModal: FC<tGRModal> = ({
   const _renderFooter = useMemo(() => {
     if (!!footerComponent || !showFooter) return [];
     return [
-      <GRButtonText
+      <GRTextButton
         key={"cancel-button"}
         buttonType={"cancel"}
         onClick={onCancelClickButton}
       >
         {cancelButtonText ?? "취소"}
-      </GRButtonText>,
-      <GRButtonText
+      </GRTextButton>,
+      <GRTextButton
         key={"ok-button"}
         onClick={onOkClickButton}
         htmlType={"submit"}
       >
         {okButtonText ?? "확인"}
-      </GRButtonText>
+      </GRTextButton>
     ];
   }, [
     footerComponent,
@@ -104,8 +104,10 @@ const GRModal: FC<tGRModal> = ({
       closable={closable}
       footer={_renderFooter}
       maskClosable={maskClosable}
-      bodyStyle={{
-        padding: "1rem"
+      styles={{
+        body: {
+          padding: "1rem"
+        }
       }}
       title={renderModalHeader()}
       keyboard={keyboard}

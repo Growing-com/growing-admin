@@ -19,7 +19,6 @@ const useLogin = () => {
       await refetch();
     }
   }, [refetch, userInfo]);
-
   useEffect(() => {
     (async () => {
       const _mainMenu = [] as tDepartmentMainMenu[];
@@ -27,6 +26,7 @@ const useLogin = () => {
         const _findMenuByRole = DUTY_MENU.find(
           duty => duty.key === userInfo?.role
         );
+
         DEPARTMENT_MAIN_MENU.forEach(menu => {
           if (includes(_findMenuByRole?.value, menu.key)) {
             _mainMenu.push(menu);
@@ -35,10 +35,10 @@ const useLogin = () => {
         });
 
         const firstMenu = head(_mainMenu);
-        if (firstMenu?.children?.length) {
+        // if (firstMenu?.children?.length) {
           if (router.pathname.localeCompare(`/login`) === 0) {
             router.replace(`/department/personalData`);
-          }
+          // }
         }
       }
     })();

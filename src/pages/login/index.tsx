@@ -5,8 +5,8 @@ import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
-import { useLoginMutate } from 'api/account/mutate/useLoginMutate';
-import { DEPARTMENT_MAIN_MENU } from 'config/router';
+import { useLoginMutate } from "api/account/mutate/useLoginMutate";
+import { DEPARTMENT_MAIN_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import getConfig from "next/config";
@@ -41,7 +41,7 @@ const Login = () => {
       DEPARTMENT_MAIN_MENU.forEach(menu => {
         addMenu(menu);
       });
-      router.replace(`/department/personalData/management`);
+      router.replace(`/department/personalData`);
       // await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
@@ -58,9 +58,11 @@ const Login = () => {
         <GRView width={15} height={12} style={{ position: "relative" }}>
           <Image
             src={"/logo_name.png"}
-            fill={true}
+            fill
+            priority
             alt={"logo"}
             style={{ objectFit: "contain" }}
+            sizes="(max-width: 600px) 15rem, (max-width: 1200px) 10rem, 15rem"
           />
         </GRView>
         <GRFlexView margintop={1}>
@@ -113,7 +115,7 @@ const Login = () => {
           </GRFlexView>
           <GRFlexView alignItems={"center"}>
             <GRText fontSize={"b8"} color={Color.grey80}>
-              {`v${publicRuntimeConfig?.version}` ?? ""}
+              {`v${publicRuntimeConfig?.version || ""}`}
             </GRText>
           </GRFlexView>
         </GRFlexView>

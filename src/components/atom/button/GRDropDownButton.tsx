@@ -3,7 +3,7 @@ import type { FC, ReactNode } from "react";
 import { Color } from "styles/colors";
 import GRText from "../text/GRText";
 import GRView from "../view/GRView";
-import GRButtonText from "./GRTextButton";
+import GRTextButton from "./GRTextButton";
 
 type tGRDropDownButton = {
   menu: MenuProps["items"];
@@ -19,10 +19,10 @@ const GRDropDownButton: FC<tGRDropDownButton> = ({
   return (
     <GRView>
       <Dropdown menu={{ items: menu }} placement="bottomLeft" arrow>
-        <GRButtonText buttonType={"default"} size={"large"}>
+        <GRTextButton buttonType={"default"} size={"large"}>
           {iconComponent && iconComponent}
           <GRText color={Color.white}>{title ?? "버튼"}</GRText>
-        </GRButtonText>
+        </GRTextButton>
       </Dropdown>
     </GRView>
   );

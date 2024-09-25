@@ -8,7 +8,6 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import React, { useCallback } from "react";
 import { Controller } from "react-hook-form";
-import GRStylesConfig from "styles/GRStylesConfig";
 import GRFormError from "./GRFormError";
 import GRFormTitle from "./GRFormTitle";
 import { tGRFormItem, tRenderProps } from "./type";
@@ -111,19 +110,21 @@ const GRFormItem = ({
   if (!isShow) return <React.Fragment />;
   return (
     <GRFlexView
-      flexDirection={"row"}
-      alignItems={"center"}
-      marginbottom={GRStylesConfig.BASE_MARGIN}
+      // marginbottom={GRStylesConfig.BASE_MARGIN}
       style={containStyle}
+      alignItems={"start"}
+      justifyContent={"center"}
     >
       {title && <GRFormTitle title={title} required={required} />}
-      <Controller
-        control={control}
-        name={fieldName}
-        render={renderFormItems}
-        rules={rules}
-        defaultValue={defaultValue}
-      />
+      <GRFlexView style={{ width: "100%" }}>
+        <Controller
+          control={control}
+          name={fieldName}
+          render={renderFormItems}
+          rules={rules}
+          defaultValue={defaultValue}
+        />
+      </GRFlexView>
     </GRFlexView>
   );
 };

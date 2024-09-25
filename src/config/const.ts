@@ -1,4 +1,4 @@
-import { tTeamType } from "apiV1_prefix/term/types";
+// import { tTeamType } from "apiV1_prefix/term/types";
 import { BELIEVE_STATUS, VISIT_REASON } from "common/enum";
 import { Color } from "styles/colors";
 
@@ -60,30 +60,30 @@ export const STATUS_OPTIONS = [
 ];
 
 export const SEX_OPTIONS = [
-  { label: "남", value: "MALE" },
-  { label: "여", value: "FEMALE" }
+  { label: "남자", value: "MALE" },
+  { label: "여자", value: "FEMALE" }
 ];
 
 export const YES_NO_OPTIONS = [
-  { label: "예", value: "true" },
-  { label: "아니오", value: "false" }
+  { label: "예", value: "YES" },
+  { label: "아니오", value: "NO" }
 ];
 
 export const THERE_OPTIONS = [
-  { label: "있다", value: "true" },
-  { label: "없다.", value: "false" }
+  { label: "있다", value: "YES" },
+  { label: "없다.", value: "NO" }
 ];
 
-export const TeamType: Record<tTeamType, tTeamType> = {
-  /** @description 등불 */
-  LAMP: "LAMP",
-  /** @description 나무모임 */
-  TREE: "TREE",
-  /** @description 순모임 */
-  PLANT: "PLANT",
-  /** @description 새가족 */
-  NEW: "NEW"
-};
+// export const TeamType: Record<tTeamType, tTeamType> = {
+//   /** @description 등불 */
+//   LAMP: "LAMP",
+//   /** @description 나무모임 */
+//   TREE: "TREE",
+//   /** @description 순모임 */
+//   PLANT: "PLANT",
+//   /** @description 새가족 */
+//   NEW: "NEW"
+// };
 
 export const MONTHS_OPTIONS = [
   { label: "1월", value: "1" },

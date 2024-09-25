@@ -1,4 +1,4 @@
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -43,20 +43,20 @@ const ChangePassword = () => {
           </GRView>
         </GRFlexView>
         <GRFlexView>
-          <GRButtonText
+          <GRTextButton
             width={"100%"}
             onClick={onClickChangePassword}
             marginbottom={1}
           >
             변경
-          </GRButtonText>
-          <GRButtonText
+          </GRTextButton>
+          <GRTextButton
             width={"100%"}
             buttonType={"cancel"}
             onClick={onClickCancel}
           >
             취소
-          </GRButtonText>
+          </GRTextButton>
         </GRFlexView>
       </GRView>
     </LoginContainer>

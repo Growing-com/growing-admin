@@ -34,3 +34,8 @@ export enum BELIEVE_STATUS {
   /** 알고 싶지도 않고 관심도 없다. */
   NOT_INTERESTED = "NOT_INTERESTED"
 }
+
+export enum YES_NO_STATUS {
+  YES = "YES",
+  NO = "NO"
+}

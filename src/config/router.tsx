@@ -1,5 +1,17 @@
+import GRFlexView from "@component/atom/view/GRFlexView";
+import {
+  ArchiveIcon,
+  AttendanceIcon,
+  DiscipleshipIcon,
+  LineOutIcon,
+  LineUpIcon,
+  NewfamilyWhiteIcon,
+  PersonalDataIcon
+} from "./icon";
+
 export type tDepartmentMainMenu = {
   key:
+    | "newfamily"
     | "personalData"
     | "attendance"
     | "lineOut"
@@ -7,138 +19,84 @@ export type tDepartmentMainMenu = {
     | "archive"
     | "discipleship";
   label:
+    | "새가족 관리"
     | "인적사항"
     | "출석관리"
-    | "라인 인 아웃"
+    | "라인인 & 아웃"
     | "라인업"
     | "아카이브"
-    | "훈련 사항";
-  children?:
-    | tDepartmentPersonalDataSubMenu[]
-    | tDepartmentAttendanceSubMenu[]
-    | tDepartmentLineOutSubMenu[]
-    | tDepartmentLineUpSubMenu[]
-    | tDepartmentArchiveSubMenu[]
-    | tDepartmentDiscipleshipSubMenu[]
-    ;
+    | "훈련사항";
   icon?: React.ReactNode;
 };
 
-type tDepartmentPersonalDataSubMenu = {
-  key: "personalData-management";
-  label: "인적 사항";
-  path: string;
+const iconStyle = {
+  transform: "translate(0px,0px)",
+  fontSize: "1.3rem"
 };
-
-type tDepartmentAttendanceSubMenu = {
-  key: "attendance-management";
-  label: "출석 관리";
-  path: string;
-};
-
-type tDepartmentLineOutSubMenu = {
-  key: "lineOut-management";
-  label: "라인아웃 관리";
-  path: string;
-};
-
-type tDepartmentLineUpSubMenu = {
-  key: "lineUp-management";
-  label: "라인업 관리";
-  path: string;
-};
-
-type tDepartmentArchiveSubMenu = {
-  key: "archive-management";
-  label: "사역 관리";
-  path: string;
-};
-
-type tDepartmentDiscipleshipSubMenu = {
-  key: "discipleship-management";
-  label: "훈련 관리";
-  path: string;
-};
-
-const DEPARTMENT_PERSONALDATE_SUB_MENU: tDepartmentPersonalDataSubMenu[] =
-  [
-    {
-      key: "personalData-management",
-      label: "인적 사항",
-      path: "personalData/management"
-    }
-  ];
-
-const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
-  {
-    key: "attendance-management",
-    label: "출석 관리",
-    path: "attendance/management"
-  }
-];
-
-const DEPARTMENT_LINEOUT_SUB_MENU: tDepartmentLineOutSubMenu[] = [
-  {
-    key: "lineOut-management",
-    label: "라인아웃 관리",
-    path: "lineOut/management"
-  }
-];
-
-const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
-  {
-    key: "lineUp-management",
-    label: "라인업 관리",
-    path: "lineUp/management"
-  }
-];
-
-const DEPARTMENT_ARCHIVE_SUB_MENU: tDepartmentArchiveSubMenu[] = [
-  {
-    key: "archive-management",
-    label: "사역 관리",
-    path: "archive/management"
-  }
-];
-
-const DEPARTMENT_DISCIPLESHIP_SUB_MENU: tDepartmentDiscipleshipSubMenu[] = [
-  {
-    key: "discipleship-management",
-    label: "훈련 관리",
-    path: "discipleship/management"
-  }
-];
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
   {
+    key: "newfamily",
+    label: "새가족 관리",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <NewfamilyWhiteIcon style={iconStyle} />
+      </GRFlexView>
+    )
+  },
+  {
     key: "personalData",
     label: "인적사항",
-    // children: DEPARTMENT_PERSONALDATE_SUB_MENU
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <PersonalDataIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "attendance",
     label: "출석관리",
-    // children: DEPARTMENT_ATTENDANCE_SUB_MENU
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <AttendanceIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "lineOut",
-    label: "라인 인 아웃",
-    // children: DEPARTMENT_LINEOUT_SUB_MENU
+    label: "라인인 & 아웃",
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <LineOutIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "lineUp",
     label: "라인업",
-    // children: DEPARTMENT_LINEUP_SUB_MENU
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <LineUpIcon style={iconStyle} />
+      </GRFlexView>
+    )
+  },
+  {
+    key: "discipleship",
+    label: "훈련사항",
+    icon: (
+      <GRFlexView marginright={0.6}>
+        <DiscipleshipIcon style={iconStyle} />
+      </GRFlexView>
+    )
   },
   {
     key: "archive",
     label: "아카이브",
-    // children:DEPARTMENT_ARCHIVE_SUB_MENU
-  },
-  {
-    key: "discipleship",
-    label: "훈련 사항",
-    // children: DEPARTMENT_DISCIPLESHIP_SUB_MENU
+    icon: (
+      <GRFlexView marginright={0.5}>
+        <ArchiveIcon style={iconStyle} />
+      </GRFlexView>
+    )
   }
 ];
 
@@ -158,6 +116,7 @@ export const DUTY_MENU = [
   {
     key: "ADMIN",
     value: [
+      "newfamily",
       "personalData",
       "attendance",
       "lineOut",
@@ -165,5 +124,42 @@ export const DUTY_MENU = [
       "archive",
       "discipleship"
     ]
-  }
+  },
+  {
+    key: "SUPER_ADMIN",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "lineUp",
+      "archive",
+      "discipleship"
+    ]
+  },
+  {
+    key: "NEW_FAMILY_GANSA",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "archive",
+      "discipleship"
+    ] 
+  },
+  {
+    key: "LINE_UP_GANSA",
+    value: [
+      "newfamily",
+      "personalData",
+      "attendance",
+      "lineOut",
+      "lineUp",
+      "archive",
+      "discipleship"
+    ] 
+  },
+  
+
 ];

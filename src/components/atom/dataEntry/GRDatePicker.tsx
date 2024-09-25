@@ -1,14 +1,13 @@
 import { css } from "@emotion/react";
 import { DatePicker, type DatePickerProps } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
-import { PickerComponentClass } from "antd/es/date-picker/generatePicker/interface";
 import locale from "antd/lib/date-picker/locale/ko_KR";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ko"; // 한국어 locale 추가
 import { CSSProperties, FC, useCallback, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import GRButtonText from "../button/GRTextButton";
+import GRTextButton from "../button/GRTextButton";
 import GRFlexView from "../view/GRFlexView";
 
 dayjs.locale("ko");
@@ -39,7 +38,7 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
     () =>
       (pickerType === "basic"
         ? DatePicker
-        : RangePicker) as PickerComponentClass<
+        : RangePicker) as React.FC<
         Omit<tGRDatePicker<tPickerType>, "pickerType">
       >,
     [pickerType]
@@ -77,12 +76,12 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
         alignItems={"center"}
         marginvertical={GRStylesConfig.BASE_MARGIN}
       >
-        <GRButtonText
+        <GRTextButton
           buttonType={"default"}
           onClick={() => onChangeDate(dayjs())}
         >
           TODAY
-        </GRButtonText>
+        </GRTextButton>
       </GRFlexView>
     );
   };

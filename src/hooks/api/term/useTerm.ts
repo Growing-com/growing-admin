@@ -1,11 +1,9 @@
 import { tOptions } from "@component/atom/dataEntry/type";
 import { useQuery } from "@tanstack/react-query";
-import queryKeys from 'api/queryKeys';
-import { getNewFamilyGroup, getSmallGroupLeader } from 'api/term';
+import queryKeys from "api/queryKeys";
+import { getNewFamilyGroup, getSmallGroupLeader } from "api/term";
 import { useEffect, useState } from "react";
 import { convertOptions } from "utils";
-
-// v2
 
 const useTerm = ({ termId }: { termId: number }) => {
   if (!termId) {
@@ -60,7 +58,8 @@ const useTerm = ({ termId }: { termId: number }) => {
   useEffect(() => {
     if (termSmallGroupLeaderIsSuccess) {
       const smallGroupOptions = convertOptions(
-        termSmallGroupLeader,
+        // 라인업 페이지 생성시 수정 필요
+        termSmallGroupLeader[0].smallGroupLeaders,
         "smallGroupId",
         "smallGroupLeaderName"
       );

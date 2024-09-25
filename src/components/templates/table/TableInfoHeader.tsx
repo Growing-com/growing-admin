@@ -35,7 +35,7 @@ const TableInfoHeader: FC<tTableInfoHeader> = ({
       </GRText>
       {isResetButton && (
         <Button size={"small"} onClick={onClickFilterReset}>
-          <RedoOutlined rev={undefined} />
+          <RedoOutlined  />
         </Button>
       )}
     </GRView>

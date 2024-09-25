@@ -1,8 +1,8 @@
 import {
-  BankOutlined,
-  CheckOutlined,
-  SearchOutlined,
-  TeamOutlined
+    BankOutlined,
+    CheckOutlined,
+    SearchOutlined,
+    TeamOutlined
 } from "@ant-design/icons";
 
 export type tDepartmentMainMenu = {
@@ -83,24 +83,24 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
     key: "management",
     label: "관리",
     children: DEPARTMENT_MANAGEMENT_SUB_MENU,
-    icon: <TeamOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    icon: <TeamOutlined  style={{ fontSize: "1.3rem" }} />
   },
   {
     key: "training",
     label: "훈련",
     children: DEPARTMENT_TRAINING_SUB_MENU,
-    icon: <BankOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    icon: <BankOutlined  style={{ fontSize: "1.3rem" }} />
   },
   {
     key: "attendance",
     label: "출석",
     children: DEPARTMENT_ATTENDANCE_SUB_MENU,
-    icon: <CheckOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    icon: <CheckOutlined  style={{ fontSize: "1.3rem" }} />
   },
   {
     key: "search",
     label: "전체 검색",
-    icon: <SearchOutlined rev={undefined} style={{ fontSize: "1.3rem" }} />
+    icon: <SearchOutlined  style={{ fontSize: "1.3rem" }} />
   }
 ];
 
