@@ -134,9 +134,6 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
           defaultPageSize: 10,
           position: ["bottomCenter"]
         }}
-        onRow={record => {
-          return { onClick: () => onClickUpdateNewFamily(record.newFamilyId) };
-        }}
       />
     </>
   );

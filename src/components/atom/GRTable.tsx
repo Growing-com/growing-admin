@@ -91,6 +91,7 @@ const GRTable = <GRTableType extends object>({
           `,
           customCss
         ]}
+        scroll={scroll}
         {...props}
       />
       {paginationProps && (

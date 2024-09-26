@@ -58,7 +58,7 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-      // TODO: 출석 데이터 쿼리 삭제
+      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
 
       onClickClose();
       GRAlert.success("등반 완료");
@@ -87,8 +87,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-      // TODO: 출석 데이터 쿼리 삭제
 
       //   onClickClose();
       GRAlert.success("라인업 완료");

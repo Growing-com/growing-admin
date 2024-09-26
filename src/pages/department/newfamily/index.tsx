@@ -222,7 +222,10 @@ const NewfamilyPage: NextPage = () => {
             selectedKeys={[tabValue]}
             onClick={onClickTabMenu}
           />
-          <GRFlexView paddingleft={3}>
+          <GRFlexView
+            paddingleft={3}
+            style={{ width: "100%", overflowX: "auto" }}
+          >
             <GRFlexView
               flexDirection={"row"}
               alignItems={"center"}

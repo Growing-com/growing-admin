@@ -1,11 +1,17 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
+import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnType } from "antd/es/table";
+import { TableColumnsType } from "antd";
 import { getNewfamiliesAttendances } from "api/newfamily";
-import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
+import {
+  tAttendanceItems,
+  tNewfamily,
+  tNewfamilyAttendances
+} from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
+import { head } from "lodash";
 import { useEffect, useState } from "react";
 
 type tNewfamilyInfoTable = {
@@ -20,25 +26,30 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
   onSelect
 }) => {
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-  tNewfamilyAttendances[]
+    tNewfamilyAttendances[]
   >([]);
-
+  const [attendanceItems, setAttendanceItems] = useState<
+    tNewfamilyAttendances | undefined
+  >();
 
   const { data: newFamilyAttendanceData } = useQuery(
     [queryKeys.NEW_FAMILY_ATTENDANCE],
     async () => await getNewfamiliesAttendances(),
     {
-      select: _data => _data.content
+      select: _data => _data.content,
+      onSuccess: data => setAttendanceItems(head(data))
     }
   );
 
-  const columns: ColumnType<any>[] = [
+  const columns: TableColumnsType<any> = [
     {
       title: "이름",
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      fixed: "left",
+      width: "5rem",
+      minWidth: 53
     },
     {
       title: "성별",
@@ -63,14 +74,17 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem"
+      width: "6rem",
+      minWidth: 53
     },
     {
       title: "출석수",
       dataIndex: "totalAttendCount",
       key: "totalAttendCount",
       align: "center",
+      fixed: "left",
       width: "5rem",
+      sorter: (a, b) => a.totalAttendCount - b.totalAttendCount
     },
     {
       title: "결석수",
@@ -79,6 +93,25 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
+      sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount
+    },
+    {
+      title: "출석 날짜",
+      align: "center",
+      children: attendanceItems?.attendanceItems.map(item => ({
+        title: item.date,
+        dataIndex: "attendanceItems",
+        key: "attendanceItems",
+        render: (record: tAttendanceItems[]) => {
+          const findData = record.find(r => r.date === item.date);
+          return (
+            <ColumAttendanceRender
+              attendanceStatus={findData?.status}
+              contentEtc={findData?.reason}
+            />
+          );
+        }
+      }))
     }
   ];
 
@@ -120,6 +153,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
           ),
           onChange: onSelect
         }}
+        scroll={{ x: true }}
+        tableLayout={"auto"}
       />
     </>
   );

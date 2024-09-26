@@ -10,7 +10,8 @@ export const SEX_NAME: { [key: string]: string } = {
 export const ATTENDANCE_STATUS = [
   { label: "출석", value: "ATTEND", color: "#87d068" },
   { label: "결석", value: "ABSENT", color: Color.red100 },
-  { label: "온라인", value: "ONLINE", color: "#ffd400" }
+  { label: "온라인", value: "ONLINE", color: "#ffd400" },
+  { label: "미체크", value: "NONE", color: "#ccc" }
 ];
 
 export const DUTY = [

@@ -1,5 +1,5 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -89,29 +89,29 @@ const Login = () => {
           </GRView>
         </GRFlexView>
         <GRFlexView>
-          <GRButtonText width={"100%"} onClick={onClickLogin}>
+          <GRTextButton width={"100%"} onClick={onClickLogin}>
             로그인
-          </GRButtonText>
+          </GRTextButton>
           <GRFlexView
             flexDirection={"row"}
             justifyContent={"center"}
             margintop={1}
           >
-            <GRButtonText buttonType={"text"} width={"100%"}>
+            <GRTextButton buttonType={"text"} width={"100%"}>
               <Link
                 href={`${process.env.NEXT_PUBLIC_OPEN_KAKAO}`}
                 target={"_blank"}
               >
                 카카오 문의
               </Link>
-            </GRButtonText>
-            {/* <GRButtonText
+            </GRTextButton>
+            {/* <GRTextButton
               buttonType={"text"}
               width={"100%"}
               onClick={onClickChangePassword}
             >
               비밀번호 변경
-            </GRButtonText> */}
+            </GRTextButton> */}
           </GRFlexView>
           <GRFlexView alignItems={"center"}>
             <GRText fontSize={"b8"} color={Color.grey80}>

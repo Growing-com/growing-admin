@@ -1,4 +1,5 @@
 import { tSex } from "api/account/types";
+import { tAttendanceStatus } from 'api/attendance/type';
 import { BELIEVE_STATUS, VISIT_REASON, YES_NO_STATUS } from "common/enum";
 // import { Nullable } from "common/type-aliases";
 
@@ -77,10 +78,7 @@ export type tNewfamilyPromoted = Omit<
   weeksAfterPromotion: number;
 };
 
-type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE" | "NONE";
-type tAttendanceCheckStatus = Exclude<tAttendanceStatus, "NONE">;
-
-type tAttendanceItems = {
+export type tAttendanceItems = {
   /** @description 출결 날짜  @example: “2024-08-08” */
   date: string;
   /** @description 출결 정보  @example: “ABSENT” */
