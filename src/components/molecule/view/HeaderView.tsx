@@ -1,6 +1,7 @@
 import { LeftOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Alert, Divider } from "antd";
 import { useRouter } from "next/router";
@@ -35,10 +36,12 @@ const HeaderView: FC<tHeaderView> = ({
     <GRFlexView
       borderRadius={GRStylesConfig.BASE_MARGIN}
       paddinghorizontal={3}
-      paddingvertical={2}
-      backgroundColor={"white"}
+      paddingvertical={`${disabledBackbutton ? 1.8 : 2}`}
       marginbottom={GRStylesConfig.BASE_MARGIN}
-      minHeight={6.4375}
+      backgroundColor="white"
+      css={css`
+        box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
+      `}
     >
       <GRFlexView
         flexDirection={"row"}
@@ -46,11 +49,9 @@ const HeaderView: FC<tHeaderView> = ({
         alignItems={"center"}
       >
         <GRFlexView flexDirection={"row"} alignItems={"center"}>
-          {disabledBackbutton && (
-            <StyledLeftOutlined onClick={onClickBack} />
-          )}
+          {disabledBackbutton && <StyledLeftOutlined onClick={onClickBack} />}
           <GRText
-            fontSize={"h5"}
+            fontSize={"h9"}
             weight={"bold"}
             marginright={GRStylesConfig.BASE_MARGIN}
           >

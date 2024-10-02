@@ -1,5 +1,4 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButton from "@component/atom/button/GRButton";
 import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
@@ -206,13 +205,13 @@ const NewfamilyPage: NextPage = () => {
       <HeaderView
         title={"새가족 관리"}
         headerComponent={
-          <GRButton
+          <GRTextButton
             onClick={onClickCreateNewFamily}
             buttonType={"default"}
-            buttonSize={"large"}
+            size={"large"}
           >
             새가족 등록
-          </GRButton>
+          </GRTextButton>
         }
       />
       <GRContainerView>

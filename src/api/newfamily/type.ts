@@ -1,5 +1,5 @@
 import { tSex } from "api/account/types";
-import { tAttendanceStatus } from 'api/attendance/type';
+import { tAttendanceCheckStatus, tAttendanceStatus } from 'api/attendance/type';
 import { BELIEVE_STATUS, VISIT_REASON, YES_NO_STATUS } from "common/enum";
 // import { Nullable } from "common/type-aliases";
 
@@ -110,7 +110,20 @@ export type tNewfamilyAttendances = {
   totalAbsentCount: number;
 
   attendanceItems: tAttendanceItems[];
+
+  attendanceCheckItems?: tAttendanceCheckItems;
 };
+
+export type tAttendanceCheckItems = {
+  newFamilyId?: number;
+  status?: tAttendanceStatus;
+  reason?: string;
+};
+
+export type tNewfamilyAttendanceCheck = {
+  date : string;
+  attendanceItems: tAttendanceCheckItems[];
+}
 
 export type tLineOutNewFamily = {
   /** @description 라인아웃된 새가족 아이디  @example: 1 */

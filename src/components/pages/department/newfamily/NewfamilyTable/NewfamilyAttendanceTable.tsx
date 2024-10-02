@@ -14,13 +14,13 @@ import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
 
-type tNewfamilyInfoTable = {
+type tNewfamilyAttendanceTable = {
   searchName: string;
   selectedNewFamily: tNewfamily[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
+const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   searchName,
   selectedNewFamily,
   onSelect
@@ -35,6 +35,15 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
   const { data: newFamilyAttendanceData } = useQuery(
     [queryKeys.NEW_FAMILY_ATTENDANCE],
     async () => await getNewfamiliesAttendances(),
+    {
+      select: _data => _data.content,
+      onSuccess: data => setAttendanceItems(head(data))
+    }
+  );
+  
+  const { data: newFamilyGroupAttendanceData } = useQuery(
+    [queryKeys.NEW_FAMILY_ATTENDANCE, 2],
+    async () => await getNewfamiliesAttendances({ newFamilyGroupId: 1 }),
     {
       select: _data => _data.content,
       onSuccess: data => setAttendanceItems(head(data))
@@ -131,13 +140,20 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyInfoTable> = ({
 
   return (
     <>
-      {/* <button
+      <button
         onClick={() => {
           console.log(newFamilyAttendanceData);
         }}
       >
         newFamilyAttendanceData
-      </button> */}
+      </button>
+      <button
+        onClick={() => {
+          console.log(newFamilyGroupAttendanceData);
+        }}
+      >
+        newFamilyGroupAttendanceData
+      </button>
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

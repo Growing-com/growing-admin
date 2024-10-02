@@ -31,6 +31,14 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
     }
   );
 
+  const { data: newFamilyGroupData } = useQuery(
+    [queryKeys.NEW_FAMILY, 2],
+    async () => await getNewfamilies({ newFamilyGroupId: 1 }),
+    {
+      select: _data => _data.content
+    }
+  );
+  
   const columns: ColumnType<any>[] = [
     {
       title: "이름",
@@ -132,6 +140,9 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
 
   return (
     <>
+      <button onClick={() => console.log(newFamilyGroupData)}>
+        newFamilyGroupData
+      </button>
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

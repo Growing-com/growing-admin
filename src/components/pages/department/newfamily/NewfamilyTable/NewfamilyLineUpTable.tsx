@@ -12,13 +12,13 @@ import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-type tNewfamilyInfoTable = {
+type tNewfamilyLineUpTable = {
   searchName: string;
   selectedNewFamily: tNewfamily[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
+const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
   searchName,
   selectedNewFamily,
   onSelect
