@@ -2,7 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getLineUpRequestNewfamilies } from 'api/newfamily';
+import { getLineUpRequestNewfamilies } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
@@ -78,7 +78,13 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem"
+      width: "6rem",
+      sorter: (a, b) => {
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
+      }
     },
     {
       title: "일반 순장",
@@ -99,7 +105,9 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       key: "promoteDate",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
+      render: (_, record) => checkDefaultDate(record.promoteDate),
+      sorter: (valueA, valueB) =>
+        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
     },
     {
       title: "생년월일",

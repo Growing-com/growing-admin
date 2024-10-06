@@ -1,5 +1,6 @@
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRTextButton from "@component/atom/button/GRTextButton";
+import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRContainerView from "@component/atom/view/GRContainerView";
@@ -7,6 +8,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
+import NewfamilyAttendanceCheckTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyAttendanceCheckTable";
 import NewfamilyAttendanceTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyAttendanceTable";
 import NewfamilyInfoTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyInfoTable";
 import NewfamilyLineOutTable from "@component/pages/department/newfamily/NewfamilyTable/NewfamilyLineOutTable";
@@ -16,7 +18,6 @@ import { NewFamilyPromoteModal } from "@component/pages/department/newfamily/New
 import styled from "@emotion/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Menu, MenuProps } from "antd";
-import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
 import {
   lineInNewfamily,
   lineOutNewfamily,
@@ -24,6 +25,7 @@ import {
 } from "api/newfamily";
 import { tLineOutNewFamily, tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
+import dayjs, { Dayjs } from "dayjs";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
@@ -85,7 +87,7 @@ const NewfamilyPage: NextPage = () => {
   const [selectedLineOutNewFamily, setSelectedLineOutNewFamily] =
     useState<tLineOutNewFamily>();
 
-  const { data: userInfo, refetch } = useUserInfoQuery();
+  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
 
   const { mutateAsync: lineUpRequestMutateAsync } = useMutation(
     requestLineUpNewfamily,
@@ -136,11 +138,19 @@ const NewfamilyPage: NextPage = () => {
   const onClickTabMenu: MenuProps["onClick"] = e => {
     resetSelection();
     setSearchName("");
+    setFilterDate(dayjs().startOf('week'));
     setTabValue(e.key);
   };
 
   const onChangeSearch = (_text: string) => {
     setSearchName(_text);
+  };
+
+  const onChangeWeek = (_date: Dayjs | null) => {
+    if (_date) {
+      const lastSunday = dayjs(_date).startOf('week');
+      setFilterDate(lastSunday);
+    }
   };
 
   const onClickLineUpRequest = () => {
@@ -239,7 +249,7 @@ const NewfamilyPage: NextPage = () => {
                   value={searchName}
                 />
               </GRView>
-              {tabValue == NEW_FAMILY_ATTENDANCE && (
+              {tabValue === NEW_FAMILY_ATTENDANCE && (
                 <GRFlexView flexDirection={"row"} justifyContent={"end"}>
                   <GRView marginright={GRStylesConfig.BASE_MARGIN}>
                     <GRTextButton
@@ -279,6 +289,14 @@ const NewfamilyPage: NextPage = () => {
                   </GRView>
                 </GRFlexView>
               )}
+              {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
+                <GRDatePicker
+                  pickerType={"basic"}
+                  picker={"week"}
+                  defaultValue={filterDate}
+                  onChange={onChangeWeek}
+                />
+              )}
               {tabValue === NEW_FAMILY_LINEOUT && (
                 <GRTextButton onClick={onClickLineIn} buttonType={"custom"}>
                   복귀
@@ -299,7 +317,7 @@ const NewfamilyPage: NextPage = () => {
             )}
             {/* 출석 체크 탭 */}
             {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
-              <div>출석 체크 탭</div>
+              <NewfamilyAttendanceCheckTable searchName={searchName} filterDate={filterDate}/>
             )}
             {/* 라인업 요청 탭 */}
             {tabValue === NEW_FAMILY_LINEUP && (

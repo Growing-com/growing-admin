@@ -13,6 +13,7 @@ import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
+import { koreanSorter } from 'utils/sorter';
 
 type tNewfamilyAttendanceTable = {
   searchName: string;
@@ -40,7 +41,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       onSuccess: data => setAttendanceItems(head(data))
     }
   );
-  
+
   const { data: newFamilyGroupAttendanceData } = useQuery(
     [queryKeys.NEW_FAMILY_ATTENDANCE, 2],
     async () => await getNewfamiliesAttendances({ newFamilyGroupId: 1 }),
@@ -76,7 +77,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      sorter: (a, b) => a.grade - b.grade
     },
     {
       title: "새가족 순장",
@@ -84,6 +86,12 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
+      sorter: (a, b) => {
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
+      },
       minWidth: 53
     },
     {
@@ -140,20 +148,6 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
 
   return (
     <>
-      <button
-        onClick={() => {
-          console.log(newFamilyAttendanceData);
-        }}
-      >
-        newFamilyAttendanceData
-      </button>
-      <button
-        onClick={() => {
-          console.log(newFamilyGroupAttendanceData);
-        }}
-      >
-        newFamilyGroupAttendanceData
-      </button>
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

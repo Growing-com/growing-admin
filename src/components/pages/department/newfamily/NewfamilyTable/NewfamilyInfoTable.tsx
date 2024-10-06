@@ -38,7 +38,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       select: _data => _data.content
     }
   );
-  
+
   const columns: ColumnType<any>[] = [
     {
       title: "이름",
@@ -63,7 +63,8 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      sorter: (a, b) => a.grade - b.grade
     },
     {
       title: "방문일",
@@ -80,29 +81,35 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem"
-    },
-    {
-      title: "일반 순장",
-      align: "center",
-      dataIndex: "smallGroupLeaderName",
-      width: "8rem",
-      render: (_, item) => {
-        if (!item) return;
-        return <GRText>{item?.smallGroupLeaderName}</GRText>;
-      },
+      width: "6rem",
       sorter: (a, b) => {
-        return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
       }
     },
-    {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
-    },
+    // {
+    //   title: "일반 순장",
+    //   align: "center",
+    //   dataIndex: "smallGroupLeaderName",
+    //   width: "8rem",
+    //   render: (_, item) => {
+    //     if (!item) return;
+    //     return <GRText>{item?.smallGroupLeaderName}</GRText>;
+    //   },
+    //   sorter: (a, b) => {
+    //     return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
+    //   }
+    // },
+    // {
+    //   title: "등반일",
+    //   dataIndex: "promoteDate",
+    //   key: "promoteDate",
+    //   align: "center",
+    //   width: "8rem",
+    //   render: (_, record) => checkDefaultDate(record.promoteDate)
+    // },
     {
       title: "생년월일",
       key: "birth",
@@ -140,9 +147,6 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
 
   return (
     <>
-      <button onClick={() => console.log(newFamilyGroupData)}>
-        newFamilyGroupData
-      </button>
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
