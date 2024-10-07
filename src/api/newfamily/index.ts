@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tLineOutNewFamily, tNewfamily, tNewfamilyAttendances, tNewfamilyPromoted } from "./type";
+import { tLineOutNewFamily, tNewfamily, tNewfamilyAttendances, tNewfamilyAttendanceCheck, tNewfamilyPromoted } from "./type";
 
 const version = "v1";
 
@@ -27,10 +27,15 @@ export const getNewfamily = (_newFamilyId: number) => {
   });
 };
 
-export const getNewfamilies = () => {
+type tGetNewfamilesParams = {
+  newFamilyGroupId : number;
+}
+
+export const getNewfamilies = (params? : tGetNewfamilesParams) => {
   return request<tNewfamily[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/new-families`
+    url: `${version}/new-families`,
+    params
   });
 };
 
@@ -41,11 +46,20 @@ export const getPromotedNewfamilies = () => {
   });
 };
 
-export const getNewfamiliesAttendances = () => {
+export const getNewfamiliesAttendances = (params?: tGetNewfamilesParams) => {
   return request<tNewfamilyAttendances[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/new-families/attendances`
+    url: `${version}/new-families/attendances`,
+    params
   });
+}
+
+export const postNewfamilyAttendanceCheck = (data: tNewfamilyAttendanceCheck) => {
+  return request<tNewfamilyAttendanceCheck>({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/attendance-check`,
+    data
+  })
 }
 
 export const getLineUpRequestNewfamilies = () => {

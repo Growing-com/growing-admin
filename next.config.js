@@ -17,7 +17,12 @@ module.exports = {
       use: ["@svgr/webpack"]
     });
     return config;
-  }
+  },
+  /** classname did not match Error시 활성화 */ 
+  // compiler: {
+  //   styledComponents: true,
+  // },
+
   // async redirects() {
   //   return [
   //     {

@@ -2,7 +2,7 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getLineUpRequestNewfamilies } from 'api/newfamily';
+import { getLineUpRequestNewfamilies } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
@@ -12,13 +12,13 @@ import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-type tNewfamilyInfoTable = {
+type tNewfamilyLineUpTable = {
   searchName: string;
   selectedNewFamily: tNewfamily[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
+const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
   searchName,
   selectedNewFamily,
   onSelect
@@ -78,7 +78,13 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem"
+      width: "6rem",
+      sorter: (a, b) => {
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
+      }
     },
     {
       title: "일반 순장",
@@ -99,7 +105,9 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyInfoTable> = ({
       key: "promoteDate",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
+      render: (_, record) => checkDefaultDate(record.promoteDate),
+      sorter: (valueA, valueB) =>
+        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
     },
     {
       title: "생년월일",

@@ -6,10 +6,11 @@ import { getPromotedNewfamilies } from "api/newfamily";
 import { tNewfamilyPromoted } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
-import { koreanSorter } from "utils/sorter";
+import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tNewfamilyPromotedTable = {
   searchName: string;
@@ -91,7 +92,9 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       key: "promoteDate",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate)
+      render: (_, record) => checkDefaultDate(record.promoteDate),
+      sorter: (valueA, valueB) =>
+        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate))
     },
     {
       title: "등반 후 경과 주",
@@ -133,9 +136,6 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
           total: filteredNewFailyData?.length,
           defaultPageSize: 10,
           position: ["bottomCenter"]
-        }}
-        onRow={record => {
-          return { onClick: () => onClickUpdateNewFamily(record.newFamilyId) };
         }}
       />
     </>

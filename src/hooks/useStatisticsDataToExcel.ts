@@ -1,11 +1,12 @@
 import GRAlert from "@component/atom/alert/GRAlert";
 import { tSex } from "api/account/types";
+import { tAttendanceStatus } from 'api/attendance/type';
 import { ATTENDANCE_STATUS, SEX_OPTIONS } from "config/const";
 import dayjs from "dayjs";
 import { concat, isArray, isUndefined } from "lodash";
 import ExportExcelOfJson from "modules/excel/ExportExcelOfJson";
 
-export type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE";
+// export type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE";
 
 export type tAttendanceItem = {
   /** @description  @example 7 */

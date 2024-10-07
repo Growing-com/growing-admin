@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter } from "utils/sorter";
 
-type tNewfamilyInfoTable = {
+type tNewfamilyLineOutTable = {
   searchName: string;
   onSelectLineOut: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineOutTable: React.FC<tNewfamilyInfoTable> = ({
+const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
   searchName,
   onSelectLineOut
 }) => {

@@ -1,11 +1,14 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButton from "@component/atom/button/GRButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import HeaderView from "@component/molecule/view/HeaderView";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Divider } from "antd";
 import { getNewfamily, updateNewfamily } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
@@ -98,22 +101,17 @@ const NewfamilyUpdatePage: NextPage = () => {
   });
 
   return (
+    <>
+      <HeaderView title={"새가족 수정"} disabledBackbutton={true} />
       <GRContainerView>
-        <GRView>
-          <GRView marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}>
-            <GRFlexView alignItems={"center"} margintop={0}>
-              <GRText weight={"bold"} fontSize={"h9"}>
-                새가족 인적 사항
-              </GRText>
-            </GRFlexView>
-          </GRView>
-          <GRView marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}>
-            <GRFlexView
-              flexDirection={"row"}
-              marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-              xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-            >
-              <GRView width={15}>
+        <GRFlexView alignItems="center" style={{ overflow: "auto" }}>
+          <GRView style={{ maxWidth: "60rem", width: "100%" }}>
+            <GRFlexView yGap={GRStylesConfig.BASE_LONG_MARGIN}>
+              <GRFlexView
+                flexDirection={"row"}
+                marginbottom={GRStylesConfig.BASE_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
                 <GRFormItem
                   type={"text"}
                   textType={"name"}
@@ -123,8 +121,6 @@ const NewfamilyUpdatePage: NextPage = () => {
                   placeholder={"이름을 작성해 주세요"}
                   rules={{ required: "이름은 필수입니다." }}
                 />
-              </GRView>
-              <GRView width={15}>
                 <GRFormItem
                   type={"text"}
                   textType={"number"}
@@ -141,8 +137,6 @@ const NewfamilyUpdatePage: NextPage = () => {
                     }
                   }}
                 />
-              </GRView>
-              <GRView width={15}>
                 <GRFormItem
                   type={"text"}
                   textType={"phoneNumber"}
@@ -162,8 +156,6 @@ const NewfamilyUpdatePage: NextPage = () => {
                     }
                   }}
                 />
-              </GRView>
-              <GRView width={15}>
                 <GRFormItem
                   type={"date"}
                   pickerType={"basic"}
@@ -171,16 +163,14 @@ const NewfamilyUpdatePage: NextPage = () => {
                   fieldName={"visitDate"}
                   control={control}
                   placeholder={"방문일을 선택해 주세요"}
-                  containStyle={{ marginRight: "1rem" }}
                   rules={{ required: "방문일은 필수 입니다." }}
                 />
-              </GRView>
-            </GRFlexView>
-            <GRFlexView
-              flexDirection={"row"}
-              xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-            >
-              <GRView isFlex width={15}>
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                flexDirection="row"
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
                 <GRFormItem
                   type={"radio"}
                   options={SEX_OPTIONS}
@@ -189,8 +179,6 @@ const NewfamilyUpdatePage: NextPage = () => {
                   control={control}
                   rules={{ required: "성별은 필수 입니다." }}
                 />
-              </GRView>
-              <GRView width={18}>
                 <GRFormItem
                   type={"date"}
                   pickerType={"basic"}
@@ -199,123 +187,141 @@ const NewfamilyUpdatePage: NextPage = () => {
                   control={control}
                   placeholder={"생년월일을 선택해 주세요"}
                 />
-              </GRView>
-              <GRView width={15}>
                 <GRFormItem
                   type={"text"}
                   textType={"input"}
-                  title={"전공 분야"}
+                  title={"학교/학과/학년"}
                   fieldName={"etc.school"}
                   control={control}
-                  placeholder={"학교/학과/학년 을 작성해 주세요"}
+                  placeholder={"학교/학과/학년을 작성해 주세요"}
                 />
-              </GRView>
-              <GRView width={15}>
                 <GRFormItem
                   type={"text"}
                   textType={"input"}
                   title={"인도자"}
                   fieldName={"etc.introducer"}
                   control={control}
-                  placeholder={"인도자을 작성해 주세요"}
+                  placeholder={"인도자를 작성해 주세요"}
                 />
-              </GRView>
-            </GRFlexView>
-          </GRView>
-          <GRView marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}>
-            <GRFlexView
-              flexDirection={"row"}
-              marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-              xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-            >
-              <GRFormItem
-                type={"radio"}
-                options={YES_NO_OPTIONS}
-                title={"교회가 처음이다"}
-                fieldName={"etc.isFirstChurch"}
-                control={control}
-              />
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.BASE_MARGIN}
+                flexDirection="row"
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
+                <GRFlexView flexDirection="row">
+                  <GRFormItem
+                    type={"radio"}
+                    options={YES_NO_OPTIONS}
+                    title={"교회가 처음"}
+                    fieldName={"etc.isFirstChurch"}
+                    control={control}
+                  />
+                  <GRFormItem
+                    type={"text"}
+                    textType={"input"}
+                    title={"이전에 다닌 교회"}
+                    fieldName={"etc.latestChurch"}
+                    control={control}
+                    placeholder={"전에 다닌 교회를 작성해주세요"}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFormItem
+                    type={"select"}
+                    options={VISIT_REASON_OPTIONS}
+                    title={"사랑의 교회 대학부에 오게 된 이유"}
+                    fieldName={"etc.visitReason"}
+                    control={control}
+                    placeholder={"답을 선택해주세요"}
+                  />
+                </GRFlexView>
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.BASE_MARGIN}
+                flexDirection="row"
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
+                <GRFormItem
+                  type={"select"}
+                  options={BELIEVE_STATUS_OPTIONS}
+                  title={"나는 예수님을 (   )"}
+                  fieldName={"etc.relationshipWithJesus"}
+                  control={control}
+                  placeholder={"답을 선택해주세요"}
+                />
+                <GRFormItem
+                  type={"radio"}
+                  options={THERE_OPTIONS}
+                  title={"나는 구원의 확신이 (   )"}
+                  fieldName={"etc.hasCertaintityOfSalvation"}
+                  control={control}
+                />
+              </GRFlexView>
+              <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                <GRFormItem
+                  title={"기타 사항"}
+                  type={"text"}
+                  textType={"textarea"}
+                  fieldName={"etc.comment"}
+                  control={control}
+                  placeholder={"추가 내용이 있으면 작성해 주세요"}
+                  style={{
+                    height: "5rem"
+                  }}
+                />
+              </GRFlexView>
               <GRFormItem
                 type={"text"}
+                textType={"textarea"}
+                title={"새가족 순원 기록지"}
+                fieldName={"etc.lineUpMemo"}
+                control={control}
+                placeholder={"라인업에 참고할 사항을 입력해 주세요"}
+                style={{
+                  height: "5rem"
+                }}
+              />
+            </GRFlexView>
+            <Divider />
+            <GRFlexView
+              flexDirection={"row"}
+              alignItems={"center"}
+              marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
+            >
+              <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
+                라인업
+              </GRText>
+              <GRInfoBadge infoMessage={"바로 라인업 할 경우 넣어주세요"} />
+            </GRFlexView>
+            <GRFlexView
+              marginbottom={GRStylesConfig.BASE_MARGIN}
+              flexDirection="row"
+            >
+              <GRFormItem
+                title={"새가족 순장"}
+                type={"select"}
                 textType={"input"}
-                title={"이전에 다닌 교회"}
-                fieldName={"etc.latestChurch"}
+                fieldName={"newFamilyGroupId"}
                 control={control}
-                placeholder={"인도자을 작성해 주세요"}
-              />
-              <GRFormItem
-                type={"select"}
-                options={VISIT_REASON_OPTIONS}
-                title={"사랑의 교회 대학부에 오게 된 이유"}
-                fieldName={"etc.visitReason"}
-                control={control}
-                placeholder={
-                  "사랑의 교회 대학부에 오게 된 이유를 선택해 주세요"
-                }
+                placeholder={"새가족 순장을 선택해 주세요"}
+                options={termNewFamilyLeaderOptions}
               />
             </GRFlexView>
-            <GRFlexView flexDirection={"row"}>
-              <GRFormItem
-                type={"radio"}
-                options={THERE_OPTIONS}
-                title={"나는 구원의 확신이 ( )"}
-                fieldName={"etc.hasCertaintityOfSalvation"}
-                control={control}
-              />
-              <GRFormItem
-                type={"select"}
-                options={BELIEVE_STATUS_OPTIONS}
-                title={"나는 예수님을 ( )"}
-                fieldName={"etc.relationshipWithJesus"}
-                control={control}
-                // placeholder={
-                //   "사랑의 교회 대학부에 오게 된 이유를 선택해 주세요"
-                // }
-              />
+            <Divider />
+            <GRFlexView>
+              <GRTextButton
+                marginright={GRStylesConfig.BASE_MARGIN}
+                block
+                onClick={onUpdateNewFamily}
+              >
+                수정
+              </GRTextButton>
             </GRFlexView>
           </GRView>
-          <GRView marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}>
-            <GRFormItem
-              type={"text"}
-              textType={"textarea"}
-              title={"기타 사항"}
-              fieldName={"etc.comment"}
-              control={control}
-              placeholder={"추가 내용이 있으면 작성해 주세요"}
-              style={{
-                height: "5rem",
-                marginBottom: `${GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}rem`
-              }}
-            />
-            <GRFormItem
-              type={"text"}
-              textType={"textarea"}
-              title={"새가족 순원 기록지"}
-              fieldName={"etc.lineUpMemo"}
-              control={control}
-              placeholder={"라인업에 참고할 사항을 입력해 주세요"}
-              style={{
-                height: "5rem",
-                marginBottom: `${GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}rem`
-              }}
-            />
-            <GRFormItem
-              type={"select"}
-              options={termNewFamilyLeaderOptions}
-              title={"새가족 순장"}
-              fieldName={"newFamilyGroupId"}
-              control={control}
-              placeholder={"새가족 순장을 선택해 주세요"}
-              // containStyle={{ marginRight: "1rem" }}
-            />
-          </GRView>
-          <GRFlexView>
-            <GRButton type={"primary"} onClick={onUpdateNewFamily}>
-              수정
-            </GRButton>
-          </GRFlexView>
-        </GRView>
+        </GRFlexView>
       </GRContainerView>
+    </>
   );
 };
 

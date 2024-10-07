@@ -15,7 +15,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
 }) => {
   if (!attendanceStatus) {
     return (
-        <Tag color={"#ccc"}>미완료</Tag>
+        <Tag color={"#ccc"}>데이터 없음</Tag>
     );
   }
 

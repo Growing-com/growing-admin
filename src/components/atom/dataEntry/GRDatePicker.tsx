@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/ko"; // 한국어 locale 추가
 import { CSSProperties, FC, useCallback, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
+import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
 import GRTextButton from "../button/GRTextButton";
 import GRFlexView from "../view/GRFlexView";
 
@@ -58,7 +58,7 @@ const GRDatePicker: FC<tGRDatePicker<tPickerType>> = ({
       ? `${dayjs(date)
           .startOf("week")
           .format("YYYY-MM-DD")} (${weekOfMonth}주차)`
-      : DEFAULT_DATE_FOMAT;
+      : DEFAULT_DATE_FORMAT;
   }, [date, format, picker]);
 
   const onChangeDate = useCallback(
