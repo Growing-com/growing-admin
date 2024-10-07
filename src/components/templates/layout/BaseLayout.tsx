@@ -1,6 +1,7 @@
 import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
+import { TAB_MENU } from 'config/router';
 import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
@@ -35,27 +36,37 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const { menu: mainMenu } = menuStore();
   const [handleRouterCheck] = useLogin();
 
-  const [openMainMenu, openMetMainMenu] = useState<string[]>();
-
-  // const [tabMenu] = useState(TAB_MENU[0].key);
-  // const [defaultOpen, setDefaultOpen] = useState<string[]>();
-  // const [defaultSelected, setDefaultSelected] = useState<string[]>();
-  // const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
+  const [openedSubMenu, setOpenedSubMenu] = useState<string[]>();
+  const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
   const [collapsed, setCollapsed] = useState(false);
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
-      // console.log(info);
-      // const newPath = info.key.replace("-", "/");
-      // router.push(`/department/${newPath}`);
-      router.push(`/department/${info.key}`);
+      const newPath = info.key.replace("-", "/");
+      router.push(`/department/${newPath}`);
     },
     [router]
   );
 
+  const onOpenChange = (keys: string[]) => {
+    setOpenedSubMenu(keys);
+    console.log("setOpenedSubMenu",keys);
+  };
+
   const onClickCollapse = () => {
     setCollapsed(!collapsed);
   };
+
+  // 서브 메뉴 열림 변수 설정
+  useEffect(() => {
+    const _mainDefault = TAB_MENU.find(
+      tab => tab.key === "department"
+    )?.children;
+    if (_mainDefault) {
+      const _defaultSubMenuOpen = _mainDefault.map(menu => menu.key);
+      setOpenedSubMenu(_defaultSubMenuOpen);
+    }
+  }, []);
 
   // useLayoutEffect가 서버에서는 동작하지 않게.
   const STR_UNDEFINED = "undefined";
@@ -66,7 +77,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   useIsomorphicLayoutEffect(() => {
     if (router.pathname) {
       const _path = router.pathname.split("/");
-      openMetMainMenu([_path[2]]);
+      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
 
@@ -89,8 +100,10 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
           <BaseLayoutMenu
             mode={"inline"}
             items={mainMenu}
-            selectedKeys={openMainMenu}
+            selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
+            openKeys={openedSubMenu} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
+            onOpenChange={onOpenChange}
           />
         </Sider>
         <Layout>
@@ -113,7 +126,7 @@ const LayoutContent = styled(Content)`
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
   .ant-menu {
-    background-color: ${Color.red100} !important;
+    // background-color: ${Color.white} !important;
   }
 
   .ant-menu-submenu-selected {
@@ -123,11 +136,6 @@ const BaseLayoutMenu = styled(Menu)`
       }
     }
   }
-  // .ant-menu-submenu-title {
-  //   :hover {
-  //     background-color: ${Color.green100} !important;
-  //   }
-  // }
 
   .ant-menu-item-selected {
     font-weight: bold;

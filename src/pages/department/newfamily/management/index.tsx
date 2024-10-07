@@ -46,7 +46,7 @@ const option = [
   { label: "라인아웃", value: NEW_FAMILY_LINE_OUT }
 ];
 
-const NewfamilyPage: NextPage = () => {
+const NewfamilyManagementPage: NextPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -116,7 +116,7 @@ const NewfamilyPage: NextPage = () => {
   });
 
   const onClickCreateNewFamily = () => {
-    router.push("/department/newfamily/create");
+    router.push("/department/newfamily/management/create");
   };
 
   const onChangeSearch = (_text: string) => {
@@ -354,7 +354,7 @@ const NewfamilyPage: NextPage = () => {
   );
 };
 
-export default NewfamilyPage;
+export default NewfamilyManagementPage;
 
 const NewfamilyContainerView = styled.div`
   background-color: ${Color.white};

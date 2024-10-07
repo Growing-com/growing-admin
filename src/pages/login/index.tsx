@@ -41,7 +41,7 @@ const Login = () => {
       DEPARTMENT_MAIN_MENU.forEach(menu => {
         addMenu(menu);
       });
-      router.replace(`/department/personalData`);
+      router.replace(`/department/newfamily/management`);
       // await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");

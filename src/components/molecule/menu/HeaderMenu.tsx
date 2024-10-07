@@ -7,10 +7,8 @@ import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
 import { useLogoutMutate } from 'api/account/mutate/useLogoutMutate';
 import { useUserInfoQuery } from 'api/account/queries/useUserInfoQuery';
-import useLogin from "hooks/auth/useLogin";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -19,19 +17,13 @@ type tHeaderMenu = {
 };
 
 const HeaderMenu: FC<tHeaderMenu>  = ({ onClickCollapse }) => {
-  const [handleRouterCheck] = useLogin();
   const { data: userInfo } = useUserInfoQuery();
 
   const { logoutMutate } = useLogoutMutate();
-  const router = useRouter();
 
   const onClickLogout = () => {
     logoutMutate();
   }
-
-  useEffect(() => {
-    handleRouterCheck();
-  }, [handleRouterCheck]);
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
@@ -53,10 +45,11 @@ const HeaderMenu: FC<tHeaderMenu>  = ({ onClickCollapse }) => {
       >
         <Image
           src={"/logo/logo-row-mark.png"}
-          fill={true}
+          fill
           alt={"logo"}
           style={{ objectFit: "contain" }}
           priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </GRView>
       <GRFlexView justifyContent={"space-between"} flexDirection={"row"}>
