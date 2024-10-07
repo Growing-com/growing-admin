@@ -35,7 +35,6 @@ const HeaderMenu: FC<tHeaderMenu>  = ({ onClickCollapse }) => {
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
-      <button onClick={()=>console.log(userInfo)}>userInfo</button>
       <GRView
         isFlex
         marginleft={2}

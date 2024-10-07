@@ -1,9 +1,9 @@
+import GRTab from "@component/atom/GRTab";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRTextButton from "@component/atom/button/GRTextButton";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
-import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
@@ -17,7 +17,6 @@ import NewfamilyPromotedTable from "@component/pages/department/newfamily/Newfam
 import { NewFamilyPromoteModal } from "@component/pages/department/newfamily/NewfamilyTable/modal/NewfamilyPromoteModal";
 import styled from "@emotion/styled";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Menu, MenuProps } from "antd";
 import {
   lineInNewfamily,
   lineOutNewfamily,
@@ -28,49 +27,24 @@ import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import { handleError } from "utils/error";
 
-type tTabItems = {
-  key: string;
-  label: ReactNode;
-};
-
-const tabItems: tTabItems[] = [
-  {
-    key: "newfamily-tab-info",
-    label: <GRFlexView alignItems="center">명단</GRFlexView>
-  },
-  {
-    key: "newfamily-tab-attendance",
-    label: <GRFlexView alignItems="center">출석 현황</GRFlexView>
-  },
-  {
-    key: "newfamily-tab-attendance-check",
-    label: <GRFlexView alignItems="center">출석 체크</GRFlexView>
-  },
-  {
-    key: "newfamily-tab-lineUp",
-    label: <GRFlexView alignItems="center">등반 및 라인업</GRFlexView>
-  },
-  {
-    key: "newfamily-tab-promoted",
-    label: <GRFlexView alignItems="center">등반자 명단</GRFlexView>
-  },
-  {
-    key: "newfamily-tab-lineOut",
-    label: <GRFlexView alignItems="center">라인아웃</GRFlexView>
-  }
+const NEW_FAMILY_INFO = "info";
+const NEW_FAMILY_ATTENDANCE = "attendance";
+const NEW_FAMILY_ATTENDANCE_CHECK = "attendance_check";
+const NEW_FAMILY_PROMOTED = "promoted";
+const NEW_FAMILY_LINE_OUT = "line_out";
+const NEW_FAMILY_LINE_UP = "line_up";
+const option = [
+  { label: "명단", value: NEW_FAMILY_INFO },
+  { label: "출석 현황", value: NEW_FAMILY_ATTENDANCE },
+  { label: "출석 체크", value: NEW_FAMILY_ATTENDANCE_CHECK },
+  { label: "라인업 및 등반", value: NEW_FAMILY_LINE_UP },
+  { label: "라인아웃", value: NEW_FAMILY_LINE_OUT }
 ];
-
-const NEW_FAMILY_INFO = "newfamily-tab-info";
-const NEW_FAMILY_ATTENDANCE = "newfamily-tab-attendance";
-const NEW_FAMILY_ATTENDANCE_CHECK = "newfamily-tab-attendance-check";
-const NEW_FAMILY_PROMOTED = "newfamily-tab-promoted";
-const NEW_FAMILY_LINEOUT = "newfamily-tab-lineOut";
-const NEW_FAMILY_LINEUP = "newfamily-tab-lineUp";
 
 const NewfamilyPage: NextPage = () => {
   const router = useRouter();
@@ -81,13 +55,23 @@ const NewfamilyPage: NextPage = () => {
   const [isOpenPromoteModal, setIsOpenPromoteModal] = useState(false);
   const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
   const [isOpenLineInModal, setIsOpenLineInModal] = useState(false);
+
   const [searchName, setSearchName] = useState("");
   const [tabValue, setTabValue] = useState<string>(NEW_FAMILY_INFO);
+
   const [selectedNewFamily, setSelectedNewFamily] = useState<tNewfamily[]>([]);
   const [selectedLineOutNewFamily, setSelectedLineOutNewFamily] =
     useState<tLineOutNewFamily>();
 
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
+
+  const onChangeTab = (value: string) => {
+    // const onClickTabMenu: MenuProps["onClick"] = e => {
+    resetSelection();
+    setSearchName("");
+    setFilterDate(dayjs().startOf("week"));
+    setTabValue(value);
+  };
 
   const { mutateAsync: lineUpRequestMutateAsync } = useMutation(
     requestLineUpNewfamily,
@@ -135,20 +119,13 @@ const NewfamilyPage: NextPage = () => {
     router.push("/department/newfamily/create");
   };
 
-  const onClickTabMenu: MenuProps["onClick"] = e => {
-    resetSelection();
-    setSearchName("");
-    setFilterDate(dayjs().startOf('week'));
-    setTabValue(e.key);
-  };
-
   const onChangeSearch = (_text: string) => {
     setSearchName(_text);
   };
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
-      const lastSunday = dayjs(_date).startOf('week');
+      const lastSunday = dayjs(_date).startOf("week");
       setFilterDate(lastSunday);
     }
   };
@@ -224,123 +201,110 @@ const NewfamilyPage: NextPage = () => {
           </GRTextButton>
         }
       />
-      <GRContainerView>
-        <GRFlexView flexDirection={"row"}>
-          <NewfamilyTabMenu
-            items={tabItems}
-            selectedKeys={[tabValue]}
-            onClick={onClickTabMenu}
-          />
+      <NewfamilyContainerView>
+        <GRTab items={option} onChange={onChangeTab} />
+        <GRFlexView style={{ width: "100%", overflowX: "auto" }}>
           <GRFlexView
-            paddingleft={3}
-            style={{ width: "100%", overflowX: "auto" }}
+            flexDirection={"row"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            marginbottom={GRStylesConfig.BASE_MARGIN}
           >
-            <GRFlexView
-              flexDirection={"row"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              marginbottom={GRStylesConfig.BASE_MARGIN}
-            >
-              <GRView marginright={GRStylesConfig.BASE_MARGIN}>
+            <GRView marginright={GRStylesConfig.BASE_MARGIN}>
+              {tabValue !== NEW_FAMILY_ATTENDANCE_CHECK && (
                 <GRTextInput
                   type={"input"}
                   placeholder={"이름으로 검색하세요"}
                   onChange={onChangeSearch}
                   value={searchName}
                 />
-              </GRView>
-              {tabValue === NEW_FAMILY_ATTENDANCE && (
-                <GRFlexView flexDirection={"row"} justifyContent={"end"}>
-                  <GRView marginright={GRStylesConfig.BASE_MARGIN}>
-                    <GRTextButton
-                      onClick={onClickLineUpRequest}
-                      buttonType={"custom"}
-                    >
-                      라인업 요청
-                    </GRTextButton>
-                  </GRView>
-                  <GRView>
-                    <GRTextButton
-                      onClick={onClickLineOut}
-                      buttonType={"custom"}
-                    >
-                      라인 아웃
-                    </GRTextButton>
-                  </GRView>
-                </GRFlexView>
               )}
-              {tabValue === NEW_FAMILY_LINEUP && (
-                <GRFlexView flexDirection={"row"} justifyContent={"end"}>
-                  <GRView marginright={GRStylesConfig.BASE_MARGIN}>
-                    <GRTextButton
-                      onClick={onClickPromote}
-                      buttonType={"custom"}
-                    >
-                      등반
-                    </GRTextButton>
-                  </GRView>
-                  <GRView>
-                    <GRTextButton
-                      onClick={onClickLineOut}
-                      buttonType={"custom"}
-                    >
-                      라인 아웃
-                    </GRTextButton>
-                  </GRView>
-                </GRFlexView>
-              )}
-              {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
-                <GRDatePicker
-                  pickerType={"basic"}
-                  picker={"week"}
-                  defaultValue={filterDate}
-                  onChange={onChangeWeek}
-                />
-              )}
-              {tabValue === NEW_FAMILY_LINEOUT && (
-                <GRTextButton onClick={onClickLineIn} buttonType={"custom"}>
-                  복귀
-                </GRTextButton>
-              )}
-            </GRFlexView>
-            {/* 인포 탭 */}
-            {tabValue === NEW_FAMILY_INFO && (
-              <NewfamilyInfoTable searchName={searchName} />
-            )}
-            {/* 출석 현황 탭 */}
+            </GRView>
             {tabValue === NEW_FAMILY_ATTENDANCE && (
-              <NewfamilyAttendanceTable
-                searchName={searchName}
-                selectedNewFamily={selectedNewFamily}
-                onSelect={onSelectChange}
-              />
+              <GRFlexView flexDirection={"row"} justifyContent={"end"}>
+                <GRView marginright={GRStylesConfig.BASE_MARGIN}>
+                  <GRTextButton
+                    onClick={onClickLineUpRequest}
+                    buttonType={"custom"}
+                  >
+                    라인업 요청
+                  </GRTextButton>
+                </GRView>
+                <GRView>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                    라인 아웃
+                  </GRTextButton>
+                </GRView>
+              </GRFlexView>
             )}
-            {/* 출석 체크 탭 */}
+            {tabValue === NEW_FAMILY_LINE_UP && (
+              <GRFlexView flexDirection={"row"} justifyContent={"end"}>
+                <GRView marginright={GRStylesConfig.BASE_MARGIN}>
+                  <GRTextButton onClick={onClickPromote} buttonType={"custom"}>
+                    등반
+                  </GRTextButton>
+                </GRView>
+                <GRView>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                    라인 아웃
+                  </GRTextButton>
+                </GRView>
+              </GRFlexView>
+            )}
             {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
-              <NewfamilyAttendanceCheckTable searchName={searchName} filterDate={filterDate}/>
-            )}
-            {/* 라인업 요청 탭 */}
-            {tabValue === NEW_FAMILY_LINEUP && (
-              <NewfamilyLineUpTable
-                searchName={searchName}
-                selectedNewFamily={selectedNewFamily}
-                onSelect={onSelectChange}
+              <GRDatePicker
+                pickerType={"basic"}
+                picker={"week"}
+                defaultValue={filterDate}
+                onChange={onChangeWeek}
               />
             )}
-            {/* 등반자 탭 */}
-            {tabValue === NEW_FAMILY_PROMOTED && (
-              <NewfamilyPromotedTable searchName={searchName} />
-            )}
-            {/* 라인 아웃 탭 */}
-            {tabValue === NEW_FAMILY_LINEOUT && (
-              <NewfamilyLineOutTable
-                searchName={searchName}
-                onSelectLineOut={onSelectLineOut}
-              />
+            {tabValue === NEW_FAMILY_LINE_OUT && (
+              <GRTextButton onClick={onClickLineIn} buttonType={"custom"}>
+                복귀
+              </GRTextButton>
             )}
           </GRFlexView>
+          {/* 인포 탭 */}
+          {tabValue === NEW_FAMILY_INFO && (
+            <NewfamilyInfoTable searchName={searchName} />
+          )}
+          {/* 출석 현황 탭 */}
+          {tabValue === NEW_FAMILY_ATTENDANCE && (
+            <NewfamilyAttendanceTable
+              searchName={searchName}
+              selectedNewFamily={selectedNewFamily}
+              onSelect={onSelectChange}
+            />
+          )}
+          {/* 출석 체크 탭 */}
+          {tabValue === NEW_FAMILY_ATTENDANCE_CHECK && (
+            <NewfamilyAttendanceCheckTable
+              searchName={searchName}
+              filterDate={filterDate}
+            />
+          )}
+          {/* 라인업 요청 탭 */}
+          {tabValue === NEW_FAMILY_LINE_UP && (
+            <NewfamilyLineUpTable
+              searchName={searchName}
+              selectedNewFamily={selectedNewFamily}
+              onSelect={onSelectChange}
+            />
+          )}
+          {/* 등반자 탭 */}
+          {tabValue === NEW_FAMILY_PROMOTED && (
+            <NewfamilyPromotedTable searchName={searchName} />
+          )}
+          {/* 라인 아웃 탭 */}
+          {tabValue === NEW_FAMILY_LINE_OUT && (
+            <NewfamilyLineOutTable
+              searchName={searchName}
+              onSelectLineOut={onSelectLineOut}
+            />
+          )}
         </GRFlexView>
-      </GRContainerView>
+      </NewfamilyContainerView>
       {/* 라인업 요청 모달 */}
       {isOpenLineupRequestModal && (
         <GRAlertModal
@@ -392,18 +356,11 @@ const NewfamilyPage: NextPage = () => {
 
 export default NewfamilyPage;
 
-const NewfamilyTabMenu = styled(Menu)`
-  height: "100%";
-
-  .ant-menu-item {
-    height: 2rem !important;
-    line-height: 2rem !important;
-    :hover {
-      // background-color: ${Color.grey100} !important;
-    }
-  }
-
-  .ant-menu-item-selected {
-    background-color: ${Color.black100} !important;
-  }
+const NewfamilyContainerView = styled.div`
+  background-color: ${Color.white};
+  padding: 2rem 3rem;
+  padding-top: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
+  margin-bottom: 0.5rem;
 `;
