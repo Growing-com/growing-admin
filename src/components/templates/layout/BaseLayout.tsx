@@ -1,3 +1,4 @@
+import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
 import useLogin from "hooks/auth/useLogin";
@@ -36,6 +37,12 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   const [openMainMenu, openMetMainMenu] = useState<string[]>();
 
+  // const [tabMenu] = useState(TAB_MENU[0].key);
+  // const [defaultOpen, setDefaultOpen] = useState<string[]>();
+  // const [defaultSelected, setDefaultSelected] = useState<string[]>();
+  // const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
+  const [collapsed, setCollapsed] = useState(false);
+
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
       // console.log(info);
@@ -45,6 +52,10 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
     },
     [router]
   );
+
+  const onClickCollapse = () => {
+    setCollapsed(!collapsed);
+  };
 
   // useLayoutEffect가 서버에서는 동작하지 않게.
   const STR_UNDEFINED = "undefined";
@@ -65,23 +76,26 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <LayoutSider
-        style={{
-          backgroundColor: "white"
-        }}
-        trigger={null}
-        collapsed={false}
-        collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
-      >
-        <BaseLayoutMenu
-          mode={"inline"}
-          items={mainMenu}
-          selectedKeys={openMainMenu}
-          onSelect={onSelectMenu}
-        />
-      </LayoutSider>
+      <HeaderMenu onClickCollapse={onClickCollapse} />
       <Layout>
-        <LayoutContent>{children}</LayoutContent>
+        <Sider
+          style={{
+            backgroundColor: "white"
+          }}
+          trigger={null}
+          collapsed={collapsed}
+          collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
+        >
+          <BaseLayoutMenu
+            mode={"inline"}
+            items={mainMenu}
+            selectedKeys={openMainMenu}
+            onSelect={onSelectMenu}
+          />
+        </Sider>
+        <Layout>
+          <LayoutContent>{children}</LayoutContent>
+        </Layout>
       </Layout>
     </Layout>
   );
@@ -94,10 +108,6 @@ const LayoutContent = styled(Content)`
   height: "100%";
   padding: 1rem 1.5rem;
   background-color: ${Color.grey160};
-`;
-
-const LayoutSider = styled(Sider)`
-  // background-color: ${Color.black200} !important;
 `;
 
 const BaseLayoutMenu = styled(Menu)`
@@ -113,31 +123,13 @@ const BaseLayoutMenu = styled(Menu)`
       }
     }
   }
-
-  
-  // .ant-menu-item.ant-menu-item-selected {
-  //   background-color: ${Color.black100} !important;
-  //   color: ${Color.white} !important;
-  //   box-shadow: inset 0px 4px 4px 0px #000000;
-  // }
-
-  // .ant-menu-item {
-  //   border: solid 1px; 
-  //   border-color: ${Color.black100};
-  //   background-color: ${Color.white} !important;
-  //   color: ${Color.black200} !important;
-
-  //   // height: 2.5rem !important;
-  //   width: 2.5rem !important;
-  //   margin-top: 39px;
-  //   margin-bottom: 39px;
-  //   margin-left: 1.125rem !important;
-  //   padding: 21px !important;
-  //   border-radius: 50% !important;
-    
+  // .ant-menu-submenu-title {
   //   :hover {
+  //     background-color: ${Color.green100} !important;
   //   }
-
-  //   display: flex; !important;
   // }
+
+  .ant-menu-item-selected {
+    font-weight: bold;
+  }
 `;

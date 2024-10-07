@@ -3,9 +3,7 @@ import { CSSProperties } from "react";
 type tGRStylesConfig = {
   BASE_MARGIN: number;
   BASE_LONG_MARGIN: number;
-  FORM_BLOCK_BASE_MARGIN : number;
   FORM_BLOCK_BASE_SMALL_MARGIN : number;
-  FORM_TITLE_WIDTH : number;
   BASE_PADDING: number;
   HORIZONTAL_PADDING: number;
   BASE_RADIUS: number;
@@ -16,11 +14,7 @@ type tGRStylesConfig = {
 const GRStylesConfig: tGRStylesConfig = {
   BASE_MARGIN: 0.5,
   BASE_LONG_MARGIN: 1,
-  // 얘랑
-  FORM_BLOCK_BASE_MARGIN: 3.75,
   FORM_BLOCK_BASE_SMALL_MARGIN : 2,
-  // 얘 삭제 확인
-  FORM_TITLE_WIDTH : 10,
   BASE_PADDING: 0.3,
   HORIZONTAL_PADDING: 2,
   BASE_RADIUS: 0.5,
