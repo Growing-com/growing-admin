@@ -212,14 +212,12 @@ const NewfamilyManagementPage: NextPage = () => {
             marginbottom={GRStylesConfig.BASE_MARGIN}
           >
             <GRView marginright={GRStylesConfig.BASE_MARGIN}>
-              {tabValue !== NEW_FAMILY_ATTENDANCE_CHECK && (
                 <GRTextInput
                   type={"input"}
                   placeholder={"이름으로 검색하세요"}
                   onChange={onChangeSearch}
                   value={searchName}
                 />
-              )}
             </GRView>
             {tabValue === NEW_FAMILY_ATTENDANCE && (
               <GRFlexView flexDirection={"row"} justifyContent={"end"}>
