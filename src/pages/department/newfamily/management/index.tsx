@@ -43,6 +43,7 @@ const option = [
   { label: "출석 현황", value: NEW_FAMILY_ATTENDANCE },
   { label: "출석 체크", value: NEW_FAMILY_ATTENDANCE_CHECK },
   { label: "라인업 및 등반", value: NEW_FAMILY_LINE_UP },
+  { label: "등반자", value: NEW_FAMILY_PROMOTED },
   { label: "라인아웃", value: NEW_FAMILY_LINE_OUT }
 ];
 
