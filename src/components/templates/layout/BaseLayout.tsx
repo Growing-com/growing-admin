@@ -1,5 +1,7 @@
+import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
+import { TAB_MENU } from 'config/router';
 import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
@@ -34,17 +36,37 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const { menu: mainMenu } = menuStore();
   const [handleRouterCheck] = useLogin();
 
-  const [openMainMenu, openMetMainMenu] = useState<string[]>();
+  const [openedSubMenu, setOpenedSubMenu] = useState<string[]>();
+  const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
+  const [collapsed, setCollapsed] = useState(false);
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
-      // console.log(info);
-      // const newPath = info.key.replace("-", "/");
-      // router.push(`/department/${newPath}`);
-      router.push(`/department/${info.key}`);
+      const newPath = info.key.replace("-", "/");
+      router.push(`/department/${newPath}`);
     },
     [router]
   );
+
+  const onOpenChange = (keys: string[]) => {
+    setOpenedSubMenu(keys);
+    console.log("setOpenedSubMenu",keys);
+  };
+
+  const onClickCollapse = () => {
+    setCollapsed(!collapsed);
+  };
+
+  // 서브 메뉴 열림 변수 설정
+  useEffect(() => {
+    const _mainDefault = TAB_MENU.find(
+      tab => tab.key === "department"
+    )?.children;
+    if (_mainDefault) {
+      const _defaultSubMenuOpen = _mainDefault.map(menu => menu.key);
+      setOpenedSubMenu(_defaultSubMenuOpen);
+    }
+  }, []);
 
   // useLayoutEffect가 서버에서는 동작하지 않게.
   const STR_UNDEFINED = "undefined";
@@ -55,7 +77,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   useIsomorphicLayoutEffect(() => {
     if (router.pathname) {
       const _path = router.pathname.split("/");
-      openMetMainMenu([_path[2]]);
+      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
     }
   }, [router.pathname]);
 
@@ -65,23 +87,28 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <LayoutSider
-        style={{
-          backgroundColor: "white"
-        }}
-        trigger={null}
-        collapsed={false}
-        collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
-      >
-        <BaseLayoutMenu
-          mode={"inline"}
-          items={mainMenu}
-          selectedKeys={openMainMenu}
-          onSelect={onSelectMenu}
-        />
-      </LayoutSider>
+      <HeaderMenu onClickCollapse={onClickCollapse} />
       <Layout>
-        <LayoutContent>{children}</LayoutContent>
+        <Sider
+          style={{
+            backgroundColor: "white"
+          }}
+          trigger={null}
+          collapsed={collapsed}
+          collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
+        >
+          <BaseLayoutMenu
+            mode={"inline"}
+            items={mainMenu}
+            selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
+            openKeys={openedSubMenu} // 열리게 되는 sub menu
+            onSelect={onSelectMenu}
+            onOpenChange={onOpenChange}
+          />
+        </Sider>
+        <Layout>
+          <LayoutContent>{children}</LayoutContent>
+        </Layout>
       </Layout>
     </Layout>
   );
@@ -96,14 +123,10 @@ const LayoutContent = styled(Content)`
   background-color: ${Color.grey160};
 `;
 
-const LayoutSider = styled(Sider)`
-  // background-color: ${Color.black200} !important;
-`;
-
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
   .ant-menu {
-    background-color: ${Color.red100} !important;
+    // background-color: ${Color.white} !important;
   }
 
   .ant-menu-submenu-selected {
@@ -114,30 +137,7 @@ const BaseLayoutMenu = styled(Menu)`
     }
   }
 
-  
-  // .ant-menu-item.ant-menu-item-selected {
-  //   background-color: ${Color.black100} !important;
-  //   color: ${Color.white} !important;
-  //   box-shadow: inset 0px 4px 4px 0px #000000;
-  // }
-
-  // .ant-menu-item {
-  //   border: solid 1px; 
-  //   border-color: ${Color.black100};
-  //   background-color: ${Color.white} !important;
-  //   color: ${Color.black200} !important;
-
-  //   // height: 2.5rem !important;
-  //   width: 2.5rem !important;
-  //   margin-top: 39px;
-  //   margin-bottom: 39px;
-  //   margin-left: 1.125rem !important;
-  //   padding: 21px !important;
-  //   border-radius: 50% !important;
-    
-  //   :hover {
-  //   }
-
-  //   display: flex; !important;
-  // }
+  .ant-menu-item-selected {
+    font-weight: bold;
+  }
 `;

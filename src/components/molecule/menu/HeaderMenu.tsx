@@ -1,27 +1,42 @@
-import { NotificationOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import GRTextButton from "@component/atom/button/GRTextButton";
+import GRText from '@component/atom/text/GRText';
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
-import useLogin from "hooks/auth/useLogin";
+import { useLogoutMutate } from 'api/account/mutate/useLogoutMutate';
+import { useUserInfoQuery } from 'api/account/queries/useUserInfoQuery';
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-const HlowHeaderMenu: FC = ({}) => {
-  const [handleRouterCheck] = useLogin();
-  const router = useRouter();
+type tHeaderMenu = {
+  onClickCollapse: () => void;
+};
 
-  useEffect(() => {
-    handleRouterCheck();
-  }, [handleRouterCheck]);
+const HeaderMenu: FC<tHeaderMenu>  = ({ onClickCollapse }) => {
+  const { data: userInfo } = useUserInfoQuery();
+
+  const { logoutMutate } = useLogoutMutate();
+
+  const onClickLogout = () => {
+    logoutMutate();
+  }
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
+      <GRView
+        isFlex
+        marginleft={2}
+        justifyContent="center"
+        onClick={onClickCollapse}
+      >
+        <MenuOutlined
+          style={{ fontSize: "1.3rem", cursor: "pointer" }}
+        />
+      </GRView>
       <GRView
         isFlex
         width={8}
@@ -30,15 +45,16 @@ const HlowHeaderMenu: FC = ({}) => {
       >
         <Image
           src={"/logo/logo-row-mark.png"}
-          fill={true}
+          fill
           alt={"logo"}
           style={{ objectFit: "contain" }}
           priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </GRView>
       <GRFlexView justifyContent={"space-between"} flexDirection={"row"}>
         <GRFlexView flexDirection="row" justifyContent={"end"}>
-          <Avatar
+          {/* <Avatar
             style={{
               marginRight: "1rem",
               backgroundColor: Color.green200
@@ -48,19 +64,19 @@ const HlowHeaderMenu: FC = ({}) => {
                 href={`${process.env.NEXT_PUBLIC_ANNOUNCEMENT}`}
                 target={"_blank"}
               >
-                <NotificationOutlined  />
+                <NotificationOutlined />
               </Link>
             }
-          />
+          /> */}
           <Popover
             placement="bottom"
             trigger={"click"}
             content={() => (
               <GRView width={10}>
-                {/* <GRText weight={"bold"} fontSize={"b4"}>
+                <GRText weight={"bold"} fontSize={"b4"}>
                     {userInfo?.name}
                   </GRText>
-                  <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
+                  {/* <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
                     <GRText fontSize={"b7"}>
                       {GRADE_NAME} | {DUTY_NAME}
                     </GRText>
@@ -77,7 +93,8 @@ const HlowHeaderMenu: FC = ({}) => {
                   alignItems={"flex-end"}
                   margintop={GRStylesConfig.BASE_MARGIN}
                 >
-                  <GRTextButton width={"100%"} buttonType={"default"}>
+                  <GRTextButton width={"100%"} buttonType={"default"}
+                  onClick={onClickLogout}>
                     로그아웃
                   </GRTextButton>
                 </GRFlexView>
@@ -87,10 +104,12 @@ const HlowHeaderMenu: FC = ({}) => {
             <Avatar
               style={{
                 backgroundColor: Color.green200,
-                marginRight: "6rem"
+                marginRight: "6rem",
+                cursor: "pointer"
               }}
-              icon={<UserOutlined  />}
-            />
+              icon={<UserOutlined />}
+            > 
+            </Avatar>
           </Popover>
         </GRFlexView>
       </GRFlexView>
@@ -98,7 +117,7 @@ const HlowHeaderMenu: FC = ({}) => {
   );
 };
 
-export default HlowHeaderMenu;
+export default HeaderMenu;
 
 const Header = styled.header`
   display: flex;

@@ -128,7 +128,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   ];
 
   const onClickUpdateNewFamily = (_newFamilyId: number) => {
-    router.push(`/department/newfamily/${_newFamilyId}`);
+    router.push(`/department/newfamily/management/${_newFamilyId}`);
   };
 
   useEffect(() => {

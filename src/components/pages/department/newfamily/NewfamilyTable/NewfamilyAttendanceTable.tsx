@@ -59,7 +59,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      minWidth: 53
+      minWidth: 55
     },
     {
       title: "성별",
@@ -70,7 +70,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-      }
+      },
+      minWidth: 55
     },
     {
       title: "학년",
@@ -78,7 +79,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "grade",
       align: "center",
       width: "5rem",
-      sorter: (a, b) => a.grade - b.grade
+      sorter: (a, b) => a.grade - b.grade,
+      minWidth: 55
     },
     {
       title: "새가족 순장",
@@ -92,7 +94,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
           b.newFamilyGroupLeaderName
         );
       },
-      minWidth: 53
+      minWidth: 91
     },
     {
       title: "출석수",
@@ -101,7 +103,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAttendCount - b.totalAttendCount
+      sorter: (a, b) => a.totalAttendCount - b.totalAttendCount,
+      minWidth: 66
     },
     {
       title: "결석수",
@@ -110,7 +113,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount
+      sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
+      minWidth: 66
     },
     {
       title: "출석 날짜",
@@ -127,7 +131,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
               contentEtc={findData?.reason}
             />
           );
-        }
+        },
+      minWidth: 96
       }))
     }
   ];

@@ -9,12 +9,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Alert, RadioChangeEvent, TableColumnsType, Tooltip } from "antd";
 import { tAttendanceStatus } from "api/attendance/type";
 import {
-    getNewfamiliesAttendances,
-    postNewfamilyAttendanceCheck
+  getNewfamiliesAttendances,
+  postNewfamilyAttendanceCheck
 } from "api/newfamily";
 import {
-    tAttendanceCheckItems,
-    tNewfamilyAttendances
+  tAttendanceCheckItems,
+  tNewfamilyAttendances
 } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { ATTENDANCE_CHECK_STATUS, SEX_NAME } from "config/const";
@@ -23,7 +23,7 @@ import { head } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
 import { koreanSorter } from "utils/sorter";
-import AttendanceCheckSubmitButton from "./AttendanceCheckSubmitButton";
+import AttendanceCheckSubmitButton from "../AttendanceCheckSubmitButton";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;
 
@@ -37,11 +37,6 @@ const NewfamilyAttendanceCheckTable: React.FC<
 > = ({ searchName, filterDate }) => {
   const queryClient = useQueryClient();
 
-  const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewfamilyAttendances[]
-  >([]);
-
-  //   week: filterDate?.format(DEFAULT_DATE_FOMAT),
   const [isLoading, setIsLoading] = useState(false);
   const [formResult, setFormResult] = useState<tNewfamilyAttendances[]>([]);
   const [isCompleteCheck, setIsCompleteCheck] = useState(false);
@@ -104,7 +99,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "name",
       align: "center",
       fixed: "left",
-      width: "5rem",
+      width: "6rem",
       minWidth: 53
     },
     {
@@ -313,6 +308,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
   return (
     <>
       <GRTable
+        isLoading={isLoading}
         rowKey={"newFamilyId"}
         columns={columns}
         data={formResult}
