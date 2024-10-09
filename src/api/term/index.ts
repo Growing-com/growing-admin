@@ -2,7 +2,7 @@ import { REQUEST_METHOD, request } from "api";
 
 const version = "v1";
 
-type tSmallGroupLeaders = {
+export type tSmallGroupLeaders = {
   codyName: string;
   smallGroupId: number;
   smallGroupLeaderName: string;
