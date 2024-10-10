@@ -60,18 +60,25 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       width: "5rem"
     },
     {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      title: "등반일",
+      dataIndex: "promoteDate",
+      key: "promoteDate",
       align: "center",
-      width: "10rem"
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.promoteDate),
+      sorter: (valueA, valueB) =>
+        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
+        defaultSortOrder: "descend"
     },
     {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
+      title: "등반 후 경과 주",
+      dataIndex: "weeksAfterPromotion",
+      key: "weeksAfterPromotion",
       align: "center",
-      width: "6rem"
+      width: "8rem",
+      render: (_, record) => (
+        <GRText>{`${record.weeksAfterPromotion} 주`}</GRText>
+      )
     },
     {
       title: "일반 순장",
@@ -87,24 +94,18 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       }
     },
     {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate),
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate))
+      width: "6rem"
     },
     {
-      title: "등반 후 경과 주",
-      dataIndex: "weeksAfterPromotion",
-      key: "weeksAfterPromotion",
+      title: "전화번호",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
       align: "center",
-      width: "8rem",
-      render: (_, record) => (
-        <GRText>{`${record.weeksAfterPromotion} 주`}</GRText>
-      )
+      width: "10rem"
     }
   ];
 

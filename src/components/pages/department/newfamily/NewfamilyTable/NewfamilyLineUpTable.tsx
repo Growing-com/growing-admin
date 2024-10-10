@@ -1,12 +1,10 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
-import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getLineUpRequestNewfamilies } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
-import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
+import { useNewfamilyLineupRequestQuery } from "hooks/queries/newfamily/useNewfamilyLineupRequestQuery";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
@@ -29,13 +27,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
     tNewfamily[]
   >([]);
 
-  const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY_LINE_UP_REQUEST],
-    async () => await getLineUpRequestNewfamilies(),
-    {
-      select: _data => _data.content
-    }
-  );
+  const { data: newFamilyLineupData } = useNewfamilyLineupRequestQuery();
 
   const columns: ColumnType<any>[] = [
     {
@@ -64,6 +56,21 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       width: "5rem"
     },
     {
+      title: "생년월일",
+      key: "birth",
+      dataIndex: "birth",
+      align: "center",
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.birth)
+    },
+    {
+      title: "전화번호",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      align: "center",
+      width: "10rem"
+    },
+    {
       title: "방문일",
       dataIndex: "visitDate",
       key: "visitDate",
@@ -78,7 +85,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem",
+      width: "8rem",
+      minWidth: 66,
       sorter: (a, b) => {
         return koreanSorter(
           a.newFamilyGroupLeaderName,
@@ -91,6 +99,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       align: "center",
       dataIndex: "smallGroupLeaderName",
       width: "8rem",
+      minWidth: 63,
       render: (_, item) => {
         if (!item) return;
         return <GRText>{item?.smallGroupLeaderName}</GRText>;
@@ -99,31 +108,16 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
         return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
       }
     },
-    {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate),
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
-    },
-    {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
-    },
-    {
-      title: "전화번호",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-      align: "center",
-      width: "10rem"
-    }
+    // {
+    //   title: "등반일",
+    //   dataIndex: "promoteDate",
+    //   key: "promoteDate",
+    //   align: "center",
+    //   width: "8rem",
+    //   render: (_, record) => checkDefaultDate(record.promoteDate),
+    //   sorter: (valueA, valueB) =>
+    //     dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate))
+    // }
   ];
 
   const onClickUpdateNewFamily = (_newFamilyId: number) => {
@@ -131,10 +125,10 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
   };
 
   useEffect(() => {
-    if (newFamilyData?.length) {
-      let _filterNewFamily = newFamilyData;
+    if (newFamilyLineupData?.length) {
+      let _filterNewFamily = newFamilyLineupData;
       if (searchName) {
-        _filterNewFamily = newFamilyData.filter(newFamily => {
+        _filterNewFamily = newFamilyLineupData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -142,7 +136,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyData, searchName]);
+  }, [newFamilyLineupData, searchName]);
 
   return (
     <>

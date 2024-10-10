@@ -150,30 +150,30 @@ export const termSmallGroupLeadersDumpData = [
     ]
   },
   {
-    codyName: "박민섭",
+    codyName: "곽민섭",
     smallGroupLeaders: [
       {
-        codyName: "박민섭",
+        codyName: "곽민섭",
         smallGroupId: 26,
         smallGroupLeaderName: "이상호"
       },
       {
-        codyName: "박민섭",
+        codyName: "곽민섭",
         smallGroupId: 27,
         smallGroupLeaderName: "김상호"
       },
       {
-        codyName: "박민섭",
+        codyName: "곽민섭",
         smallGroupId: 28,
         smallGroupLeaderName: "박상호"
       },
       {
-        codyName: "박민섭",
+        codyName: "곽민섭",
         smallGroupId: 29,
         smallGroupLeaderName: "최상호"
       },
       {
-        codyName: "박민섭",
+        codyName: "곽민섭",
         smallGroupId: 30,
         smallGroupLeaderName: "정상호"
       }

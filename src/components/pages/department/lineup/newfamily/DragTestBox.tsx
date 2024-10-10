@@ -2,19 +2,19 @@ import GRText from '@component/atom/text/GRText';
 import GRFlexView from '@component/atom/view/GRFlexView';
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
-import { tSmallGroupLeaders } from "api/term";
+import { tSmallGroupLeader } from "api/term";
 import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { Color } from "styles/colors";
 
 const DragTestBox: React.FC = () => {
-  const [droppedLeaders, setDroppedLeaders] = useState<tSmallGroupLeaders[]>(
+  const [droppedLeaders, setDroppedLeaders] = useState<tSmallGroupLeader[]>(
     []
   );
 
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
-    accept: "test-Dragging",
-    drop: (item: tSmallGroupLeaders) => {
+    accept: "newfamily-lineup",
+    drop: (item: tSmallGroupLeader) => {
       console.log("Dropped item:", item); // Dropped item 확인
       setDroppedLeaders(prevLeaders => [...prevLeaders, item]);
     },
@@ -49,7 +49,7 @@ const DragTestBox: React.FC = () => {
 export default DragTestBox;
 
 const TestGRView = styled(GRView)`
-  min-height: 10rem;
+//   min-height: 10rem;
 `;
 
 const DropGRView = styled(GRFlexView)`

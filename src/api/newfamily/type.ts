@@ -1,5 +1,5 @@
 import { tSex } from "api/account/types";
-import { tAttendanceCheckStatus, tAttendanceStatus } from 'api/attendance/type';
+import { tAttendanceCheckStatus, tAttendanceStatus } from "api/attendance/type";
 import { BELIEVE_STATUS, VISIT_REASON, YES_NO_STATUS } from "common/enum";
 // import { Nullable } from "common/type-aliases";
 
@@ -70,6 +70,12 @@ export type tNewfamily = {
   newFamilyGroupId?: number;
 };
 
+export type tNewfamilyRequested = tNewfamily & {
+  temporarySmallGroupIds?: number[];
+  smallGroupId?: number;
+  // codyName?: string;
+};
+
 export type tNewfamilyPromoted = Omit<
   tNewfamily,
   "birth" | "visitDate" | "etc" | "newFamilyGroupId"
@@ -121,9 +127,9 @@ export type tAttendanceCheckItems = {
 };
 
 export type tNewfamilyAttendanceCheck = {
-  date : string;
+  date: string;
   attendanceItems: tAttendanceCheckItems[];
-}
+};
 
 export type tLineOutNewFamily = {
   /** @description 라인아웃된 새가족 아이디  @example: 1 */

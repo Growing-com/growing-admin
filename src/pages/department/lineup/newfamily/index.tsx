@@ -1,15 +1,15 @@
 import GRText from "@component/atom/text/GRText";
-import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from '@component/atom/view/GRView';
-import DragTestBox from "@component/pages/department/lineup/newfamily/DragTestBox";
+import GRView from "@component/atom/view/GRView";
 import DraggableLeader from "@component/pages/department/lineup/newfamily/DraggableLeader";
+import LineupNewfamilySelectBox from "@component/pages/department/lineup/newfamily/LineupNewfamilySelectBox";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import useTerm from "hooks/api/term/useTerm";
 import { termSmallGroupLeadersDumpData } from "mocks/data/termSmallGroupLeadersDumpData";
 
 import { NextPage } from "next";
+import { useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -18,6 +18,10 @@ const LineupNewfamilyPage: NextPage = () => {
     termId: 1
   });
   const dummydata = termSmallGroupLeadersDumpData;
+
+  const smallGroupProp = useMemo(() => {
+    return dummydata.flatMap(item => item.smallGroupLeaders);
+  }, [dummydata]);
 
   return (
     <>
@@ -35,52 +39,52 @@ const LineupNewfamilyPage: NextPage = () => {
           새가족 라인업
         </GRText>
       </GRFlexView>
-      <button onClick={() => console.log(dummydata)}>dummydata</button>
-      <LeadersContainer>
-        <GRFlexView yGap={1}>
+      <LineupContainer>
+        <GRFlexView yGap={1} style={{ overflow: "auto" }}>
           <GRText fontSize={"h9"} weight={"bold"}>
             리더
           </GRText>
           <GRFlexView flexDirection={"row"}>
             {/* 코디 렌더링 */}
-            {dummydata.map(group => (
-              <GRFlexView
-                key={`${group.codyName}`}
-                alignItems={"center"}
-                yGap={0.5}
-              >
-                <CodyContainerGRFlexView
+            {dummydata?.length > 0 ? (
+              dummydata.map(group => (
+                <GRFlexView
+                  key={`${group.codyName}`}
                   alignItems={"center"}
-                  paddinghorizontal={1}
+                  yGap={0.5}
                 >
-                  <CodyGRFlexView alignItems={"center"} paddingvertical={0.5}>
-                    <GRText fontSize={"b6"}>{group.codyName}</GRText>
-                  </CodyGRFlexView>
-                </CodyContainerGRFlexView>
-                {/* 리더 렌더링 */}
-                <GRFlexView yGap={1}>
-                  {group.smallGroupLeaders.map(leader => (
-                    <DraggableLeader
-                      leader={leader}
-                      key={leader.smallGroupId}
-                    />
-                  ))}
+                  <CodyGRView alignItems={"center"} paddinghorizontal={1}>
+                    <CodyGRFlexView alignItems={"center"} paddingvertical={0.5}>
+                      <GRText fontSize={"b6"}>{group.codyName}</GRText>
+                    </CodyGRFlexView>
+                  </CodyGRView>
+                  {/* 리더 렌더링 */}
+                  <LeaderGRFlexView yGap={1} xGap={0.1}>
+                    {group.smallGroupLeaders.map(leader => (
+                      <DraggableLeader
+                        leader={leader}
+                        key={leader.smallGroupId}
+                      />
+                    ))}
+                  </LeaderGRFlexView>
                 </GRFlexView>
-              </GRFlexView>
-            ))}
+              ))
+            ) : (
+              <div> 데이터 받아오는 중 </div>
+            )}
           </GRFlexView>
         </GRFlexView>
-      </LeadersContainer>
-      <GRContainerView>
-        <DragTestBox />
-      </GRContainerView>
+      </LineupContainer>
+      <LineupContainer>
+        <LineupNewfamilySelectBox smallGroups={smallGroupProp} />
+      </LineupContainer>
     </>
   );
 };
 
 export default LineupNewfamilyPage;
 
-const CodyContainerGRFlexView = styled(GRView)`
+const CodyGRView = styled(GRView)`
   width: 100%;
 `;
 
@@ -91,11 +95,11 @@ const CodyGRFlexView = styled(GRFlexView)`
   height: 100%;
 `;
 
-const LineupflexView = styled(GRFlexView)`
-  height: 85vh;
+const LeaderGRFlexView = styled(GRFlexView)`
+  width: 100%;
 `;
 
-const LeadersContainer = styled.div`
+const LineupContainer = styled.div`
   background-color: ${Color.white};
   padding: 1.5rem 3rem 1.5rem 3rem;
   border-radius: 0.5rem;
