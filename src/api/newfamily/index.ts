@@ -96,6 +96,23 @@ export const lineOutNewfamily = (data: tPostNewfamilyIds) => {
   });
 }
 
+type tSaveNewfamilyTemporaryLeaders = {
+  newFamilyId: number;
+  temporarySmallGroupIds: number[];
+}
+
+export const saveNewfamilyTemporaryLeaders = (data: tSaveNewfamilyTemporaryLeaders[]) => {
+  const requestBody = {
+    content: data
+  };
+
+  return request<tSaveNewfamilyTemporaryLeaders[]>({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-families/temporary-line-up`,
+    data: requestBody
+  });
+}
+
 type tLineUpNewfamily = {
   newFamilyId: number;
   smallGroupId:number;

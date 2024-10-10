@@ -5,7 +5,10 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { lineUpNewfamily } from "api/newfamily";
+import {
+  lineUpNewfamily,
+  saveNewfamilyTemporaryLeaders
+} from "api/newfamily";
 import { tNewfamilyRequested } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { tSmallGroupLeader } from "api/term";
@@ -31,6 +34,19 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
 
   const { data: newFamilyLineupData } = useNewfamilyLineupRequestQuery();
 
+  const { mutateAsync: saveTemporaryLeadersMutateAsync } = useMutation(
+    saveNewfamilyTemporaryLeaders,
+    {
+      onError: error => {
+        handleError(error, "후보 저장 오류");
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
+        GRAlert.success("후보 저장 완료");
+      }
+    }
+  );
+
   const { mutateAsync: lineUpMutateAsync } = useMutation(lineUpNewfamily, {
     onError: error => {
       handleError(error, "라인업 오류");
@@ -42,24 +58,36 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
     }
   });
 
-  const saveTemporaryLeaders = () => {
-    return;
-  };
-
-  const onClicklineupNewfamily = () => {
-    const newfamilyPromoteData = formResult
-      .filter(item => item.smallGroupId !== undefined)
-      .map(({ newFamilyId, smallGroupId }) => ({
+  const onClickSaveTemporaryLeaders = () => {
+    const newfamilySaveTemporaryLeaderData = formResult
+      .filter(item => item.temporarySmallGroupIds !== undefined)
+      .map(({ newFamilyId, temporarySmallGroupIds }) => ({
         newFamilyId,
-        smallGroupId: smallGroupId as number // 안전하게 타입 단언
+        temporarySmallGroupIds: temporarySmallGroupIds as number[]
       }));
-    console.log(newfamilyPromoteData);
-    if (newfamilyPromoteData.length === 0) {
-      GRAlert.error("라인업대상 지체가 없습니다.");
+
+    if (newfamilySaveTemporaryLeaderData.length === 0) {
+      GRAlert.error("후보 저장 대상 지체가 없습니다.");
       return;
     }
 
-    lineUpMutateAsync(newfamilyPromoteData);
+    saveTemporaryLeadersMutateAsync(newfamilySaveTemporaryLeaderData);
+  };
+
+  const onClicklineupNewfamily = () => {
+    const newfamilyLineupData = formResult
+      .filter(item => item.smallGroupId !== undefined)
+      .map(({ newFamilyId, smallGroupId }) => ({
+        newFamilyId,
+        smallGroupId: smallGroupId as number
+      }));
+
+    if (newfamilyLineupData.length === 0) {
+      GRAlert.error("라인업 대상 지체가 없습니다.");
+      return;
+    }
+
+    lineUpMutateAsync(newfamilyLineupData);
   };
 
   const insertDataInFormResult = useCallback(
@@ -171,9 +199,6 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       minWidth: 63,
       render: (_, item) => {
         const handletemporaryDrop = (droppedItem: tSmallGroupLeader) => {
-          console.log("Dropped item:", droppedItem);
-          console.log("temporaryZone에 놓음", item);
-          // 필요한 로직 추가
           if (
             item.temporarySmallGroupIds?.some(
               (id: number) => id === droppedItem.smallGroupId
@@ -207,9 +232,6 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
         if (!item) return;
 
         const handleConfirmedDrop = (droppedItem: tSmallGroupLeader) => {
-          console.log("Dropped item:", droppedItem);
-          console.log("comfirmedZone에 놓음", item);
-          // 여기에 필요한 로직 추가
           insertDataInFormResult(item.newFamilyId, {
             smallGroupLeaderName: droppedItem.smallGroupLeaderName,
             smallGroupId: droppedItem.smallGroupId,
@@ -238,7 +260,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       >
         <GRTextButton
           marginright={GRStylesConfig.BASE_MARGIN}
-          onClick={saveTemporaryLeaders}
+          onClick={onClickSaveTemporaryLeaders}
         >
           후보 저장
         </GRTextButton>

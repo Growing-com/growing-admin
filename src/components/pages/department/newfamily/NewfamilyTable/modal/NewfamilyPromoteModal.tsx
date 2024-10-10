@@ -85,7 +85,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       })
     );
 
-    console.log("newfamilyPromoteData", newfamilyPromoteData);
     await promoteMutateAsync(newfamilyPromoteData);
   };
 

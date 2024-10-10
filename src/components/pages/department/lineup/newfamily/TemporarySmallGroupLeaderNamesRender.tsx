@@ -36,6 +36,7 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
             justifyContent={"center"}
             alignItems={"center"}
             xGap={0.1}
+            key={leader.smallGroupId}
           >
             <GRText fontSize={"b7"}>{leader.codyName}</GRText>
             <GRText fontSize={"b4"}>{leader.smallGroupLeaderName}</GRText>
