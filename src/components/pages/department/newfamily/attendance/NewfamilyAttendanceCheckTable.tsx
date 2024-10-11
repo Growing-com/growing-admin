@@ -195,21 +195,6 @@ const NewfamilyAttendanceCheckTable: React.FC<
     }
   ];
 
-  // 검색 로직
-  useEffect(() => {
-    if (newFamilyAttendanceData?.length) {
-      let _filterNewFamily = newFamilyAttendanceData;
-      if (searchName) {
-        _filterNewFamily = newFamilyAttendanceData.filter(newFamily => {
-          return newFamily.name?.indexOf(searchName) !== -1;
-        });
-      }
-      setFormResult(_filterNewFamily);
-    } else {
-      setFormResult([]);
-    }
-  }, [newFamilyAttendanceData, searchName]);
-
   const validateAttendanceCheck = () => {
     for (const item of formResult) {
       if (
@@ -266,7 +251,6 @@ const NewfamilyAttendanceCheckTable: React.FC<
           reason: ""
         }
       }));
-
       setFormResult(defaultFormResult);
       return;
     } else if (_selectDate) {
@@ -291,9 +275,18 @@ const NewfamilyAttendanceCheckTable: React.FC<
         };
       });
 
+      // 검색 로직
+      if (searchName) {
+        const searchedData = updatedData.filter(item => {
+          return item.name?.indexOf(searchName) !== -1;
+        });
+        setFormResult(searchedData);
+        return;
+      }
+
       setFormResult(updatedData); // 업데이트된 데이터로 상태 설정
     }
-  }, [newFamilyAttendanceData, filterDate]);
+  }, [newFamilyAttendanceData, filterDate, searchName]);
 
   // button diabled 변수 설정
   useEffect(() => {

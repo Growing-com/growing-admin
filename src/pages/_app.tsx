@@ -8,6 +8,8 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
 import { ReactElement, ReactNode } from "react";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ComponentsToken } from "styles/ComponentsToken";
 import { Color } from "styles/colors";
 import "styles/globals.css";
@@ -60,7 +62,9 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
         }}
       >
         <QueryClientProvider client={queryClient}>
+        <DndProvider backend={HTML5Backend}>
           <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+          </DndProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ConfigProvider>

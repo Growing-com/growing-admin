@@ -1,8 +1,6 @@
 import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButton from "@component/atom/button/GRButton";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
-import GRSelect from "@component/atom/dataEntry/GRSelect";
 import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -13,7 +11,6 @@ import { lineUpNewfamily, promoteNewfamily } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import useTerm from "hooks/api/term/useTerm";
 import { FC, useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
@@ -25,10 +22,6 @@ type tNewFamilyPromoteModal = {
   selectedNewFamily: tNewfamily[];
 };
 
-interface tNewFamilyLineUpForm extends tNewfamily {
-  smallGroupId?: number;
-}
-
 export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
   open,
   onClickClose,
@@ -36,20 +29,7 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
 }) => {
   const queryClient = useQueryClient();
 
-  //   const [selectFormData, setSelectFormData] = useState<tNewfamily[]>([]);
-  // 임시 라인업 삭제할 때 같이 지우기
-  const [selectFormData, setSelectFormData] = useState<tNewFamilyLineUpForm[]>(
-    []
-  );
-
-  // 임시 라인업 삭제할 때 같이 지우기
-  const {
-    termNewFamilyLeader,
-    termSmallGroupLeader,
-    termSmallGroupLeaderOptions
-  } = useTerm({
-    termId: 1
-  });
+  const [selectFormData, setSelectFormData] = useState<tNewfamily[]>([]);
 
   const { mutateAsync: promoteMutateAsync } = useMutation(promoteNewfamily, {
     onError: error => {
@@ -93,29 +73,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
     }
   });
 
-  // 임시 라인업 삭제할 때 같이 지우기
-  const LineUpTemporary = async () => {
-    for (const item of selectFormData) {
-        const { name, smallGroupId } = item;
-        // console.log(name, smallGroupId );
-        if (smallGroupId === null) {
-          GRAlert.error(`${name}은 라인업이 되어야 합니다.`);
-          return ;
-        }
-    }
-    const newfamilyPromoteData = selectFormData
-      .filter(item => item.smallGroupId !== undefined)
-      .map(({ newFamilyId, smallGroupId }) => ({
-        newFamilyId,
-        smallGroupId: smallGroupId as number // 안전하게 타입 단언
-      }));
-
-    if (newfamilyPromoteData.length > 0) {
-      // 유효한 데이터가 있는지 확인
-      await lineUpMutateAsync(newfamilyPromoteData);
-    }
-  };
-
   const onOkPromoteClickButton = async () => {
     if (!validateFormData(selectFormData)) {
       return;
@@ -128,7 +85,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       })
     );
 
-    console.log("newfamilyPromoteData", newfamilyPromoteData);
     await promoteMutateAsync(newfamilyPromoteData);
   };
 
@@ -211,29 +167,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
           </GRFlexView>
         );
       }
-    },
-    {
-      title: "순장",
-      dataIndex: "leader",
-      key: "leader",
-      align: "center",
-      render: (_, _item) => {
-        return (
-          <GRFlexView>
-            <GRSelect
-              options={termSmallGroupLeaderOptions}
-              onChange={value => {
-                insertDataInFormResult(
-                  _item.newFamilyId,
-                  "smallGroupId",
-                  value
-                );
-              }}
-              placeholder={"리더 선택"}
-            />
-          </GRFlexView>
-        );
-      }
     }
   ];
 
@@ -254,14 +187,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       width={"60%"}
       maskClosable={false}
     >
-      {/* 임시 라인업 삭제할 때 같이 지우기 */}
-      {/* <button onClick={()=>console.log(termNewFamilyLeader)}>termNewFamilyLeader</button> */}
-      {/* <button onClick={()=>console.log(termSmallGroupLeader)}>termSmallGroupLeader</button> */}
-      {/* <button onClick={() => console.log(selectFormData)}>
-        selectFormData
-      </button> */}
-      {/* 라인업 페이지 생성 전 임시로 만든 라인업 기능 */}
-      <GRButton onClick={LineUpTemporary}>순장 라인업</GRButton>
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable columns={columns} data={selectedNewFamily} />
       </GRView>

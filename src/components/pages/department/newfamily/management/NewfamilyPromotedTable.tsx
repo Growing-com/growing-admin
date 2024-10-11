@@ -2,8 +2,8 @@ import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { getLineUpRequestNewfamilies } from "api/newfamily";
-import { tNewfamily } from "api/newfamily/type";
+import { getPromotedNewfamilies } from "api/newfamily";
+import { tNewfamilyPromoted } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
@@ -12,26 +12,22 @@ import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-type tNewfamilyLineUpTable = {
+type tNewfamilyPromotedTable = {
   searchName: string;
-  selectedNewFamily: tNewfamily[];
-  onSelect: (key: React.Key[], selectedRows: any[]) => void;
 };
 
-const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
-  searchName,
-  selectedNewFamily,
-  onSelect
+const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
+  searchName
 }) => {
   const router = useRouter();
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
-    tNewfamily[]
+    tNewfamilyPromoted[]
   >([]);
 
-  const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY_LINE_UP_REQUEST],
-    async () => await getLineUpRequestNewfamilies(),
+  const { data: newFamilyPromotedData } = useQuery(
+    [queryKeys.NEW_FAMILY_PROMOTED],
+    async () => await getPromotedNewfamilies(),
     {
       select: _data => _data.content
     }
@@ -64,27 +60,24 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       width: "5rem"
     },
     {
-      title: "방문일",
-      dataIndex: "visitDate",
-      key: "visitDate",
+      title: "등반일",
+      dataIndex: "promoteDate",
+      key: "promoteDate",
       align: "center",
       width: "8rem",
+      render: (_, record) => checkDefaultDate(record.promoteDate),
       sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
-      render: (_, record) => checkDefaultDate(record.visitDate)
+        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
     },
     {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
+      title: "등반 후 경과 주",
+      dataIndex: "weeksAfterPromotion",
+      key: "weeksAfterPromotion",
       align: "center",
-      width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
-      }
+      width: "8rem",
+      render: (_, record) => (
+        <GRText>{`${record.weeksAfterPromotion} 주`}</GRText>
+      )
     },
     {
       title: "일반 순장",
@@ -100,22 +93,11 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       }
     },
     {
-      title: "등반일",
-      dataIndex: "promoteDate",
-      key: "promoteDate",
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.promoteDate),
-      sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
-    },
-    {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
+      width: "6rem"
     },
     {
       title: "전화번호",
@@ -131,10 +113,10 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
   };
 
   useEffect(() => {
-    if (newFamilyData?.length) {
-      let _filterNewFamily = newFamilyData;
+    if (newFamilyPromotedData?.length) {
+      let _filterNewFamily = newFamilyPromotedData;
       if (searchName) {
-        _filterNewFamily = newFamilyData.filter(newFamily => {
+        _filterNewFamily = newFamilyPromotedData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -142,7 +124,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyData, searchName]);
+  }, [newFamilyPromotedData, searchName]);
 
   return (
     <>
@@ -155,15 +137,9 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
           defaultPageSize: 10,
           position: ["bottomCenter"]
         }}
-        rowSelection={{
-          selectedRowKeys: selectedNewFamily.map(
-            newFamily => newFamily.newFamilyId
-          ),
-          onChange: onSelect
-        }}
       />
     </>
   );
 };
 
-export default NewfamilyLineUpTable;
+export default NewfamilyPromotedTable;

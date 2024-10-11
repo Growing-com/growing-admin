@@ -50,7 +50,6 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   const onOpenChange = (keys: string[]) => {
     setOpenedSubMenu(keys);
-    console.log("setOpenedSubMenu",keys);
   };
 
   const onClickCollapse = () => {
