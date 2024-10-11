@@ -42,7 +42,6 @@ const DragPreview = () => {
   const renderItem = (type: Identifier | null, item: any) => {
     switch (type) {
       case "newfamily-lineup":
-        console.log("item", item);
 
         return (
           <GRFlexView flexDirection={"row"} alignItems={"center"} xGap={0.1}>

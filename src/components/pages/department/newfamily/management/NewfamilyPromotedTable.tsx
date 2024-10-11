@@ -68,7 +68,6 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       render: (_, record) => checkDefaultDate(record.promoteDate),
       sorter: (valueA, valueB) =>
         dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
-        defaultSortOrder: "descend"
     },
     {
       title: "등반 후 경과 주",
