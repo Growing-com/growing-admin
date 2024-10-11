@@ -1,6 +1,7 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import DragPreview from '@component/pages/department/lineup/DragPreview';
 import DraggableLeader from "@component/pages/department/lineup/newfamily/DraggableLeader";
 import LineupNewfamilySelectBox from "@component/pages/department/lineup/newfamily/LineupNewfamilySelectBox";
 import { css } from "@emotion/react";
@@ -40,6 +41,7 @@ const LineupNewfamilyPage: NextPage = () => {
         </GRText>
       </GRFlexView>
       <LineupContainer>
+        <DragPreview/>
         <GRFlexView yGap={1} style={{ overflow: "auto" }}>
           <GRText fontSize={"h9"} weight={"bold"}>
             리더
