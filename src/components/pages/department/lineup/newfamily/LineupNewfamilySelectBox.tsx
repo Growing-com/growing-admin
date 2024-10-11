@@ -5,10 +5,7 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import {
-  lineUpNewfamily,
-  saveNewfamilyTemporaryLeaders
-} from "api/newfamily";
+import { lineUpNewfamily, saveNewfamilyTemporaryLeaders } from "api/newfamily";
 import { tNewfamilyRequested } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { tSmallGroupLeader } from "api/term";
@@ -125,6 +122,24 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
     [formResult]
   );
 
+  const deleteTemporaryDataInFormResult = useCallback(
+    (_newFamilyId: number, value: number) => {
+      const _formResult = formResult?.map(result => {
+        if (_newFamilyId !== result.newFamilyId) return result;
+        const _temporarySmallGruopIds = result.temporarySmallGroupIds?.filter(
+          id => id !== value
+        );
+        if (_temporarySmallGruopIds === undefined) return result;
+        return {
+          ...result,
+          temporarySmallGroupIds: _temporarySmallGruopIds
+        };
+      });
+      setFormResult(_formResult);
+    },
+    [formResult]
+  );
+
   useEffect(() => {
     if (!newFamilyLineupData) return;
 
@@ -217,6 +232,8 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
             <TemporarySmallGroupLeaderNamesRender
               temporarySmallGroupIds={item.temporarySmallGroupIds}
               smallGroups={smallGroups}
+              deleteTemporaryData={deleteTemporaryDataInFormResult}
+              newFamilyId={item.newFamilyId}
             />
           </DropCell>
         );
@@ -226,7 +243,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       title: "일반 순장",
       align: "center",
       dataIndex: "smallGroupLeaderName",
-      width: "6rem",
+      width: "5rem",
       minWidth: 80,
       render: (_, item) => {
         if (!item) return;

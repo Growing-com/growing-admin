@@ -55,7 +55,7 @@ export type tNewfamily = {
   grade: number;
 
   /** @description 기타  @example: tNewFamilyEtc_ */
-  etc: tNewfamilyEtc;
+  etc?: tNewfamilyEtc;
 
   /** @description 새가족 그룹 리더 이름  @example: 고길동 */
   newFamilyGroupLeaderName?: string;
