@@ -1,13 +1,12 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import DragPreview from '@component/pages/department/lineup/DragPreview';
+import DragPreview from "@component/pages/department/lineup/DragPreview";
 import DraggableLeader from "@component/pages/department/lineup/newfamily/DraggableLeader";
 import LineupNewfamilySelectBox from "@component/pages/department/lineup/newfamily/LineupNewfamilySelectBox";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import useTerm from "hooks/api/term/useTerm";
-import { termSmallGroupLeadersDumpData } from "mocks/data/termSmallGroupLeadersDumpData";
 
 import { NextPage } from "next";
 import { useMemo } from "react";
@@ -18,11 +17,11 @@ const LineupNewfamilyPage: NextPage = () => {
   const { termSmallGroupLeader } = useTerm({
     termId: 1
   });
-  const dummydata = termSmallGroupLeadersDumpData;
 
   const smallGroupProp = useMemo(() => {
-    return dummydata.flatMap(item => item.smallGroupLeaders);
-  }, [dummydata]);
+    if (termSmallGroupLeader)
+      return termSmallGroupLeader.flatMap(item => item.smallGroupLeaders);
+  }, [termSmallGroupLeader]);
 
   return (
     <>
@@ -41,15 +40,15 @@ const LineupNewfamilyPage: NextPage = () => {
         </GRText>
       </GRFlexView>
       <LineupContainer>
-        <DragPreview/>
+        <DragPreview />
         <GRFlexView yGap={1} style={{ overflow: "auto" }}>
           <GRText fontSize={"h9"} weight={"bold"}>
             리더
           </GRText>
           <GRFlexView flexDirection={"row"}>
             {/* 코디 렌더링 */}
-            {dummydata?.length > 0 ? (
-              dummydata.map(group => (
+            {termSmallGroupLeader && termSmallGroupLeader?.length > 0 ? (
+              termSmallGroupLeader.map(group => (
                 <GRFlexView
                   key={`${group.codyName}`}
                   alignItems={"center"}
@@ -78,7 +77,7 @@ const LineupNewfamilyPage: NextPage = () => {
         </GRFlexView>
       </LineupContainer>
       <LineupContainer>
-        <LineupNewfamilySelectBox smallGroups={smallGroupProp} />
+        <LineupNewfamilySelectBox smallGroups={smallGroupProp || []} />
       </LineupContainer>
     </>
   );
