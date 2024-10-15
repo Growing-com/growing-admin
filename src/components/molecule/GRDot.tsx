@@ -20,7 +20,6 @@ const GRDot: FC<tGRDot> = ({
             background-color: ${backgroundColor};
             border-radius: 50%;
             display: inline-block;
-            // margin-right: ${ marginRight}rem
             margin-right: ${ marginRight || 0.5}rem
         `
     }/>

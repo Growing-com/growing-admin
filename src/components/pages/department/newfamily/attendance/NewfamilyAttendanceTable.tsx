@@ -13,7 +13,7 @@ import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
-import { koreanSorter } from 'utils/sorter';
+import { koreanSorter } from "utils/sorter";
 
 type tNewfamilyAttendanceTable = {
   searchName: string;
@@ -29,7 +29,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamilyAttendances[]
   >([]);
-  const [attendanceItems, setAttendanceItems] = useState<
+  const [attendanceData, setAttendanceData] = useState<
     tNewfamilyAttendances | undefined
   >();
 
@@ -38,7 +38,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     async () => await getNewfamiliesAttendances(),
     {
       select: _data => _data.content,
-      onSuccess: data => setAttendanceItems(head(data))
+      onSuccess: data => setAttendanceData(head(data))
     }
   );
 
@@ -47,9 +47,31 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     async () => await getNewfamiliesAttendances({ newFamilyGroupId: 1 }),
     {
       select: _data => _data.content,
-      onSuccess: data => setAttendanceItems(head(data))
+      onSuccess: data => setAttendanceData(head(data))
     }
   );
+
+  const getRowClassName = (record: any) => {
+    const lineOutRow =
+      record.attendanceItems
+        .slice(0, 4)
+        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+      4;
+    if (lineOutRow) {
+      return "highlight-lineout";
+    }
+
+    const warningRow =
+      record.attendanceItems
+        .slice(0, 3)
+        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+      3;
+    if (warningRow) {
+      return "highlight-warning";
+    }
+
+    return record.totalAttendCount >= 4 ? "highlight-promote" : "";
+  };
 
   const columns: TableColumnsType<any> = [
     {
@@ -104,6 +126,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       fixed: "left",
       width: "5rem",
       sorter: (a, b) => a.totalAttendCount - b.totalAttendCount,
+      defaultSortOrder: "descend",
       minWidth: 66
     },
     {
@@ -114,12 +137,13 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       fixed: "left",
       width: "5rem",
       sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
+      defaultSortOrder: "descend",
       minWidth: 66
     },
     {
       title: "출석 날짜",
       align: "center",
-      children: attendanceItems?.attendanceItems.map(item => ({
+      children: attendanceData?.attendanceItems.map(item => ({
         title: item.date,
         dataIndex: "attendanceItems",
         key: "attendanceItems",
@@ -132,7 +156,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
             />
           );
         },
-      minWidth: 96
+        minWidth: 96
       }))
     }
   ];
@@ -170,6 +194,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
         }}
         scroll={{ x: true }}
         tableLayout={"auto"}
+        rowClassName={getRowClassName}
+        rowHoverable={false}
       />
     </>
   );

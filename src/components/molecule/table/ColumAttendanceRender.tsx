@@ -41,7 +41,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
       <GRView isFlex alignItems={"center"} justifyContent={"center"}>
         <GRDot />
         <Tag css={{ marginRight: "0rem" }} color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
-        <GRDot marginRight={0} backgroundColor={"white"}/>
+        <GRDot marginRight={0} backgroundColor={"transparent"}/>
       </GRView>
     </Popover>
   );

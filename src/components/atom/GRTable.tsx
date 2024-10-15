@@ -2,6 +2,7 @@ import { SerializedStyles, css } from "@emotion/react";
 import { Pagination, PaginationProps, Table, TableProps } from "antd";
 import { ReactNode, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
+import { Color } from 'styles/colors';
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRFlexView from "./view/GRFlexView";
 import GRView from "./view/GRView";
@@ -67,6 +68,17 @@ const GRTable = <GRTableType extends object>({
           }
         }
       }
+
+      .highlight-lineout .ant-table-cell {
+        background-color: ${Color.red300};
+      }
+      .highlight-warning .ant-table-cell {
+        background-color: ${Color.yellow100};
+      }
+      .highlight-promote .ant-table-cell {
+        background-color: ${Color.green200};
+      }
+
     `,
     [fontSize, headerFontSize, isHoverTable]
   );
