@@ -13,13 +13,18 @@ import NewfamilyAttendanceTable from "@component/pages/department/newfamily/atte
 import NewfamilyLineUpTable from "@component/pages/department/newfamily/attendance/NewfamilyLineUpTable";
 import { NewFamilyPromoteModal } from "@component/pages/department/newfamily/attendance/modal/NewfamilyPromoteModal";
 import styled from "@emotion/styled";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { lineOutNewfamily, requestLineUpNewfamily } from "api/newfamily";
-import { tNewfamily } from "api/newfamily/type";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getNewfamiliesAttendances,
+  lineOutNewfamily,
+  requestLineUpNewfamily
+} from "api/newfamily";
+import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
+import useTerm from "hooks/api/term/useTerm";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import { handleError } from "utils/error";
@@ -48,11 +53,23 @@ const NewfamilyAttendancePage: NextPage = () => {
 
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
 
+  const [newfamilyGroupAttendanceData, setNewfamilyGroupAttendanceData] =
+    useState<tNewfamilyAttendances[]>([]);
+  const [currentGroupId, setCurrentGroupId] = useState<string>("0");
+  const { termNewFamilyLeaderOptions } = useTerm({
+    termId: 1
+  });
+  const tabOption = useMemo(
+    () => [{ label: "전체", value: "0" }, ...termNewFamilyLeaderOptions],
+    [termNewFamilyLeaderOptions]
+  );
+
   const onChangeTab = (value: string) => {
     resetSelection();
     setSearchName("");
     setFilterDate(dayjs().startOf("week"));
     setTabValue(value);
+    setCurrentGroupId("0");
   };
 
   const { mutateAsync: lineUpRequestMutateAsync } = useMutation(
@@ -95,6 +112,10 @@ const NewfamilyAttendancePage: NextPage = () => {
     }
   };
 
+  const onChangeLeaderTab = (_groupId: string) => {
+    setCurrentGroupId(_groupId);
+  };
+
   const onClickLineUpRequest = () => {
     if (selectedNewFamily.length === 0) {
       return GRAlert.error("선택된 새가족이 없습니다");
@@ -133,6 +154,22 @@ const NewfamilyAttendancePage: NextPage = () => {
   const resetSelection = () => {
     setSelectedNewFamily([]);
   };
+
+  const { data: newFamilyGroupAttendanceData } = useQuery(
+    [queryKeys.NEW_FAMILY_ATTENDANCE, currentGroupId],
+    async () => {
+      if (currentGroupId === "0") {
+        return await getNewfamiliesAttendances();
+      }
+      return await getNewfamiliesAttendances({
+        newFamilyGroupId: Number(currentGroupId)
+      });
+    },
+    {
+      select: _data => _data.content,
+      onSuccess: data => setNewfamilyGroupAttendanceData(data)
+    }
+  );
 
   return (
     <>
@@ -200,6 +237,11 @@ const NewfamilyAttendancePage: NextPage = () => {
               searchName={searchName}
               selectedNewFamily={selectedNewFamily}
               onSelect={onSelectChange}
+              tabProps={{
+                newfamilyGroupAttendanceData,
+                tabOption,
+                onChangeLeaderTab
+              }}
             />
           )}
           {/* 출석 체크 탭 */}
@@ -207,6 +249,11 @@ const NewfamilyAttendancePage: NextPage = () => {
             <NewfamilyAttendanceCheckTable
               searchName={searchName}
               filterDate={filterDate}
+              tabProps={{
+                newfamilyGroupAttendanceData,
+                tabOption,
+                onChangeLeaderTab
+              }}
             />
           )}
           {/* 라인업 요청 탭 */}

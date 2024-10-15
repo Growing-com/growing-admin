@@ -1,17 +1,16 @@
+import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRRadio from "@component/atom/dataEntry/GRRadio";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Alert, RadioChangeEvent, TableColumnsType, Tooltip } from "antd";
 import { tAttendanceStatus } from "api/attendance/type";
-import {
-  getNewfamiliesAttendances,
-  postNewfamilyAttendanceCheck
-} from "api/newfamily";
+import { postNewfamilyAttendanceCheck } from "api/newfamily";
 import {
   tAttendanceCheckItems,
   tNewfamilyAttendances
@@ -30,11 +29,19 @@ const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * �
 type tNewfamilyAttendanceCheckTable = {
   searchName: string;
   filterDate: Dayjs;
+  tabProps: {
+    newfamilyGroupAttendanceData: tNewfamilyAttendances[];
+    tabOption: tOptions[];
+    onChangeLeaderTab: (_groupId: string) => void;
+  };
 };
 
 const NewfamilyAttendanceCheckTable: React.FC<
   tNewfamilyAttendanceCheckTable
-> = ({ searchName, filterDate }) => {
+> = ({ searchName, filterDate, tabProps }) => {
+  const { newfamilyGroupAttendanceData, tabOption, onChangeLeaderTab } =
+    tabProps;
+
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -48,14 +55,6 @@ const NewfamilyAttendanceCheckTable: React.FC<
         queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
         GRAlert.success("출석체크 완료");
       }
-    }
-  );
-
-  const { data: newFamilyAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE],
-    async () => await getNewfamiliesAttendances(),
-    {
-      select: _data => _data.content
     }
   );
 
@@ -231,19 +230,19 @@ const NewfamilyAttendanceCheckTable: React.FC<
 
   /** 아래는 선택한 날짜에 해당하는 데이터가 없을 경우 기본 셋팅, 있을 경우 form에 적용하는 로직 */
   useEffect(() => {
-    if (!newFamilyAttendanceData) {
+    if (!newfamilyGroupAttendanceData) {
       return;
     }
 
     // 선택한 날짜에 해당하는 데이터 찾기
     const filterDateFormatted = filterDate.format(DEFAULT_DATE_FORMAT);
-    const _selectDate = head(newFamilyAttendanceData)?.attendanceItems.filter(
-      item => item.date === filterDateFormatted
-    );
+    const _selectDate = head(
+      newfamilyGroupAttendanceData
+    )?.attendanceItems.filter(item => item.date === filterDateFormatted);
 
     // _selectDate가 없으면 기본 셋팅
     if (!_selectDate || _selectDate.length === 0) {
-      const defaultFormResult = newFamilyAttendanceData.map(item => ({
+      const defaultFormResult = newfamilyGroupAttendanceData.map(item => ({
         ...item,
         attendanceCheckItems: {
           newFamilyId: item.newFamilyId,
@@ -254,7 +253,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       setFormResult(defaultFormResult);
       return;
     } else if (_selectDate) {
-      const updatedData = newFamilyAttendanceData.map(item => {
+      const updatedData = newfamilyGroupAttendanceData.map(item => {
         // 각 item의 attendanceItems에서 업데이트 진행
         const matchingItem = item.attendanceItems.find(
           attendanceItem => attendanceItem.date === filterDateFormatted
@@ -286,7 +285,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
 
       setFormResult(updatedData); // 업데이트된 데이터로 상태 설정
     }
-  }, [newFamilyAttendanceData, filterDate, searchName]);
+  }, [newfamilyGroupAttendanceData, filterDate, searchName]);
 
   // button diabled 변수 설정
   useEffect(() => {
@@ -300,6 +299,14 @@ const NewfamilyAttendanceCheckTable: React.FC<
 
   return (
     <>
+      <GRTab
+        items={tabOption}
+        size={"small"}
+        type={"card"}
+        onChange={onChangeLeaderTab}
+        fontWeight={'normal'}
+        marginBottom={"0rem"}
+      />
       <GRTable
         isLoading={isLoading}
         rowKey={"newFamilyId"}

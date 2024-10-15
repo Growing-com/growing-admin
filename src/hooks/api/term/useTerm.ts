@@ -12,7 +12,7 @@ const useTerm = ({ termId }: { termId: number }) => {
   const [termSmallGroupLeaderOptions, setTermSmallGroupLeaderOptions] =
     useState<tOptions[]>();
   const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] =
-    useState<tOptions[]>();
+    useState<tOptions[]>([]);
 
   const {
     data: termSmallGroupLeader,

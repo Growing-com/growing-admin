@@ -1,15 +1,14 @@
+import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
-import { useQuery } from "@tanstack/react-query";
 import { TableColumnsType } from "antd";
-import { getNewfamiliesAttendances } from "api/newfamily";
 import {
   tAttendanceItems,
   tNewfamily,
   tNewfamilyAttendances
 } from "api/newfamily/type";
-import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
@@ -19,37 +18,28 @@ type tNewfamilyAttendanceTable = {
   searchName: string;
   selectedNewFamily: tNewfamily[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
+  tabProps: {
+    newfamilyGroupAttendanceData: tNewfamilyAttendances[];
+    tabOption: tOptions[];
+    onChangeLeaderTab: (_groupId: string) => void;
+  };
 };
 
 const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   searchName,
   selectedNewFamily,
-  onSelect
+  onSelect,
+  tabProps
 }) => {
+  const { newfamilyGroupAttendanceData, tabOption, onChangeLeaderTab } =
+    tabProps;
+
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamilyAttendances[]
   >([]);
   const [attendanceData, setAttendanceData] = useState<
     tNewfamilyAttendances | undefined
   >();
-
-  const { data: newFamilyAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE],
-    async () => await getNewfamiliesAttendances(),
-    {
-      select: _data => _data.content,
-      onSuccess: data => setAttendanceData(head(data))
-    }
-  );
-
-  const { data: newFamilyGroupAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE, 2],
-    async () => await getNewfamiliesAttendances({ newFamilyGroupId: 1 }),
-    {
-      select: _data => _data.content,
-      onSuccess: data => setAttendanceData(head(data))
-    }
-  );
 
   const getRowClassName = (record: any) => {
     const lineOutRow =
@@ -162,10 +152,16 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   ];
 
   useEffect(() => {
-    if (newFamilyAttendanceData?.length) {
-      let _filterNewFamily = newFamilyAttendanceData;
+    if (newfamilyGroupAttendanceData?.length) {
+      setAttendanceData(head(newfamilyGroupAttendanceData));
+    }
+  }, [newfamilyGroupAttendanceData]);
+
+  useEffect(() => {
+    if (newfamilyGroupAttendanceData?.length) {
+      let _filterNewFamily = newfamilyGroupAttendanceData;
       if (searchName) {
-        _filterNewFamily = newFamilyAttendanceData.filter(newFamily => {
+        _filterNewFamily = newfamilyGroupAttendanceData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -173,10 +169,18 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyAttendanceData, searchName]);
+  }, [newfamilyGroupAttendanceData, searchName]);
 
   return (
     <>
+      <GRTab
+        items={tabOption}
+        size={"small"}
+        type={"card"}
+        onChange={onChangeLeaderTab}
+        fontWeight={"normal"}
+        marginBottom={"0rem"}
+      />
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}

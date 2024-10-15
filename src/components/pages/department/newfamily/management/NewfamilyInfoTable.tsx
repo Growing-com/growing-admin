@@ -1,3 +1,4 @@
+import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { useQuery } from "@tanstack/react-query";
@@ -7,8 +8,9 @@ import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
+import useTerm from "hooks/api/term/useTerm";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
@@ -22,22 +24,33 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamily[]
   >([]);
+  const [currentGroupId, setCurrentGroupId] = useState<string>("0");
+
+  const { termNewFamilyLeaderOptions } = useTerm({
+    termId: 1
+  });
+
+  const tabOption = useMemo(
+    () => [{ label: "전체", value: "0" }, ...termNewFamilyLeaderOptions],
+    [termNewFamilyLeaderOptions]
+  );
 
   const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY],
-    async () => await getNewfamilies(),
+    [queryKeys.NEW_FAMILY, currentGroupId],
+    async () => {
+      if (currentGroupId === "0") {
+        return await getNewfamilies();
+      }
+      return await getNewfamilies({ newFamilyGroupId: Number(currentGroupId) });
+    },
     {
       select: _data => _data.content
     }
   );
 
-  const { data: newFamilyGroupData } = useQuery(
-    [queryKeys.NEW_FAMILY, 2],
-    async () => await getNewfamilies({ newFamilyGroupId: 1 }),
-    {
-      select: _data => _data.content
-    }
-  );
+  const onChangeTab = (_groupId: string) => {
+    setCurrentGroupId(_groupId);
+  };
 
   const columns: ColumnType<any>[] = [
     {
@@ -147,6 +160,14 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
 
   return (
     <>
+      <GRTab
+        items={tabOption}
+        size={"small"}
+        type={"card"}
+        onChange={onChangeTab}
+        fontWeight={'normal'}
+        marginBottom={"0rem"}
+      />
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
