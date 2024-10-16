@@ -20,7 +20,7 @@ type tNewfamilyAttendanceTable = {
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
   tabProps: {
     newfamilyGroupAttendanceData: tNewfamilyAttendances[];
-    tabOption: tOptions[];
+    newfamilyLeaderTabOption: tOptions[];
     onChangeLeaderTab: (_groupId: string) => void;
   };
 };
@@ -31,7 +31,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   onSelect,
   tabProps
 }) => {
-  const { newfamilyGroupAttendanceData, tabOption, onChangeLeaderTab } =
+  const { newfamilyGroupAttendanceData, newfamilyLeaderTabOption, onChangeLeaderTab } =
     tabProps;
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
@@ -174,7 +174,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   return (
     <>
       <GRTab
-        items={tabOption}
+        items={newfamilyLeaderTabOption}
         size={"small"}
         type={"card"}
         onChange={onChangeLeaderTab}

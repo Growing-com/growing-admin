@@ -31,7 +31,7 @@ type tNewfamilyAttendanceCheckTable = {
   filterDate: Dayjs;
   tabProps: {
     newfamilyGroupAttendanceData: tNewfamilyAttendances[];
-    tabOption: tOptions[];
+    newfamilyLeaderTabOption: tOptions[];
     onChangeLeaderTab: (_groupId: string) => void;
   };
 };
@@ -39,7 +39,7 @@ type tNewfamilyAttendanceCheckTable = {
 const NewfamilyAttendanceCheckTable: React.FC<
   tNewfamilyAttendanceCheckTable
 > = ({ searchName, filterDate, tabProps }) => {
-  const { newfamilyGroupAttendanceData, tabOption, onChangeLeaderTab } =
+  const { newfamilyGroupAttendanceData, newfamilyLeaderTabOption, onChangeLeaderTab } =
     tabProps;
 
   const queryClient = useQueryClient();
@@ -300,7 +300,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
   return (
     <>
       <GRTab
-        items={tabOption}
+        items={newfamilyLeaderTabOption}
         size={"small"}
         type={"card"}
         onChange={onChangeLeaderTab}

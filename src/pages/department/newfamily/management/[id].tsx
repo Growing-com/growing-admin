@@ -20,7 +20,7 @@ import {
   YES_NO_OPTIONS
 } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
-import useTerm from "hooks/api/term/useTerm";
+import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -41,9 +41,7 @@ const NewfamilyUpdatePage: NextPage = () => {
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
-  const { termNewFamilyLeaderOptions } = useTerm({
-    termId: 1
-  });
+  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
 
   const numericId = id ? Number(id) : null;
 
@@ -305,7 +303,7 @@ const NewfamilyUpdatePage: NextPage = () => {
                 fieldName={"newFamilyGroupId"}
                 control={control}
                 placeholder={"새가족 순장을 선택해 주세요"}
-                options={termNewFamilyLeaderOptions}
+                options={currentTermNewFamilyLeaderOptions}
               />
             </GRFlexView>
             <Divider />

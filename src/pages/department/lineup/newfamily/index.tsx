@@ -6,7 +6,7 @@ import DraggableLeader from "@component/pages/department/lineup/newfamily/Dragga
 import LineupNewfamilySelectBox from "@component/pages/department/lineup/newfamily/LineupNewfamilySelectBox";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import useTerm from "hooks/api/term/useTerm";
+import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 
 import { NextPage } from "next";
 import { useMemo } from "react";
@@ -14,14 +14,14 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const LineupNewfamilyPage: NextPage = () => {
-  const { termSmallGroupLeader } = useTerm({
-    termId: 1
-  });
+  const { currentTermSmallGroupLeaders } = useCurrentTerm();
 
   const smallGroupProp = useMemo(() => {
-    if (termSmallGroupLeader)
-      return termSmallGroupLeader.flatMap(item => item.smallGroupLeaders);
-  }, [termSmallGroupLeader]);
+    if (currentTermSmallGroupLeaders)
+      return currentTermSmallGroupLeaders.flatMap(
+        item => item.smallGroupLeaders
+      );
+  }, [currentTermSmallGroupLeaders]);
 
   return (
     <>
@@ -47,8 +47,9 @@ const LineupNewfamilyPage: NextPage = () => {
           </GRText>
           <GRFlexView flexDirection={"row"}>
             {/* 코디 렌더링 */}
-            {termSmallGroupLeader && termSmallGroupLeader?.length > 0 ? (
-              termSmallGroupLeader.map(group => (
+            {currentTermSmallGroupLeaders &&
+            currentTermSmallGroupLeaders?.length > 0 ? (
+              currentTermSmallGroupLeaders.map(group => (
                 <GRFlexView
                   key={`${group.codyName}`}
                   alignItems={"center"}

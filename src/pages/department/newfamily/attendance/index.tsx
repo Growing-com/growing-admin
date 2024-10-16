@@ -22,7 +22,7 @@ import {
 import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
-import useTerm from "hooks/api/term/useTerm";
+import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { NextPage } from "next";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -56,12 +56,11 @@ const NewfamilyAttendancePage: NextPage = () => {
   const [newfamilyGroupAttendanceData, setNewfamilyGroupAttendanceData] =
     useState<tNewfamilyAttendances[]>([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
-  const { termNewFamilyLeaderOptions } = useTerm({
-    termId: 1
-  });
-  const tabOption = useMemo(
-    () => [{ label: "전체", value: "0" }, ...termNewFamilyLeaderOptions],
-    [termNewFamilyLeaderOptions]
+
+  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
+  const newfamilyLeaderTabOption = useMemo(
+    () => [{ label: "전체", value: "0" }, ...currentTermNewFamilyLeaderOptions],
+    [currentTermNewFamilyLeaderOptions]
   );
 
   const onChangeTab = (value: string) => {
@@ -239,7 +238,7 @@ const NewfamilyAttendancePage: NextPage = () => {
               onSelect={onSelectChange}
               tabProps={{
                 newfamilyGroupAttendanceData,
-                tabOption,
+                newfamilyLeaderTabOption,
                 onChangeLeaderTab
               }}
             />
@@ -251,7 +250,7 @@ const NewfamilyAttendancePage: NextPage = () => {
               filterDate={filterDate}
               tabProps={{
                 newfamilyGroupAttendanceData,
-                tabOption,
+                newfamilyLeaderTabOption,
                 onChangeLeaderTab
               }}
             />

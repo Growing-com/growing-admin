@@ -8,7 +8,7 @@ import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import useTerm from "hooks/api/term/useTerm";
+import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
@@ -26,13 +26,11 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   >([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
 
-  const { termNewFamilyLeaderOptions } = useTerm({
-    termId: 1
-  });
+  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
 
   const tabOption = useMemo(
-    () => [{ label: "전체", value: "0" }, ...termNewFamilyLeaderOptions],
-    [termNewFamilyLeaderOptions]
+    () => [{ label: "전체", value: "0" }, ...currentTermNewFamilyLeaderOptions],
+    [currentTermNewFamilyLeaderOptions]
   );
 
   const { data: newFamilyData } = useQuery(
@@ -165,7 +163,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
         size={"small"}
         type={"card"}
         onChange={onChangeTab}
-        fontWeight={'normal'}
+        fontWeight={"normal"}
         marginBottom={"0rem"}
       />
       <GRTable
