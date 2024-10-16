@@ -1,55 +1,67 @@
+import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
-import { useQuery } from "@tanstack/react-query";
 import { TableColumnsType } from "antd";
-import { getNewfamiliesAttendances } from "api/newfamily";
 import {
   tAttendanceItems,
   tNewfamily,
   tNewfamilyAttendances
 } from "api/newfamily/type";
-import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
-import { koreanSorter } from 'utils/sorter';
+import { koreanSorter } from "utils/sorter";
 
 type tNewfamilyAttendanceTable = {
   searchName: string;
   selectedNewFamily: tNewfamily[];
   onSelect: (key: React.Key[], selectedRows: any[]) => void;
+  tabProps: {
+    newfamilyGroupAttendanceData: tNewfamilyAttendances[];
+    newfamilyLeaderTabOption: tOptions[];
+    onChangeLeaderTab: (_groupId: string) => void;
+  };
 };
 
 const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   searchName,
   selectedNewFamily,
-  onSelect
+  onSelect,
+  tabProps
 }) => {
+  const { newfamilyGroupAttendanceData, newfamilyLeaderTabOption, onChangeLeaderTab } =
+    tabProps;
+
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamilyAttendances[]
   >([]);
-  const [attendanceItems, setAttendanceItems] = useState<
+  const [attendanceData, setAttendanceData] = useState<
     tNewfamilyAttendances | undefined
   >();
 
-  const { data: newFamilyAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE],
-    async () => await getNewfamiliesAttendances(),
-    {
-      select: _data => _data.content,
-      onSuccess: data => setAttendanceItems(head(data))
+  const getRowClassName = (record: any) => {
+    const lineOutRow =
+      record.attendanceItems
+        .slice(0, 4)
+        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+      4;
+    if (lineOutRow) {
+      return "highlight-lineout";
     }
-  );
 
-  const { data: newFamilyGroupAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE, 2],
-    async () => await getNewfamiliesAttendances({ newFamilyGroupId: 1 }),
-    {
-      select: _data => _data.content,
-      onSuccess: data => setAttendanceItems(head(data))
+    const warningRow =
+      record.attendanceItems
+        .slice(0, 3)
+        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+      3;
+    if (warningRow) {
+      return "highlight-warning";
     }
-  );
+
+    return record.totalAttendCount >= 4 ? "highlight-promote" : "";
+  };
 
   const columns: TableColumnsType<any> = [
     {
@@ -104,6 +116,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       fixed: "left",
       width: "5rem",
       sorter: (a, b) => a.totalAttendCount - b.totalAttendCount,
+      defaultSortOrder: "descend",
       minWidth: 66
     },
     {
@@ -114,12 +127,13 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       fixed: "left",
       width: "5rem",
       sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
+      defaultSortOrder: "descend",
       minWidth: 66
     },
     {
       title: "출석 날짜",
       align: "center",
-      children: attendanceItems?.attendanceItems.map(item => ({
+      children: attendanceData?.attendanceItems.map(item => ({
         title: item.date,
         dataIndex: "attendanceItems",
         key: "attendanceItems",
@@ -132,16 +146,22 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
             />
           );
         },
-      minWidth: 96
+        minWidth: 96
       }))
     }
   ];
 
   useEffect(() => {
-    if (newFamilyAttendanceData?.length) {
-      let _filterNewFamily = newFamilyAttendanceData;
+    if (newfamilyGroupAttendanceData?.length) {
+      setAttendanceData(head(newfamilyGroupAttendanceData));
+    }
+  }, [newfamilyGroupAttendanceData]);
+
+  useEffect(() => {
+    if (newfamilyGroupAttendanceData?.length) {
+      let _filterNewFamily = newfamilyGroupAttendanceData;
       if (searchName) {
-        _filterNewFamily = newFamilyAttendanceData.filter(newFamily => {
+        _filterNewFamily = newfamilyGroupAttendanceData.filter(newFamily => {
           return newFamily.name?.indexOf(searchName) !== -1;
         });
       }
@@ -149,10 +169,18 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     } else {
       setFilteredNewFailyData([]);
     }
-  }, [newFamilyAttendanceData, searchName]);
+  }, [newfamilyGroupAttendanceData, searchName]);
 
   return (
     <>
+      <GRTab
+        items={newfamilyLeaderTabOption}
+        size={"small"}
+        type={"card"}
+        onChange={onChangeLeaderTab}
+        fontWeight={"normal"}
+        marginBottom={"0rem"}
+      />
       <GRTable
         rowKey={"newFamilyId"}
         columns={columns}
@@ -170,6 +198,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
         }}
         scroll={{ x: true }}
         tableLayout={"auto"}
+        rowClassName={getRowClassName}
+        rowHoverable={false}
       />
     </>
   );
