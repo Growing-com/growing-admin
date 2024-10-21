@@ -275,13 +275,20 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
         justifyContent={"end"}
         marginbottom={GRStylesConfig.BASE_MARGIN}
       >
-        <GRTextButton
-          marginright={GRStylesConfig.BASE_MARGIN}
-          onClick={onClickSaveTemporaryLeaders}
-        >
-          후보 저장
-        </GRTextButton>
-        <GRTextButton onClick={onClicklineupNewfamily}> 라인업 </GRTextButton>
+        <GRFlexView flexDirection={"row"} justifyContent={"start"}>
+          <GRText fontSize={"b4"} weight={"bold"}>
+            새가족 목록
+          </GRText>
+        </GRFlexView>
+        <GRFlexView flexDirection={"row"} justifyContent={"end"}>
+          <GRTextButton
+            marginright={GRStylesConfig.BASE_MARGIN}
+            onClick={onClickSaveTemporaryLeaders}
+          >
+            후보 저장
+          </GRTextButton>
+          <GRTextButton onClick={onClicklineupNewfamily}> 라인업 </GRTextButton>
+        </GRFlexView>
       </GRFlexView>
       <GRTable
         rowKey={"newFamilyId"}
