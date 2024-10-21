@@ -1,7 +1,11 @@
 import { tOptions } from "@component/atom/dataEntry/type";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
-import { getNewFamilyGroup, getSmallGroupLeader } from "api/term";
+import {
+  getAllLeaders,
+  getNewFamilyGroup,
+  getSmallGroupLeader
+} from "api/term";
 import { useEffect, useState } from "react";
 import { convertOptions } from "utils";
 
@@ -11,8 +15,9 @@ const useTerm = ({ termId }: { termId: number }) => {
   }
   const [termSmallGroupLeaderOptions, setTermSmallGroupLeaderOptions] =
     useState<tOptions[]>();
-  const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] =
-    useState<tOptions[]>([]);
+  const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] = useState<
+    tOptions[]
+  >([]);
 
   const {
     data: termSmallGroupLeader,
@@ -44,6 +49,16 @@ const useTerm = ({ termId }: { termId: number }) => {
       }
     );
 
+  const { data: termAllLeaderGroup } = useQuery(
+    [queryKeys.TERM_ALL_LEADERS],
+    async () => await getAllLeaders({ termId }),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      select: _data => _data.content
+    }
+  );
+
   useEffect(() => {
     if (termNewFamilyLeaderIsSuccess) {
       const smallGroupOptions = convertOptions(
@@ -71,7 +86,8 @@ const useTerm = ({ termId }: { termId: number }) => {
     termNewFamilyLeader,
     termNewFamilyLeaderOptions,
     termSmallGroupLeader,
-    termSmallGroupLeaderOptions
+    termSmallGroupLeaderOptions,
+    termAllLeaderGroup
   };
 };
 

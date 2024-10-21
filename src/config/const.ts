@@ -18,7 +18,17 @@ export const ATTENDANCE_STATUS = [
   { label: "미체크", value: "NONE", color: "#ccc" }
 ];
 
-export const DUTY = [
+export const DUTY: { [key: string]: string } = {
+  PASTOR: "교역자",
+  GANSA: "간사",
+  CODY: "코디",
+  SMALL_GROUP_LEADER: "순장",
+  NEW_FAMILY_GROUP_LEADER: "새가족 순장",
+  SMALL_GROUP_MEMBER: "조원",
+  NEW_FAMILY_GROUP_MEMBER: "새가족"
+};
+
+export const DUTY_TAG = [
   {
     key: "PASTOR",
     value: "교역자",
@@ -35,17 +45,22 @@ export const DUTY = [
     color: "red"
   },
   {
-    key: "LEADER",
-    value: "리더",
+    key: "SMALL_GROUP_LEADER",
+    value: "순장",
     color: "blue"
   },
   {
-    key: "MEMBER",
+    key: "NEW_FAMILY_GROUP_LEADER",
+    value: "새가족 순장",
+    color: "blue"
+  },
+  {
+    key: "SMALL_GROUP_MEMBER",
     value: "조원",
     color: "green"
   },
   {
-    key: "NEW_COMER",
+    key: "NEW_FAMILY_GROUP_MEMBER",
     value: "새가족",
     color: "gold"
   }

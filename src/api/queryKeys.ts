@@ -1,6 +1,7 @@
 const queryKeys = {
-  CURRENT_TERM: "CURRENT_TERM",
+  TERM_CURRENT: "TERM_CURRENT",
   TERM_LIST: "TERM_LIST",
+  TERM_ALL_LEADERS: "TERM_ALL_LEADERS",
 //   /** 텀 코디 */
 //   TERM_CORDI: "TERM_CORDI",
 //   /** 텀 코디의 리더들 */
