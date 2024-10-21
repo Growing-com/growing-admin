@@ -1,7 +1,7 @@
 import HeaderMenu from "@component/molecule/menu/HeaderMenu";
 import styled from "@emotion/styled";
 import { Layout, Menu } from "antd";
-import { TAB_MENU } from 'config/router';
+import { TAB_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import { useRouter } from "next/router";
 import {
@@ -43,6 +43,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
       const newPath = info.key.replace("-", "/");
+      // setSelectedSubMenu([info.key]);
       router.push(`/department/${newPath}`);
     },
     [router]
@@ -74,10 +75,17 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const useIsomorphicLayoutEffect = IS_NODE ? useEffect : useLayoutEffect;
 
   useIsomorphicLayoutEffect(() => {
-    if (router.pathname) {
-      const _path = router.pathname.split("/");
-      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
+    if (!router.pathname) {
+      return;
     }
+    const _path = router.pathname.split("/");
+
+    // sub 메뉴가 있으면
+    if (_path[3]) {
+      setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
+      return;
+    }
+    setSelectedSubMenu([`${_path[2]}`]);
   }, [router.pathname]);
 
   useEffect(() => {
@@ -100,7 +108,7 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
             mode={"inline"}
             items={mainMenu}
             selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
-            openKeys={openedSubMenu} // 열리게 되는 sub menu
+            openKeys={openedSubMenu} // Sub 메뉴가 열린 main menu 리스트
             onSelect={onSelectMenu}
             onOpenChange={onOpenChange}
           />
