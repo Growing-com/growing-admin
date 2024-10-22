@@ -19,15 +19,8 @@ const GRFormTitle: FC<tGRFormTitle> = ({
   width
 }) => {
   return (
-    <GRView
-      width={width}
-      marginright={GRStylesConfig.BASE_MARGIN}
-      marginbottom={GRStylesConfig.BASE_MARGIN}
-    >
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-      >
+    <GRView width={width} marginright={GRStylesConfig.BASE_MARGIN}>
+      <GRFlexView flexDirection={"row"} alignItems={"center"}>
         <GRText weight={"bold"}>{title ?? ""}</GRText>
         {!!required && (
           <GRText marginleft={GRStylesConfig.BASE_MARGIN} color={Color.red100}>

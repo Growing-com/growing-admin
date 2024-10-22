@@ -6,6 +6,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
+import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import HeaderView from "@component/molecule/view/HeaderView";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Divider } from "antd";
@@ -69,165 +70,224 @@ const NewfamilyCreatePage: NextPage = () => {
                 flexDirection={"row"}
                 marginbottom={GRStylesConfig.BASE_MARGIN}
                 xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                alignItems={"center"}
               >
-                <GRFormItem
-                  type={"text"}
-                  textType={"name"}
-                  title={"이름"}
-                  fieldName={"name"}
-                  control={control}
-                  placeholder={"이름을 작성해 주세요"}
-                  rules={{ required: "이름은 필수입니다." }}
-                />
-                <GRFormItem
-                  type={"text"}
-                  textType={"number"}
-                  title={"학년"}
-                  fieldName={"grade"}
-                  control={control}
-                  placeholder={"학년 숫자만 작성해주세요"}
-                  maxLength={2}
-                  rules={{
-                    required: "학년은 필수 입니다.",
-                    pattern: {
-                      value: REGEXP_GRADE_NUM,
-                      message: "1학년부터 19학년까지 입력하세요."
-                    }
-                  }}
-                />
-                <GRFormItem
-                  type={"text"}
-                  textType={"phoneNumber"}
-                  title={"전화번호"}
-                  fieldName={"phoneNumber"}
-                  control={control}
-                  placeholder={"- 없이 작성해 주세요"}
-                  maxLength={13}
-                  rules={{
-                    required: {
-                      value: true,
-                      message: "전화번호는 필수입니다."
-                    },
-                    pattern: {
-                      value: REGEXP_PHONE_HYPHEN_PATTERN,
-                      message: "010-1234-5678 형식으로 입력하세요."
-                    }
-                  }}
-                />
-                <GRFormItem
-                  type={"date"}
-                  pickerType={"basic"}
-                  title={"방문일"}
-                  fieldName={"visitDate"}
-                  control={control}
-                  placeholder={"방문일을 선택해 주세요"}
-                  rules={{ required: "방문일은 필수 입니다." }}
-                />
-              </GRFlexView>
-              <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-                flexDirection="row"
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-              >
-                <GRFormItem
-                  type={"radio"}
-                  options={SEX_OPTIONS}
-                  title={"성별"}
-                  fieldName={"sex"}
-                  control={control}
-                  rules={{ required: "성별은 필수 입니다." }}
-                />
-                <GRFormItem
-                  type={"date"}
-                  pickerType={"basic"}
-                  title={"생년월일"}
-                  fieldName={"birth"}
-                  control={control}
-                  placeholder={"생년월일을 선택해 주세요"}
-                />
-                <GRFormItem
-                  type={"text"}
-                  textType={"input"}
-                  title={"학교/학과/학년"}
-                  fieldName={"etc.school"}
-                  control={control}
-                  placeholder={"학교/학과/학년을 작성해 주세요"}
-                />
-                <GRFormItem
-                  type={"text"}
-                  textType={"input"}
-                  title={"인도자"}
-                  fieldName={"etc.introducer"}
-                  control={control}
-                  placeholder={"인도자를 작성해 주세요"}
-                />
-              </GRFlexView>
-              <GRFlexView
-                marginbottom={GRStylesConfig.BASE_MARGIN}
-                flexDirection="row"
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-              >
-                <GRFlexView flexDirection="row">
-                  <GRFormItem
-                    type={"radio"}
-                    options={YES_NO_OPTIONS}
-                    title={"교회가 처음"}
-                    fieldName={"etc.isFirstChurch"}
-                    control={control}
-                  />
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"이름"} required={true} />
+                  </GRFlexView>
                   <GRFormItem
                     type={"text"}
-                    textType={"input"}
-                    title={"이전에 다닌 교회"}
-                    fieldName={"etc.latestChurch"}
+                    textType={"name"}
+                    fieldName={"name"}
                     control={control}
-                    placeholder={"전에 다닌 교회를 작성해주세요"}
+                    placeholder={"이름을 작성해 주세요"}
+                    rules={{ required: "이름은 필수입니다." }}
                   />
                 </GRFlexView>
                 <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"학년"} required={true} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"text"}
+                    textType={"number"}
+                    fieldName={"grade"}
+                    control={control}
+                    placeholder={"학년 숫자만 작성해주세요"}
+                    maxLength={2}
+                    rules={{
+                      required: "학년은 필수 입니다.",
+                      pattern: {
+                        value: REGEXP_GRADE_NUM,
+                        message: "1학년부터 19학년까지 입력하세요."
+                      }
+                    }}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"전화번호"} required={true} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"text"}
+                    textType={"phoneNumber"}
+                    fieldName={"phoneNumber"}
+                    control={control}
+                    placeholder={"- 없이 작성해 주세요"}
+                    maxLength={13}
+                    rules={{
+                      required: {
+                        value: true,
+                        message: "전화번호는 필수입니다."
+                      },
+                      pattern: {
+                        value: REGEXP_PHONE_HYPHEN_PATTERN,
+                        message: "010-1234-5678 형식으로 입력하세요."
+                      }
+                    }}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"방문일"} required={true} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"date"}
+                    pickerType={"basic"}
+                    fieldName={"visitDate"}
+                    control={control}
+                    placeholder={"방문일을 선택해 주세요"}
+                    rules={{ required: "방문일은 필수 입니다." }}
+                  />
+                </GRFlexView>
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                flexDirection={"row"}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
+                <GRFlexView>
+                  <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"성별"} required={true} />
+                  </GRView>
+                  <GRFormItem
+                    type={"radio"}
+                    options={SEX_OPTIONS}
+                    fieldName={"sex"}
+                    control={control}
+                    rules={{ required: "성별은 필수 입니다." }}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"생년월일"} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"date"}
+                    pickerType={"basic"}
+                    fieldName={"birth"}
+                    control={control}
+                    placeholder={"생년월일을 선택해 주세요"}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"학교/학과/학년"} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"text"}
+                    textType={"input"}
+                    fieldName={"etc.school"}
+                    control={control}
+                    placeholder={"학교/학과/학년을 작성해 주세요"}
+                  />
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"인도자"} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"text"}
+                    textType={"input"}
+                    fieldName={"etc.introducer"}
+                    control={control}
+                    placeholder={"인도자를 작성해 주세요"}
+                  />
+                </GRFlexView>
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.BASE_MARGIN}
+                flexDirection={"row"}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
+                <GRFlexView flexDirection={"row"}>
+                  <GRFlexView>
+                    <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                      <GRFormTitle title={"교회가 처음"} />
+                    </GRView>
+                    <GRFormItem
+                      type={"radio"}
+                      options={YES_NO_OPTIONS}
+                      fieldName={"etc.isFirstChurch"}
+                      control={control}
+                    />
+                  </GRFlexView>
+                  <GRFlexView>
+                    <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                      <GRFormTitle title={"이전에 다닌 교회"} />
+                    </GRFlexView>
+                    <GRFormItem
+                      type={"text"}
+                      textType={"input"}
+                      fieldName={"etc.latestChurch"}
+                      control={control}
+                      placeholder={"전에 다닌 교회를 작성해주세요"}
+                    />
+                  </GRFlexView>
+                </GRFlexView>
+                <GRFlexView>
+                  <GRFlexView>
+                    <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                      <GRFormTitle
+                        title={"사랑의 교회 대학부에 오게 된 이유"}
+                      />
+                    </GRFlexView>
+                    <GRFormItem
+                      type={"select"}
+                      options={VISIT_REASON_OPTIONS}
+                      fieldName={"etc.visitReason"}
+                      control={control}
+                      placeholder={"답을 선택해주세요"}
+                    />
+                  </GRFlexView>
+                </GRFlexView>
+              </GRFlexView>
+              <GRFlexView
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                flexDirection={"row"}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+              >
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"나는 예수님을 (   )"} />
+                  </GRFlexView>
                   <GRFormItem
                     type={"select"}
-                    options={VISIT_REASON_OPTIONS}
-                    title={"사랑의 교회 대학부에 오게 된 이유"}
-                    fieldName={"etc.visitReason"}
+                    options={BELIEVE_STATUS_OPTIONS}
+                    fieldName={"etc.relationshipWithJesus"}
                     control={control}
                     placeholder={"답을 선택해주세요"}
                   />
                 </GRFlexView>
-              </GRFlexView>
-              <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-                flexDirection="row"
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
-              >
-                <GRFormItem
-                  type={"select"}
-                  options={BELIEVE_STATUS_OPTIONS}
-                  title={"나는 예수님을 (   )"}
-                  fieldName={"etc.relationshipWithJesus"}
-                  control={control}
-                  placeholder={"답을 선택해주세요"}
-                />
-                <GRFormItem
-                  type={"radio"}
-                  options={THERE_OPTIONS}
-                  title={"나는 구원의 확신이 (   )"}
-                  fieldName={"etc.hasCertaintityOfSalvation"}
-                  control={control}
-                />
+                <GRFlexView>
+                  <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"나는 구원의 확신이 (   )"} />
+                  </GRView>
+                  <GRFormItem
+                    type={"radio"}
+                    options={THERE_OPTIONS}
+                    fieldName={"etc.hasCertaintityOfSalvation"}
+                    control={control}
+                  />
+                </GRFlexView>
               </GRFlexView>
               <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                <GRFormItem
-                  title={"기타 사항"}
-                  type={"text"}
-                  textType={"textarea"}
-                  fieldName={"etc.comment"}
-                  control={control}
-                  placeholder={"추가 내용이 있으면 작성해 주세요"}
-                  style={{
-                    height: "5rem"
-                  }}
-                />
+                <GRFlexView>
+                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"기타 사항"} />
+                  </GRFlexView>
+                  <GRFormItem
+                    type={"text"}
+                    textType={"textarea"}
+                    fieldName={"etc.comment"}
+                    control={control}
+                    placeholder={"추가 내용이 있으면 작성해 주세요"}
+                    style={{
+                      height: "5rem"
+                    }}
+                  />
+                </GRFlexView>
               </GRFlexView>
             </GRFlexView>
             <Divider />
@@ -243,17 +303,21 @@ const NewfamilyCreatePage: NextPage = () => {
             </GRFlexView>
             <GRFlexView
               marginbottom={GRStylesConfig.BASE_MARGIN}
-              flexDirection="row"
+              flexDirection={"row"}
             >
-              <GRFormItem
-                title={"새가족 순장"}
-                type={"select"}
-                textType={"input"}
-                fieldName={"newFamilyGroupId"}
-                control={control}
-                placeholder={"새가족 순장을 선택해 주세요"}
-                options={currentTermNewFamilyLeaderOptions}
-              />
+              <GRFlexView>
+                <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"새가족 순장"} />
+                </GRFlexView>
+                <GRFormItem
+                  type={"select"}
+                  textType={"input"}
+                  fieldName={"newFamilyGroupId"}
+                  control={control}
+                  placeholder={"새가족 순장을 선택해 주세요"}
+                  options={currentTermNewFamilyLeaderOptions}
+                />
+              </GRFlexView>
             </GRFlexView>
             <Divider />
             <GRFlexView>
