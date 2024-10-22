@@ -33,7 +33,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
     [currentTermNewFamilyLeaderOptions]
   );
 
-  const { data: newFamilyData } = useQuery(
+  const { data: newFamilyData, isLoading } = useQuery(
     [queryKeys.NEW_FAMILY, currentGroupId],
     async () => {
       if (currentGroupId === "0") {
@@ -170,6 +170,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
         rowKey={"newFamilyId"}
         columns={columns}
         data={filteredNewFailyData}
+        isLoading={isLoading}
         pagination={{
           total: filteredNewFailyData?.length,
           defaultPageSize: 10,
