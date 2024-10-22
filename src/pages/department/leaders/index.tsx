@@ -4,6 +4,7 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { TableColumnsType } from "antd";
 import { tLeader } from "api/term";
 import { DUTY, SEX_NAME } from "config/const";
@@ -11,6 +12,7 @@ import { DUTY, SEX_NAME } from "config/const";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { checkDefaultDate } from "utils/DateUtils";
 import { koreanSorter } from "utils/sorter";
 
@@ -173,11 +175,14 @@ const LeadersPage: NextPage = () => {
           flexDirection={"row"}
           alignItems={"end"}
           xGap={1}
-          marginbottom={0.5}
+          marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
         >
           <GRView>
             <GRFlexView flexDirection={"row"} alignItems={"end"}>
-              <GRText fontSize={"b6"} marginright={0.3}>
+              <GRText
+                fontSize={"b6"}
+                marginright={GRStylesConfig.BASE_SMALL_MARGIN}
+              >
                 전체 인원
               </GRText>
               <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
@@ -212,22 +217,21 @@ const LeadersPage: NextPage = () => {
             data={numberByDuty}
           />
         </GRFlexView>
-        <GRFlexView flexDirection={"row"} alignItems={"end"} marginbottom={0.5}>
-          <GRText fontSize={"b6"} marginright={0.3}>
-            필터된 사람
-          </GRText>
-          <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-            {filteredData?.length}
-          </GRText>
-          <GRText fontSize={"b6"}>명</GRText>
-        </GRFlexView>
+        <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+          <TableInfoHeader
+            title={"필터된 인원"}
+            count={filteredData.length}
+            totalCount={leaderdata?.length}
+          />
+        </GRView>
+
         <GRTable
           rowKey={"userId"}
           columns={columns}
           data={leaderdata}
           pagination={{
             total: filteredData?.length,
-            defaultPageSize: 15,
+            defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           onChange={handleChange}
@@ -251,7 +255,7 @@ const DutyNumberRender: React.FC<tDutyNumberRender> = ({
   return (
     <GRView>
       <GRFlexView flexDirection={"row"} alignItems={"end"}>
-        <GRText fontSize={"b6"} marginright={0.3}>
+        <GRText fontSize={"b6"} marginright={GRStylesConfig.BASE_SMALL_MARGIN}>
           {dutyName}
         </GRText>
         <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
