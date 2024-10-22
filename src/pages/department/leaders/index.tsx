@@ -169,7 +169,7 @@ const LeadersPage: NextPage = () => {
 
   return (
     <>
-      <HeaderView title="부서 리더 구성원" />
+      <HeaderView title="리더 구성원" />
       <GRContainerView>
         <GRFlexView
           flexDirection={"row"}
