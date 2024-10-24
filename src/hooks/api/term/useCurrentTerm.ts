@@ -21,14 +21,16 @@ const useCurrentTerm = () => {
 
   const {
     termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
-    termAllLeaderGroup: currentTermAllLeaderGroup
+    termAllLeaderGroup: currentTermAllLeaderGroup,
+    termDutyCount: currentTermDutyCount
   } = useTerm({ termId: currentTermId });
 
   return {
     currentTermData,
     currentTermId,
     currentTermCodyAndSmallGroups,
-    currentTermAllLeaderGroup
+    currentTermAllLeaderGroup,
+    currentTermDutyCount
   };
 };
 

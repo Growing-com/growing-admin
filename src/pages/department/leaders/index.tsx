@@ -20,7 +20,6 @@ type tFilterOption = {
   text: string;
   value: string;
 };
-type tDuty = { [key: string]: number };
 
 const LeadersPage: NextPage = () => {
   const [codyFilterOptions, setCodyFilterOptions] = useState<tFilterOption[]>(
@@ -30,9 +29,16 @@ const LeadersPage: NextPage = () => {
     []
   );
   const [filteredData, setFilteredData] = useState<tLeader[]>([]);
-  const [numberByDuty, setNumberByDuty] = useState<tDuty>({});
 
   const { currentTermAllLeaderGroup: leaderdata } = useCurrentTerm();
+  const { currentTermDutyCount } = useCurrentTerm();
+
+  const totalLeadersCount = currentTermDutyCount
+    ? currentTermDutyCount.pastorCount +
+      currentTermDutyCount.codyCount +
+      currentTermDutyCount.smallGroupLeaderCount +
+      currentTermDutyCount.newFamilyGroupLeaderCount
+    : 0;
 
   // 필터 옵션 설정
   useEffect(() => {
@@ -57,18 +63,6 @@ const LeadersPage: NextPage = () => {
   useEffect(() => {
     if (!leaderdata) return;
     setFilteredData(leaderdata);
-    const _numberByDuty = {
-      PASTOR: leaderdata.filter(leader => leader.duty === "PASTOR").length,
-      GANSA: leaderdata.filter(leader => leader.duty === "GANSA").length,
-      CODY: leaderdata.filter(leader => leader.duty === "CODY").length,
-      SMALL_GROUP_LEADER: leaderdata.filter(
-        leader => leader.duty === "SMALL_GROUP_LEADER"
-      ).length,
-      NEW_FAMILY_GROUP_LEADER: leaderdata.filter(
-        leader => leader.duty === "NEW_FAMILY_GROUP_LEADER"
-      ).length
-    };
-    setNumberByDuty(_numberByDuty);
   }, [leaderdata]);
 
   const columns: TableColumnsType<any> = [
@@ -194,35 +188,26 @@ const LeadersPage: NextPage = () => {
                 전체 인원
               </GRText>
               <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-                {leaderdata?.length}
+                {totalLeadersCount}
               </GRText>
               <GRText fontSize={"b6"}>명</GRText>
             </GRFlexView>
           </GRView>
           <DutyNumberRender
-            duty={"PASTOR"}
-            dutyName={DUTY["PASTOR"]}
-            data={numberByDuty}
+            dutyName={"PASTOR"}
+            count={currentTermDutyCount?.pastorCount}
           />
           <DutyNumberRender
-            duty={"GANSA"}
-            dutyName={DUTY["GANSA"]}
-            data={numberByDuty}
+            dutyName={"CODY"}
+            count={currentTermDutyCount?.codyCount}
           />
           <DutyNumberRender
-            duty={"CODY"}
-            dutyName={DUTY["CODY"]}
-            data={numberByDuty}
+            dutyName={"SMALL_GROUP_LEADER"}
+            count={currentTermDutyCount?.smallGroupLeaderCount}
           />
           <DutyNumberRender
-            duty={"SMALL_GROUP_LEADER"}
-            dutyName={DUTY["SMALL_GROUP_LEADER"]}
-            data={numberByDuty}
-          />
-          <DutyNumberRender
-            duty={"NEW_FAMILY_GROUP_LEADER"}
-            dutyName={DUTY["NEW_FAMILY_GROUP_LEADER"]}
-            data={numberByDuty}
+            dutyName={"NEW_FAMILY_GROUP_LEADER"}
+            count={currentTermDutyCount?.newFamilyGroupLeaderCount}
           />
         </GRFlexView>
         <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
@@ -250,23 +235,18 @@ const LeadersPage: NextPage = () => {
 
 type tDutyNumberRender = {
   dutyName: string;
-  duty: string;
-  data: tDuty;
+  count?: number;
 };
 
-const DutyNumberRender: React.FC<tDutyNumberRender> = ({
-  dutyName,
-  duty,
-  data
-}) => {
+const DutyNumberRender: React.FC<tDutyNumberRender> = ({ dutyName, count }) => {
   return (
     <GRView>
       <GRFlexView flexDirection={"row"} alignItems={"end"}>
         <GRText fontSize={"b6"} marginright={GRStylesConfig.BASE_SMALL_MARGIN}>
-          {dutyName}
+          {DUTY[dutyName]}
         </GRText>
         <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-          {data[duty]}
+          {count ?? 0}
         </GRText>
         <GRText fontSize={"b6"}>명</GRText>
       </GRFlexView>

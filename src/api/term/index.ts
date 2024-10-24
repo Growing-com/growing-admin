@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tUser } from "api/account/types";
+import { tDutyCount, tUser } from "api/account/types";
 import {
   tSmallGroup,
   tGetNewFamilyGroup,
@@ -73,3 +73,10 @@ export const getMembersByCody = ({
     params: { smallGroupId }
   });
 };
+
+export const getDutyCount = ({termId}:{termId:number})=>{
+  return request<tDutyCount>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/duty-distribution-count`,
+  })
+}

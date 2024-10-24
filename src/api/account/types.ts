@@ -60,3 +60,15 @@ export type tUserAccount = {
   /** @description 이름  @example   "윤동건", */
   name: string;
 };
+
+export type tDutyCount = {
+  totalCount: number;
+  pastorCount: number;
+  codyCount: number;
+  smallGroupLeaderCount: number;
+  newFamilyGroupLeaderCount: number;
+  smallGroupMemberCount: number;
+  newFamilyMemberCount: number;
+  newFamilyCount: number;
+  notPlacedCount: number;
+};

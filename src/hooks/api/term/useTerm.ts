@@ -5,6 +5,7 @@ import {
   getNewFamilyGroup,
   getCodyAndSmallGroups
 } from "api/term";
+import useDutyCountQuery from 'api/term/queries/useDutyCountQuery';
 import useTermCodyQuery from "api/term/queries/useTermCodyQuery";
 import { convertOptions } from "utils";
 
@@ -50,6 +51,7 @@ const useTerm = ({ termId }: { termId: number }) => {
   );
 
   const { data: termCody } = useTermCodyQuery({ termId });
+  const { data: termDutyCount } = useDutyCountQuery({ termId });
 
   const termNewFamilyLeaderOptions = termNewFamilyLeader
     ? convertOptions(
@@ -70,7 +72,8 @@ const useTerm = ({ termId }: { termId: number }) => {
     termCody,
     termCodyOptions,
     termCodyAndSmallGroups,
-    termAllLeaderGroup
+    termAllLeaderGroup,
+    termDutyCount
   };
 };
 
