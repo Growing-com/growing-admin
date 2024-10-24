@@ -188,7 +188,7 @@ const SearchPage: NextPage = () => {
 
   useEffect(() => {
     if (!userList) return;
-    setSearchBaseData(userList);
+    setSearchTotal(userList);
   }, [userList]);
 
   useEffect(() => {
