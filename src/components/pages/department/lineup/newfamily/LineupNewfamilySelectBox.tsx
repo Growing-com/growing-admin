@@ -8,7 +8,7 @@ import { ColumnType } from "antd/es/table";
 import { lineUpNewfamily, saveNewfamilyTemporaryLeaders } from "api/newfamily";
 import { tNewfamilyRequested } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
-import { tSmallGroupLeader } from "api/term";
+import { tSmallGroupLeader } from "api/term/type";
 import { SEX_NAME } from "config/const";
 import { useNewfamilyLineupRequestQuery } from "hooks/queries/newfamily/useNewfamilyLineupRequestQuery";
 import { useCallback, useEffect, useState } from "react";

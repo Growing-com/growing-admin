@@ -1,19 +1,208 @@
 import GRTable from "@component/atom/GRTable";
 import GRTextButton from "@component/atom/button/GRTextButton";
+import GRSelect from "@component/atom/dataEntry/GRSelect";
+import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { MONTHS_OPTIONS } from "config/const";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
+import { TableColumnsType } from "antd";
+import { useUserListQuery } from "api/account/queries/useUserListQuery";
+import { tUser } from "api/account/types";
+import { DUTY, MONTHS_OPTIONS, SEX_NAME } from "config/const";
+import dayjs from "dayjs";
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
+import { includes } from "lodash";
 import { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
+import { checkDefaultDate } from "utils/DateUtils";
+import { dateSorter, koreanSorter } from "utils/sorter";
+
+const defaultValue = {
+  name: "",
+  phoneNumber: "",
+  grade: "",
+  birth: []
+};
 
 const SearchPage: NextPage = () => {
   const { control, handleSubmit, reset } = useForm();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchCodyId, setSearchCodyId] = useState<number>();
+  const [searchBaseData, setSearchBaseData] = useState<tUser[]>([]);
+  const [searchTotal, setSearchTotal] = useState<tUser[]>([]);
+  const { data: userList } = useUserListQuery();
+
+  const { currentTermCodyOptions, membersByCody, setSelectedCodyId } =
+    useCurrentTermInfoOptionQueries();
+
+  const onClickResetSearch = () => {
+    setSearchBaseData(userList ?? []);
+    setSearchCodyId(undefined);
+    reset(defaultValue);
+    setCurrentPage(1);
+  };
+
+  const onClickSearch = handleSubmit(async _item => {
+    let _filterData = searchBaseData;
+    if (!_filterData) return;
+
+    if (_item?.name) {
+      _filterData = _filterData.filter(
+        user => user.name.indexOf(_item.name) !== -1
+      );
+    }
+
+    if (_item?.phoneNumber) {
+      _filterData = _filterData.filter(user => {
+        const removeDash = user.phoneNumber.replace(/-/g, "");
+        return removeDash.indexOf(_item.phoneNumber) !== -1;
+      });
+    }
+
+    if (_item?.grade) {
+      _filterData = _filterData.filter(
+        user => user.grade === Number(_item.grade)
+      );
+    }
+    if (_item?.birth?.length) {
+      _filterData = _filterData.filter(user => {
+        if (user.birth && user.birth !== "1970-01-01") {
+          const _month = dayjs(user.birth).month() + 1;
+          return includes(_item.birth, String(_month));
+        }
+        return false;
+      });
+    }
+
+    setSearchTotal(_filterData);
+    setCurrentPage(1);
+  });
+
+  const columns: TableColumnsType<any> = [
+    {
+      title: "직분",
+      dataIndex: "duty",
+      key: "duty",
+      align: "center",
+      width: "5rem",
+      onFilter: (value, record) => record.duty === value,
+      render: (_, item) => {
+        if (!item?.duty) return;
+        return <GRText>{DUTY[item?.duty]}</GRText>;
+      },
+      sorter: {
+        compare: (a, b) => {
+          return koreanSorter(DUTY[a.duty], DUTY[b.duty]);
+        },
+        multiple: 5
+      }
+    },
+    {
+      title: "리더",
+      dataIndex: "leaderName",
+      key: "leaderName",
+      align: "center",
+      width: "6rem",
+      sorter: {
+        compare: (a, b) => {
+          return koreanSorter(a.leaderName, b.leaderName);
+        },
+        multiple: 6
+      },
+      onFilter: (value, record) => record.leaderName === value,
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.leaderName}</GRText>;
+      }
+    },
+    {
+      title: "이름",
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      fixed: "left",
+      width: "6rem",
+      sorter: {
+        compare: (a, b) => {
+          return koreanSorter(a.name, b.name);
+        },
+        multiple: 4
+      }
+    },
+    {
+      title: "성별",
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+      width: "4rem",
+      render: (_, item) => {
+        if (!item?.sex) return;
+        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
+      },
+      sorter: {
+        compare: (a, b) => {
+          return koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]);
+        },
+        multiple: 3
+      }
+    },
+    {
+      title: "학년",
+      dataIndex: "grade",
+      key: "grade",
+      align: "center",
+      width: "4rem",
+      sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
+    },
+    {
+      title: "생년월일",
+      key: "birth",
+      dataIndex: "birth",
+      align: "center",
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.birth),
+      sorter: {
+        compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
+        multiple: 1
+      }
+    },
+    {
+      title: "전화번호",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      align: "center",
+      width: "10rem"
+    }
+  ];
+
+  const onChangeSelectCody = (_selectedCodyId: number) => {
+    if (!_selectedCodyId) {
+      setSearchCodyId(undefined);
+      setSearchTotal(userList ?? []);
+      return;
+    }
+    // 쿼리 보내는 codyId : data를 위한 것
+    setSelectedCodyId(_selectedCodyId);
+    // 이 컴포넌트에서 관리하는 codyId : view를 위한 것
+    setSearchCodyId(_selectedCodyId);
+  };
+
+  useEffect(() => {
+    if (!userList) return;
+    setSearchBaseData(userList);
+  }, [userList]);
+
+  useEffect(() => {
+    if (!membersByCody || !searchCodyId) return;
+    setSearchBaseData(membersByCody);
+  }, [membersByCody, searchCodyId]);
 
   return (
     <>
@@ -29,19 +218,30 @@ const SearchPage: NextPage = () => {
                   xGap={1}
                 >
                   <GRFlexView flexDirection={"row"} alignItems={"center"}>
-                    <GRFormTitle title={"나무"} width={4} />
-                    <GRFormItem
-                      mode={"multiple"}
+                    <GRFormTitle title={"코디"} width={4} />
+                    <GRFlexView>
+                      <GRSelect
+                        options={currentTermCodyOptions}
+                        onChange={onChangeSelectCody}
+                        placeholder={"코디를 선택해주세요"}
+                        value={searchCodyId}
+                        showSearch
+                        optionFilterProp={"label"}
+                      />
+                    </GRFlexView>
+
+                    {/* <GRFormItem
+                      // mode={"multiple"}
                       type={"select"}
                       fieldName={"codyId"}
                       control={control}
-                      //   options={cordiSelectItem}
-                      placeholder={"나무를 선택해주세요"}
+                      options={currentTermCodyOptions}
+                      placeholder={"코디를 선택해주세요"}
                       showSearch
                       optionFilterProp={"label"}
-                    />
+                    /> */}
                   </GRFlexView>
-                  <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                  {/* <GRFlexView flexDirection={"row"} alignItems={"center"}>
                     <GRFormTitle title={"리더"} width={4} />
                     <GRFormItem
                       mode={"multiple"}
@@ -53,7 +253,7 @@ const SearchPage: NextPage = () => {
                       showSearch
                       optionFilterProp={"label"}
                     />
-                  </GRFlexView>
+                  </GRFlexView> */}
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
@@ -95,6 +295,7 @@ const SearchPage: NextPage = () => {
                     fieldName={"grade"}
                     control={control}
                     placeholder={"학년을 작성해주세요"}
+                    maxLength={2}
                   />
                 </GRFlexView>
                 <GRFlexView flexDirection={"row"} alignItems={"center"}>
@@ -113,14 +314,14 @@ const SearchPage: NextPage = () => {
             <GRView isFlex flexDirection={"column"}>
               <GRFlexView>
                 <GRTextButton
-                  //   onClick={onClickSearch}
+                  onClick={onClickSearch}
                   size={"large"}
                   marginbottom={GRStylesConfig.BASE_MARGIN}
                 >
                   검색
                 </GRTextButton>
                 <GRTextButton
-                  //   onClick={onClickResetSearch}
+                  onClick={onClickResetSearch}
                   buttonType={"cancel"}
                   size={"large"}
                 >
@@ -132,18 +333,25 @@ const SearchPage: NextPage = () => {
         }
       />
       <GRContainerView>
+        <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+          <TableInfoHeader
+            title={"검색된 인원"}
+            count={searchTotal.length}
+            totalCount={userList?.length}
+          />
+        </GRView>
         <GRView backgroundColor={Color.white}>
           <GRTable
             rowKey={"userId"}
-            // columns={columns}
-            // data={searchTotal}
-            // pagination={{
-            //   total: searchTotal?.length,
-            //   position: ["bottomCenter"],
-            //   current: currentPage,
-            //   onChange: page => setCurrentPage(page)
-            // }}
-            // scroll={{ x: 1300 }}
+            columns={columns}
+            data={searchTotal}
+            pagination={{
+              total: searchTotal?.length,
+              position: ["bottomCenter"],
+              defaultPageSize: 10,
+              current: currentPage,
+              onChange: page => setCurrentPage(page)
+            }}
           />
         </GRView>
       </GRContainerView>

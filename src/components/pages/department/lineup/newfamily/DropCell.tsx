@@ -1,22 +1,21 @@
-import { tSmallGroupLeader } from "api/term";
+import { tSmallGroupLeader } from "api/term/type";
 import { useDrop } from "react-dnd";
 import { Color } from "styles/colors";
 
 type tDropCell = {
   onDrop: (item: tSmallGroupLeader) => void;
   children: React.ReactNode;
-}
+};
 
 const DropCell: React.FC<tDropCell> = ({ onDrop, children }) => {
-  const [{ isOver, canDrop}, drop] =
-    useDrop({
-      accept: "newfamily-lineup",
-      drop: onDrop,
-      collect: monitor => ({
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop()
-      })
-    });
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: "newfamily-lineup",
+    drop: onDrop,
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    })
+  });
 
   return (
     <div

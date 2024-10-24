@@ -1,7 +1,7 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import { tSmallGroupLeader } from "api/term";
-import { Color } from 'styles/colors';
+import { tSmallGroupLeader } from "api/term/type";
+import { Color } from "styles/colors";
 
 type tTemporarySmallGroupLeaderNamesRender = {
   temporarySmallGroupIds: number[];
@@ -12,7 +12,12 @@ type tTemporarySmallGroupLeaderNamesRender = {
 
 const TemporarySmallGroupLeaderNamesRender: React.FC<
   tTemporarySmallGroupLeaderNamesRender
-> = ({ temporarySmallGroupIds, smallGroups, deleteTemporaryData ,newFamilyId}) => {
+> = ({
+  temporarySmallGroupIds,
+  smallGroups,
+  deleteTemporaryData,
+  newFamilyId
+}) => {
   const getSmallGroupLeaderForm = (
     smallGroupIds: number[]
   ): tSmallGroupLeader[] => {
@@ -43,7 +48,14 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
           >
             <GRText fontSize={"b7"}>{leader.codyName}</GRText>
             <GRText fontSize={"b4"}>{leader.smallGroupLeaderName}</GRText>
-            <GRText color={Color.red100} onClick={()=> deleteTemporaryData(newFamilyId,leader.smallGroupId)}>X</GRText>
+            <GRText
+              color={Color.red100}
+              onClick={() =>
+                deleteTemporaryData(newFamilyId, leader.smallGroupId)
+              }
+            >
+              X
+            </GRText>
           </GRFlexView>
         ))
       ) : (
