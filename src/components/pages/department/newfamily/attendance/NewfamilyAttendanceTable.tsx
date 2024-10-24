@@ -97,7 +97,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "grade",
       align: "center",
       width: "5rem",
-      sorter: (a, b) => a.grade - b.grade,
+      sorter: {
+        compare: (a, b) => a.grade - b.grade,
+        multiple: 1
+      },
       minWidth: 55
     },
     {
@@ -106,11 +109,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
+      sorter: {
+        compare: (a, b) =>
+          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
+        multiple: 3
       },
       minWidth: 91
     },
@@ -121,8 +123,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAttendCount - b.totalAttendCount,
-      defaultSortOrder: "descend",
+      sorter: {
+        compare: (a, b) => a.totalAttendCount - b.totalAttendCount,
+        multiple: 4
+      },
       minWidth: 66
     },
     {
@@ -132,8 +136,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
-      defaultSortOrder: "descend",
+      sorter: {
+        compare: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
+        multiple: 2
+      },
       minWidth: 66
     },
     {

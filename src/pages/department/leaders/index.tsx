@@ -6,7 +6,7 @@ import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { TableColumnsType } from "antd";
-import { tLeader } from 'api/term/type';
+import { tLeader } from "api/term/type";
 import { DUTY, SEX_NAME } from "config/const";
 
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
@@ -14,7 +14,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { checkDefaultDate } from "utils/DateUtils";
-import { koreanSorter } from "utils/sorter";
+import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tFilterOption = {
   text: string;
@@ -84,8 +84,9 @@ const LeadersPage: NextPage = () => {
         if (!item?.duty) return;
         return <GRText>{DUTY[item?.duty]}</GRText>;
       },
-      sorter: (a, b) => {
-        return koreanSorter(DUTY[a.duty], DUTY[b.duty]);
+      sorter: {
+        compare: (a, b) => koreanSorter(DUTY[a.duty], DUTY[b.duty]),
+        multiple: 6
       }
     },
     {
@@ -94,8 +95,9 @@ const LeadersPage: NextPage = () => {
       key: "codyName",
       align: "center",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(a.codyName, b.codyName);
+      sorter: {
+        compare: (a, b) => koreanSorter(a.codyName, b.codyName),
+        multiple: 5
       },
       filters: codyFilterOptions,
       onFilter: (value, record) => record.codyName === value,
@@ -110,8 +112,9 @@ const LeadersPage: NextPage = () => {
       align: "center",
       fixed: "left",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(a.name, b.name);
+      sorter: {
+        compare: (a, b) => koreanSorter(a.name, b.name),
+        multiple: 4
       }
     },
     {
@@ -124,8 +127,9 @@ const LeadersPage: NextPage = () => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
       },
-      sorter: (a, b) => {
-        return koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]);
+      sorter: {
+        compare: (a, b) => koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]),
+        multiple: 3
       }
     },
     {
@@ -134,7 +138,7 @@ const LeadersPage: NextPage = () => {
       key: "grade",
       align: "center",
       width: "4rem",
-      sorter: (a, b) => a.grade - b.grade
+      sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
     },
     {
       title: "생년월일",
@@ -142,7 +146,11 @@ const LeadersPage: NextPage = () => {
       dataIndex: "birth",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
+      render: (_, record) => checkDefaultDate(record.birth),
+      sorter: {
+        compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
+        multiple: 1
+      }
     },
     {
       title: "전화번호",

@@ -7,7 +7,6 @@ import { getNewfamilies } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -85,7 +84,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       align: "center",
       width: "8rem",
       sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
+        dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
     },
     {

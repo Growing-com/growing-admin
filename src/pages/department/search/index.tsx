@@ -99,9 +99,7 @@ const SearchPage: NextPage = () => {
         return <GRText>{DUTY[item?.duty]}</GRText>;
       },
       sorter: {
-        compare: (a, b) => {
-          return koreanSorter(DUTY[a.duty], DUTY[b.duty]);
-        },
+        compare: (a, b) => koreanSorter(DUTY[a.duty], DUTY[b.duty]),
         multiple: 5
       }
     },
@@ -112,9 +110,7 @@ const SearchPage: NextPage = () => {
       align: "center",
       width: "6rem",
       sorter: {
-        compare: (a, b) => {
-          return koreanSorter(a.leaderName, b.leaderName);
-        },
+        compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
       },
       onFilter: (value, record) => record.leaderName === value,
@@ -130,9 +126,7 @@ const SearchPage: NextPage = () => {
       fixed: "left",
       width: "6rem",
       sorter: {
-        compare: (a, b) => {
-          return koreanSorter(a.name, b.name);
-        },
+        compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
       }
     },
@@ -147,9 +141,7 @@ const SearchPage: NextPage = () => {
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
       },
       sorter: {
-        compare: (a, b) => {
-          return koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]);
-        },
+        compare: (a, b) => koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]),
         multiple: 3
       }
     },

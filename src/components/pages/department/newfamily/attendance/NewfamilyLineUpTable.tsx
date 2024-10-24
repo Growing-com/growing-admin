@@ -3,7 +3,6 @@ import GRText from "@component/atom/text/GRText";
 import { ColumnType } from "antd/es/table";
 import { tNewfamily } from "api/newfamily/type";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useNewfamilyLineupRequestQuery } from "hooks/queries/newfamily/useNewfamilyLineupRequestQuery";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -77,7 +76,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       align: "center",
       width: "8rem",
       sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
+        dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
     },
     {
@@ -107,7 +106,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       sorter: (a, b) => {
         return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
       }
-    },
+    }
     // {
     //   title: "등반일",
     //   dataIndex: "promoteDate",
