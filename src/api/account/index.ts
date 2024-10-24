@@ -1,5 +1,5 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAccount, tLoginParam, tUserAccount } from "./types";
+import { tLoginParam, tUser, tUserAccount } from "./types";
 
 const version = "v1";
 
@@ -22,5 +22,12 @@ export const getUserInfo = () => {
   return request<tUserAccount>({
     method: REQUEST_METHOD.GET,
     url: `${version}/my-info`
+  });
+};
+
+export const getUserList = () => {
+  return request<tUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/users`
   });
 };

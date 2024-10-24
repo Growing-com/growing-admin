@@ -15,13 +15,13 @@ export const numberSorter = (valueA: number, valueB: number) => {
   return valueA - valueB;
 };
 
-export const dateSorter = (valueA: Dayjs, valueB: Dayjs) => {
-  if (!valueA || !dayjs.isDayjs(valueA)) return 1;
-  if (!valueB || !dayjs.isDayjs(valueB)) return -1;
+export const dateSorter = (valueA: Dayjs | null, valueB: Dayjs | null) => {
+  if (!valueA) return 1;
+  if (!valueB) return -1;
 
-  return valueA.valueOf() < valueB.valueOf()
+  return dayjs(valueA).valueOf() < dayjs(valueB).valueOf()
     ? -1
-    : valueA.valueOf() > valueB.valueOf()
+    : dayjs(valueA).valueOf() > dayjs(valueB).valueOf()
     ? 1
     : 0;
 };

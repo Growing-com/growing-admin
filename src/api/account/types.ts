@@ -1,4 +1,3 @@
-
 /**
  * @descriptio 성
  * MALE : 남
@@ -14,12 +13,7 @@ export type tSex = "MALE" | "FEMALE";
  * MEMBER: 조원
  * NEW_COMER: 새가족
  */
-export type tDuty =
-  | "PASTOR"
-  | "GANSA"
-  | "LEADER"
-  | "MEMBER"
-  | "NEW_COMER";
+export type tDuty = "PASTOR" | "GANSA" | "LEADER" | "MEMBER" | "NEW_COMER";
 
 /**
  * @description 역할
@@ -29,7 +23,7 @@ export type tDuty =
  */
 export type tRole = "ADMIN" | "MANAGER" | "NORMAL";
 
-export type tAccount = {
+export type tUser = {
   /** @description 유저 아이디 @example 1 */
   userId: number;
   /** @description 이름  @example   "윤동건" */
@@ -42,23 +36,27 @@ export type tAccount = {
   phoneNumber: string;
   /** @description 생년월일  @example  "1996-10-16" */
   birth?: string;
-  
+  /** @description 직분 이름  @example  "CODY" */
+  duty?: string;
+  /** @description 리더 이름  @example  "황길동" */
+  leaderName?: string;
+
   // updatedBy: string;
   // updatedAt: string;
 };
 
 export type tLoginParam = {
-    username: string;
-    password: string;
-  };
+  username: string;
+  password: string;
+};
 
 export type tUserAccount = {
   /** @description 유저 아이디 @example 1 */
   userId: number;
-  /** 직분 */ 
+  /** 직분 */
   // duty: tDuty;
-  /** 역할 */ 
+  /** 역할 */
   role: tRole;
   /** @description 이름  @example   "윤동건", */
   name: string;
-}
+};

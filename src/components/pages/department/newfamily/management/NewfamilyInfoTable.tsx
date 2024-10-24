@@ -8,7 +8,7 @@ import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
-import useCurrentTerm from "hooks/api/term/useCurrentTerm";
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
@@ -26,7 +26,8 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
   >([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
 
-  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
+  const { currentTermNewFamilyLeaderOptions } =
+    useCurrentTermInfoOptionQueries();
 
   const tabOption = useMemo(
     () => [{ label: "전체", value: "0" }, ...currentTermNewFamilyLeaderOptions],
@@ -100,27 +101,6 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
         );
       }
     },
-    // {
-    //   title: "일반 순장",
-    //   align: "center",
-    //   dataIndex: "smallGroupLeaderName",
-    //   width: "8rem",
-    //   render: (_, item) => {
-    //     if (!item) return;
-    //     return <GRText>{item?.smallGroupLeaderName}</GRText>;
-    //   },
-    //   sorter: (a, b) => {
-    //     return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
-    //   }
-    // },
-    // {
-    //   title: "등반일",
-    //   dataIndex: "promoteDate",
-    //   key: "promoteDate",
-    //   align: "center",
-    //   width: "8rem",
-    //   render: (_, record) => checkDefaultDate(record.promoteDate)
-    // },
     {
       title: "생년월일",
       key: "birth",

@@ -14,14 +14,14 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const LineupNewfamilyPage: NextPage = () => {
-  const { currentTermSmallGroupLeaders } = useCurrentTerm();
+  const { currentTermCodyAndSmallGroups } = useCurrentTerm();
 
   const smallGroupProp = useMemo(() => {
-    if (currentTermSmallGroupLeaders)
-      return currentTermSmallGroupLeaders.flatMap(
+    if (currentTermCodyAndSmallGroups)
+      return currentTermCodyAndSmallGroups.flatMap(
         item => item.smallGroupLeaders
       );
-  }, [currentTermSmallGroupLeaders]);
+  }, [currentTermCodyAndSmallGroups]);
 
   return (
     <>
@@ -40,9 +40,9 @@ const LineupNewfamilyPage: NextPage = () => {
           </GRText>
           <GRFlexView flexDirection={"row"}>
             {/* 코디 렌더링 */}
-            {currentTermSmallGroupLeaders &&
-            currentTermSmallGroupLeaders?.length > 0 ? (
-              currentTermSmallGroupLeaders.map(group => (
+            {currentTermCodyAndSmallGroups &&
+            currentTermCodyAndSmallGroups?.length > 0 ? (
+              currentTermCodyAndSmallGroups.map(group => (
                 <GRFlexView
                   key={`${group.codyName}`}
                   alignItems={"center"}

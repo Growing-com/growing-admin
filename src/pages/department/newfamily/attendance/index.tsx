@@ -22,7 +22,7 @@ import {
 import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
-import useCurrentTerm from "hooks/api/term/useCurrentTerm";
+import { useCurrentTermInfoOptionQueries } from 'hooks/queries/term/useCurrentTermInfoOptionQueries';
 import { NextPage } from "next";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -57,7 +57,7 @@ const NewfamilyAttendancePage: NextPage = () => {
     useState<tNewfamilyAttendances[]>([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
 
-  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
+  const { currentTermNewFamilyLeaderOptions } = useCurrentTermInfoOptionQueries();
   const newfamilyLeaderTabOption = useMemo(
     () => [{ label: "전체", value: "0" }, ...currentTermNewFamilyLeaderOptions],
     [currentTermNewFamilyLeaderOptions]

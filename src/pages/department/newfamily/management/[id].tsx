@@ -21,7 +21,7 @@ import {
   YES_NO_OPTIONS
 } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
-import useCurrentTerm from "hooks/api/term/useCurrentTerm";
+import { useCurrentTermInfoOptionQueries } from 'hooks/queries/term/useCurrentTermInfoOptionQueries';
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -42,7 +42,7 @@ const NewfamilyUpdatePage: NextPage = () => {
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
-  const { currentTermNewFamilyLeaderOptions } = useCurrentTerm();
+  const { currentTermNewFamilyLeaderOptions } = useCurrentTermInfoOptionQueries();
 
   const numericId = id ? Number(id) : null;
 

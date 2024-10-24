@@ -1,29 +1,21 @@
 import { REQUEST_METHOD, request } from "api";
-import { tAccount, tSex } from "api/account/types";
+import { tUser } from "api/account/types";
+import {
+  tSmallGroup,
+  tGetNewFamilyGroup,
+  tTerm,
+  tCody,
+  tLeader,
+  tGroup,
+} from "./type";
 
 const version = "v1";
 
-export type tSmallGroupLeader = {
-  codyName: string;
-  smallGroupId: number;
-  smallGroupLeaderName: string;
-};
-
-type tSmallGroup = {
-  codyName: string;
-  smallGroupLeaders: tSmallGroupLeader[];
-};
-
-export const getSmallGroupLeader = ({ termId }: { termId: number }) => {
+export const getCodyAndSmallGroups = ({ termId }: { termId: number }) => {
   return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/small-groups`
   });
-};
-
-type tGetNewFamilyGroup = {
-  newFamilyGroupId: number;
-  newFamilyGroupLeaderName: string;
 };
 
 export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
@@ -31,14 +23,6 @@ export const getNewFamilyGroup = ({ termId }: { termId: number }) => {
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/new-family-groups`
   });
-};
-
-type tTerm = {
-  termId: number;
-  name: string;
-  startDate: string;
-  endDate: string;
-  isActive: boolean;
 };
 
 export const getTermList = () => {
@@ -49,22 +33,43 @@ export const getTermList = () => {
 };
 
 export const getActiveTerm = () => {
-  return request<tTerm[]>({
+  return request<tTerm>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/active-term`
   });
-};
-
-export type tLeader = tAccount & {
-  /** @description 코디 이름  @example  "장준혁" */
-  codyName?: string;
-  /** @description 직분 이름  @example  "CODY" */
-  duty?: string;
 };
 
 export const getAllLeaders = ({ termId }: { termId: number }) => {
   return request<tLeader[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/all-leaders`
+  });
+};
+
+export const getTermCody = ({ termId }: { termId: number }) => {
+  return request<tCody[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/codies`
+  });
+};
+
+export const getLeaderByCody = ({ codyId }: { codyId: number }) => {
+  return request<tGroup[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/codies/${codyId}/groups`
+  });
+};
+
+export const getMembersByCody = ({
+  codyId,
+  smallGroupId
+}: {
+  codyId: number;
+  smallGroupId?: number;
+}) => {
+  return request<tUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/codies/${codyId}/members`,
+    params: { smallGroupId }
   });
 };

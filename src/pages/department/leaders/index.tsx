@@ -6,7 +6,7 @@ import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { TableColumnsType } from "antd";
-import { tLeader } from "api/term";
+import { tLeader } from 'api/term/type';
 import { DUTY, SEX_NAME } from "config/const";
 
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
@@ -41,15 +41,15 @@ const LeadersPage: NextPage = () => {
       ...new Set(leaderdata.map(leader => leader.codyName))
     ];
     const _codyFilterOptions = uniqueCodyNames?.map(name => ({
-      text: name || "",
-      value: name || ""
+      text: name ?? "",
+      value: name ?? ""
     }));
     setCodyFilterOptions(_codyFilterOptions);
 
     const uniqueDuty = [...new Set(leaderdata.map(leader => leader.duty))];
     const _dutyFilterOptions = uniqueDuty?.map(duty => ({
-      text: DUTY[duty as string] || "",
-      value: duty || ""
+      text: DUTY[duty as string] ?? "",
+      value: duty ?? ""
     }));
     setDutyFilterOptions(_dutyFilterOptions);
   }, [leaderdata]);
@@ -224,7 +224,6 @@ const LeadersPage: NextPage = () => {
             totalCount={leaderdata?.length}
           />
         </GRView>
-
         <GRTable
           rowKey={"userId"}
           columns={columns}
