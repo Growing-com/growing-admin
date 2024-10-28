@@ -4,21 +4,22 @@ import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import HeaderView from "@component/molecule/view/HeaderView";
+import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { TableColumnsType } from "antd";
-import { tLeader } from "api/term";
+import { tLeader } from "api/term/type";
 import { DUTY, SEX_NAME } from "config/const";
 
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import GRStylesConfig from "styles/GRStylesConfig";
 import { checkDefaultDate } from "utils/DateUtils";
-import { koreanSorter } from "utils/sorter";
+import { dateSorter, koreanSorter } from "utils/sorter";
 
 type tFilterOption = {
   text: string;
   value: string;
 };
-type tDuty = { [key: string]: number };
 
 const LeadersPage: NextPage = () => {
   const [codyFilterOptions, setCodyFilterOptions] = useState<tFilterOption[]>(
@@ -28,9 +29,16 @@ const LeadersPage: NextPage = () => {
     []
   );
   const [filteredData, setFilteredData] = useState<tLeader[]>([]);
-  const [numberByDuty, setNumberByDuty] = useState<tDuty>({});
 
   const { currentTermAllLeaderGroup: leaderdata } = useCurrentTerm();
+  const { currentTermDutyCount } = useCurrentTerm();
+
+  const totalLeadersCount = currentTermDutyCount
+    ? currentTermDutyCount.pastorCount +
+      currentTermDutyCount.codyCount +
+      currentTermDutyCount.smallGroupLeaderCount +
+      currentTermDutyCount.newFamilyGroupLeaderCount
+    : 0;
 
   // 필터 옵션 설정
   useEffect(() => {
@@ -39,15 +47,15 @@ const LeadersPage: NextPage = () => {
       ...new Set(leaderdata.map(leader => leader.codyName))
     ];
     const _codyFilterOptions = uniqueCodyNames?.map(name => ({
-      text: name || "",
-      value: name || ""
+      text: name ?? "",
+      value: name ?? ""
     }));
     setCodyFilterOptions(_codyFilterOptions);
 
     const uniqueDuty = [...new Set(leaderdata.map(leader => leader.duty))];
     const _dutyFilterOptions = uniqueDuty?.map(duty => ({
-      text: DUTY[duty as string] || "",
-      value: duty || ""
+      text: DUTY[duty as string] ?? "",
+      value: duty ?? ""
     }));
     setDutyFilterOptions(_dutyFilterOptions);
   }, [leaderdata]);
@@ -55,18 +63,6 @@ const LeadersPage: NextPage = () => {
   useEffect(() => {
     if (!leaderdata) return;
     setFilteredData(leaderdata);
-    const _numberByDuty = {
-      PASTOR: leaderdata.filter(leader => leader.duty === "PASTOR").length,
-      GANSA: leaderdata.filter(leader => leader.duty === "GANSA").length,
-      CODY: leaderdata.filter(leader => leader.duty === "CODY").length,
-      SMALL_GROUP_LEADER: leaderdata.filter(
-        leader => leader.duty === "SMALL_GROUP_LEADER"
-      ).length,
-      NEW_FAMILY_GROUP_LEADER: leaderdata.filter(
-        leader => leader.duty === "NEW_FAMILY_GROUP_LEADER"
-      ).length
-    };
-    setNumberByDuty(_numberByDuty);
   }, [leaderdata]);
 
   const columns: TableColumnsType<any> = [
@@ -82,8 +78,9 @@ const LeadersPage: NextPage = () => {
         if (!item?.duty) return;
         return <GRText>{DUTY[item?.duty]}</GRText>;
       },
-      sorter: (a, b) => {
-        return koreanSorter(DUTY[a.duty], DUTY[b.duty]);
+      sorter: {
+        compare: (a, b) => koreanSorter(DUTY[a.duty], DUTY[b.duty]),
+        multiple: 6
       }
     },
     {
@@ -92,8 +89,9 @@ const LeadersPage: NextPage = () => {
       key: "codyName",
       align: "center",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(a.codyName, b.codyName);
+      sorter: {
+        compare: (a, b) => koreanSorter(a.codyName, b.codyName),
+        multiple: 5
       },
       filters: codyFilterOptions,
       onFilter: (value, record) => record.codyName === value,
@@ -108,8 +106,9 @@ const LeadersPage: NextPage = () => {
       align: "center",
       fixed: "left",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(a.name, b.name);
+      sorter: {
+        compare: (a, b) => koreanSorter(a.name, b.name),
+        multiple: 4
       }
     },
     {
@@ -122,8 +121,9 @@ const LeadersPage: NextPage = () => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
       },
-      sorter: (a, b) => {
-        return koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]);
+      sorter: {
+        compare: (a, b) => koreanSorter(SEX_NAME[a.sex], SEX_NAME[b.sex]),
+        multiple: 3
       }
     },
     {
@@ -132,7 +132,7 @@ const LeadersPage: NextPage = () => {
       key: "grade",
       align: "center",
       width: "4rem",
-      sorter: (a, b) => a.grade - b.grade
+      sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
     },
     {
       title: "생년월일",
@@ -140,7 +140,11 @@ const LeadersPage: NextPage = () => {
       dataIndex: "birth",
       align: "center",
       width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
+      render: (_, record) => checkDefaultDate(record.birth),
+      sorter: {
+        compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
+        multiple: 1
+      }
     },
     {
       title: "전화번호",
@@ -167,67 +171,59 @@ const LeadersPage: NextPage = () => {
 
   return (
     <>
-      <HeaderView title="부서 리더 구성원" />
+      <HeaderView title="리더 구성원" />
       <GRContainerView>
         <GRFlexView
           flexDirection={"row"}
           alignItems={"end"}
           xGap={1}
-          marginbottom={0.5}
+          marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
         >
           <GRView>
             <GRFlexView flexDirection={"row"} alignItems={"end"}>
-              <GRText fontSize={"b6"} marginright={0.3}>
+              <GRText
+                fontSize={"b6"}
+                marginright={GRStylesConfig.BASE_SMALL_MARGIN}
+              >
                 전체 인원
               </GRText>
               <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-                {leaderdata?.length}
+                {totalLeadersCount}
               </GRText>
               <GRText fontSize={"b6"}>명</GRText>
             </GRFlexView>
           </GRView>
           <DutyNumberRender
-            duty={"PASTOR"}
-            dutyName={DUTY["PASTOR"]}
-            data={numberByDuty}
+            dutyName={"PASTOR"}
+            count={currentTermDutyCount?.pastorCount}
           />
           <DutyNumberRender
-            duty={"GANSA"}
-            dutyName={DUTY["GANSA"]}
-            data={numberByDuty}
+            dutyName={"CODY"}
+            count={currentTermDutyCount?.codyCount}
           />
           <DutyNumberRender
-            duty={"CODY"}
-            dutyName={DUTY["CODY"]}
-            data={numberByDuty}
+            dutyName={"SMALL_GROUP_LEADER"}
+            count={currentTermDutyCount?.smallGroupLeaderCount}
           />
           <DutyNumberRender
-            duty={"SMALL_GROUP_LEADER"}
-            dutyName={DUTY["SMALL_GROUP_LEADER"]}
-            data={numberByDuty}
-          />
-          <DutyNumberRender
-            duty={"NEW_FAMILY_GROUP_LEADER"}
-            dutyName={DUTY["NEW_FAMILY_GROUP_LEADER"]}
-            data={numberByDuty}
+            dutyName={"NEW_FAMILY_GROUP_LEADER"}
+            count={currentTermDutyCount?.newFamilyGroupLeaderCount}
           />
         </GRFlexView>
-        <GRFlexView flexDirection={"row"} alignItems={"end"} marginbottom={0.5}>
-          <GRText fontSize={"b6"} marginright={0.3}>
-            필터된 사람
-          </GRText>
-          <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-            {filteredData?.length}
-          </GRText>
-          <GRText fontSize={"b6"}>명</GRText>
-        </GRFlexView>
+        <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+          <TableInfoHeader
+            title={"필터된 인원"}
+            count={filteredData.length}
+            totalCount={leaderdata?.length}
+          />
+        </GRView>
         <GRTable
           rowKey={"userId"}
           columns={columns}
           data={leaderdata}
           pagination={{
             total: filteredData?.length,
-            defaultPageSize: 15,
+            defaultPageSize: 10,
             position: ["bottomCenter"]
           }}
           onChange={handleChange}
@@ -239,23 +235,18 @@ const LeadersPage: NextPage = () => {
 
 type tDutyNumberRender = {
   dutyName: string;
-  duty: string;
-  data: tDuty;
+  count?: number;
 };
 
-const DutyNumberRender: React.FC<tDutyNumberRender> = ({
-  dutyName,
-  duty,
-  data
-}) => {
+const DutyNumberRender: React.FC<tDutyNumberRender> = ({ dutyName, count }) => {
   return (
     <GRView>
       <GRFlexView flexDirection={"row"} alignItems={"end"}>
-        <GRText fontSize={"b6"} marginright={0.3}>
-          {dutyName}
+        <GRText fontSize={"b6"} marginright={GRStylesConfig.BASE_SMALL_MARGIN}>
+          {DUTY[dutyName]}
         </GRText>
         <GRText fontSize={"b4"} weight={"bold"} marginright={0.1}>
-          {data[duty]}
+          {count ?? 0}
         </GRText>
         <GRText fontSize={"b6"}>명</GRText>
       </GRFlexView>

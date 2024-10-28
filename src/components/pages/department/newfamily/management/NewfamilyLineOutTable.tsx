@@ -6,7 +6,6 @@ import { getLineOutNewfamilies } from "api/newfamily";
 import { tLineOutNewFamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter } from "utils/sorter";
@@ -73,7 +72,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       align: "center",
       width: "8rem",
       sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.visitDate), dayjs(valueB.visitDate)),
+        dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
     },
     {

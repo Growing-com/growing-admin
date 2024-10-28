@@ -1,10 +1,10 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
+import HeaderView from "@component/molecule/view/HeaderView";
 import DragPreview from "@component/pages/department/lineup/DragPreview";
 import DraggableLeader from "@component/pages/department/lineup/newfamily/DraggableLeader";
 import LineupNewfamilySelectBox from "@component/pages/department/lineup/newfamily/LineupNewfamilySelectBox";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 
@@ -14,31 +14,24 @@ import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 const LineupNewfamilyPage: NextPage = () => {
-  const { currentTermSmallGroupLeaders } = useCurrentTerm();
+  const { currentTermCodyAndSmallGroups } = useCurrentTerm();
 
   const smallGroupProp = useMemo(() => {
-    if (currentTermSmallGroupLeaders)
-      return currentTermSmallGroupLeaders.flatMap(
+    if (currentTermCodyAndSmallGroups)
+      return currentTermCodyAndSmallGroups.flatMap(
         item => item.smallGroupLeaders
       );
-  }, [currentTermSmallGroupLeaders]);
+  }, [currentTermCodyAndSmallGroups]);
 
   return (
     <>
-      <GRFlexView
-        borderRadius={GRStylesConfig.BASE_MARGIN}
-        paddinghorizontal={3}
-        paddingvertical={2}
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-        backgroundColor="white"
-        css={css`
-          box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
-        `}
-      >
-        <GRText fontSize={"h9"} weight={"bold"}>
-          새가족 라인업
-        </GRText>
-      </GRFlexView>
+      <HeaderView
+        title="새가족 라인업"
+        titleInfoType={"info"}
+        titleInfo={
+          <GRText>리더 이름을 드래그하여 라인업할 수 있습니다.</GRText>
+        }
+      />
       <LineupContainer>
         <DragPreview />
         <GRFlexView yGap={1} style={{ overflow: "auto" }}>
@@ -47,9 +40,9 @@ const LineupNewfamilyPage: NextPage = () => {
           </GRText>
           <GRFlexView flexDirection={"row"}>
             {/* 코디 렌더링 */}
-            {currentTermSmallGroupLeaders &&
-            currentTermSmallGroupLeaders?.length > 0 ? (
-              currentTermSmallGroupLeaders.map(group => (
+            {currentTermCodyAndSmallGroups &&
+            currentTermCodyAndSmallGroups?.length > 0 ? (
+              currentTermCodyAndSmallGroups.map(group => (
                 <GRFlexView
                   key={`${group.codyName}`}
                   alignItems={"center"}

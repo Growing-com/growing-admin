@@ -6,7 +6,6 @@ import { getPromotedNewfamilies } from "api/newfamily";
 import { tNewfamilyPromoted } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { checkDefaultDate } from "utils/DateUtils";
@@ -67,7 +66,7 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       width: "8rem",
       render: (_, record) => checkDefaultDate(record.promoteDate),
       sorter: (valueA, valueB) =>
-        dateSorter(dayjs(valueA.promoteDate), dayjs(valueB.promoteDate)),
+        dateSorter(valueA.promoteDate, valueB.promoteDate),
     },
     {
       title: "등반 후 경과 주",

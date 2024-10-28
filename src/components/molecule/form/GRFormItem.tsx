@@ -110,20 +110,18 @@ const GRFormItem = ({
   if (!isShow) return <React.Fragment />;
   return (
     <GRFlexView
+      flexDirection={"row"}
+      alignItems={"center"}
       style={containStyle}
-      alignItems={"start"}
-      justifyContent={"center"}
     >
       {title && <GRFormTitle title={title} required={required} />}
-      <GRFlexView style={{ width: "100%" }}>
-        <Controller
-          control={control}
-          name={fieldName}
-          render={renderFormItems}
-          rules={rules}
-          defaultValue={defaultValue}
-        />
-      </GRFlexView>
+      <Controller
+        control={control}
+        name={fieldName}
+        render={renderFormItems}
+        rules={rules}
+        defaultValue={defaultValue}
+      />
     </GRFlexView>
   );
 };

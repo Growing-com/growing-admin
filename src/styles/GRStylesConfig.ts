@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
 type tGRStylesConfig = {
+  BASE_SMALL_MARGIN: number;
   BASE_MARGIN: number;
   BASE_LONG_MARGIN: number;
   FORM_BLOCK_BASE_SMALL_MARGIN : number;
@@ -12,6 +13,7 @@ type tGRStylesConfig = {
   COLLAPSED_WIDTH: number | string;
 };
 const GRStylesConfig: tGRStylesConfig = {
+  BASE_SMALL_MARGIN: 0.3,
   BASE_MARGIN: 0.5,
   BASE_LONG_MARGIN: 1,
   FORM_BLOCK_BASE_SMALL_MARGIN : 2,

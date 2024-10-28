@@ -24,8 +24,10 @@ export const DUTY: { [key: string]: string } = {
   CODY: "코디",
   SMALL_GROUP_LEADER: "순장",
   NEW_FAMILY_GROUP_LEADER: "새가족 순장",
-  SMALL_GROUP_MEMBER: "조원",
-  NEW_FAMILY_GROUP_MEMBER: "새가족"
+  SMALL_GROUP_MEMBER: "순원",
+  NEW_FAMILY_MEMBER: "새가족 순원",
+  NEW_FAMILY: "새가족",
+  NOT_PLACED: "미배정"
 };
 
 export const DUTY_TAG = [
@@ -60,9 +62,19 @@ export const DUTY_TAG = [
     color: "green"
   },
   {
-    key: "NEW_FAMILY_GROUP_MEMBER",
+    key: "NEW_FAMILY_MEMBER",
+    value: "새가족 순원",
+    color: "orange"
+  },
+  {
+    key: "NEW_FAMILY",
     value: "새가족",
     color: "gold"
+  },
+  {
+    key: "NOT_PLACED",
+    value: "미배정",
+    color: "grey"
   }
 ];
 
@@ -72,12 +84,12 @@ export const ROLE = [
   // { value: "조원", key: "NORMAL" }
 ];
 
-export const STATUS_OPTIONS = [
-  { label: "리더", value: "leader" },
-  { label: "코디", value: "cordi" },
-  { label: "새가족", value: "new_com" },
-  { label: "조원", value: "normal" }
-];
+// export const STATUS_OPTIONS = [
+//   { label: "리더", value: "leader" },
+//   { label: "코디", value: "cordi" },
+//   { label: "새가족", value: "new_com" },
+//   { label: "조원", value: "normal" }
+// ];
 
 export const SEX_OPTIONS = [
   { label: "남자", value: "MALE" },

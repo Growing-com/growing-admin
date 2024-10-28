@@ -1,31 +1,23 @@
-import { tOptions } from "@component/atom/dataEntry/type";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import {
   getAllLeaders,
   getNewFamilyGroup,
-  getSmallGroupLeader
+  getCodyAndSmallGroups
 } from "api/term";
-import { useEffect, useState } from "react";
+import useDutyCountQuery from 'api/term/queries/useDutyCountQuery';
+import useTermCodyQuery from "api/term/queries/useTermCodyQuery";
 import { convertOptions } from "utils";
 
 const useTerm = ({ termId }: { termId: number }) => {
   if (!termId) {
     throw new Error("termId is required");
   }
-  const [termSmallGroupLeaderOptions, setTermSmallGroupLeaderOptions] =
-    useState<tOptions[]>();
-  const [termNewFamilyLeaderOptions, setTermNewFamilyLeaderOptions] = useState<
-    tOptions[]
-  >([]);
 
-  const {
-    data: termSmallGroupLeader,
-    isSuccess: termSmallGroupLeaderIsSuccess
-  } = useQuery(
+  const { data: termCodyAndSmallGroups } = useQuery(
     [queryKeys.TERM_SMALL_GROUP_LEADER],
     async () =>
-      await getSmallGroupLeader({
+      await getCodyAndSmallGroups({
         termId
       }),
     {
@@ -35,19 +27,18 @@ const useTerm = ({ termId }: { termId: number }) => {
     }
   );
 
-  const { data: termNewFamilyLeader, isSuccess: termNewFamilyLeaderIsSuccess } =
-    useQuery(
-      [queryKeys.TERM_NEW_FAMILY_LEADER],
-      async () =>
-        await getNewFamilyGroup({
-          termId
-        }),
-      {
-        cacheTime: Infinity,
-        staleTime: Infinity,
-        select: _data => _data.content
-      }
-    );
+  const { data: termNewFamilyLeader } = useQuery(
+    [queryKeys.TERM_NEW_FAMILY_LEADER],
+    async () =>
+      await getNewFamilyGroup({
+        termId
+      }),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      select: _data => _data.content
+    }
+  );
 
   const { data: termAllLeaderGroup } = useQuery(
     [queryKeys.TERM_ALL_LEADERS],
@@ -59,35 +50,30 @@ const useTerm = ({ termId }: { termId: number }) => {
     }
   );
 
-  useEffect(() => {
-    if (termNewFamilyLeaderIsSuccess) {
-      const smallGroupOptions = convertOptions(
+  const { data: termCody } = useTermCodyQuery({ termId });
+  const { data: termDutyCount } = useDutyCountQuery({ termId });
+
+  const termNewFamilyLeaderOptions = termNewFamilyLeader
+    ? convertOptions(
         termNewFamilyLeader,
         "newFamilyGroupId",
         "newFamilyGroupLeaderName"
-      );
-      setTermNewFamilyLeaderOptions(smallGroupOptions);
-    }
-  }, [termNewFamilyLeaderIsSuccess]);
+      )
+    : [];
 
-  useEffect(() => {
-    if (termSmallGroupLeaderIsSuccess) {
-      const smallGroupOptions = convertOptions(
-        // 라인업 페이지 생성시 수정 필요
-        termSmallGroupLeader[0].smallGroupLeaders,
-        "smallGroupId",
-        "smallGroupLeaderName"
-      );
-      setTermSmallGroupLeaderOptions(smallGroupOptions);
-    }
-  }, [termSmallGroupLeaderIsSuccess]);
+  const termCodyOptions = termCody
+    ? convertOptions(termCody, "codyId", "codyName")
+    : [];
 
   return {
     termNewFamilyLeader,
     termNewFamilyLeaderOptions,
-    termSmallGroupLeader,
-    termSmallGroupLeaderOptions,
-    termAllLeaderGroup
+    // termSmallGroupLeaderOptions,
+    termCody,
+    termCodyOptions,
+    termCodyAndSmallGroups,
+    termAllLeaderGroup,
+    termDutyCount
   };
 };
 

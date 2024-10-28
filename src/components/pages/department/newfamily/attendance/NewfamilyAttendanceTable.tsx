@@ -2,8 +2,9 @@ import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
 import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
+import GRFlexView from "@component/atom/view/GRFlexView";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
-import { TableColumnsType } from "antd";
+import { Alert, TableColumnsType, Tooltip } from "antd";
 import {
   tAttendanceItems,
   tNewfamily,
@@ -13,6 +14,8 @@ import { SEX_NAME } from "config/const";
 import { head } from "lodash";
 import { useEffect, useState } from "react";
 import { koreanSorter } from "utils/sorter";
+
+const TOOLTIP_INFO = `* 초록색: 4주 이상 출석 \n * 빨간색: 연속 4주 결석 \n * 노란색: 연속 3주 결석`;
 
 type tNewfamilyAttendanceTable = {
   searchName: string;
@@ -31,8 +34,11 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
   onSelect,
   tabProps
 }) => {
-  const { newfamilyGroupAttendanceData, newfamilyLeaderTabOption, onChangeLeaderTab } =
-    tabProps;
+  const {
+    newfamilyGroupAttendanceData,
+    newfamilyLeaderTabOption,
+    onChangeLeaderTab
+  } = tabProps;
 
   const [filteredNewFailyData, setFilteredNewFailyData] = useState<
     tNewfamilyAttendances[]
@@ -91,7 +97,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "grade",
       align: "center",
       width: "5rem",
-      sorter: (a, b) => a.grade - b.grade,
+      sorter: {
+        compare: (a, b) => a.grade - b.grade,
+        multiple: 1
+      },
       minWidth: 55
     },
     {
@@ -100,11 +109,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
+      sorter: {
+        compare: (a, b) =>
+          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
+        multiple: 3
       },
       minWidth: 91
     },
@@ -115,8 +123,10 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAttendCount - b.totalAttendCount,
-      defaultSortOrder: "descend",
+      sorter: {
+        compare: (a, b) => a.totalAttendCount - b.totalAttendCount,
+        multiple: 4
+      },
       minWidth: 66
     },
     {
@@ -126,12 +136,37 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      sorter: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
-      defaultSortOrder: "descend",
+      sorter: {
+        compare: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
+        multiple: 2
+      },
       minWidth: 66
     },
     {
-      title: "출석 날짜",
+      title: () => {
+        return (
+          <>
+            <Tooltip
+              overlayStyle={{ whiteSpace: "pre-line" }}
+              title={TOOLTIP_INFO}
+            >
+              <GRFlexView alignItems={"center"}>
+                <Alert
+                  showIcon
+                  message={
+                    <GRText weight={"bold"} fontSize={"b7"}>
+                      출석 날짜
+                    </GRText>
+                  }
+                  type={"info"}
+                  banner={true}
+                  style={{ backgroundColor: "transparent" }}
+                />
+              </GRFlexView>
+            </Tooltip>
+          </>
+        );
+      },
       align: "center",
       children: attendanceData?.attendanceItems.map(item => ({
         title: item.date,

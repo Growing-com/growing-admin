@@ -39,8 +39,11 @@ type tNewfamilyAttendanceCheckTable = {
 const NewfamilyAttendanceCheckTable: React.FC<
   tNewfamilyAttendanceCheckTable
 > = ({ searchName, filterDate, tabProps }) => {
-  const { newfamilyGroupAttendanceData, newfamilyLeaderTabOption, onChangeLeaderTab } =
-    tabProps;
+  const {
+    newfamilyGroupAttendanceData,
+    newfamilyLeaderTabOption,
+    onChangeLeaderTab
+  } = tabProps;
 
   const queryClient = useQueryClient();
 
@@ -118,7 +121,10 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "grade",
       align: "center",
       width: "5rem",
-      sorter: (a, b) => a.grade - b.grade
+      sorter: {
+        compare: (a, b) => a.grade - b.grade,
+        multiple: 1
+      }
     },
     {
       title: "새가족 순장",
@@ -126,11 +132,10 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
+      sorter: {
+        compare: (a, b) =>
+          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
+        multiple: 2
       },
       minWidth: 53
     },
@@ -304,7 +309,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
         size={"small"}
         type={"card"}
         onChange={onChangeLeaderTab}
-        fontWeight={'normal'}
+        fontWeight={"normal"}
         marginBottom={"0rem"}
       />
       <GRTable
