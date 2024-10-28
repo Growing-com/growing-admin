@@ -44,7 +44,7 @@ const SearchPage: NextPage = () => {
     useCurrentTermInfoOptionQueries();
 
   const onClickResetSearch = () => {
-    setSearchBaseData(userList ?? []);
+    setSearchTotal(userList ?? []);
     setSearchCodyId(undefined);
     reset(defaultValue);
     setCurrentPage(1);
