@@ -201,7 +201,7 @@ const NewfamilyAttendancePage: NextPage = () => {
                   </GRTextButton>
                 </GRView>
                 <GRView>
-                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"warning"}>
                     라인 아웃
                   </GRTextButton>
                 </GRView>
@@ -215,7 +215,7 @@ const NewfamilyAttendancePage: NextPage = () => {
                   </GRTextButton>
                 </GRView>
                 <GRView>
-                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"warning"}>
                     라인 아웃
                   </GRTextButton>
                 </GRView>

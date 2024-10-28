@@ -93,7 +93,7 @@ const NewfamilyManagementPage: NextPage = () => {
         headerComponent={
           <GRTextButton
             onClick={onClickCreateNewFamily}
-            buttonType={"default"}
+            buttonType={"primary"}
             size={"large"}
           >
             새가족 등록

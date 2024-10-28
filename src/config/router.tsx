@@ -2,6 +2,7 @@ import {
   ApartmentOutlined,
   HeartOutlined,
   SearchOutlined,
+  TeamOutlined,
   UsergroupAddOutlined
 } from "@ant-design/icons";
 
@@ -17,8 +18,8 @@ export type tDepartmentMainMenu = {
 };
 
 type tDepartmentManagementSubMenu = {
-  key: "management-account";
-  label: "계정 관리";
+  key: "management-user";
+  label: "지체 관리";
   path: string;
 };
 
@@ -42,9 +43,9 @@ type tDepartmentLineUpSubMenu = {
 
 export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
   {
-    key: "management-account",
-    label: "계정 관리",
-    path: "management/account"
+    key: "management-user",
+    label: "지체 관리",
+    path: "management/user"
   }
   // TODO: 라인업 관리 추후 추가
   // {
@@ -94,12 +95,12 @@ export const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
 // ];
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
-  // {
-  //   key: "management",
-  //   label: "관리",
-  //   children: DEPARTMENT_MANAGEMENT_SUB_MENU,
-  //   icon: <TeamOutlined style={{ fontSize: "1.3rem" }} />
-  // },
+  {
+    key: "management",
+    label: "관리",
+    children: DEPARTMENT_MANAGEMENT_SUB_MENU,
+    icon: <TeamOutlined style={{ fontSize: "1.3rem" }} />
+  },
   {
     key: "newfamily",
     label: "새가족",
@@ -142,14 +143,14 @@ export const TAB_MENU = [
 export const DUTY_MENU = [
   {
     key: "SUPER_ADMIN",
-    value: ["newfamily", "lineup", "leaders", "search"]
+    value: ["management", "newfamily", "lineup", "leaders", "search"]
   },
   {
     key: "NEW_FAMILY_GANSA",
-    value: ["newfamily", "leaders", "search"]
+    value: ["management", "newfamily", "leaders", "search"]
   },
   {
     key: "LINE_UP_GANSA",
-    value: ["newfamily", "lineup", "leaders", "search"]
+    value: ["management", "newfamily", "lineup", "leaders", "search"]
   }
 ];
