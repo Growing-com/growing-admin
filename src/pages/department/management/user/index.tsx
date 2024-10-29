@@ -7,27 +7,32 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import HeaderView from "@component/molecule/view/HeaderView";
-import UserInfoTable from "@component/pages/department/management/user/UserInfoTable";
+import UserDispatchTable from "@component/pages/department/management/user/UserDispatchTable";
+import UserGraduateTable from "@component/pages/department/management/user/UserGraduateTable";
+import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
+import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
+import UserTermInfoBox from '@component/pages/department/management/user/UserTermInfoBox';
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
-import { tDispatchUser, tLineOutUser, tUser } from "api/account/types";
+import { tUser } from "api/account/types";
+import { tDispatchedUser, tLineOutUser } from "api/management/user/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-const USER_INFO = "info";
+const USER_LIST_INFO = "list_info";
 const USER_DISPATCH = "dispatch";
 const USER_GRADUATE = "graduate";
 const USER_LINE_OUT = "line_out";
-const USER_TERM_PEOPLE_NUMBER = "term_number_of_people";
+const USER_TERM_INFO = "term_info";
 const option = [
-  { label: "명단", value: USER_INFO },
+  { label: "명단", value: USER_LIST_INFO },
   { label: "파송자", value: USER_DISPATCH },
   { label: "졸업자", value: USER_GRADUATE },
   { label: "라인아웃", value: USER_LINE_OUT },
-  { label: "정보", value: USER_TERM_PEOPLE_NUMBER }
+  { label: "정보", value: USER_TERM_INFO }
 ];
 
 const ManagementUserPage: NextPage = () => {
@@ -40,17 +45,18 @@ const ManagementUserPage: NextPage = () => {
   const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
   const [isOpenLineInModal, setIsOpenLineInModal] = useState(false);
   const [searchName, setSearchName] = useState("");
-  const [tabValue, setTabValue] = useState<string>(USER_INFO);
+  const [tabValue, setTabValue] = useState<string>(USER_LIST_INFO);
   const [selectedUser, setSelectedUser] = useState<tUser[]>([]);
 
   const [selectedLineOutUser, setSelectedLineOutUser] =
     useState<tLineOutUser>();
-  const [selectedDispatchUser, setSelectedDispatchUser] =
-    useState<tDispatchUser>();
+  const [selectedDispatchedUser, setSelectedDispatchedUser] =
+    useState<tDispatchedUser>();
 
   const onChangeTab = (value: string) => {
     setSearchName("");
     setTabValue(value);
+    resetSelection();
   };
 
   const onClickCreateUser = () => {
@@ -69,7 +75,7 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const onClickComeback = () => {
-    if (!selectedDispatchUser) {
+    if (!selectedDispatchedUser) {
       return GRAlert.error("선택된 파송자가 없습니다");
     }
     setIsOpenComebackModal(true);
@@ -102,7 +108,7 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const onOkComebackClickButton = async () => {
-    const _userId = selectedDispatchUser?.dispatchedUserId;
+    const _userId = selectedDispatchedUser?.dispatchedUserId;
     // if (_userIds) await LineinMutateAsync(_userIds);
   };
 
@@ -131,9 +137,9 @@ const ManagementUserPage: NextPage = () => {
     }
   };
 
-  const onSelectDispatchUser = (_: React.Key[], selectedRows: any[]) => {
+  const onSelectDispatchedUser = (_: React.Key[], selectedRows: any[]) => {
     if (selectedRows.length !== 0) {
-      setSelectedDispatchUser(selectedRows[0]);
+      setSelectedDispatchedUser(selectedRows[0]);
     }
   };
 
@@ -164,7 +170,7 @@ const ManagementUserPage: NextPage = () => {
             justifyContent={"space-between"}
             marginbottom={GRStylesConfig.BASE_MARGIN}
           >
-            {tabValue !== USER_TERM_PEOPLE_NUMBER && (
+            {tabValue !== USER_TERM_INFO && (
               <GRView marginright={GRStylesConfig.BASE_MARGIN}>
                 <GRTextInput
                   type={"input"}
@@ -175,7 +181,7 @@ const ManagementUserPage: NextPage = () => {
               </GRView>
             )}
 
-            {tabValue === USER_INFO && (
+            {tabValue === USER_LIST_INFO && (
               <GRFlexView
                 flexDirection={"row"}
                 justifyContent={"end"}
@@ -204,12 +210,30 @@ const ManagementUserPage: NextPage = () => {
             )}
           </GRFlexView>
           {/* 인포 탭 */}
-          {tabValue === USER_INFO && (
-            <UserInfoTable
+          {tabValue === USER_LIST_INFO && (
+            <UserListInfoTable
               searchName={searchName}
               onSelect={onSelectChange}
               selectedUser={selectedUser}
             />
+          )}
+          {tabValue === USER_DISPATCH && (
+            <UserDispatchTable
+              searchName={searchName}
+              onSelect={onSelectDispatchedUser}
+            />
+          )}
+          {tabValue === USER_GRADUATE && (
+            <UserGraduateTable searchName={searchName} />
+          )}
+          {tabValue === USER_LINE_OUT && (
+            <UserLineOutTable
+              searchName={searchName}
+              onSelect={onSelectLineOutUser}
+            />
+          )}
+          {tabValue === USER_TERM_INFO && (
+            <UserTermInfoBox/>
           )}
         </GRFlexView>
       </UserContainerView>
@@ -233,7 +257,7 @@ const ManagementUserPage: NextPage = () => {
       {isOpenComebackModal && (
         <GRAlertModal
           open={isOpenComebackModal}
-          description={`${selectedDispatchUser?.name}을 파송 복귀 하시겠습니까?`}
+          description={`${selectedDispatchedUser?.name}을 파송 복귀 하시겠습니까?`}
           onCancelClickButton={() => setIsOpenComebackModal(false)}
           onOkClickButton={onOkComebackClickButton}
         />

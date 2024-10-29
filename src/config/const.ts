@@ -1,5 +1,5 @@
 // import { tTeamType } from "apiV1_prefix/term/types";
-import { BELIEVE_STATUS, VISIT_REASON } from "common/enum";
+import { BELIEVE_STATUS, DISPATCH_STATUS, VISIT_REASON } from "common/enum";
 import { Color } from "styles/colors";
 
 export const SEX_NAME: { [key: string]: string } = {
@@ -29,6 +29,29 @@ export const DUTY: { [key: string]: string } = {
   NEW_FAMILY: "새가족",
   NOT_PLACED: "미배정"
 };
+
+export const DISPATCH_TYPE: { [key: string]: string } = {
+  MILITARY: "군대",
+  ABROAD: "유학",
+  MISSIONARY: "선교",
+  ETC: "기타"
+};
+
+export const DISPATCH_TYPE_OPTIONS = [
+  {
+    label: "군대",
+    value: DISPATCH_STATUS.MILITARY
+  },
+  {
+    label: "유학",
+    value: DISPATCH_STATUS.ABROAD
+  },
+  { label: "선교", value: DISPATCH_STATUS.MISSIONARY },
+  {
+    label: "기타",
+    value: DISPATCH_STATUS.ETC
+  }
+];
 
 export const DUTY_TAG = [
   {

@@ -39,3 +39,10 @@ export enum YES_NO_STATUS {
   YES = "YES",
   NO = "NO"
 }
+
+export enum DISPATCH_STATUS {
+  MILITARY = "MILITARY",
+  ABROAD = "ABROAD",
+  MISSIONARY = "MISSIONARY",
+  ETC = "ETC"
+}

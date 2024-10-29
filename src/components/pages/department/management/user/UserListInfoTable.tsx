@@ -15,7 +15,7 @@ type tUserInfoTable = {
   selectedUser: tUser[];
 };
 
-const UserInfoTable: React.FC<tUserInfoTable> = ({
+const UserListInfoTable: React.FC<tUserInfoTable> = ({
   searchName,
   onSelect,
   selectedUser
@@ -35,13 +35,13 @@ const UserInfoTable: React.FC<tUserInfoTable> = ({
       setFilteredUserData([]);
       return;
     }
-    let _filterNewFamily = userData;
+    let _filterUser = userData;
     if (searchName) {
-      _filterNewFamily = userData.filter(newFamily => {
-        return newFamily.name?.indexOf(searchName) !== -1;
+      _filterUser = userData.filter(user => {
+        return user.name?.indexOf(searchName) !== -1;
       });
     }
-    setFilteredUserData(_filterNewFamily);
+    setFilteredUserData(_filterUser);
   }, [userData, searchName]);
 
   const columns: TableColumnsType<any> = [
@@ -157,4 +157,4 @@ const UserInfoTable: React.FC<tUserInfoTable> = ({
   );
 };
 
-export default UserInfoTable;
+export default UserListInfoTable;
