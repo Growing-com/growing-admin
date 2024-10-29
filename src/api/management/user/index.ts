@@ -25,7 +25,7 @@ export const postDispatchUser = (data: tPostDispatchUser[]) => {
   });
 };
 
-export const returnDispatchedUser = ({
+export const comebackDispatchedUser = ({
   dispatchUserId
 }: {
   dispatchUserId: number;
@@ -61,12 +61,12 @@ export const getLineOutUserList = () => {
 export const postLineOutUser = (data: tPostLineOutUser[]) => {
   return request({
     method: REQUEST_METHOD.POST,
-    url: `${version}/line-out`,
+    url: `${version}/users/line-out`,
     data: { content: data }
   });
 };
 
-export const lineInUser = ({ lineOutUserId }: { lineOutUserId: number }) => {
+export const postLineInUser = ({ lineOutUserId }: { lineOutUserId: number }) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/line-out-users/${lineOutUserId}/line-in`

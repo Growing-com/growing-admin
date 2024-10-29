@@ -1,7 +1,7 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { TableColumnsType } from "antd";
-import { useDispatchedUserListQuery } from "api/account/queries/useDispatchedUserListQuery";
+import { useDispatchedUserListQuery } from "api/management/user/queries/useDispatchedUserListQuery";
 import { tDispatchedUser } from "api/management/user/type";
 import { DISPATCH_TYPE, SEX_NAME } from "config/const";
 import React, { useEffect, useState } from "react";

@@ -7,7 +7,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
-import { lineUpNewfamily, promoteNewfamily } from "api/newfamily";
+import { promoteNewfamily } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import { SEX_NAME } from "config/const";
@@ -60,18 +60,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
     }
     return true;
   };
-
-  const { mutateAsync: lineUpMutateAsync } = useMutation(lineUpNewfamily, {
-    onError: error => {
-      handleError(error, "라인업 오류");
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-
-      //   onClickClose();
-      GRAlert.success("라인업 완료");
-    }
-  });
 
   const onOkPromoteClickButton = async () => {
     if (!validateFormData(selectFormData)) {

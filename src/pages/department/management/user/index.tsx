@@ -6,12 +6,14 @@ import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
+import GRFormModal from "@component/molecule/modal/GRFormModal";
 import HeaderView from "@component/molecule/view/HeaderView";
 import UserDispatchTable from "@component/pages/department/management/user/UserDispatchTable";
 import UserGraduateTable from "@component/pages/department/management/user/UserGraduateTable";
 import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
 import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
-import UserTermInfoBox from '@component/pages/department/management/user/UserTermInfoBox';
+import UserTermInfoBox from "@component/pages/department/management/user/UserTermInfoBox";
+import { UserLineOutModal } from "@component/pages/department/management/user/modal/UserLineOutModal";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { tUser } from "api/account/types";
@@ -103,8 +105,8 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const onOkDispatchClickButton = async () => {
-    const userIds = selectedUser.map(item => item.userId);
-    // if (_userIds) await LineinMutateAsync(_userIds);
+    const _userIds = selectedUser.map(item => item.userId);
+    // if (_userIds) await useDispatchMutate();
   };
 
   const onOkComebackClickButton = async () => {
@@ -113,13 +115,13 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const onOkGraduateClickButton = async () => {
-    const userIds = selectedUser.map(item => item.userId);
+    const _userIds = selectedUser.map(item => item.userId);
     // if (_userIds) await LineinMutateAsync(_userIds);
   };
 
   const onOkLineOutClickButton = async () => {
-    const userIds = selectedUser.map(item => item.userId);
-    // await lineOutMutateAsync({ userIds });
+    const _userIds = selectedUser.map(item => item.userId);
+    // await lineOutMutateAsync({ _userIds });
   };
 
   const onOkLineInClickButton = async () => {
@@ -232,9 +234,7 @@ const ManagementUserPage: NextPage = () => {
               onSelect={onSelectLineOutUser}
             />
           )}
-          {tabValue === USER_TERM_INFO && (
-            <UserTermInfoBox/>
-          )}
+          {tabValue === USER_TERM_INFO && <UserTermInfoBox />}
         </GRFlexView>
       </UserContainerView>
       {/* 파송 요청 모달 */}
@@ -264,26 +264,31 @@ const ManagementUserPage: NextPage = () => {
       )}
       {/* 졸업 요청 모달 */}
       {isOpenGraduateModal && (
-        <GRAlertModal
+        // <GRAlertModal
+        //   open={isOpenGraduateModal}
+        //   description={`${selectedUser.length} 명을 졸업 시키겠습니까?`}
+        //   onCancelClickButton={() => setIsOpenGraduateModal(false)}
+        //   onOkClickButton={onOkGraduateClickButton}
+        //   subComponent={
+        //     <GRText>{selectedUser.map(user => user.name).join(",")}</GRText>
+        //   }
+        // />
+        <GRFormModal
+          // description={`${selectedUser.length} 명을 졸업 시키겠습니까?`}
+
           open={isOpenGraduateModal}
-          description={`${selectedUser.length} 명을 졸업 시키겠습니까?`}
-          onCancelClickButton={() => setIsOpenGraduateModal(false)}
-          onOkClickButton={onOkGraduateClickButton}
-          subComponent={
-            <GRText>{selectedUser.map(user => user.name).join(",")}</GRText>
-          }
-        />
+          onSubmit={onOkGraduateClickButton}
+          onCancel={() => setIsOpenGraduateModal(false)}
+        >
+          <GRText>g히히</GRText>
+        </GRFormModal>
       )}
       {/* 라인 아웃 모달 */}
       {isOpenLineOutModal && (
-        <GRAlertModal
+        <UserLineOutModal
+          selectedUser={selectedUser}
+          onClickClose={() => setIsOpenLineOutModal(false)}
           open={isOpenLineOutModal}
-          description={`${selectedUser.length} 명을 라인 아웃 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineOutModal(false)}
-          onOkClickButton={onOkLineOutClickButton}
-          subComponent={
-            <GRText>{selectedUser.map(user => user.name).join(",")}</GRText>
-          }
         />
       )}
       {/* 라인인 모달 */}

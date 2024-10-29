@@ -1,7 +1,7 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { TableColumnsType } from "antd";
-import { useLineOutUserListQuery } from "api/account/queries/useLineOutUserListQuery";
+import { useLineOutUserListQuery } from "api/management/user/queries/useLineOutUserListQuery";
 import { tLineOutUser } from "api/management/user/type";
 import { SEX_NAME } from "config/const";
 import React, { useEffect, useState } from "react";
@@ -72,6 +72,14 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 3 }
     },
     {
+      title: "생년월일",
+      key: "birth",
+      dataIndex: "birth",
+      align: "center",
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.birth)
+    },
+    {
       title: "라인아웃 날짜",
       dataIndex: "lineOutDate",
       key: "lineOutDate",
@@ -85,15 +93,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       }
     },
     {
-      title: "생년월일",
-      key: "birth",
-      dataIndex: "birth",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.birth)
-    },
-    {
-      title: "전화번호",
+      title: "이유",
       dataIndex: "reason",
       key: "reason",
       align: "center",

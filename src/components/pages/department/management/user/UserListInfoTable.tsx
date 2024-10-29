@@ -1,8 +1,8 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { TableColumnsType } from "antd";
-import { useUserListQuery } from "api/account/queries/useUserListQuery";
 import { tUser } from "api/account/types";
+import { useUserListQuery } from "api/management/user/queries/useUserListQuery";
 import { DUTY, SEX_NAME } from "config/const";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";

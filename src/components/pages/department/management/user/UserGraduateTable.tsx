@@ -1,7 +1,7 @@
 import GRTable from "@component/atom/GRTable";
 import GRText from "@component/atom/text/GRText";
 import { TableColumnsType } from "antd";
-import { useGraduateUserListQuery } from "api/account/queries/useGraduateUserListQuery";
+import { useGraduateUserListQuery } from "api/management/user/queries/useGraduateUserListQuery";
 import { tGraduatedUser } from "api/management/user/type";
 import { SEX_NAME } from "config/const";
 import React, { useEffect, useState } from "react";
