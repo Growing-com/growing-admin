@@ -48,4 +48,5 @@ const LeaderGRFlexView = styled(GRFlexView)`
   border-radius: 0.5rem;
   width: 100%;
   height: 100%;
+  box-shadow: rgba(32, 200, 113, 0.1) 4px 1px 20px -5px, rgba(0,0,0, 0.1) 0px 3px 7px -3px; 
 `;
