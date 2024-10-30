@@ -21,7 +21,7 @@ const UserTermInfoBox: React.FC = () => {
       </GRView>
       <GRFlexView
         isBoard
-        width={15}
+        width={16}
         paddinghorizontal={2}
         paddingvertical={1}
         marginleft={GRStylesConfig.BASE_MARGIN}
@@ -79,21 +79,23 @@ const DutyCountBox: React.FC<DutyCountBoxProps> = ({ name, data }) => {
   return (
     <GRFlexView flexDirection={"row"} alignItems={"end"}>
       <GRFlexView alignItems={"end"}>
-        <GRText fontSize={"b3"} marginright={1}>
+        <GRText fontSize={"b3"} marginright={2}>
           {name}:
         </GRText>
       </GRFlexView>
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"end"}
-        justifyContent={"end"}
-        flex={0.5}
-      >
-        <GRText fontSize={"b1"} weight={"bold"} marginright={0.5}>
-          {data}
-        </GRText>
-        <GRText fontSize={"b3"}>명</GRText>
-      </GRFlexView>
+      <GRView width={4}>
+        <GRFlexView
+          flexDirection={"row"}
+          alignItems={"end"}
+          justifyContent={"end"}
+          flex={0.5}
+        >
+          <GRText fontSize={"b1"} weight={"bold"} marginright={0.5}>
+            {data}
+          </GRText>
+          <GRText fontSize={"b3"}>명</GRText>
+        </GRFlexView>
+      </GRView>
     </GRFlexView>
   );
 };
