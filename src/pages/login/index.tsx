@@ -11,7 +11,6 @@ import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import getConfig from "next/config";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
 import menuStore from "store/clientStore/menuStore";
@@ -92,7 +91,7 @@ const Login = () => {
           <GRTextButton width={"100%"} onClick={onClickLogin}>
             로그인
           </GRTextButton>
-          <GRFlexView
+          {/* <GRFlexView
             flexDirection={"row"}
             justifyContent={"center"}
             margintop={1}
@@ -105,15 +104,15 @@ const Login = () => {
                 카카오 문의
               </Link>
             </GRTextButton>
-            {/* <GRTextButton
+            <GRTextButton
               buttonType={"text"}
               width={"100%"}
               onClick={onClickChangePassword}
             >
               비밀번호 변경
-            </GRTextButton> */}
-          </GRFlexView>
-          <GRFlexView alignItems={"center"}>
+            </GRTextButton>
+          </GRFlexView> */}
+          <GRFlexView alignItems={"center"} margintop={1}>
             <GRText fontSize={"b8"} color={Color.grey80}>
               {`v${publicRuntimeConfig?.version || ""}`}
             </GRText>
