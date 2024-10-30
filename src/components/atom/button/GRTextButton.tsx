@@ -137,10 +137,10 @@ const GRTextButton: React.FC<tGRButtonText> = ({
       css={css`
         background-color: ${_buttonTypeColor.backgroundColor};
         border-color: ${_buttonTypeColor.borderColor};
-        width: ${_width};
-        height: ${_height};
         ${BUTTON_SIZE_STYLE[size]};
         ${_margin};
+        height: ${_height};
+        width: ${_width};
 
         &:hover {
           color: ${_buttonTypeColor.hoverText} !important;
