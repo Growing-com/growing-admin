@@ -11,11 +11,13 @@ import UserGraduateTable from "@component/pages/department/management/user/UserG
 import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
 import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
 import UserTermInfoBox from "@component/pages/department/management/user/UserTermInfoBox";
+import UserDispatchModal from "@component/pages/department/management/user/modal/UserDispatchModal";
 import UserGraduateModal from "@component/pages/department/management/user/modal/UserGraduateModal";
 import UserLineOutModal from "@component/pages/department/management/user/modal/UserLineOutModal";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { tUser } from "api/account/types";
+import useComebackMutate from "api/management/user/mutate/useComebackMutate";
 import useLineInMutate from "api/management/user/mutate/useLineInMutate";
 import { tDispatchedUser, tLineOutUser } from "api/management/user/type";
 import { NextPage } from "next";
@@ -62,6 +64,9 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const { lineInMutate } = useLineInMutate(() => setIsOpenLineInModal(false));
+  const { combackMutate } = useComebackMutate(() =>
+    setIsOpenComebackModal(false)
+  );
 
   const onClickCreateUser = () => {
     router.push("/department/management/user/create");
@@ -106,14 +111,9 @@ const ManagementUserPage: NextPage = () => {
     setIsOpenLineInModal(true);
   };
 
-  const onOkDispatchClickButton = async () => {
-    const _userIds = selectedUser.map(item => item.userId);
-    // if (_userIds) await useDispatchMutate();
-  };
-
   const onOkComebackClickButton = async () => {
     const _userId = selectedDispatchedUser?.dispatchedUserId;
-    // if (_userIds) await LineinMutateAsync(_userIds);
+    if (_userId) await combackMutate({ dispatchUserId: _userId });
   };
 
   const onOkLineInClickButton = async () => {
@@ -231,19 +231,11 @@ const ManagementUserPage: NextPage = () => {
       </UserContainerView>
       {/* 파송 요청 모달 */}
       {isOpenDispatchModal && (
-        <div>
-          파송 요청 모달
-          <button onClick={() => setIsOpenDispatchModal(false)}>취소</button>
-        </div>
-        // <GRAlertModal
-        //   open={isOpenDispatchModal}
-        //   description={`${selectedUser.length} 명을 라인업 요청 하시겠습니까?`}
-        //   onCancelClickButton={() => setIsOpenDispatchModal(false)}
-        //   onOkClickButton={onOkDispatchClickButton}
-        //   subComponent={
-        //     <GRText>{selectedUser.map(user => user.name).join(",")}</GRText>
-        //   }
-        // />
+        <UserDispatchModal
+          open={isOpenDispatchModal}
+          selectedUser={selectedUser}
+          onClickClose={() => setIsOpenDispatchModal(false)}
+        />
       )}
       {/* 파송 복귀 모달 */}
       {isOpenComebackModal && (

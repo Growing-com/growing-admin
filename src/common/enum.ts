@@ -41,8 +41,12 @@ export enum YES_NO_STATUS {
 }
 
 export enum DISPATCH_STATUS {
+  /** 군대 */
   MILITARY = "MILITARY",
+  /** 유학 */
   ABROAD = "ABROAD",
+  /** 선교 */
   MISSIONARY = "MISSIONARY",
+  /** 기타 */
   ETC = "ETC"
 }

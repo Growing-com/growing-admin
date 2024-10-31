@@ -4,7 +4,7 @@ import { handleError } from "utils/error";
 import queryKeys from "api/queryKeys";
 import GRAlert from "@component/atom/alert/GRAlert";
 
-const useDispatchMutate = () => {
+const useDispatchMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: dispatchMutate } = useMutation(postDispatchUser, {
@@ -13,6 +13,7 @@ const useDispatchMutate = () => {
       queryClient.invalidateQueries([queryKeys.USER_LIST]);
       queryClient.invalidateQueries([queryKeys.USER_DISPATCHED]);
       GRAlert.success("파송 완료");
+      onClickClose();
     }
   });
 

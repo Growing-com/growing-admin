@@ -176,7 +176,13 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       maskClosable={false}
     >
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-        <GRTable rowKey={"newFamilyId"} columns={columns} data={selectedNewFamily} />
+        <GRTable
+          rowKey={"newFamilyId"}
+          columns={columns}
+          data={selectedNewFamily}
+          scroll={{ x: true }}
+          tableLayout={"auto"}
+        />
       </GRView>
     </GRModal>
   );
