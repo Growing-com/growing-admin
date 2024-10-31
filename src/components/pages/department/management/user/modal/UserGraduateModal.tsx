@@ -1,11 +1,13 @@
+import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
 import GRModal from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
+import { ColumnType } from "antd/es/table";
 import { tUser } from "api/account/types";
 import useGraduateMutate from "api/management/user/mutate/useGraduateMutate";
+import { DUTY, SEX_NAME } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { FC, useState } from "react";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
@@ -38,6 +40,59 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
     });
   };
 
+  const columns: ColumnType<tUser>[] = [
+    {
+      title: "직분",
+      dataIndex: "duty",
+      key: "duty",
+      align: "center",
+      width: "3rem",
+      minWidth: 45,
+      render: (_, item) => {
+        if (!item?.duty) return;
+        return <GRText>{DUTY[item?.duty]}</GRText>;
+      }
+    },
+    {
+      title: "일반 순장",
+      align: "center",
+      dataIndex: "leaderName",
+      width: "4rem",
+      minWidth: 65
+    },
+    {
+      title: "이름",
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      width: "6rem",
+      minWidth: 55,
+      render: (_, item) => {
+        return <GRText fontSize={"b5"}>{item.name}</GRText>;
+      }
+    },
+    {
+      title: "성별",
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+      width: "3rem",
+      minWidth: 40,
+      render: (_, item) => {
+        if (!item?.sex) return;
+        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
+      }
+    },
+    {
+      title: "학년",
+      dataIndex: "grade",
+      key: "grade",
+      align: "center",
+      width: "3rem",
+      minWidth: 40
+    }
+  ];
+
   const onCloseModal = () => {
     onClickClose();
   };
@@ -52,7 +107,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       onCancel={onCloseModal}
       onOk={onOkGraduateButton}
       title={"졸업"}
-      width={"40%"}
+      width={"50%"}
       maskClosable={false}
     >
       <GRFlexView
@@ -60,22 +115,24 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
         alignItems={"center"}
         xGap={2}
         marginbottom={1}
+        style={{ width: "50%" }}
       >
         <GRText fontSize={"b4"}>졸업일</GRText>
-        <GRView>
+        <GRFlexView>
           <GRDatePicker
             pickerType={"basic"}
             defaultValue={graduateDate}
             onChange={onChangeDate}
           />
-        </GRView>
+        </GRFlexView>
       </GRFlexView>
-      <GRFlexView flexDirection={"row"} alignItems={"center"} xGap={3}>
-        <GRText fontSize={"b4"}>명단</GRText>
-        <GRText fontSize={"b3"}>
-          {selectedUser.map(user => user.name).join(", ")}
-        </GRText>
-      </GRFlexView>
+      <GRTable
+        rowKey={"userId"}
+        columns={columns}
+        data={selectedUser}
+        scroll={{ x: true }}
+        tableLayout={"auto"}
+      />
     </GRModal>
   );
 };

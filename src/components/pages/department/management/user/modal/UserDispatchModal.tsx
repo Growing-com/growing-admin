@@ -66,7 +66,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
         returnDate: returnDate as string
       })
     );
-    console.log(_userData);
+    
     await dispatchMutate(_userData);
   };
 
