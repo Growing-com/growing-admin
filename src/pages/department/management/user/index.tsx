@@ -211,67 +211,62 @@ const ManagementUserPage: NextPage = () => {
               selectedUser={selectedUser}
             />
           )}
+          {/* 파송자 탭 */}
           {tabValue === USER_DISPATCH && (
             <UserDispatchTable
               searchName={searchName}
               onSelect={onSelectDispatchedUser}
             />
           )}
+          {/* 졸업 탭 */}
           {tabValue === USER_GRADUATE && (
             <UserGraduateTable searchName={searchName} />
           )}
+          {/* 라인아웃 탭 */}
           {tabValue === USER_LINE_OUT && (
             <UserLineOutTable
               searchName={searchName}
               onSelect={onSelectLineOutUser}
             />
           )}
+          {/* 정보 탭 */}
           {tabValue === USER_TERM_INFO && <UserTermInfoBox />}
         </GRFlexView>
       </UserContainerView>
       {/* 파송 요청 모달 */}
-      {isOpenDispatchModal && (
-        <UserDispatchModal
-          open={isOpenDispatchModal}
-          selectedUser={selectedUser}
-          onClickClose={() => setIsOpenDispatchModal(false)}
-          resetSelection={resetSelection}
-        />
-      )}
+      <UserDispatchModal
+        open={isOpenDispatchModal}
+        selectedUser={selectedUser}
+        onClickClose={() => setIsOpenDispatchModal(false)}
+        resetSelection={resetSelection}
+      />
       {/* 파송 복귀 모달 */}
-      {isOpenComebackModal && (
-        <GRAlertModal
-          open={isOpenComebackModal}
-          description={`${selectedDispatchedUser?.name}을 파송 복귀 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenComebackModal(false)}
-          onOkClickButton={onOkComebackClickButton}
-        />
-      )}
+      <GRAlertModal
+        open={isOpenComebackModal}
+        description={`${selectedDispatchedUser?.name}을 파송 복귀 하시겠습니까?`}
+        onCancelClickButton={() => setIsOpenComebackModal(false)}
+        onOkClickButton={onOkComebackClickButton}
+      />
       {/* 졸업 요청 모달 */}
-      {isOpenGraduateModal && (
-        <UserGraduateModal
-          open={isOpenGraduateModal}
-          selectedUser={selectedUser}
-          onClickClose={() => setIsOpenGraduateModal(false)}
-        />
-      )}
+      <UserGraduateModal
+        open={isOpenGraduateModal}
+        selectedUser={selectedUser}
+        onClickClose={() => setIsOpenGraduateModal(false)}
+      />
       {/* 라인 아웃 모달 */}
-      {isOpenLineOutModal && (
-        <UserLineOutModal
-          open={isOpenLineOutModal}
-          selectedUser={selectedUser}
-          onClickClose={() => setIsOpenLineOutModal(false)}
-        />
-      )}
+      <UserLineOutModal
+        open={isOpenLineOutModal}
+        selectedUser={selectedUser}
+        onClickClose={() => setIsOpenLineOutModal(false)}
+      />
       {/* 라인인 모달 */}
-      {isOpenLineInModal && (
-        <GRAlertModal
-          open={isOpenLineInModal}
-          description={`${selectedLineOutUser?.name}을 복귀 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineInModal(false)}
-          onOkClickButton={onOkLineInClickButton}
-        />
-      )}
+      <GRAlertModal
+        open={isOpenLineInModal}
+        description={`${selectedLineOutUser?.name}을 복귀 하시겠습니까?`}
+        onCancelClickButton={() => setIsOpenLineInModal(false)}
+        onOkClickButton={onOkLineInClickButton}
+      />
+      
     </>
   );
 };

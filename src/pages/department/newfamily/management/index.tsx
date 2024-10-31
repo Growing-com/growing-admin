@@ -141,14 +141,12 @@ const NewfamilyManagementPage: NextPage = () => {
         </GRFlexView>
       </NewfamilyContainerView>
       {/* 복귀 모달 */}
-      {isOpenLineInModal && (
-        <GRAlertModal
-          open={isOpenLineInModal}
-          description={`${selectedLineOutNewFamily?.name}을 복귀 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineInModal(false)}
-          onOkClickButton={onOkLineInClickButton}
-        />
-      )}
+      <GRAlertModal
+        open={isOpenLineInModal}
+        description={`${selectedLineOutNewFamily?.name}을 복귀 하시겠습니까?`}
+        onCancelClickButton={() => setIsOpenLineInModal(false)}
+        onOkClickButton={onOkLineInClickButton}
+      />
     </>
   );
 };
