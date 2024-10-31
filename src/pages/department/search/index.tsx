@@ -175,13 +175,9 @@ const SearchPage: NextPage = () => {
   ];
 
   const onChangeSelectCody = (_selectedCodyId: number) => {
-    if (!_selectedCodyId) {
-      setSearchCodyId(undefined);
-      setSearchTotal(userList ?? []);
-      return;
-    }
+    const API_INIT_CODY_ID = 1;
     // 쿼리 보내는 codyId : data를 위한 것
-    setSelectedCodyId(_selectedCodyId);
+    setSelectedCodyId(_selectedCodyId || API_INIT_CODY_ID);
     // 이 컴포넌트에서 관리하는 codyId : view를 위한 것
     setSearchCodyId(_selectedCodyId);
   };
@@ -189,10 +185,17 @@ const SearchPage: NextPage = () => {
   useEffect(() => {
     if (!userList) return;
     setSearchTotal(userList);
+    setSearchBaseData(userList);
   }, [userList]);
 
   useEffect(() => {
-    if (!membersByCody || !searchCodyId) return;
+    if (!searchCodyId) {
+      setSearchCodyId(undefined);
+      setSearchBaseData(userList ?? []);
+      setSearchTotal(userList ?? []);
+      return;
+    }
+    if (!membersByCody) return;
     setSearchBaseData(membersByCody);
   }, [membersByCody, searchCodyId]);
 
