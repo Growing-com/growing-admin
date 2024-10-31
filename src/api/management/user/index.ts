@@ -7,6 +7,7 @@ import {
   tPostGraduateUser,
   tPostLineOutUser
 } from "./type";
+import { tUser } from 'api/account/types';
 
 const version = "v1";
 
@@ -70,5 +71,22 @@ export const postLineInUser = ({ lineOutUserId }: { lineOutUserId: number }) => 
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/line-out-users/${lineOutUserId}/line-in`
+  });
+};
+
+export const createUser = (data: tUser) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/users/register`,
+    data    
+  });
+};
+
+export const updateUser = (data: tUser) => {
+  const { userId } = data;
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/users/${userId}/update`,
+    data
   });
 };

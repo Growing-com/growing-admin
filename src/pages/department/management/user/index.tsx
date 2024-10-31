@@ -11,6 +11,7 @@ import UserGraduateTable from "@component/pages/department/management/user/UserG
 import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
 import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
 import UserTermInfoBox from "@component/pages/department/management/user/UserTermInfoBox";
+import UserDetailModal from '@component/pages/department/management/user/modal/UserDetailModal';
 import UserDispatchModal from "@component/pages/department/management/user/modal/UserDispatchModal";
 import UserGraduateModal from "@component/pages/department/management/user/modal/UserGraduateModal";
 import UserLineOutModal from "@component/pages/department/management/user/modal/UserLineOutModal";
@@ -22,7 +23,7 @@ import useLineInMutate from "api/management/user/mutate/useLineInMutate";
 import { tDispatchedUser, tLineOutUser } from "api/management/user/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -41,6 +42,7 @@ const option = [
 
 const ManagementUserPage: NextPage = () => {
   const router = useRouter();
+  const { userId } = router.query;
   const queryClient = useQueryClient();
 
   const [isOpenDispatchModal, setIsOpenDispatchModal] = useState(false);
@@ -48,6 +50,7 @@ const ManagementUserPage: NextPage = () => {
   const [isOpenComebackModal, setIsOpenComebackModal] = useState(false);
   const [isOpenLineOutModal, setIsOpenLineOutModal] = useState(false);
   const [isOpenLineInModal, setIsOpenLineInModal] = useState(false);
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [tabValue, setTabValue] = useState<string>(USER_LIST_INFO);
   const [selectedUser, setSelectedUser] = useState<tUser[]>([]);
@@ -69,7 +72,7 @@ const ManagementUserPage: NextPage = () => {
   );
 
   const onClickCreateUser = () => {
-    router.push("/department/management/user/create");
+    setIsOpenDetailModal(true);
   };
 
   const onChangeSearch = (_text: string) => {
@@ -141,6 +144,16 @@ const ManagementUserPage: NextPage = () => {
     setSelectedUser([]);
   };
 
+  const closeDetailModal = () => {
+    setIsOpenDetailModal(false);
+    router.push("/department/management/user")
+  }
+
+  useEffect(()=>{
+    if(!userId) return;
+    setIsOpenDetailModal(true);
+  },[userId])
+
   return (
     <>
       <HeaderView
@@ -155,6 +168,7 @@ const ManagementUserPage: NextPage = () => {
           </GRTextButton>
         }
       />
+      {/* <button onClick={() => history.push(`/edit-user?userId=${userId}`)} */}
       <UserContainerView>
         <GRTab items={option} onChange={onChangeTab} />
         <GRFlexView style={{ width: "100%", overflowX: "auto" }}>
@@ -266,7 +280,11 @@ const ManagementUserPage: NextPage = () => {
         onCancelClickButton={() => setIsOpenLineInModal(false)}
         onOkClickButton={onOkLineInClickButton}
       />
-      
+      {/* 유저 생성 , 수정 모달 */}
+      <UserDetailModal
+      open={isOpenDetailModal}
+      onClickClose={closeDetailModal}
+      />
     </>
   );
 };

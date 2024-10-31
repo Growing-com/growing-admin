@@ -27,7 +27,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
   const { data: userData, isLoading } = useUserListQuery();
 
   const onClickUpdateUser = (_userId: number) => {
-    router.push(`/department/management/user/${_userId}`);
+    router.push(`/department/management/user?userId=${_userId}`);
   };
 
   useEffect(() => {
@@ -135,6 +135,11 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
   return (
     <>
       {/* <button onClick={() => console.log(userData)}>userData</button> */}
+      {/* <button
+        onClick={() => queryClient.invalidateQueries([queryKeys.USER_LIST])}
+      >
+        Delete
+      </button> */}
       <GRTable
         rowKey={"userId"}
         columns={columns}

@@ -53,7 +53,8 @@ export type tUser = {
   duty?: string;
   /** @description 리더 이름  @example  "황길동" */
   leaderName?: string;
-
+  /** @description 순모임 아이디  @example  1 */
+  smallGroupId?: number;
   // updatedBy: string;
   // updatedAt: string;
 };
@@ -85,4 +86,3 @@ export type tDutyCount = {
   newFamilyCount: number;
   notPlacedCount: number;
 };
-
