@@ -235,6 +235,7 @@ const ManagementUserPage: NextPage = () => {
           open={isOpenDispatchModal}
           selectedUser={selectedUser}
           onClickClose={() => setIsOpenDispatchModal(false)}
+          resetSelection={resetSelection}
         />
       )}
       {/* 파송 복귀 모달 */}

@@ -23,17 +23,19 @@ type tDispatchForm = tUser & {
 type tUserDispatchModal = {
   open: boolean;
   onClickClose: () => void;
+  resetSelection: () => void;
   selectedUser: tUser[];
 };
 
 const UserDispatchModal: FC<tUserDispatchModal> = ({
   open,
   onClickClose,
+  resetSelection,
   selectedUser
 }) => {
   const [selectFormData, setSelectFormData] = useState<tDispatchForm[]>([]);
 
-  const { dispatchMutate } = useDispatchMutate(onClickClose);
+  const { dispatchMutate } = useDispatchMutate(onClickClose, resetSelection);
 
   const validateGraduate = () => {
     const isValid = selectFormData.every(user => {
