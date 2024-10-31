@@ -70,7 +70,7 @@ const NewfamilyCreatePage: NextPage = () => {
               <GRFlexView
                 flexDirection={"row"}
                 marginbottom={GRStylesConfig.BASE_MARGIN}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 alignItems={"center"}
               >
                 <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
@@ -136,9 +136,9 @@ const NewfamilyCreatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
                 <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
                   <GRFormTitle title={"성별"} required={true} />
@@ -184,7 +184,7 @@ const NewfamilyCreatePage: NextPage = () => {
               <GRFlexView
                 marginbottom={GRStylesConfig.BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
                 <GRFlexView flexDirection={"row"}>
                   <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
@@ -221,9 +221,9 @@ const NewfamilyCreatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
                 <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
                   <GRFormTitle title={"나는 예수님을 (   )"} />

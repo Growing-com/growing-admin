@@ -4,7 +4,7 @@ type tGRStylesConfig = {
   BASE_SMALL_MARGIN: number;
   BASE_MARGIN: number;
   BASE_LONG_MARGIN: number;
-  FORM_BLOCK_BASE_SMALL_MARGIN : number;
+  FORM_BLOCK_BASE_MARGIN : number;
   BASE_PADDING: number;
   HORIZONTAL_PADDING: number;
   BASE_RADIUS: number;
@@ -16,7 +16,7 @@ const GRStylesConfig: tGRStylesConfig = {
   BASE_SMALL_MARGIN: 0.3,
   BASE_MARGIN: 0.5,
   BASE_LONG_MARGIN: 1,
-  FORM_BLOCK_BASE_SMALL_MARGIN : 2,
+  FORM_BLOCK_BASE_MARGIN : 2,
   BASE_PADDING: 0.3,
   HORIZONTAL_PADDING: 2,
   BASE_RADIUS: 0.5,
