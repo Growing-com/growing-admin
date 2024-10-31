@@ -203,6 +203,10 @@ const SearchPage: NextPage = () => {
     <>
       <HeaderView
         title={"전체 검색"}
+        titleInfoType={"info"}
+        titleInfo={
+          <GRText>전체 혹은 코디별로 검색할 수 있습니다.</GRText>
+        }
         subComponent={
           <GRFlexView flexDirection={"row"} xGap={1}>
             <GRFlexView>
