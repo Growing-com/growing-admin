@@ -35,6 +35,19 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
 
   const columns: TableColumnsType<any> = [
     {
+      title: "졸업날짜",
+      key: "graduateDate",
+      dataIndex: "graduateDate",
+      align: "center",
+      width: "8rem",
+      render: (_, record) => checkDefaultDate(record.graduateDate),
+      sorter: {
+        compare: (valueA, valueB) =>
+          dateSorter(valueA.graduateDate, valueB.graduateDate),
+        multiple: 5
+      }
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -79,19 +92,6 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       sorter: {
         compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
         multiple: 1
-      }
-    },
-    {
-      title: "졸업날짜",
-      key: "graduateDate",
-      dataIndex: "graduateDate",
-      align: "center",
-      width: "8rem",
-      render: (_, record) => checkDefaultDate(record.graduateDate),
-      sorter: {
-        compare: (valueA, valueB) =>
-          dateSorter(valueA.graduateDate, valueB.graduateDate),
-        multiple: 5
       }
     }
   ];

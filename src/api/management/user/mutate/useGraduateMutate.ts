@@ -4,7 +4,7 @@ import { handleError } from "utils/error";
 import queryKeys from "api/queryKeys";
 import GRAlert from "@component/atom/alert/GRAlert";
 
-const useGraduateMutate = () => {
+const useGraduateMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: graduateMutate } = useMutation(postGraduateUser, {
@@ -13,6 +13,7 @@ const useGraduateMutate = () => {
       queryClient.invalidateQueries([queryKeys.USER_LIST]);
       queryClient.invalidateQueries([queryKeys.USER_GRADUATE]);
       GRAlert.success("졸업 완료");
+      onClickClose();
     }
   });
 

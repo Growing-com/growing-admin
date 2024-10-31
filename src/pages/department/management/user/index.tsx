@@ -1,22 +1,22 @@
 import GRTab from "@component/atom/GRTab";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRTextButton from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import GRAlertModal from "@component/molecule/modal/GRAlertModal";
-import GRFormModal from "@component/molecule/modal/GRFormModal";
 import HeaderView from "@component/molecule/view/HeaderView";
 import UserDispatchTable from "@component/pages/department/management/user/UserDispatchTable";
 import UserGraduateTable from "@component/pages/department/management/user/UserGraduateTable";
 import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
 import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
 import UserTermInfoBox from "@component/pages/department/management/user/UserTermInfoBox";
-import { UserLineOutModal } from "@component/pages/department/management/user/modal/UserLineOutModal";
+import UserGraduateModal from "@component/pages/department/management/user/modal/UserGraduateModal";
+import UserLineOutModal from "@component/pages/department/management/user/modal/UserLineOutModal";
 import styled from "@emotion/styled";
 import { useQueryClient } from "@tanstack/react-query";
 import { tUser } from "api/account/types";
+import useLineInMutate from "api/management/user/mutate/useLineInMutate";
 import { tDispatchedUser, tLineOutUser } from "api/management/user/type";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -60,6 +60,8 @@ const ManagementUserPage: NextPage = () => {
     setTabValue(value);
     resetSelection();
   };
+
+  const { lineInMutate } = useLineInMutate(() => setIsOpenLineInModal(false));
 
   const onClickCreateUser = () => {
     router.push("/department/management/user/create");
@@ -114,19 +116,9 @@ const ManagementUserPage: NextPage = () => {
     // if (_userIds) await LineinMutateAsync(_userIds);
   };
 
-  const onOkGraduateClickButton = async () => {
-    const _userIds = selectedUser.map(item => item.userId);
-    // if (_userIds) await LineinMutateAsync(_userIds);
-  };
-
-  const onOkLineOutClickButton = async () => {
-    const _userIds = selectedUser.map(item => item.userId);
-    // await lineOutMutateAsync({ _userIds });
-  };
-
   const onOkLineInClickButton = async () => {
     const _userId = selectedLineOutUser?.lineOutUserId;
-    // if (_userId) await LineinMutateAsync(_userId);
+    if (_userId) await lineInMutate({ lineOutUserId: _userId });
   };
 
   const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
@@ -264,31 +256,18 @@ const ManagementUserPage: NextPage = () => {
       )}
       {/* 졸업 요청 모달 */}
       {isOpenGraduateModal && (
-        // <GRAlertModal
-        //   open={isOpenGraduateModal}
-        //   description={`${selectedUser.length} 명을 졸업 시키겠습니까?`}
-        //   onCancelClickButton={() => setIsOpenGraduateModal(false)}
-        //   onOkClickButton={onOkGraduateClickButton}
-        //   subComponent={
-        //     <GRText>{selectedUser.map(user => user.name).join(",")}</GRText>
-        //   }
-        // />
-        <GRFormModal
-          // description={`${selectedUser.length} 명을 졸업 시키겠습니까?`}
-
+        <UserGraduateModal
           open={isOpenGraduateModal}
-          onSubmit={onOkGraduateClickButton}
-          onCancel={() => setIsOpenGraduateModal(false)}
-        >
-          <GRText>g히히</GRText>
-        </GRFormModal>
+          selectedUser={selectedUser}
+          onClickClose={() => setIsOpenGraduateModal(false)}
+        />
       )}
       {/* 라인 아웃 모달 */}
       {isOpenLineOutModal && (
         <UserLineOutModal
+          open={isOpenLineOutModal}
           selectedUser={selectedUser}
           onClickClose={() => setIsOpenLineOutModal(false)}
-          open={isOpenLineOutModal}
         />
       )}
       {/* 라인인 모달 */}

@@ -7,7 +7,7 @@ import GRAlert from "@component/atom/alert/GRAlert";
 const useLineOutMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync: userLineOutMutate } = useMutation(postLineOutUser, {
+  const { mutateAsync: lineOutMutate } = useMutation(postLineOutUser, {
     onError: error => handleError(error, "라인아웃 에러"),
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.USER_LIST]);
@@ -17,7 +17,7 @@ const useLineOutMutate = (onClickClose: () => void) => {
     }
   });
 
-  return { userLineOutMutate };
+  return { lineOutMutate };
 };
 
 export default useLineOutMutate;

@@ -20,22 +20,22 @@ type tUserLineOutModal = {
 
 type tUserWithReason = tUser & { reason?: string };
 
-export const UserLineOutModal: FC<tUserLineOutModal> = ({
+const UserLineOutModal: FC<tUserLineOutModal> = ({
   open,
   onClickClose,
   selectedUser
 }) => {
   const [selectFormData, setSelectFormData] = useState<tUserWithReason[]>([]);
 
-  const { userLineOutMutate } = useLineOutMutate(onClickClose);
+  const { lineOutMutate } = useLineOutMutate(onClickClose);
 
-  const onOkPromoteClickButton = async () => {
+  const onOkLineOutClickButton = async () => {
     const _formData = selectFormData.map(({ userId, reason }) => ({
       userId,
       lineOutDate: convertDateStringByDefaultForm(dayjs()),
       reason
     }));
-    await userLineOutMutate(_formData);
+    await lineOutMutate(_formData);
   };
 
   const insertDataInFormResult = (
@@ -124,7 +124,7 @@ export const UserLineOutModal: FC<tUserLineOutModal> = ({
     <GRModal
       open={open}
       onCancel={onCloseModal}
-      onOk={onOkPromoteClickButton}
+      onOk={onOkLineOutClickButton}
       title={"라인아웃"}
       width={"60%"}
       maskClosable={false}
@@ -135,3 +135,5 @@ export const UserLineOutModal: FC<tUserLineOutModal> = ({
     </GRModal>
   );
 };
+
+export default UserLineOutModal;

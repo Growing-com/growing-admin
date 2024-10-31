@@ -4,7 +4,7 @@ import { handleError } from "utils/error";
 import queryKeys from "api/queryKeys";
 import GRAlert from "@component/atom/alert/GRAlert";
 
-const useLineInMutate = () => {
+const useLineInMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: lineInMutate } = useMutation(postLineInUser, {
@@ -13,6 +13,7 @@ const useLineInMutate = () => {
       queryClient.invalidateQueries([queryKeys.USER_LIST]);
       queryClient.invalidateQueries([queryKeys.USER_LINE_OUT]);
       GRAlert.success("복귀 완료");
+      onClickClose();
     }
   });
 
