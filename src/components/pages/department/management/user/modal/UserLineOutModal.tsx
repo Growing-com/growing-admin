@@ -130,7 +130,7 @@ export const UserLineOutModal: FC<tUserLineOutModal> = ({
       maskClosable={false}
     >
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-        <GRTable columns={columns} data={selectedUser} />
+        <GRTable rowKey={"userId"} columns={columns} data={selectedUser} />
       </GRView>
     </GRModal>
   );
