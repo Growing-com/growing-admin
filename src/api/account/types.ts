@@ -7,13 +7,27 @@ export type tSex = "MALE" | "FEMALE";
 
 /**
  * * @descriptio 직분
- * PASTOR: 교역자
- * GANSA: 간사
- * LEADER: 리더
- * MEMBER: 조원
- * NEW_COMER: 새가족
+ * PASTOR: 교역자,
+ * GANSA: 간사,
+ * CODY: 코디,
+ * SMALL_GROUP_LEADER: 순장,
+ * NEW_FAMILY_GROUP_LEADER: 새가족 순장,
+ * SMALL_GROUP_MEMBER: 순원,
+ * NEW_FAMILY_MEMBER: 새가족 순원,
+ * NEW_FAMILY: 새가족,
+ * NOT_PLACED: 미배정
  */
-export type tDuty = "PASTOR" | "GANSA" | "LEADER" | "MEMBER" | "NEW_COMER";
+
+export type tDuty =
+  | "PASTOR"
+  | "GANSA"
+  | "CODY"
+  | "SMALL_GROUP_LEADER"
+  | "NEW_FAMILY_GROUP_LEADER"
+  | "SMALL_GROUP_MEMBER"
+  | "NEW_FAMILY_MEMBER"
+  | "NEW_FAMILY"
+  | "NOT_PLACED";
 
 /**
  * @description 역할
@@ -37,9 +51,13 @@ export type tUser = {
   /** @description 생년월일  @example  "1996-10-16" */
   birth?: string;
   /** @description 직분 이름  @example  "CODY" */
-  duty?: string;
+  duty?: tDuty;
   /** @description 리더 이름  @example  "황길동" */
   leaderName?: string;
+  /** @description 순모임 아이디  @example  1 */
+  smallGroupId?: number;
+  /** @description 기타 사항  @example  "감자를 좋아함" */
+  etc?: string;
 
   // updatedBy: string;
   // updatedAt: string;

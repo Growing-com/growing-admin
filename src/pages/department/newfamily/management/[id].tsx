@@ -21,7 +21,7 @@ import {
   YES_NO_OPTIONS
 } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
-import { useCurrentTermInfoOptionQueries } from 'hooks/queries/term/useCurrentTermInfoOptionQueries';
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -42,7 +42,8 @@ const NewfamilyUpdatePage: NextPage = () => {
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
-  const { currentTermNewFamilyLeaderOptions } = useCurrentTermInfoOptionQueries();
+  const { currentTermNewFamilyLeaderOptions } =
+    useCurrentTermInfoOptionQueries();
 
   const numericId = id ? Number(id) : null;
 
@@ -109,13 +110,11 @@ const NewfamilyUpdatePage: NextPage = () => {
               <GRFlexView
                 flexDirection={"row"}
                 marginbottom={GRStylesConfig.BASE_MARGIN}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 alignItems={"center"}
               >
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"이름"} required={true} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"이름"} required={true} />
                   <GRFormItem
                     type={"text"}
                     textType={"name"}
@@ -125,10 +124,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     rules={{ required: "이름은 필수입니다." }}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"학년"} required={true} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"학년"} required={true} />
                   <GRFormItem
                     type={"text"}
                     textType={"number"}
@@ -145,10 +142,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     }}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"전화번호"} required={true} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"전화번호"} required={true} />
                   <GRFormItem
                     type={"text"}
                     textType={"phoneNumber"}
@@ -168,10 +163,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     }}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"방문일"} required={true} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"방문일"} required={true} />
                   <GRFormItem
                     type={"date"}
                     pickerType={"basic"}
@@ -183,14 +176,12 @@ const NewfamilyUpdatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
-                <GRFlexView>
-                  <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"성별"} required={true} />
-                  </GRView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"성별"} required={true} />
                   <GRFormItem
                     type={"radio"}
                     options={SEX_OPTIONS}
@@ -199,10 +190,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     rules={{ required: "성별은 필수 입니다." }}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"생년월일"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"생년월일"} />
                   <GRFormItem
                     type={"date"}
                     pickerType={"basic"}
@@ -211,10 +200,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     placeholder={"생년월일을 선택해 주세요"}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"학교/학과/학년"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"학교/학과/학년"} />
                   <GRFormItem
                     type={"text"}
                     textType={"input"}
@@ -223,10 +210,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     placeholder={"학교/학과/학년을 작성해 주세요"}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"인도자"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"인도자"} />
                   <GRFormItem
                     type={"text"}
                     textType={"input"}
@@ -239,13 +224,11 @@ const NewfamilyUpdatePage: NextPage = () => {
               <GRFlexView
                 marginbottom={GRStylesConfig.BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
                 <GRFlexView flexDirection={"row"}>
-                  <GRFlexView>
-                    <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                      <GRFormTitle title={"교회가 처음"} />
-                    </GRView>
+                  <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"교회가 처음"} />
                     <GRFormItem
                       type={"radio"}
                       options={YES_NO_OPTIONS}
@@ -253,10 +236,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                       control={control}
                     />
                   </GRFlexView>
-                  <GRFlexView>
-                    <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                      <GRFormTitle title={"이전에 다닌 교회"} />
-                    </GRFlexView>
+                  <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"이전에 다닌 교회"} />
                     <GRFormItem
                       type={"text"}
                       textType={"input"}
@@ -267,12 +248,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                   </GRFlexView>
                 </GRFlexView>
                 <GRFlexView>
-                  <GRFlexView>
-                    <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                      <GRFormTitle
-                        title={"사랑의 교회 대학부에 오게 된 이유"}
-                      />
-                    </GRFlexView>
+                  <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                    <GRFormTitle title={"사랑의 교회 대학부에 오게 된 이유"} />
                     <GRFormItem
                       type={"select"}
                       options={VISIT_REASON_OPTIONS}
@@ -284,14 +261,13 @@ const NewfamilyUpdatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
-                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+
+                marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 flexDirection={"row"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_SMALL_MARGIN}
+                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
               >
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"나는 예수님을 (   )"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"나는 예수님을 (   )"} />
                   <GRFormItem
                     type={"select"}
                     options={BELIEVE_STATUS_OPTIONS}
@@ -300,10 +276,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                     placeholder={"답을 선택해주세요"}
                   />
                 </GRFlexView>
-                <GRFlexView>
-                  <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"나는 구원의 확신이 (   )"} />
-                  </GRView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"나는 구원의 확신이 (   )"} />
                   <GRFormItem
                     type={"radio"}
                     options={THERE_OPTIONS}
@@ -313,10 +287,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"기타 사항"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"기타 사항"} />
                   <GRFormItem
                     type={"text"}
                     textType={"textarea"}
@@ -330,10 +302,8 @@ const NewfamilyUpdatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                <GRFlexView>
-                  <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                    <GRFormTitle title={"새가족 순원 기록지"} />
-                  </GRFlexView>
+                <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                  <GRFormTitle title={"새가족 순원 기록지"} />
                   <GRFormItem
                     type={"text"}
                     textType={"textarea"}
@@ -356,16 +326,14 @@ const NewfamilyUpdatePage: NextPage = () => {
               <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
                 라인업
               </GRText>
-              <GRInfoBadge infoMessage={"바로 라인업 할 경우 넣어주세요"} />
+              <GRInfoBadge infoMessage={"바로 라인업할 경우 넣어주세요"} />
             </GRFlexView>
             <GRFlexView
               marginbottom={GRStylesConfig.BASE_MARGIN}
               flexDirection={"row"}
             >
-              <GRFlexView>
-                <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
-                  <GRFormTitle title={"새가족 순장"} />
-                </GRFlexView>
+              <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+                <GRFormTitle title={"새가족 순장"} />
                 <GRFormItem
                   type={"select"}
                   textType={"input"}

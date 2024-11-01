@@ -150,6 +150,6 @@ export type tLineOutNewFamily = {
   /** @description 학년  @example: 9 */
   grade: number;
 
-  /** @description 방문일 @example: "2024-06-01" */
+  /** @description 라인아웃 날짜 @example: "2024-06-01" */
   lineOutDate: string;
 };

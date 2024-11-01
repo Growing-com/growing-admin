@@ -178,6 +178,7 @@ const LeadersPage: NextPage = () => {
           alignItems={"end"}
           xGap={1}
           marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
+          style={{ overflowX: "auto", width: "100%" }}
         >
           <GRView>
             <GRFlexView flexDirection={"row"} alignItems={"end"}>
@@ -227,6 +228,8 @@ const LeadersPage: NextPage = () => {
             position: ["bottomCenter"]
           }}
           onChange={handleChange}
+          scroll={{ x: true }}
+          tableLayout={"auto"}
         />
       </GRContainerView>
     </>

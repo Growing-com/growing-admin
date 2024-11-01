@@ -1,7 +1,7 @@
 import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Button, ButtonProps } from "antd";
-import React, { CSSProperties, useMemo } from "react";
+import React, { CSSProperties, useMemo, useState } from "react";
 import { Color } from "styles/colors";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRText, { tFontSizeType } from "../text/GRText";
@@ -32,6 +32,16 @@ export type tGRButtonText = {
 
 type tType = "default" | "primary";
 
+type tButtonProps = {
+  type: tButtonType;
+  textColor?: CSSProperties["color"];
+  backgroundColor?: CSSProperties["backgroundColor"];
+  borderColor?: CSSProperties["color"];
+  hoverText?: CSSProperties["color"];
+  hoverBackgroundColor?: CSSProperties["backgroundColor"];
+  hoverBorderColor?: CSSProperties["color"];
+};
+
 const GRTextButton: React.FC<tGRButtonText> = ({
   size = "normal",
   children,
@@ -47,6 +57,8 @@ const GRTextButton: React.FC<tGRButtonText> = ({
   disabled,
   ...props
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const _margin = getMargin(props);
   const _width = useMemo(
     () => (typeof width === "string" ? width : `${width}rem`),
@@ -62,12 +74,15 @@ const GRTextButton: React.FC<tGRButtonText> = ({
     [buttonType]
   );
 
-  const _buttonTypeColor = useMemo(() => {
-    const buttonProps = {
+  const _buttonTypeColor = useMemo<tButtonProps>(() => {
+    const buttonProps: tButtonProps = {
       type: buttonType,
       textColor,
       backgroundColor,
-      borderColor
+      borderColor,
+      hoverText: undefined,
+      hoverBackgroundColor: undefined,
+      hoverBorderColor: undefined
     };
     if (disabled) {
       buttonProps.textColor = Color.grey80;
@@ -90,6 +105,7 @@ const GRTextButton: React.FC<tGRButtonText> = ({
       case "primary":
         buttonProps.textColor = Color.white;
         buttonProps.backgroundColor = Color.green200;
+        buttonProps.hoverText = Color.white;
         break;
       case "cancel":
         buttonProps.textColor = Color.grey40;
@@ -100,6 +116,9 @@ const GRTextButton: React.FC<tGRButtonText> = ({
         buttonProps.textColor = Color.white;
         buttonProps.backgroundColor = Color.red100;
         buttonProps.borderColor = "transparent";
+        buttonProps.hoverText = Color.red100;
+        buttonProps.hoverBackgroundColor = Color.white;
+        buttonProps.hoverBorderColor = Color.red200;
         break;
       case "text":
         buttonProps.textColor = Color.green200;
@@ -110,16 +129,24 @@ const GRTextButton: React.FC<tGRButtonText> = ({
 
   return (
     <ButtonCompon
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       type={_type as tType}
       ghost={buttonType === "text"}
       onClick={onClick}
       css={css`
         background-color: ${_buttonTypeColor.backgroundColor};
+        border-color: ${_buttonTypeColor.borderColor};
         ${BUTTON_SIZE_STYLE[size]};
         ${_margin};
-        width: ${_width};
         height: ${_height};
-        border-color: ${_buttonTypeColor.borderColor};
+        width: ${_width};
+
+        &:hover {
+          color: ${_buttonTypeColor.hoverText} !important;
+          background-color: ${_buttonTypeColor.hoverBackgroundColor} !important;
+          border-color: ${_buttonTypeColor.hoverBorderColor} !important;
+        }
       `}
       disabled={disabled}
       {...props}
@@ -127,7 +154,9 @@ const GRTextButton: React.FC<tGRButtonText> = ({
       <GRText
         weight={textWeight}
         fontSize={textSize}
-        color={_buttonTypeColor.textColor}
+        color={
+          isHovered ? _buttonTypeColor.hoverText : _buttonTypeColor.textColor
+        }
       >
         {children}
       </GRText>

@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { getTermCody } from "..";
 
-const useTermCodyQuery = ({ termId }: { termId: number }) => {
+const useTermCodyQuery = (termId?: number) => {
   return useQuery(
     [queryKeys.TERM_CODY],
-    async () => await getTermCody({ termId }),
+    async () => await getTermCody(termId),
     {
+      enabled: !!termId,
       select: _data => _data.content,
       staleTime: Infinity
     }

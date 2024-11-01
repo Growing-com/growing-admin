@@ -21,4 +21,5 @@ const ComponentContainer = styled.div`
   border-radius: 0.5rem;
   box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
   margin-bottom: 0.5rem;
+  overflow-x: auto;
 `;

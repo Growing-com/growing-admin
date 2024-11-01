@@ -22,7 +22,7 @@ import {
 import { tNewfamily, tNewfamilyAttendances } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
-import { useCurrentTermInfoOptionQueries } from 'hooks/queries/term/useCurrentTermInfoOptionQueries';
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { NextPage } from "next";
 import { useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
@@ -57,7 +57,9 @@ const NewfamilyAttendancePage: NextPage = () => {
     useState<tNewfamilyAttendances[]>([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
 
-  const { currentTermNewFamilyLeaderOptions } = useCurrentTermInfoOptionQueries();
+
+  const { currentTermNewFamilyLeaderOptions } =
+    useCurrentTermInfoOptionQueries();
   const newfamilyLeaderTabOption = useMemo(
     () => [{ label: "전체", value: "0" }, ...currentTermNewFamilyLeaderOptions],
     [currentTermNewFamilyLeaderOptions]
@@ -201,7 +203,7 @@ const NewfamilyAttendancePage: NextPage = () => {
                   </GRTextButton>
                 </GRView>
                 <GRView>
-                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"warning"}>
                     라인 아웃
                   </GRTextButton>
                 </GRView>
@@ -215,7 +217,7 @@ const NewfamilyAttendancePage: NextPage = () => {
                   </GRTextButton>
                 </GRView>
                 <GRView>
-                  <GRTextButton onClick={onClickLineOut} buttonType={"custom"}>
+                  <GRTextButton onClick={onClickLineOut} buttonType={"warning"}>
                     라인 아웃
                   </GRTextButton>
                 </GRView>
@@ -266,41 +268,35 @@ const NewfamilyAttendancePage: NextPage = () => {
         </GRFlexView>
       </NewfamilyContainerView>
       {/* 라인업 요청 모달 */}
-      {isOpenLineupRequestModal && (
-        <GRAlertModal
-          open={isOpenLineupRequestModal}
-          description={`${selectedNewFamily.length} 명을 라인업 요청 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineupRequestModal(false)}
-          onOkClickButton={onOkLineUpRequestClickButton}
-          subComponent={
-            <GRText>
-              {selectedNewFamily.map(family => family.name).join(",")}
-            </GRText>
-          }
-        />
-      )}
+      <GRAlertModal
+        open={isOpenLineupRequestModal}
+        description={`${selectedNewFamily.length} 명을 라인업 요청 하시겠습니까?`}
+        onCancelClickButton={() => setIsOpenLineupRequestModal(false)}
+        onOkClickButton={onOkLineUpRequestClickButton}
+        subComponent={
+          <GRText>
+            {selectedNewFamily.map(family => family.name).join(",")}
+          </GRText>
+        }
+      />
       {/* 등반 모달 */}
-      {isOpenPromoteModal && (
-        <NewFamilyPromoteModal
-          open={isOpenPromoteModal}
-          onClickClose={() => setIsOpenPromoteModal(false)}
-          selectedNewFamily={selectedNewFamily}
-        />
-      )}
+      <NewFamilyPromoteModal
+        open={isOpenPromoteModal}
+        onClickClose={() => setIsOpenPromoteModal(false)}
+        selectedNewFamily={selectedNewFamily}
+      />
       {/* 라인 아웃 모달 */}
-      {isOpenLineOutModal && (
-        <GRAlertModal
-          open={isOpenLineOutModal}
-          description={`${selectedNewFamily.length} 명을 라인 아웃 하시겠습니까?`}
-          onCancelClickButton={() => setIsOpenLineOutModal(false)}
-          onOkClickButton={onOkLineOutClickButton}
-          subComponent={
-            <GRText>
-              {selectedNewFamily.map(family => family.name).join(",")}
-            </GRText>
-          }
-        />
-      )}
+      <GRAlertModal
+        open={isOpenLineOutModal}
+        description={`${selectedNewFamily.length} 명을 라인 아웃 하시겠습니까?`}
+        onCancelClickButton={() => setIsOpenLineOutModal(false)}
+        onOkClickButton={onOkLineOutClickButton}
+        subComponent={
+          <GRText>
+            {selectedNewFamily.map(family => family.name).join(",")}
+          </GRText>
+        }
+      />
     </>
   );
 };

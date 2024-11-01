@@ -10,8 +10,8 @@ import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import HeaderView from "@component/molecule/view/HeaderView";
 import TableInfoHeader from "@component/templates/table/TableInfoHeader";
 import { TableColumnsType } from "antd";
-import { useUserListQuery } from "api/account/queries/useUserListQuery";
 import { tUser } from "api/account/types";
+import { useUserListQuery } from "api/management/user/queries/useUserListQuery";
 import { DUTY, MONTHS_OPTIONS, SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
@@ -175,11 +175,6 @@ const SearchPage: NextPage = () => {
   ];
 
   const onChangeSelectCody = (_selectedCodyId: number) => {
-    if (!_selectedCodyId) {
-      setSearchCodyId(undefined);
-      setSearchTotal(userList ?? []);
-      return;
-    }
     // 쿼리 보내는 codyId : data를 위한 것
     setSelectedCodyId(_selectedCodyId);
     // 이 컴포넌트에서 관리하는 codyId : view를 위한 것
@@ -189,10 +184,17 @@ const SearchPage: NextPage = () => {
   useEffect(() => {
     if (!userList) return;
     setSearchTotal(userList);
+    setSearchBaseData(userList);
   }, [userList]);
 
   useEffect(() => {
-    if (!membersByCody || !searchCodyId) return;
+    if (!searchCodyId) {
+      setSearchCodyId(undefined);
+      setSearchBaseData(userList ?? []);
+      setSearchTotal(userList ?? []);
+      return;
+    }
+    if (!membersByCody) return;
     setSearchBaseData(membersByCody);
   }, [membersByCody, searchCodyId]);
 
@@ -200,6 +202,8 @@ const SearchPage: NextPage = () => {
     <>
       <HeaderView
         title={"전체 검색"}
+        titleInfoType={"info"}
+        titleInfo={<GRText>전체 혹은 코디별로 검색할 수 있습니다.</GRText>}
         subComponent={
           <GRFlexView flexDirection={"row"} xGap={1}>
             <GRFlexView>

@@ -2,12 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { getLeaderByCody } from "..";
 
-const useLeaderByCodyQuery = ({ codyId }: { codyId: number }) => {
+const useLeaderByCodyQuery = (codyId?: number) => {
   return useQuery(
     [queryKeys.LEADER_BY_CODY, codyId],
-    async () => await getLeaderByCody({ codyId }),
+    async () => await getLeaderByCody(codyId),
     {
-      select: data => data.content
+      enabled: !!codyId,
+      select: data =>
+        data.content.filter(leader => leader.groupType !== "NEW_FAMILY_GROUP")
     }
   );
 };

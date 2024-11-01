@@ -6,45 +6,42 @@ import { tGroup } from "api/term/type";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import useTerm from "hooks/api/term/useTerm";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-
-const INIT_CODY_ID = 1;
-const INIT_OPTIONS = [] as tOptions[];
+import { convertOptions } from "utils";
 
 type tUseCurrentTermInfoOptionQueries = () => {
-  leaderByCody: tGroup[] | undefined;
-  // leaderByCodyOptions: tOptions[];
+  leaderByCody?: tGroup[];
+  leaderByCodyOptions: tOptions[];
   selectedCodyId?: number;
-  setSelectedCodyId: Dispatch<SetStateAction<number>>;
+  setSelectedCodyId: Dispatch<SetStateAction<number | undefined>>;
   currentTermNewFamilyLeaderOptions: tOptions[];
   currentTermCodyOptions: tOptions[];
-  membersByCody: tUser[] | undefined;
+  membersByCody?: tUser[];
 };
 
 export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
   () => {
-    const [selectedCodyId, setSelectedCodyId] = useState<number>(INIT_CODY_ID);
+    const [selectedCodyId, setSelectedCodyId] = useState<number>();
 
     const { currentTermId } = useCurrentTerm();
 
-    const { data: leaderByCody } = useLeaderByCodyQuery({
-      codyId: selectedCodyId
-    });
+    const { data: leaderByCody } = useLeaderByCodyQuery(selectedCodyId);
 
     const {
       termNewFamilyLeaderOptions: currentTermNewFamilyLeaderOptions,
       termCodyOptions: currentTermCodyOptions
-    } = useTerm({ termId: currentTermId });
+    } = useTerm(currentTermId);
 
-    // const leaderByCodyOptions = leaderByCody
-    //   ? convertOptions(leaderByCody, "groupId", "leaderName")
-    //   : [];
+    const leaderByCodyOptions = leaderByCody
+      ? convertOptions(leaderByCody, "groupId", "leaderName")
+      : [];
 
-    const { data: membersByCody } = useMembersByCodyQuery({
-      codyId: selectedCodyId
-    });
+    const { data: membersByCody } = useMembersByCodyQuery(
+      selectedCodyId,
+      undefined
+    );
 
     return {
-      // leaderByCodyOptions,
+      leaderByCodyOptions,
       leaderByCody,
       selectedCodyId,
       setSelectedCodyId,
