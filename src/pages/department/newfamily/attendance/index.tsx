@@ -57,6 +57,7 @@ const NewfamilyAttendancePage: NextPage = () => {
     useState<tNewfamilyAttendances[]>([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
 
+
   const { currentTermNewFamilyLeaderOptions } =
     useCurrentTermInfoOptionQueries();
   const newfamilyLeaderTabOption = useMemo(

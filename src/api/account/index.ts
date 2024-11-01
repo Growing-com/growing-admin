@@ -24,3 +24,10 @@ export const getUserInfo = () => {
     url: `${version}/my-info`
   });
 };
+
+export const getUserList = () => {
+  return request<tUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/users`
+  });
+};

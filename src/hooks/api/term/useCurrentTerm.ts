@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { getActiveTerm } from "api/term";
 import useTerm from "./useTerm";
+import { useState } from "react";
 
 const useCurrentTerm = () => {
   const { data: currentTermData } = useQuery(
@@ -9,6 +10,7 @@ const useCurrentTerm = () => {
     async () => await getActiveTerm(),
     {
       staleTime: Infinity,
+
       select: data => data.content
     }
   );

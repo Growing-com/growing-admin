@@ -17,6 +17,7 @@ export type tSex = "MALE" | "FEMALE";
  * NEW_FAMILY: 새가족,
  * NOT_PLACED: 미배정
  */
+
 export type tDuty =
   | "PASTOR"
   | "GANSA"

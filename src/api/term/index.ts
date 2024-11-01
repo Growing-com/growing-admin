@@ -11,6 +11,7 @@ import {
 
 const version = "v1";
 
+
 export const getCodyAndSmallGroups = (termId?: number) => {
   return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
@@ -45,6 +46,7 @@ export const getAllLeaders = (termId?: number) => {
     url: `${version}/terms/${termId}/all-leaders`
   });
 };
+
 
 export const getTermCody = (termId?: number) => {
   return request<tCody[]>({
