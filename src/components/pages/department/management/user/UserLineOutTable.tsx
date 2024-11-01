@@ -103,9 +103,6 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
 
   return (
     <>
-      {/* <button onClick={() => console.log(lineOutUserData)}>
-        lineOutUserData
-      </button> */}
       <GRTable
         rowKey={"lineOutUserId"}
         columns={columns}

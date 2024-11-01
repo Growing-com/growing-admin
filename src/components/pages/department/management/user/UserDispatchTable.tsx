@@ -145,9 +145,6 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
 
   return (
     <>
-      {/* <button onClick={() => console.log(dispatchedUserData)}>
-        dispatchedUserData
-      </button> */}
       <GRTable
         rowKey={"dispatchedUserId"}
         columns={columns}

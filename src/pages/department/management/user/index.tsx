@@ -145,8 +145,8 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const closeDetailModal = () => {
-    setIsOpenDetailModal(false);
     router.push("/department/management/user");
+    setIsOpenDetailModal(false);
   };
 
   useEffect(() => {
@@ -168,7 +168,6 @@ const ManagementUserPage: NextPage = () => {
           </GRTextButton>
         }
       />
-      {/* <button onClick={() => history.push(`/edit-user?userId=${userId}`)} */}
       <UserContainerView>
         <GRTab items={option} onChange={onChangeTab} />
         <GRFlexView style={{ width: "100%", overflowX: "auto" }}>

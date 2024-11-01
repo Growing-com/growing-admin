@@ -98,7 +98,6 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
 
   return (
     <>
-      {/* <button onClick={() => console.log(graduateUserData)}>graduateUserData</button> */}
       <GRTable
         rowKey={"graduatedUserId"}
         columns={columns}

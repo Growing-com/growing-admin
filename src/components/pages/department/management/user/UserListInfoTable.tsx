@@ -134,12 +134,6 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
 
   return (
     <>
-      {/* <button onClick={() => console.log(userData)}>userData</button> */}
-      {/* <button
-        onClick={() => queryClient.invalidateQueries([queryKeys.USER_LIST])}
-      >
-        Delete
-      </button> */}
       <GRTable
         rowKey={"userId"}
         columns={columns}
