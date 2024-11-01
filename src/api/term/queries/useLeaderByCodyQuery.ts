@@ -8,7 +8,8 @@ const useLeaderByCodyQuery = (codyId?: number) => {
     async () => await getLeaderByCody(codyId),
     {
       enabled: !!codyId,
-      select: data => data.content
+      select: data =>
+        data.content.filter(leader => leader.groupType !== "NEW_FAMILY_GROUP")
     }
   );
 };

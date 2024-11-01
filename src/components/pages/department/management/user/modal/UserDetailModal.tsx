@@ -8,10 +8,12 @@ import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { Divider } from "antd";
 import { tUser } from "api/account/types";
 import useUserMutate from "api/management/user/mutate/useUserMutate";
+import { useUserDetailQuery } from "api/management/user/queries/useUserDetailQuery";
 import { SEX_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
@@ -26,18 +28,37 @@ type tUserForm = {
   birth: Dayjs;
 } & Omit<tUser, "birth">;
 
+const defaultValue = {
+  name: "",
+  phoneNumber: "",
+  grade: undefined,
+  birth: "",
+  sex: undefined,
+  etc: ""
+};
+
 const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
   const router = useRouter();
   const { userId } = router.query;
 
   const { control, handleSubmit, reset } = useForm<tUserForm>();
 
+  const {
+    selectedCodyId,
+    leaderByCodyOptions,
+    currentTermCodyOptions,
+    setSelectedCodyId
+  } = useCurrentTermInfoOptionQueries();
+
   const onCloseModal = () => {
     onClickClose();
-    reset();
+    reset(defaultValue);
+    setSelectedCodyId(undefined);
   };
 
   const { createUserMutate, updateUserMutate } = useUserMutate(onCloseModal);
+
+  const { data: userDetailData } = useUserDetailQuery(Number(userId));
 
   const onClickModalOk = handleSubmit(_item => {
     const _format = {
@@ -53,9 +74,23 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
     updateUserMutate(_format);
   });
 
-  //   useEffect(() => {
-  //     setSelectFormData(selectedUser);
-  //   }, [selectedUser]);
+  const onChangeSelectCody = (_selectedCodyId: number) => {
+    setSelectedCodyId(_selectedCodyId);
+  };
+
+  useEffect(() => {
+    if (!userDetailData) {
+      reset(defaultValue);
+      return;
+    }
+    reset({
+      ...userDetailData,
+      birth:
+        userDetailData.birth && userDetailData?.birth !== "1970-01-01"
+          ? dayjs(userDetailData.birth)
+          : undefined
+    });
+  }, [userDetailData]);
 
   return (
     <GRFormModal
@@ -115,6 +150,7 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
       <GRFlexView
         flexDirection={"row"}
         xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
+        marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
       >
         <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
           <GRFormTitle title={"전화번호"} required={true} />
@@ -148,45 +184,64 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
           />
         </GRFlexView>
       </GRFlexView>
-      <Divider />
-      <GRFlexView
-        flexDirection={"row"}
-        alignItems={"center"}
-        marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
-      >
-        <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
-          라인업
-        </GRText>
-        <GRInfoBadge infoMessage={"바로 라인업할 경우 넣어주세요"} />
-      </GRFlexView>
-      <GRFlexView
-        marginbottom={GRStylesConfig.BASE_MARGIN}
-        flexDirection={"row"}
-        xGap={1}
-      >
+      <GRFlexView marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
-          <GRFormTitle title={"코디"} />
-          <GRSelect
-            //   options={}
-            // onChange={}
-            placeholder={"코디를 선택해 주세요"}
-          />
-        </GRFlexView>
-        <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
-          <GRFormTitle title={"리더"} />
+          <GRFormTitle title={"기타 사항"} />
           <GRFormItem
-            type={"select"}
-            textType={"input"}
-            fieldName={"smallGroupId"}
+            type={"text"}
+            textType={"textarea"}
+            fieldName={"etc"}
             control={control}
-            // 코디 아이디
-            // disabled={!isCreate}
-            // options={}
-            placeholder={"리더를 선택해 주세요"}
+            placeholder={"추가 내용이 있으면 작성해 주세요"}
+            style={{
+              height: "5rem"
+            }}
           />
         </GRFlexView>
       </GRFlexView>
       <Divider />
+      {!userId && (
+        <>
+          <GRFlexView
+            flexDirection={"row"}
+            alignItems={"center"}
+            marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
+          >
+            <GRText weight={"bold"} fontSize={"b4"} marginright={0.5}>
+              라인업
+            </GRText>
+            <GRInfoBadge infoMessage={"바로 라인업할 경우 넣어주세요"} />
+          </GRFlexView>
+          <GRFlexView
+            marginbottom={GRStylesConfig.BASE_MARGIN}
+            flexDirection={"row"}
+            xGap={1}
+          >
+            <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+              <GRFormTitle title={"코디"} />
+              <GRSelect
+                options={currentTermCodyOptions}
+                onChange={onChangeSelectCody}
+                placeholder={"코디를 선택해 주세요"}
+                value={selectedCodyId}
+              />
+            </GRFlexView>
+            <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+              <GRFormTitle title={"리더"} />
+              <GRFormItem
+                type={"select"}
+                textType={"input"}
+                fieldName={"smallGroupId"}
+                control={control}
+                disabled={!selectedCodyId}
+                options={leaderByCodyOptions}
+                placeholder={"리더를 선택해 주세요"}
+              />
+            </GRFlexView>
+          </GRFlexView>
+          <Divider />
+        </>
+      )}
     </GRFormModal>
   );
 };

@@ -6,10 +6,11 @@ import { tGroup } from "api/term/type";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import useTerm from "hooks/api/term/useTerm";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { convertOptions } from "utils";
 
 type tUseCurrentTermInfoOptionQueries = () => {
   leaderByCody?: tGroup[];
-  // leaderByCodyOptions: tOptions[];
+  leaderByCodyOptions: tOptions[];
   selectedCodyId?: number;
   setSelectedCodyId: Dispatch<SetStateAction<number | undefined>>;
   currentTermNewFamilyLeaderOptions: tOptions[];
@@ -30,9 +31,9 @@ export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
       termCodyOptions: currentTermCodyOptions
     } = useTerm(currentTermId);
 
-    // const leaderByCodyOptions = leaderByCody
-    //   ? convertOptions(leaderByCody, "groupId", "leaderName")
-    //   : [];
+    const leaderByCodyOptions = leaderByCody
+      ? convertOptions(leaderByCody, "groupId", "leaderName")
+      : [];
 
     const { data: membersByCody } = useMembersByCodyQuery(
       selectedCodyId,
@@ -40,7 +41,7 @@ export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
     );
 
     return {
-      // leaderByCodyOptions,
+      leaderByCodyOptions,
       leaderByCody,
       selectedCodyId,
       setSelectedCodyId,

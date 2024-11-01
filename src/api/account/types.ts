@@ -50,11 +50,14 @@ export type tUser = {
   /** @description 생년월일  @example  "1996-10-16" */
   birth?: string;
   /** @description 직분 이름  @example  "CODY" */
-  duty?: string;
+  duty?: tDuty;
   /** @description 리더 이름  @example  "황길동" */
   leaderName?: string;
   /** @description 순모임 아이디  @example  1 */
   smallGroupId?: number;
+  /** @description 기타 사항  @example  "감자를 좋아함" */
+  etc?: string;
+
   // updatedBy: string;
   // updatedAt: string;
 };
