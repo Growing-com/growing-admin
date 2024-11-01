@@ -152,7 +152,8 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "3rem"
+      width: "3rem",
+      minWidth: 55
     },
     {
       title: "성별",
@@ -160,6 +161,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "gender",
       align: "center",
       width: "2rem",
+      minWidth: 40,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -171,6 +173,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "grade",
       align: "center",
       width: "2rem",
+      minWidth: 55,
       sorter: (a, b) => a.grade - b.grade
     },
     {
@@ -179,6 +182,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "4rem",
+      minWidth: 70,
       sorter: (a, b) => {
         return koreanSorter(
           a.newFamilyGroupLeaderName,
@@ -192,6 +196,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "etc.lineUpMemo",
       align: "center",
       width: "10rem",
+      minWidth: 75,
       render: (_, item) => {
         return (
           <div
@@ -211,7 +216,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       align: "center",
       dataIndex: "temporarySmallGroupLeaderName",
       width: "10rem",
-      minWidth: 63,
+      minWidth: 120,
       render: (_, item) => {
         const handletemporaryDrop = (droppedItem: tSmallGroupLeader) => {
           if (
@@ -244,7 +249,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       align: "center",
       dataIndex: "smallGroupLeaderName",
       width: "5rem",
-      minWidth: 80,
+      minWidth: 120,
       render: (_, item) => {
         if (!item) return;
 
