@@ -7,9 +7,16 @@ import {
   tPostGraduateUser,
   tPostLineOutUser
 } from "./type";
-import { tUser } from 'api/account/types';
+import { tUser } from "api/account/types";
 
 const version = "v1";
+
+export const getUserList = () => {
+  return request<tUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/users`
+  });
+};
 
 export const getDispatchedUserList = () => {
   return request<tDispatchedUser[]>({
@@ -26,11 +33,7 @@ export const postDispatchUser = (data: tPostDispatchUser[]) => {
   });
 };
 
-export const comebackDispatchedUser = ({
-  dispatchUserId
-}: {
-  dispatchUserId: number;
-}) => {
+export const comebackDispatchedUser = (dispatchUserId: number) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/dispatched-users/${dispatchUserId}/return`
@@ -67,7 +70,7 @@ export const postLineOutUser = (data: tPostLineOutUser[]) => {
   });
 };
 
-export const postLineInUser = ({ lineOutUserId }: { lineOutUserId: number }) => {
+export const postLineInUser = (lineOutUserId: number) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/line-out-users/${lineOutUserId}/line-in`
@@ -78,7 +81,7 @@ export const createUser = (data: tUser) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/users/register`,
-    data    
+    data
   });
 };
 
@@ -88,5 +91,12 @@ export const updateUser = (data: tUser) => {
     method: REQUEST_METHOD.POST,
     url: `${version}/users/${userId}/update`,
     data
+  });
+};
+
+export const getDetailUser = (userId?: number) => {
+  return request<tUser>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/users/${userId}`
   });
 };

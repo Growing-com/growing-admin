@@ -11,7 +11,7 @@ import UserGraduateTable from "@component/pages/department/management/user/UserG
 import UserLineOutTable from "@component/pages/department/management/user/UserLineOutTable";
 import UserListInfoTable from "@component/pages/department/management/user/UserListInfoTable";
 import UserTermInfoBox from "@component/pages/department/management/user/UserTermInfoBox";
-import UserDetailModal from '@component/pages/department/management/user/modal/UserDetailModal';
+import UserDetailModal from "@component/pages/department/management/user/modal/UserDetailModal";
 import UserDispatchModal from "@component/pages/department/management/user/modal/UserDispatchModal";
 import UserGraduateModal from "@component/pages/department/management/user/modal/UserGraduateModal";
 import UserLineOutModal from "@component/pages/department/management/user/modal/UserLineOutModal";
@@ -67,7 +67,7 @@ const ManagementUserPage: NextPage = () => {
   };
 
   const { lineInMutate } = useLineInMutate(() => setIsOpenLineInModal(false));
-  const { combackMutate } = useComebackMutate(() =>
+  const { comebackMutate } = useComebackMutate(() =>
     setIsOpenComebackModal(false)
   );
 
@@ -116,12 +116,12 @@ const ManagementUserPage: NextPage = () => {
 
   const onOkComebackClickButton = async () => {
     const _userId = selectedDispatchedUser?.dispatchedUserId;
-    if (_userId) await combackMutate({ dispatchUserId: _userId });
+    if (_userId) await comebackMutate(_userId);
   };
 
   const onOkLineInClickButton = async () => {
     const _userId = selectedLineOutUser?.lineOutUserId;
-    if (_userId) await lineInMutate({ lineOutUserId: _userId });
+    if (_userId) await lineInMutate(_userId);
   };
 
   const onSelectChange = (_: React.Key[], selectedRows: any[]) => {
@@ -146,13 +146,13 @@ const ManagementUserPage: NextPage = () => {
 
   const closeDetailModal = () => {
     setIsOpenDetailModal(false);
-    router.push("/department/management/user")
-  }
+    router.push("/department/management/user");
+  };
 
-  useEffect(()=>{
-    if(!userId) return;
+  useEffect(() => {
+    if (!userId) return;
     setIsOpenDetailModal(true);
-  },[userId])
+  }, [userId]);
 
   return (
     <>
@@ -282,8 +282,8 @@ const ManagementUserPage: NextPage = () => {
       />
       {/* 유저 생성 , 수정 모달 */}
       <UserDetailModal
-      open={isOpenDetailModal}
-      onClickClose={closeDetailModal}
+        open={isOpenDetailModal}
+        onClickClose={closeDetailModal}
       />
     </>
   );

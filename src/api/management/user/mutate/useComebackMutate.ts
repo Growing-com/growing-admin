@@ -17,7 +17,7 @@ const useComebackMutate = (onClickClose: () => void) => {
     }
   });
 
-  return { combackMutate: comebackMutate };
+  return { comebackMutate };
 };
 
 export default useComebackMutate;

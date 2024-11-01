@@ -175,9 +175,8 @@ const SearchPage: NextPage = () => {
   ];
 
   const onChangeSelectCody = (_selectedCodyId: number) => {
-    const API_INIT_CODY_ID = 1;
     // 쿼리 보내는 codyId : data를 위한 것
-    setSelectedCodyId(_selectedCodyId || API_INIT_CODY_ID);
+    setSelectedCodyId(_selectedCodyId);
     // 이 컴포넌트에서 관리하는 codyId : view를 위한 것
     setSearchCodyId(_selectedCodyId);
   };
@@ -204,9 +203,7 @@ const SearchPage: NextPage = () => {
       <HeaderView
         title={"전체 검색"}
         titleInfoType={"info"}
-        titleInfo={
-          <GRText>전체 혹은 코디별로 검색할 수 있습니다.</GRText>
-        }
+        titleInfo={<GRText>전체 혹은 코디별로 검색할 수 있습니다.</GRText>}
         subComponent={
           <GRFlexView flexDirection={"row"} xGap={1}>
             <GRFlexView>

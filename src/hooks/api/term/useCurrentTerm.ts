@@ -4,10 +4,8 @@ import { getActiveTerm } from "api/term";
 import useTerm from "./useTerm";
 import { useState } from "react";
 
-const INITIAL_TERM = 1;
-
 const useCurrentTerm = () => {
-  const [currentTermId, setCurrentTermId] = useState<number>(INITIAL_TERM);
+  const [currentTermId, setCurrentTermId] = useState<number>();
 
   const { data: currentTermData } = useQuery(
     [queryKeys.TERM_CURRENT_DATA],
@@ -23,7 +21,7 @@ const useCurrentTerm = () => {
     termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
     termAllLeaderGroup: currentTermAllLeaderGroup,
     termDutyCount: currentTermDutyCount
-  } = useTerm({ termId: currentTermId });
+  } = useTerm(currentTermId);
 
   return {
     currentTermData,
