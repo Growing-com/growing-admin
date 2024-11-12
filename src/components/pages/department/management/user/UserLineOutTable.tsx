@@ -22,16 +22,15 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
   const { data: lineOutUserData, isLoading } = useLineOutUserListQuery();
 
   useEffect(() => {
-    if (!lineOutUserData || lineOutUserData.length === 0) {
+    if (!lineOutUserData?.length) {
       setFilteredUserData([]);
       return;
     }
-    let _filterUser = lineOutUserData;
-    if (searchName) {
-      _filterUser = lineOutUserData.filter(user => {
-        return user.name?.indexOf(searchName) !== -1;
-      });
-    }
+
+    const _filterUser = searchName
+      ? lineOutUserData.filter(user => user.name?.includes(searchName))
+      : lineOutUserData;
+
     setFilteredUserData(_filterUser);
   }, [lineOutUserData, searchName]);
 

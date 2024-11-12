@@ -1,14 +1,14 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import styled from "@emotion/styled";
-import { tSmallGroupLeader } from 'api/term/type';
+import { tSmallGroup } from 'api/term/type';
 import { useEffect } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { Color } from "styles/colors";
 
 type tDraggableLeader = {
-  leader: tSmallGroupLeader;
+  leader: tSmallGroup;
 };
 
 const DraggableLeader: React.FC<tDraggableLeader> = ({ leader }) => {

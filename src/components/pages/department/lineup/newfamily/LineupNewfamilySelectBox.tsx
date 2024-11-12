@@ -8,7 +8,7 @@ import { ColumnType } from "antd/es/table";
 import { lineUpNewfamily, saveNewfamilyTemporaryLeaders } from "api/newfamily";
 import { tNewfamilyRequested } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
-import { tSmallGroupLeader } from "api/term/type";
+import { tSmallGroup } from "api/term/type";
 import { SEX_NAME } from "config/const";
 import { useNewfamilyLineupRequestQuery } from "hooks/queries/newfamily/useNewfamilyLineupRequestQuery";
 import { useCallback, useEffect, useState } from "react";
@@ -19,7 +19,7 @@ import DropCell from "./DropCell";
 import TemporarySmallGroupLeaderNamesRender from "./TemporarySmallGroupLeaderNamesRender";
 
 type tLineupNewfamilySelectBox = {
-  smallGroups: tSmallGroupLeader[];
+  smallGroups: tSmallGroup[];
 };
 
 const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
@@ -218,7 +218,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       width: "10rem",
       minWidth: 120,
       render: (_, item) => {
-        const handletemporaryDrop = (droppedItem: tSmallGroupLeader) => {
+        const handletemporaryDrop = (droppedItem: tSmallGroup) => {
           if (
             item.temporarySmallGroupIds?.some(
               (id: number) => id === droppedItem.smallGroupId
@@ -253,7 +253,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       render: (_, item) => {
         if (!item) return;
 
-        const handleConfirmedDrop = (droppedItem: tSmallGroupLeader) => {
+        const handleConfirmedDrop = (droppedItem: tSmallGroup) => {
           insertDataInFormResult(item.newFamilyId, {
             smallGroupLeaderName: droppedItem.smallGroupLeaderName,
             smallGroupId: droppedItem.smallGroupId,

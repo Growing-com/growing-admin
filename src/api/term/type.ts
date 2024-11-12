@@ -8,20 +8,20 @@ export type tTerm = {
   isActive: boolean;
 };
 
-export type tGetNewFamilyGroup = {
+export type tNewFamilyGroup = {
   newFamilyGroupId: number;
   newFamilyGroupLeaderName: string;
 };
 
-export type tSmallGroupLeader = {
+export type tSmallGroup = {
   codyName: string;
   smallGroupId: number;
   smallGroupLeaderName: string;
 };
 
-export type tSmallGroup = {
+export type tCodyAndSmallGroup = {
   codyName: string;
-  smallGroupLeaders: tSmallGroupLeader[];
+  smallGroupLeaders: tSmallGroup[];
 };
 
 export type tLeader = tUser & {
@@ -32,6 +32,12 @@ export type tLeader = tUser & {
 export type tCody = {
   codyId: number;
   codyName: string;
+};
+
+export type tPastor = {
+  pastorId: number;
+  pastorName: string;
+  isSenior: boolean;
 };
 
 type tGroupType = "SMALL_GROUP" | "NEW_FAMILY_GROUP";

@@ -16,7 +16,6 @@ import UserDispatchModal from "@component/pages/department/management/user/modal
 import UserGraduateModal from "@component/pages/department/management/user/modal/UserGraduateModal";
 import UserLineOutModal from "@component/pages/department/management/user/modal/UserLineOutModal";
 import styled from "@emotion/styled";
-import { useQueryClient } from "@tanstack/react-query";
 import { tUser } from "api/account/types";
 import useComebackMutate from "api/management/user/mutate/useComebackMutate";
 import useLineInMutate from "api/management/user/mutate/useLineInMutate";
@@ -43,7 +42,6 @@ const option = [
 const ManagementUserPage: NextPage = () => {
   const router = useRouter();
   const { userId } = router.query;
-  const queryClient = useQueryClient();
 
   const [isOpenDispatchModal, setIsOpenDispatchModal] = useState(false);
   const [isOpenGraduateModal, setIsOpenGraduateModal] = useState(false);

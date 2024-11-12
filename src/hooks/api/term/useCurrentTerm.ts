@@ -16,17 +16,23 @@ const useCurrentTerm = () => {
   const currentTermId = currentTermData ? currentTermData.termId : undefined;
 
   const {
-    termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
+    termDutyCount: currentTermDutyCount,
     termAllLeaderGroup: currentTermAllLeaderGroup,
-    termDutyCount: currentTermDutyCount
+    termPastor: currentTermPastor,
+    termCody: currentTermCody,
+    termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
+    termNewFamilyLeader: currentTermNewFamilyLeader
   } = useTerm(currentTermId);
 
   return {
     currentTermData,
     currentTermId,
-    currentTermCodyAndSmallGroups,
     currentTermAllLeaderGroup,
-    currentTermDutyCount
+    currentTermDutyCount,
+    currentTermPastor,
+    currentTermCody,
+    currentTermCodyAndSmallGroups,
+    currentTermNewFamilyLeader
   };
 };
 

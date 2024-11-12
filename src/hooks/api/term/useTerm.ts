@@ -7,6 +7,7 @@ import {
 } from "api/term";
 import useDutyCountQuery from "api/term/queries/useDutyCountQuery";
 import useTermCodyQuery from "api/term/queries/useTermCodyQuery";
+import useTermPastorQuery from 'api/term/queries/useTermPastorQuery';
 import { convertOptions } from "utils";
 
 const useTerm = (termId?: number) => {
@@ -43,6 +44,7 @@ const useTerm = (termId?: number) => {
     }
   );
 
+  const { data: termPastor } = useTermPastorQuery(termId);
   const { data: termCody } = useTermCodyQuery(termId);
   const { data: termDutyCount } = useDutyCountQuery(termId);
 
@@ -62,6 +64,7 @@ const useTerm = (termId?: number) => {
     termNewFamilyLeader,
     termNewFamilyLeaderOptions,
     // termSmallGroupLeaderOptions,
+    termPastor,
     termCody,
     termCodyOptions,
     termCodyAndSmallGroups,

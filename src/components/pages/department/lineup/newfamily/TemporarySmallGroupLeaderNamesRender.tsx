@@ -1,11 +1,11 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import { tSmallGroupLeader } from "api/term/type";
+import { tSmallGroup } from "api/term/type";
 import { Color } from "styles/colors";
 
 type tTemporarySmallGroupLeaderNamesRender = {
   temporarySmallGroupIds: number[];
-  smallGroups: tSmallGroupLeader[];
+  smallGroups: tSmallGroup[];
   deleteTemporaryData: (_newFamilyId: number, value: number) => void;
   newFamilyId: number;
 };
@@ -20,7 +20,7 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
 }) => {
   const getSmallGroupLeaderForm = (
     smallGroupIds: number[]
-  ): tSmallGroupLeader[] => {
+  ): tSmallGroup[] => {
     return smallGroupIds?.map(id => {
       const leader = smallGroups.find(leader => leader.smallGroupId === id);
       return (

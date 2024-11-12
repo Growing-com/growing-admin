@@ -96,7 +96,7 @@ const LeaderGRFlexView = styled(GRFlexView)`
 
 const LineupContainer = styled.div`
   background-color: ${Color.white};
-  padding: 1.5rem 3rem 1.5rem 3rem;
+  padding: 1.5rem 3rem ;
   border-radius: 0.5rem;
   box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
   margin-bottom: 0.5rem;

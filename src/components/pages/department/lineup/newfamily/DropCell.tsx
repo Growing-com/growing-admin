@@ -1,9 +1,9 @@
-import { tSmallGroupLeader } from "api/term/type";
+import { tSmallGroup } from "api/term/type";
 import { useDrop } from "react-dnd";
 import { Color } from "styles/colors";
 
 type tDropCell = {
-  onDrop: (item: tSmallGroupLeader) => void;
+  onDrop: (item: tSmallGroup) => void;
   children: React.ReactNode;
 };
 
