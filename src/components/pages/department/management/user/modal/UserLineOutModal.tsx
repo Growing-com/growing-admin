@@ -61,6 +61,7 @@ const UserLineOutModal: FC<tUserLineOutModal> = ({
       align: "center",
       dataIndex: "leaderName",
       key: "leaderName",
+      minWidth: 75,
       render: (_, item) => {
         if (!item) return;
         return <GRText>{item?.leaderName}</GRText>;
@@ -70,13 +71,15 @@ const UserLineOutModal: FC<tUserLineOutModal> = ({
       title: "이름",
       dataIndex: "name",
       key: "name",
-      align: "center"
+      align: "center",
+      minWidth: 75,
     },
     {
       title: "성별",
       dataIndex: "gender",
       key: "gender",
       align: "center",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -86,18 +89,19 @@ const UserLineOutModal: FC<tUserLineOutModal> = ({
       title: "학년",
       dataIndex: "grade",
       key: "grade",
-      align: "center"
+      align: "center",
+      minWidth: 60,
     },
     {
       title: "이유",
       dataIndex: "reason",
       key: "reason",
       align: "center",
+      minWidth: 100,
       render: (_, _item) => {
         const currentReason =
           selectFormData.find(result => result.userId === _item.userId)
             ?.reason ?? "";
-
         return (
           <GRTextInput
             type={"textarea"}
@@ -130,7 +134,13 @@ const UserLineOutModal: FC<tUserLineOutModal> = ({
       maskClosable={false}
     >
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
-        <GRTable rowKey={"userId"} columns={columns} data={selectedUser} />
+        <GRTable
+          rowKey={"userId"}
+          columns={columns}
+          data={selectedUser}
+          scroll={{ x: true }}
+          tableLayout={"auto"}
+        />
       </GRView>
     </GRModal>
   );

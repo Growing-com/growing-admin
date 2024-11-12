@@ -102,7 +102,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       align: "center",
       fixed: "left",
       width: "6rem",
-      minWidth: 53
+      minWidth: 75
     },
     {
       title: "성별",
@@ -110,6 +110,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -121,6 +122,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "grade",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       sorter: {
         compare: (a, b) => a.grade - b.grade,
         multiple: 1
@@ -132,41 +134,40 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
+      minWidth: 100,
       sorter: {
         compare: (a, b) =>
           koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
         multiple: 2
-      },
-      minWidth: 53
+      }
     },
     {
       title: () => {
         return (
-          <>
-            <Tooltip
-              overlayStyle={{ whiteSpace: "pre-line" }}
-              title={TOOLTIP_INFO}
-            >
-              <GRFlexView alignItems={"center"}>
-                <Alert
-                  showIcon
-                  message={
-                    <GRText weight={"bold"} fontSize={"b7"}>
-                      출석
-                    </GRText>
-                  }
-                  type={"info"}
-                  banner={true}
-                  style={{ backgroundColor: "transparent" }}
-                />
-              </GRFlexView>
-            </Tooltip>
-          </>
+          <Tooltip
+            overlayStyle={{ whiteSpace: "pre-line" }}
+            title={TOOLTIP_INFO}
+          >
+            <GRFlexView alignItems={"center"}>
+              <Alert
+                showIcon
+                message={
+                  <GRText weight={"bold"} fontSize={"b7"}>
+                    출석
+                  </GRText>
+                }
+                type={"info"}
+                banner={true}
+                style={{ backgroundColor: "transparent" }}
+              />
+            </GRFlexView>
+          </Tooltip>
         );
       },
       dataIndex: "status",
       key: "status",
       align: "center",
+      minWidth: 110,
       render: (_, recode) => (
         <GRRadio
           options={ATTENDANCE_CHECK_STATUS}
@@ -182,6 +183,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       dataIndex: "reason",
       key: "reason",
       align: "center",
+      minWidth: 110,
       render: (_, recode) => (
         <GRView>
           <GRTextInput

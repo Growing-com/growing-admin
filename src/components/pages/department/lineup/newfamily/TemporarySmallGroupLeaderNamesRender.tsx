@@ -47,12 +47,16 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
             key={leader.smallGroupId}
           >
             <GRText fontSize={"b7"}>{leader.codyName}</GRText>
-            <GRText fontSize={"b4"}>{leader.smallGroupLeaderName}</GRText>
+            <GRText fontSize={"b4"} marginright={0.1}>
+              {leader.smallGroupLeaderName}
+            </GRText>
             <GRText
               color={Color.red100}
+              weight={"bold"}
               onClick={() =>
                 deleteTemporaryData(newFamilyId, leader.smallGroupId)
               }
+              style={{ cursor: "pointer" }}
             >
               X
             </GRText>

@@ -38,7 +38,7 @@ const LineupNewfamilyPage: NextPage = () => {
           <GRText fontSize={"h9"} weight={"bold"}>
             리더
           </GRText>
-          <GRFlexView flexDirection={"row"}>
+          <GRFlexView flexDirection={"row"} style={{ textAlign: "center" }}>
             {/* 코디 렌더링 */}
             {currentTermCodyAndSmallGroups &&
             currentTermCodyAndSmallGroups?.length > 0 ? (

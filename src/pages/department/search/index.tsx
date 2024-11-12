@@ -93,6 +93,7 @@ const SearchPage: NextPage = () => {
       key: "duty",
       align: "center",
       width: "5rem",
+      minWidth: 90,
       onFilter: (value, record) => record.duty === value,
       render: (_, item) => {
         if (!item?.duty) return;
@@ -109,6 +110,7 @@ const SearchPage: NextPage = () => {
       key: "leaderName",
       align: "center",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
@@ -125,6 +127,7 @@ const SearchPage: NextPage = () => {
       align: "center",
       fixed: "left",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
@@ -136,6 +139,7 @@ const SearchPage: NextPage = () => {
       key: "gender",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -151,6 +155,7 @@ const SearchPage: NextPage = () => {
       key: "grade",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
     },
     {
@@ -159,6 +164,7 @@ const SearchPage: NextPage = () => {
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth),
       sorter: {
         compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
@@ -170,7 +176,8 @@ const SearchPage: NextPage = () => {
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110,
     }
   ];
 

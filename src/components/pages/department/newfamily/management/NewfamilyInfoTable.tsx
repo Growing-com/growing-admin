@@ -56,7 +56,8 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 75
     },
     {
       title: "성별",
@@ -64,6 +65,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -75,6 +77,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       key: "grade",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       sorter: (a, b) => a.grade - b.grade
     },
     {
@@ -83,6 +86,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       key: "visitDate",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       sorter: (valueA, valueB) =>
         dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
@@ -93,6 +97,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
+      minWidth: 100,
       sorter: (a, b) => {
         return koreanSorter(
           a.newFamilyGroupLeaderName,
@@ -106,6 +111,7 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth)
     },
     {
@@ -113,7 +119,8 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110
     }
   ];
 

@@ -77,7 +77,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
-      minWidth: 55
+      minWidth: 75
     },
     {
       title: "성별",
@@ -85,11 +85,11 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-      },
-      minWidth: 55
+      }
     },
     {
       title: "학년",
@@ -97,11 +97,11 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "grade",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       sorter: {
         compare: (a, b) => a.grade - b.grade,
         multiple: 1
-      },
-      minWidth: 55
+      }
     },
     {
       title: "새가족 순장",
@@ -109,12 +109,12 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "6rem",
+      minWidth: 100,
       sorter: {
         compare: (a, b) =>
           koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
         multiple: 3
-      },
-      minWidth: 91
+      }
     },
     {
       title: "출석수",
@@ -123,11 +123,11 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => a.totalAttendCount - b.totalAttendCount,
         multiple: 4
-      },
-      minWidth: 66
+      }
     },
     {
       title: "결석수",
@@ -136,35 +136,33 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       align: "center",
       fixed: "left",
       width: "5rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => a.totalAbsentCount - b.totalAbsentCount,
         multiple: 2
-      },
-      minWidth: 66
+      }
     },
     {
       title: () => {
         return (
-          <>
-            <Tooltip
-              overlayStyle={{ whiteSpace: "pre-line" }}
-              title={TOOLTIP_INFO}
-            >
-              <GRFlexView alignItems={"center"}>
-                <Alert
-                  showIcon
-                  message={
-                    <GRText weight={"bold"} fontSize={"b7"}>
-                      출석 날짜
-                    </GRText>
-                  }
-                  type={"info"}
-                  banner={true}
-                  style={{ backgroundColor: "transparent" }}
-                />
-              </GRFlexView>
-            </Tooltip>
-          </>
+          <Tooltip
+            overlayStyle={{ whiteSpace: "pre-line" }}
+            title={TOOLTIP_INFO}
+          >
+            <GRFlexView alignItems={"center"}>
+              <Alert
+                showIcon
+                message={
+                  <GRText weight={"bold"} fontSize={"b7"}>
+                    출석 날짜
+                  </GRText>
+                }
+                type={"info"}
+                banner={true}
+                style={{ backgroundColor: "transparent" }}
+              />
+            </GRFlexView>
+          </Tooltip>
         );
       },
       align: "center",
@@ -172,6 +170,8 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
         title: item.date,
         dataIndex: "attendanceItems",
         key: "attendanceItems",
+        align: "center",
+        minWidth: 100,
         render: (record: tAttendanceItems[]) => {
           const findData = record.find(r => r.date === item.date);
           return (
@@ -180,8 +180,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
               contentEtc={findData?.reason}
             />
           );
-        },
-        minWidth: 96
+        }
       }))
     }
   ];

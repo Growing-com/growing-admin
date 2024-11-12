@@ -34,7 +34,7 @@ const DraggableLeader: React.FC<tDraggableLeader> = ({ leader }) => {
         padding: "0rem 0.5rem 0rem 0.5rem",
       }}
     >
-      <LeaderGRFlexView alignItems={"center"} paddinghorizontal={0}>
+      <LeaderGRFlexView >
         <GRText fontSize={"b3"}>{leader.smallGroupLeaderName}</GRText>
       </LeaderGRFlexView>
     </div>
