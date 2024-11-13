@@ -1,3 +1,4 @@
+import { CloseOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { tSmallGroup } from "api/term/type";
@@ -18,9 +19,7 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
   deleteTemporaryData,
   newFamilyId
 }) => {
-  const getSmallGroupLeaderForm = (
-    smallGroupIds: number[]
-  ): tSmallGroup[] => {
+  const getSmallGroupLeaderForm = (smallGroupIds: number[]): tSmallGroup[] => {
     return smallGroupIds?.map(id => {
       const leader = smallGroups.find(leader => leader.smallGroupId === id);
       return (
@@ -58,7 +57,7 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
               }
               style={{ cursor: "pointer" }}
             >
-              X
+              <CloseOutlined />
             </GRText>
           </GRFlexView>
         ))

@@ -32,6 +32,10 @@ const EditPastorTable: React.FC = () => {
     setSelectedTablePastor(selectedRows[0]);
   };
 
+  const onChangeSelectPastor = (_selectedPastorId: number) => {
+    setSelectedPastorId(_selectedPastorId);
+  };
+
   const onClickCreate = () => {
     setIsOpenCreateModal(true);
   };
@@ -81,10 +85,6 @@ const EditPastorTable: React.FC = () => {
     await deletePastorMutate(selectedTablePastor?.pastorId as number);
   };
 
-  const onChangeSelectPastor = (_selectedPastorId: number) => {
-    setSelectedPastorId(_selectedPastorId);
-  };
-
   const columns: TableColumnsType<any> = [
     {
       title: "번호",
@@ -131,7 +131,7 @@ const EditPastorTable: React.FC = () => {
             교역자 변경
           </GRTextButton>
           <GRTextButton onClick={onClickCreate} buttonType={"primary"}>
-            교역자 생성
+            생성
           </GRTextButton>
           <GRTextButton onClick={onClickDelete} buttonType={"warning"}>
             삭제
@@ -155,7 +155,7 @@ const EditPastorTable: React.FC = () => {
           title={"교역자 생성"}
           titleInfoType={"info"}
           titleInfo={"미배정 직분인 지체만 선택할 수 있습니다"}
-          width={"30%"}
+          width={"40%"}
           maskClosable={false}
         >
           <GRFlexView

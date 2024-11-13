@@ -38,6 +38,7 @@ const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
       <GRView
         isFlex
         width={8}
+        height={2}
         style={{ position: "relative" }}
         marginhorizontal={1}
       >
