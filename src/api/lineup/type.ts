@@ -18,14 +18,21 @@ export type tUpdateCody = {
   smallGroupIds: number[];
 };
 
-export type tCreateSmallGroup = {
+export type tCreateGroup = {
   termId: number;
   codyId: number;
   leaderUserId: number;
   memberUserIds: number[];
 };
 
+export type createGroupForm = Omit<tCreateGroup, "termId">;
+
 export type tUpdateSmallGroup = {
   smallGroupId: number;
+  memberUserIds: number[];
+};
+
+export type tUpdateNewFamilyGroup = {
+  newFamilyGroupId: number;
   memberUserIds: number[];
 };

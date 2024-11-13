@@ -28,20 +28,20 @@ type tUserForm = {
   birth: Dayjs;
 } & Omit<tUser, "birth">;
 
+const defaultValue = {
+  name: "",
+  phoneNumber: "",
+  grade: undefined,
+  birth: "",
+  sex: undefined,
+  etc: ""
+};
+
 const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
   const router = useRouter();
   const { userId } = router.query;
 
-  const { control, handleSubmit, reset } = useForm<tUserForm>({
-    defaultValues: {
-      name: "",
-      phoneNumber: "",
-      grade: undefined,
-      birth: "",
-      sex: undefined,
-      etc: ""
-    }
-  });
+  const { control, handleSubmit, reset } = useForm<tUserForm>();
 
   const {
     selectedCodyId,
@@ -52,7 +52,7 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
 
   const onCloseModal = () => {
     onClickClose();
-    reset();
+    reset(defaultValue);
     setSelectedCodyId(undefined);
   };
 
@@ -80,7 +80,7 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
 
   useEffect(() => {
     if (!userDetailData) {
-      reset();
+      reset(defaultValue);
       return;
     }
     reset({
@@ -201,7 +201,7 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
       </GRFlexView>
       {!userId && (
         <>
-          <Divider />
+        <Divider />
           <GRFlexView
             flexDirection={"row"}
             alignItems={"center"}

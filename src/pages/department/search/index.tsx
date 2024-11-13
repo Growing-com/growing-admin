@@ -29,10 +29,8 @@ const SearchPage: NextPage = () => {
     defaultValues: {
       name: "",
       phoneNumber: "",
-      grade: undefined,
-      birth: "",
-      sex: undefined,
-      etc: ""
+      grade: "",
+      birth: []
     }
   });
 

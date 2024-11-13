@@ -11,7 +11,7 @@ import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import GRFormModal from "@component/molecule/modal/GRFormModal";
 import { TableColumnsType } from "antd";
 import useSmallGroupMutate from "api/lineup/mutate/useSmallGroupMutate";
-import { tCreateSmallGroup } from "api/lineup/type";
+import { createGroupForm } from "api/lineup/type";
 import { tSmallGroup } from "api/term/type";
 import { SEX_NAME } from "config/const";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
@@ -21,8 +21,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { koreanSorter } from "utils/sorter";
-
-type smallGroupCreateForm = Omit<tCreateSmallGroup, "termId">;
 
 const EditSmallGroupLeaderTable: React.FC = () => {
   const [filteredSmallGroup, setFilteredSmallGroup] = useState<tSmallGroup[]>(
@@ -37,7 +35,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
   const { currentTermCodyOptions } = useCurrentTermInfoOptionQueries();
   const { notPlacedUserListOption } = useUserListOptionQueries();
 
-  const { control, handleSubmit, reset } = useForm<smallGroupCreateForm>({
+  const { control, handleSubmit, reset } = useForm<createGroupForm>({
     defaultValues: {
       codyId: undefined,
       leaderUserId: undefined,
@@ -70,7 +68,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
     deleteSmallGroupMutate
   } = useSmallGroupMutate(onClickModalClose);
 
-  const onClickCreateOK = handleSubmit(async (_value: smallGroupCreateForm) => {
+  const onClickCreateOK = handleSubmit(async (_value: createGroupForm) => {
     await createSmallGroupMutate({
       ..._value,
       termId: currentTermId as number
@@ -228,6 +226,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
                 control={control}
                 options={currentTermCodyOptions}
                 placeholder={"코디를 선택해주세요"}
+                rules={{ required: "코디 선택은 필수입니다." }}
               />
             </GRFlexView>
             <GRFlexView flexDirection={"row"} alignItems={"center"} xGap={2}>
@@ -239,6 +238,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
                 options={notPlacedUserListOption}
                 placeholder={"순장을 선택해주세요"}
                 optionFilterProp={"label"}
+                rules={{ required: "순장 선택은 필수입니다." }}
               />
             </GRFlexView>
             <GRFlexView flexDirection={"row"} alignItems={"center"} xGap={2}>
@@ -251,6 +251,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
                 options={notPlacedUserListOption}
                 placeholder={"순원을 선택해주세요"}
                 optionFilterProp={"label"}
+                rules={{ required: "순원 선택은 필수입니다." }}
               />
             </GRFlexView>
           </GRFlexView>

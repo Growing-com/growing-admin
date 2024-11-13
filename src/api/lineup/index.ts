@@ -3,9 +3,10 @@ import {
   tChangePastor,
   tCreateCody,
   tCreatePastor,
-  tCreateSmallGroup,
+  tCreateGroup,
   tUpdateCody,
-  tUpdateSmallGroup
+  tUpdateSmallGroup,
+  tUpdateNewFamilyGroup
 } from "./type";
 
 const version = "v1";
@@ -62,7 +63,7 @@ export const deleteCody = (codyId: number) => {
   });
 };
 
-export const createSmallGroup = (data: tCreateSmallGroup) => {
+export const createSmallGroup = (data: tCreateGroup) => {
   const { termId, ...rest } = data;
   return request({
     method: REQUEST_METHOD.POST,
@@ -85,5 +86,31 @@ export const deleteSmallGroup = (smallGroupId: number) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/small-groups/${smallGroupId}/delete`
+  });
+};
+
+export const createNewFamilyGroup = (data: tCreateGroup) => {
+  const { termId, ...rest } = data;
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/terms/${termId}/create-new-family-group`,
+    data: { ...rest }
+  });
+};
+
+export const updateNewFamilyGroup = (data: tUpdateNewFamilyGroup) => {
+  const { newFamilyGroupId, memberUserIds } = data;
+
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-family-groups/${newFamilyGroupId}/update`,
+    data: { memberUserIds }
+  });
+};
+
+export const deleteNewFamilyGroup = (newFamilyGroupId: number) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/new-family-groups/${newFamilyGroupId}/delete`
   });
 };

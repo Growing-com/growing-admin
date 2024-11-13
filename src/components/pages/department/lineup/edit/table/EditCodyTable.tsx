@@ -9,6 +9,7 @@ import GRAlertModal from "@component/molecule/modal/GRAlertModal";
 import { TableColumnsType } from "antd";
 import useCodyMutate from "api/lineup/mutate/useCodyMutate";
 import { tCody } from "api/term/type";
+import { SEX_NAME } from "config/const";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { useUserListOptionQueries } from "hooks/queries/user/useUserListOptionQueries";
 import { useRouter } from "next/router";
@@ -89,8 +90,28 @@ const EditCodyTable: React.FC = () => {
       dataIndex: "codyName",
       key: "codyName",
       align: "center",
-      width: "10rem",
+      width: "5rem",
       minWidth: 75
+    },
+    {
+      title: "성별",
+      dataIndex: "gender",
+      key: "gender",
+      align: "center",
+      width: "2rem",
+      minWidth: 60,
+      render: (_, item) => {
+        if (!item?.sex) return;
+        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
+      }
+    },
+    {
+      title: "학년",
+      dataIndex: "grade",
+      key: "grade",
+      align: "center",
+      width: "2rem",
+      minWidth: 60
     }
   ];
 
