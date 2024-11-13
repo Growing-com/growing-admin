@@ -1,9 +1,9 @@
-import { tSmallGroup } from "api/term/type";
+import { tNewfamilyLineUpSmallGroup } from "api/term/type";
 import { useDrop } from "react-dnd";
 import { Color } from "styles/colors";
 
 type tDropCell = {
-  onDrop: (item: tSmallGroup) => void;
+  onDrop: (item: tNewfamilyLineUpSmallGroup) => void;
   children: React.ReactNode;
 };
 

@@ -7,7 +7,8 @@ import {
   tCody,
   tLeader,
   tGroup,
-  tPastor
+  tPastor,
+  tSmallGroup
 } from "./type";
 
 const version = "v1";
@@ -16,6 +17,13 @@ export const getCodyAndSmallGroups = (termId?: number) => {
   return request<tCodyAndSmallGroup[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/small-groups-by-cody`
+  });
+};
+
+export const getSmallGroup = (termId?: number) => {
+  return request<tSmallGroup[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/small-groups`
   });
 };
 

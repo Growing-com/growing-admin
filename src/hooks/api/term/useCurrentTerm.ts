@@ -21,7 +21,8 @@ const useCurrentTerm = () => {
     termPastor: currentTermPastor,
     termCody: currentTermCody,
     termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
-    termNewFamilyLeader: currentTermNewFamilyLeader
+    termNewFamilyLeader: currentTermNewFamilyLeader,
+    termSmallGroupLeader: currentTermSmallGroupLeader
   } = useTerm(currentTermId);
 
   return {
@@ -32,6 +33,7 @@ const useCurrentTerm = () => {
     currentTermPastor,
     currentTermCody,
     currentTermCodyAndSmallGroups,
+    currentTermSmallGroupLeader,
     currentTermNewFamilyLeader
   };
 };

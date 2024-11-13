@@ -55,7 +55,6 @@ const EditPastorTable: React.FC = () => {
     setIsOpenCreateModal(false);
     setIsOpenChangeModal(false);
     setIsOpenDeleteModal(false);
-    setSelectedPastorId(undefined);
   };
 
   const { createPastorMutate, changePastorMutate, deletePastorMutate } =
@@ -154,7 +153,7 @@ const EditPastorTable: React.FC = () => {
           onOk={onClickCreateOK}
           title={"교역자 생성"}
           titleInfoType={"info"}
-          titleInfo={"미배정 직분인 지체만 선택할 수 있습니다"}
+          titleInfo={"미배정 직분인 지체만 선택할 수 있습니다."}
           width={"40%"}
           maskClosable={false}
         >
@@ -200,7 +199,7 @@ const EditPastorTable: React.FC = () => {
             style={{ width: "100%", overflowX: "auto" }}
           >
             <GRText fontSize={"b6"}>교역자 선택</GRText>
-            <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+            <GRFlexView>
               <GRSelect
                 options={currentTermPastorOption}
                 onChange={onChangeSelectPastor}

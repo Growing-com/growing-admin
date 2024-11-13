@@ -39,9 +39,11 @@ const EditCodyTable: React.FC = () => {
     if (!selectedTableCody) return GRAlert.error("선택된 코디가 없습니다");
     // router.push(`/department/lineup/edit/cody/${selectedTableCody.codyId}`);
   };
+
   const onClickCreate = () => {
     setIsOpenCreateModal(true);
   };
+
   const onClickDelete = () => {
     if (!selectedTableCody) return GRAlert.error("선택된 코디가 없습니다");
     setIsOpenDeleteModal(true);
@@ -51,7 +53,6 @@ const EditCodyTable: React.FC = () => {
     setIsOpenCreateModal(false);
     setIsOpenUpdateModal(false);
     setIsOpenDeleteModal(false);
-    setSelectedCodyId(undefined);
   };
 
   const { createCodyMutate, deleteCodyMutate, updateCodyMutate } =
@@ -133,7 +134,7 @@ const EditCodyTable: React.FC = () => {
           onOk={onClickCreateOK}
           title={"코디 생성"}
           titleInfoType={"info"}
-          titleInfo={"미배정 직분인 지체만 선택할 수 있습니다"}
+          titleInfo={"미배정 직분인 지체만 선택할 수 있습니다."}
           width={"40%"}
           maskClosable={false}
         >
@@ -144,7 +145,7 @@ const EditCodyTable: React.FC = () => {
             style={{ width: "100%", overflowX: "auto" }}
           >
             <GRText fontSize={"b6"}>코디 선택</GRText>
-            <GRFlexView yGap={GRStylesConfig.BASE_MARGIN}>
+            <GRFlexView>
               <GRSelect
                 options={notPlacedUserListOption}
                 onChange={onChangeSelectCody}

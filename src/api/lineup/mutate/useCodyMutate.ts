@@ -12,10 +12,6 @@ const useCodyMutate = (onClickClose: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
-      queryClient.invalidateQueries([queryKeys.USER_LIST]);
-      queryClient.invalidateQueries([queryKeys.SMALL_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.MEMBERS_BY_CODY]);
       GRAlert.success("코디 생성 완료");
       onClickClose();
     }
@@ -25,9 +21,7 @@ const useCodyMutate = (onClickClose: () => void) => {
     onError: error => handleError(error, "코디 수정 에러"),
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
-      queryClient.invalidateQueries([queryKeys.SMALL_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.MEMBERS_BY_CODY]);
+      queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
       GRAlert.success("코디 수정 완료");
       onClickClose();
     }
@@ -38,9 +32,6 @@ const useCodyMutate = (onClickClose: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
-      queryClient.invalidateQueries([queryKeys.SMALL_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_GROUP_LEADER_BY_CODY]);
-      queryClient.invalidateQueries([queryKeys.MEMBERS_BY_CODY]);
       GRAlert.success("코디 삭제 완료");
       onClickClose();
     }

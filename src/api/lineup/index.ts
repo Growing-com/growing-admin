@@ -1,5 +1,12 @@
 import { REQUEST_METHOD, request } from "api";
-import { tChangePastor, tCreateCody, tCreatePastor, tUpdateCody } from "./type";
+import {
+  tChangePastor,
+  tCreateCody,
+  tCreatePastor,
+  tCreateSmallGroup,
+  tUpdateCody,
+  tUpdateSmallGroup
+} from "./type";
 
 const version = "v1";
 
@@ -52,5 +59,31 @@ export const deleteCody = (codyId: number) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/codies/${codyId}/delete`
+  });
+};
+
+export const createSmallGroup = (data: tCreateSmallGroup) => {
+  const { termId, ...rest } = data;
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/terms/${termId}/create-small-group`,
+    data: { ...rest }
+  });
+};
+
+export const updateSmallGroup = (data: tUpdateSmallGroup) => {
+  const { smallGroupId, memberUserIds } = data;
+
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/small-groups/${smallGroupId}/update`,
+    data: { memberUserIds }
+  });
+};
+
+export const deleteSmallGroup = (smallGroupId: number) => {
+  return request({
+    method: REQUEST_METHOD.POST,
+    url: `${version}/small-groups/${smallGroupId}/delete`
   });
 };

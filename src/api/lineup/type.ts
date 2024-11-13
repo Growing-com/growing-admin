@@ -17,3 +17,15 @@ export type tUpdateCody = {
   codyId: number;
   smallGroupIds: number[];
 };
+
+export type tCreateSmallGroup = {
+  termId: number;
+  codyId: number;
+  leaderUserId: number;
+  memberUserIds: number[];
+};
+
+export type tUpdateSmallGroup = {
+  smallGroupId: number;
+  memberUserIds: number[];
+};

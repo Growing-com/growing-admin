@@ -1,12 +1,12 @@
 import { CloseOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import { tSmallGroup } from "api/term/type";
+import { tNewfamilyLineUpSmallGroup } from "api/term/type";
 import { Color } from "styles/colors";
 
 type tTemporarySmallGroupLeaderNamesRender = {
   temporarySmallGroupIds: number[];
-  smallGroups: tSmallGroup[];
+  smallGroups: tNewfamilyLineUpSmallGroup[];
   deleteTemporaryData: (_newFamilyId: number, value: number) => void;
   newFamilyId: number;
 };
@@ -19,7 +19,7 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
   deleteTemporaryData,
   newFamilyId
 }) => {
-  const getSmallGroupLeaderForm = (smallGroupIds: number[]): tSmallGroup[] => {
+  const getSmallGroupLeaderForm = (smallGroupIds: number[]): tNewfamilyLineUpSmallGroup[] => {
     return smallGroupIds?.map(id => {
       const leader = smallGroups.find(leader => leader.smallGroupId === id);
       return (

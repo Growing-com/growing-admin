@@ -12,7 +12,6 @@ const usePastorMutate = (onClickClose: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.TERM_PASTOR]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
-      queryClient.invalidateQueries([queryKeys.USER_LIST]);
       GRAlert.success("교역자 생성 완료");
       onClickClose();
     }
