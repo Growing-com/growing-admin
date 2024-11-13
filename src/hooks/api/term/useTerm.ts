@@ -12,7 +12,7 @@ import { convertOptions } from "utils";
 
 const useTerm = (termId?: number) => {
   const { data: termCodyAndSmallGroups } = useQuery(
-    [queryKeys.TERM_SMALL_GROUP_LEADER],
+    [queryKeys.TERM_CODY_AND_SMALL_GROUPS],
     async () => await getCodyAndSmallGroups(termId),
     {
       enabled: !!termId,

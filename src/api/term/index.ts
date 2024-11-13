@@ -15,7 +15,7 @@ const version = "v1";
 export const getCodyAndSmallGroups = (termId?: number) => {
   return request<tCodyAndSmallGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/terms/${termId}/small-groups`
+    url: `${version}/terms/${termId}/small-groups-by-cody`
   });
 };
 
