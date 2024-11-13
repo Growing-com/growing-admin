@@ -35,10 +35,6 @@ const LineupEditPage: NextPage = () => {
     <>
       <HeaderView
         title={"라인업 수정"}
-        titleInfoType={"info"}
-        titleInfo={
-          <GRText>직분 생성 시 미배정인 지체만 선택할 수 있습니다.</GRText>
-        }
         headerComponent={<div>학년</div>}
         subComponent={
           <GRView>

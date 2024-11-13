@@ -1,10 +1,15 @@
-import { Modal, ModalProps } from "antd";
+import { Alert, Modal, ModalProps } from "antd";
 import React, { ReactNode, useCallback, useMemo, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import GRTextButton from "../button/GRTextButton";
+import GRText from "../text/GRText";
+import GRFlexView from "../view/GRFlexView";
 import GRView from "../view/GRView";
 
 export type tGRModal = {
+  titleInfoType?: "success" | "info" | "warning" | "error";
+  titleInfo?: ReactNode;
+  showIcon?: boolean;
   footerComponent?: ReactNode;
   okButtonText?: string;
   cancelButtonText?: string;
@@ -33,6 +38,9 @@ const GRModal: FC<tGRModal> = ({
   onOk,
   showFooter = true,
   title,
+  titleInfo,
+  titleInfoType,
+  showIcon = true,
   maskClosable = true,
   keyboard = false,
   ...props
@@ -90,7 +98,20 @@ const GRModal: FC<tGRModal> = ({
     if (title) {
       return (
         <GRView borderbottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
-          {title}
+          <GRFlexView flexDirection={"row"} alignItems="center">
+            {title}
+            <GRText fontSize={"b10"}>
+              {titleInfo && (
+                <Alert
+                  showIcon={showIcon}
+                  message={titleInfo}
+                  type={titleInfoType}
+                  style={{ backgroundColor: "white" }}
+                  banner={true}
+                />
+              )}
+            </GRText>
+          </GRFlexView>
         </GRView>
       );
     }
