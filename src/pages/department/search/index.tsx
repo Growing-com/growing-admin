@@ -24,15 +24,17 @@ import { Color } from "styles/colors";
 import { checkDefaultDate } from "utils/DateUtils";
 import { dateSorter, koreanSorter } from "utils/sorter";
 
-const defaultValue = {
-  name: "",
-  phoneNumber: "",
-  grade: "",
-  birth: []
-};
-
 const SearchPage: NextPage = () => {
-  const { control, handleSubmit, reset } = useForm();
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: "",
+      phoneNumber: "",
+      grade: undefined,
+      birth: "",
+      sex: undefined,
+      etc: ""
+    }
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchCodyId, setSearchCodyId] = useState<number>();
@@ -46,7 +48,7 @@ const SearchPage: NextPage = () => {
   const onClickResetSearch = () => {
     setSearchTotal(userList ?? []);
     setSearchCodyId(undefined);
-    reset(defaultValue);
+    reset();
     setCurrentPage(1);
   };
 
@@ -177,7 +179,7 @@ const SearchPage: NextPage = () => {
       key: "phoneNumber",
       align: "center",
       width: "10rem",
-      minWidth: 110,
+      minWidth: 110
     }
   ];
 

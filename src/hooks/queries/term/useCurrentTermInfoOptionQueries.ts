@@ -2,7 +2,6 @@ import { tOptions } from "@component/atom/dataEntry/type";
 import { tUser } from "api/account/types";
 import useLeaderByCodyQuery from "api/term/queries/useLeaderByCodyQuery";
 import useMembersByCodyQuery from "api/term/queries/useMembersByCodyQuery";
-import { tGroup } from "api/term/type";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import useTerm from "hooks/api/term/useTerm";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
