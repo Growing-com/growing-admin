@@ -70,7 +70,9 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
   const onClickCreateOK = handleSubmit(async (_value: createGroupForm) => {
     await createNewFamilyGroupMutate({
       ..._value,
-      termId: currentTermId as number
+      termId: currentTermId as number,
+      // 순원 없으면 빈배열로 가야 생성
+      memberUserIds: _value.memberUserIds ?? []
     });
   });
 
@@ -87,6 +89,14 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
       key: "newFamilyGroupId",
       align: "center",
       width: "2rem"
+    },
+    {
+      title: "코디",
+      dataIndex: "codyName",
+      key: "codyName",
+      align: "center",
+      width: "3rem",
+      minWidth: 75
     },
     {
       title: "이름",
@@ -200,7 +210,6 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
                 options={notPlacedUserListOption}
                 placeholder={"순원을 선택해주세요"}
                 optionFilterProp={"label"}
-                rules={{ required: "순원 선택은 필수입니다." }}
               />
             </GRFlexView>
           </GRFlexView>
