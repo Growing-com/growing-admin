@@ -24,6 +24,7 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
     useState<tNewFamilyGroup>();
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const { currentTermNewFamilyLeader, currentTermId } = useCurrentTerm();
   const { currentTermCodyOptions } = useCurrentTermInfoOptionQueries();
@@ -37,7 +38,11 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
     }
   });
 
-  const onSelect = (_: React.Key[], selectedRows: any[]) => {
+  const onChangeRowSelect = (
+    selectedKeys: React.Key[],
+    selectedRows: any[]
+  ) => {
+    setSelectedRowKeys(selectedKeys);
     setSelectedNewfamilyGroup(selectedRows[0]);
   };
 
@@ -158,8 +163,14 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
         data={currentTermNewFamilyLeader}
         rowSelection={{
           type: "radio",
-          onChange: onSelect
+          onChange: onChangeRowSelect,
+          selectedRowKeys
         }}
+        onRow={record => ({
+          onClick: () => {
+            onChangeRowSelect([record.newFamilyGroupId], [record]);
+          }
+        })}
       />
       {/* 순모임 생성 모달 */}
       {isOpenCreateModal && (

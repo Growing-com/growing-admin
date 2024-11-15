@@ -30,6 +30,7 @@ const EditSmallGroupLeaderTable: React.FC = () => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [selectedSmallGroup, setSelectedSmallGroup] = useState<tSmallGroup>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const { currentTermSmallGroupLeader, currentTermId } = useCurrentTerm();
   const { currentTermCodyOptions } = useCurrentTermInfoOptionQueries();
@@ -42,6 +43,14 @@ const EditSmallGroupLeaderTable: React.FC = () => {
       memberUserIds: undefined
     }
   });
+
+  const onChangeRowSelect = (
+    selectedKeys: React.Key[],
+    selectedRows: any[]
+  ) => {
+    setSelectedRowKeys(selectedKeys);
+    setSelectedSmallGroup(selectedRows[0]);
+  };
 
   const onClickUpdate = () => {
     console.log("onClickUpdate");
@@ -139,10 +148,6 @@ const EditSmallGroupLeaderTable: React.FC = () => {
     setSearchName(_text);
   };
 
-  const onSelectUser = (_: React.Key[], selectedRows: any[]) => {
-    setSelectedSmallGroup(selectedRows[0]);
-  };
-
   useEffect(() => {
     if (!currentTermSmallGroupLeader?.length) {
       setFilteredSmallGroup([]);
@@ -201,8 +206,14 @@ const EditSmallGroupLeaderTable: React.FC = () => {
         }}
         rowSelection={{
           type: "radio",
-          onChange: onSelectUser
+          onChange: onChangeRowSelect,
+          selectedRowKeys
         }}
+        onRow={record => ({
+          onClick: () => {
+            onChangeRowSelect([record.smallGroupId], [record]);
+          }
+        })}
       />
       {/* 순모임 생성 모달 */}
       {isOpenCreateModal && (

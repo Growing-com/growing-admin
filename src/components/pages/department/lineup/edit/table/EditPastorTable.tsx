@@ -21,6 +21,7 @@ const EditPastorTable: React.FC = () => {
   const [isOpenChangeModal, setIsOpenChangeModal] = useState(false);
   const [selectedTablePastor, setSelectedTablePastor] = useState<tPastor>();
   const [selectedPastorId, setSelectedPastorId] = useState<number>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const { currentTermPastor, currentTermId } = useCurrentTerm();
   const { notPlacedUserListOption } = useUserListOptionQueries();
@@ -28,7 +29,11 @@ const EditPastorTable: React.FC = () => {
     ? convertOptions(currentTermPastor, "pastorId", "pastorName")
     : [];
 
-  const onSelect = (_: React.Key[], selectedRows: any[]) => {
+  const onChangeRowSelect = (
+    selectedKeys: React.Key[],
+    selectedRows: any[]
+  ) => {
+    setSelectedRowKeys(selectedKeys);
     setSelectedTablePastor(selectedRows[0]);
   };
 
@@ -143,8 +148,14 @@ const EditPastorTable: React.FC = () => {
         data={currentTermPastor}
         rowSelection={{
           type: "radio",
-          onChange: onSelect
+          onChange: onChangeRowSelect,
+          selectedRowKeys
         }}
+        onRow={record => ({
+          onClick: () => {
+            onChangeRowSelect([record.pastorId], [record]);
+          }
+        })}
       />
       {isOpenCreateModal && (
         <GRModal

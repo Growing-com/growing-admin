@@ -22,13 +22,18 @@ const EditCodyTable: React.FC = () => {
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [selectedTableCody, setSelectedTableCody] = useState<tCody>();
   const [selectedCodyId, setSelectedCodyId] = useState<number>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const router = useRouter();
 
   const { currentTermCody, currentTermId } = useCurrentTerm();
   const { notPlacedUserListOption } = useUserListOptionQueries();
 
-  const onSelect = (_: React.Key[], selectedRows: any[]) => {
+  const onChangeRowSelect = (
+    selectedKeys: React.Key[],
+    selectedRows: any[]
+  ) => {
+    setSelectedRowKeys(selectedKeys);
     setSelectedTableCody(selectedRows[0]);
   };
 
@@ -145,8 +150,14 @@ const EditCodyTable: React.FC = () => {
         data={currentTermCody}
         rowSelection={{
           type: "radio",
-          onChange: onSelect
+          onChange: onChangeRowSelect,
+          selectedRowKeys
         }}
+        onRow={record => ({
+          onClick: () => {
+            onChangeRowSelect([record.codyId], [record]);
+          }
+        })}
       />
       {isOpenCreateModal && (
         <GRModal
