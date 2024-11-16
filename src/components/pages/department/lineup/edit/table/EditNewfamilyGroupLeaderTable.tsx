@@ -15,11 +15,14 @@ import { SEX_NAME } from "config/const";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { useUserListOptionQueries } from "hooks/queries/user/useUserListOptionQueries";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 
 const EditNewfamilyGroupLeaderTable: React.FC = () => {
+  const router = useRouter();
+
   const [selectedNewfamilyGroup, setSelectedNewfamilyGroup] =
     useState<tNewFamilyGroup>();
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
@@ -47,7 +50,11 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
   };
 
   const onClickUpdate = () => {
-    console.log("onClickUpdate");
+    if (!selectedNewfamilyGroup)
+      return GRAlert.error("선택된 순모임이 없습니다");
+    router.push(
+      `/department/lineup/edit/newfamilyGroup/${selectedNewfamilyGroup.newFamilyGroupId}`
+    );
   };
 
   const onClickCreate = () => {
@@ -66,11 +73,8 @@ const EditNewfamilyGroupLeaderTable: React.FC = () => {
     reset();
   };
 
-  const {
-    createNewFamilyGroupMutate,
-    updateNewFamilyGroupMutate,
-    deleteNewFamilyGroupMutate
-  } = useNewfamilyGroupMutate(onClickModalClose);
+  const { createNewFamilyGroupMutate, deleteNewFamilyGroupMutate } =
+    useNewfamilyGroupMutate(onClickModalClose);
 
   const onClickCreateOK = handleSubmit(async (_value: createGroupForm) => {
     await createNewFamilyGroupMutate({

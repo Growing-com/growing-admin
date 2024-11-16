@@ -216,12 +216,9 @@ const CodyUpdatePage: NextPage = () => {
           flexDirection={"row"}
           justifyContent={"space-between"}
           alignItems={"center"}
+          marginvertical={GRStylesConfig.BASE_LONG_MARGIN}
         >
-          <GRFlexView
-            flexDirection={"row"}
-            alignItems={"center"}
-            marginvertical={GRStylesConfig.BASE_LONG_MARGIN}
-          >
+          <GRFlexView flexDirection={"row"} alignItems={"center"}>
             <GRText fontSize={"b3"}>일반 순모임</GRText>
             <GRInfoBadge
               infoMessage={"소속 순모임 제거는 \n순모임 삭제를 이용하세요."}
