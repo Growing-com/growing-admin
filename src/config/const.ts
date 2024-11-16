@@ -30,6 +30,11 @@ export const DUTY: { [key: string]: string } = {
   NOT_PLACED: "미배정"
 };
 
+export const GROUP_TYPE: { [key: string]: string } = {
+  SMALL_GROUP: "일반",
+  NEW_FAMILY_GROUP: "새가족"
+};
+
 export const DISPATCH_TYPE: { [key: string]: string } = {
   MILITARY: "군대",
   ABROAD: "유학",

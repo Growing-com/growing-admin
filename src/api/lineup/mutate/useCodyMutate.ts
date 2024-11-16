@@ -4,7 +4,7 @@ import queryKeys from "api/queryKeys";
 import { handleError } from "utils/error";
 import { updateCody, createCody, deleteCody } from "..";
 
-const useCodyMutate = (onClickClose: () => void) => {
+const useCodyMutate = (onClickClose?: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: createCodyMutate } = useMutation(createCody, {
@@ -13,7 +13,7 @@ const useCodyMutate = (onClickClose: () => void) => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
       GRAlert.success("코디 생성 완료");
-      onClickClose();
+      if (onClickClose) onClickClose();
     }
   });
 
@@ -22,8 +22,9 @@ const useCodyMutate = (onClickClose: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
+      queryClient.invalidateQueries([queryKeys.TERM_SMALL_GROUP_LEADER]);
+      queryClient.invalidateQueries([queryKeys.SMALL_GROUP_LEADER_BY_CODY]);
       GRAlert.success("코디 수정 완료");
-      onClickClose();
     }
   });
 
@@ -33,7 +34,7 @@ const useCodyMutate = (onClickClose: () => void) => {
       queryClient.invalidateQueries([queryKeys.TERM_CODY]);
       queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
       GRAlert.success("코디 삭제 완료");
-      onClickClose();
+      if (onClickClose) onClickClose();
     }
   });
 

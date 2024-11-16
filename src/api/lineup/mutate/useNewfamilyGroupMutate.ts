@@ -8,7 +8,7 @@ import {
   deleteNewFamilyGroup
 } from "..";
 
-const useNewfamilyGroupMutate = (onClickClose: () => void) => {
+const useNewfamilyGroupMutate = (onClickClose?: () => void) => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: createNewFamilyGroupMutate } = useMutation(
@@ -19,7 +19,7 @@ const useNewfamilyGroupMutate = (onClickClose: () => void) => {
         queryClient.invalidateQueries([queryKeys.TERM_NEW_FAMILY_LEADER]);
         queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
         GRAlert.success("새가족 순모임 생성 완료");
-        onClickClose();
+        if (onClickClose) onClickClose();
       }
     }
   );
@@ -30,7 +30,6 @@ const useNewfamilyGroupMutate = (onClickClose: () => void) => {
       onError: error => handleError(error, "새가족 순모임 수정 에러"),
       onSuccess: () => {
         GRAlert.success("새가족 순모임 수정 완료");
-        onClickClose();
       }
     }
   );
@@ -43,7 +42,7 @@ const useNewfamilyGroupMutate = (onClickClose: () => void) => {
         queryClient.invalidateQueries([queryKeys.TERM_NEW_FAMILY_LEADER]);
         queryClient.invalidateQueries([queryKeys.TERM_ALL_LEADERS]);
         GRAlert.success("새가족 순모임 삭제 완료");
-        onClickClose();
+        if (onClickClose) onClickClose();
       }
     }
   );

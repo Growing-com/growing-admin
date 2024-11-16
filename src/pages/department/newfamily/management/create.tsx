@@ -64,7 +64,7 @@ const NewfamilyCreatePage: NextPage = () => {
     <>
       <HeaderView title={"새가족 등록"} disabledBackbutton={true} />
       <GRContainerView>
-        <GRFlexView alignItems="center" style={{ overflow: "auto" }}>
+        <GRFlexView alignItems="center" style={{ overflow: "auto" }} margintop={1.5}>
           <GRView style={{ maxWidth: "60rem", width: "100%" }}>
             <GRFlexView yGap={GRStylesConfig.BASE_LONG_MARGIN}>
               <GRFlexView

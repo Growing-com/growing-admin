@@ -19,7 +19,6 @@ import GRStylesConfig from "styles/GRStylesConfig";
 const EditCodyTable: React.FC = () => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState(false);
   const [selectedTableCody, setSelectedTableCody] = useState<tCody>();
   const [selectedCodyId, setSelectedCodyId] = useState<number>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -43,7 +42,7 @@ const EditCodyTable: React.FC = () => {
 
   const onClickUpdate = () => {
     if (!selectedTableCody) return GRAlert.error("선택된 코디가 없습니다");
-    // router.push(`/department/lineup/edit/cody/${selectedTableCody.codyId}`);
+    router.push(`/department/lineup/edit/cody/${selectedTableCody.codyId}`);
   };
 
   const onClickCreate = () => {
@@ -57,7 +56,6 @@ const EditCodyTable: React.FC = () => {
 
   const onClickModalClose = () => {
     setIsOpenCreateModal(false);
-    setIsOpenUpdateModal(false);
     setIsOpenDeleteModal(false);
   };
 
@@ -76,10 +74,6 @@ const EditCodyTable: React.FC = () => {
 
   const onClickDeleteOk = async () => {
     await deleteCodyMutate(selectedTableCody?.codyId as number);
-  };
-
-  const onClickUpdateOk = () => {
-    console.log("Updateok");
   };
 
   const columns: TableColumnsType<any> = [
