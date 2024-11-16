@@ -1,5 +1,5 @@
 import { tOptions } from "@component/atom/dataEntry/type";
-import { useUserListQuery } from "api/account/queries/useUserListQuery";
+import { useUserListQuery } from "api/management/user/queries/useUserListQuery";
 import { convertOptions } from "utils";
 
 type tUseUserListOptionQueries = () => {
@@ -7,7 +7,7 @@ type tUseUserListOptionQueries = () => {
 };
 
 export const useUserListOptionQueries: tUseUserListOptionQueries = () => {
-  const { data: userList } = useUserListQuery();
+  const { userList } = useUserListQuery();
 
   const notPlacedUserListOption = userList
     ? convertOptions(

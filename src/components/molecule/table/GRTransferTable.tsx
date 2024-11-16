@@ -35,9 +35,6 @@ const GRTransferTable = <T,>(props: TableTransferProps<T>) => {
       showSelectAll={false}
       selectionsIcon={""}
       titles={titles}
-      //   operations={[]}
-      //   operationStyle={{background:"black"}}
-      {...restProps}
       css={[customStyles]}
       locale={{
         itemUnit: "명",
@@ -45,6 +42,7 @@ const GRTransferTable = <T,>(props: TableTransferProps<T>) => {
         notFoundContent: "목록이 비어 있습니다",
         searchPlaceholder: "이름으로 검색하세요"
       }}
+      {...restProps}
     >
       {({
         direction,

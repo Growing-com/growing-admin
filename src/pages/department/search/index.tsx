@@ -38,7 +38,7 @@ const SearchPage: NextPage = () => {
   const [searchCodyId, setSearchCodyId] = useState<number>();
   const [searchBaseData, setSearchBaseData] = useState<tUser[]>([]);
   const [searchTotal, setSearchTotal] = useState<tUser[]>([]);
-  const { data: userList } = useUserListQuery();
+  const { userList } = useUserListQuery();
 
   const { currentTermCodyOptions, membersByCody, setSelectedCodyId } =
     useCurrentTermInfoOptionQueries();

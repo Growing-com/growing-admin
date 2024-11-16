@@ -217,19 +217,18 @@ const CodyUpdatePage: NextPage = () => {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          <GRFlexView flexDirection={"row"} alignItems={"center"}>
-            <GRText
-              fontSize={"b3"}
-              marginvertical={GRStylesConfig.BASE_LONG_MARGIN}
-            >
-              일반 순모임
-            </GRText>
+          <GRFlexView
+            flexDirection={"row"}
+            alignItems={"center"}
+            marginvertical={GRStylesConfig.BASE_LONG_MARGIN}
+          >
+            <GRText fontSize={"b3"}>일반 순모임</GRText>
             <GRInfoBadge
               infoMessage={"소속 순모임 제거는 \n순모임 삭제를 이용하세요."}
             />
           </GRFlexView>
           <GRTextButton onClick={onClickUpdate} buttonType={"primary"}>
-            순모임 수정
+            코디 수정
           </GRTextButton>
         </GRFlexView>
         <GRTransferTable

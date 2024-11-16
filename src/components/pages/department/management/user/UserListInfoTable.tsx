@@ -24,7 +24,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
 
   const [filteredUserData, setFilteredUserData] = useState<tUser[]>([]);
 
-  const { data: userData, isLoading } = useUserListQuery();
+  const { userList: userData, isLoading } = useUserListQuery();
 
   const onClickUpdateUser = (_userId: number) => {
     router.push(`/department/management/user?userId=${_userId}`);

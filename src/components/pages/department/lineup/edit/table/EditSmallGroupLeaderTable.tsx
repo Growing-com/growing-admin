@@ -17,12 +17,15 @@ import { SEX_NAME } from "config/const";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { useUserListOptionQueries } from "hooks/queries/user/useUserListOptionQueries";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { koreanSorter } from "utils/sorter";
 
 const EditSmallGroupLeaderTable: React.FC = () => {
+  const router = useRouter();
+
   const [filteredSmallGroup, setFilteredSmallGroup] = useState<tSmallGroup[]>(
     []
   );
@@ -53,7 +56,10 @@ const EditSmallGroupLeaderTable: React.FC = () => {
   };
 
   const onClickUpdate = () => {
-    console.log("onClickUpdate");
+    if (!selectedSmallGroup) return GRAlert.error("선택된 순모임이 없습니다");
+    router.push(
+      `/department/lineup/edit/smallGroup/${selectedSmallGroup.smallGroupId}`
+    );
   };
 
   const onClickCreate = () => {
@@ -71,11 +77,8 @@ const EditSmallGroupLeaderTable: React.FC = () => {
     reset();
   };
 
-  const {
-    createSmallGroupMutate,
-    updateSmallGroupMutate,
-    deleteSmallGroupMutate
-  } = useSmallGroupMutate(onClickModalClose);
+  const { createSmallGroupMutate, deleteSmallGroupMutate } =
+    useSmallGroupMutate(onClickModalClose);
 
   const onClickCreateOK = handleSubmit(async (_value: createGroupForm) => {
     await createSmallGroupMutate({

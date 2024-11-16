@@ -1,3 +1,5 @@
+import { tUser } from 'api/account/types';
+
 export type tCreatePastor = {
   termId: number;
   pastorUserId: number;
@@ -36,3 +38,5 @@ export type tUpdateNewFamilyGroup = {
   newFamilyGroupId: number;
   memberUserIds: number[];
 };
+
+export type tGroupMembers = Omit<tUser,"phoneNumber">;

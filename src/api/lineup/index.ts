@@ -6,7 +6,8 @@ import {
   tCreateGroup,
   tUpdateCody,
   tUpdateSmallGroup,
-  tUpdateNewFamilyGroup
+  tUpdateNewFamilyGroup,
+  tGroupMembers
 } from "./type";
 
 const version = "v1";
@@ -112,5 +113,19 @@ export const deleteNewFamilyGroup = (newFamilyGroupId: number) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/new-family-groups/${newFamilyGroupId}/delete`
+  });
+};
+
+export const getSmallGroupMembers = (smallGroupId?: number) => {
+  return request<tGroupMembers[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/small-groups/${smallGroupId}/small-group-members`
+  });
+};
+
+export const getNewFamilyGroupMembers = (newFamilyGroupId?: number) => {
+  return request<tGroupMembers[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/new-family-groups/${newFamilyGroupId}/new-family-group-members`
   });
 };

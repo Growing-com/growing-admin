@@ -59,7 +59,7 @@ const EditCodyTable: React.FC = () => {
     setIsOpenDeleteModal(false);
   };
 
-  const { createCodyMutate, deleteCodyMutate, updateCodyMutate } =
+  const { createCodyMutate, deleteCodyMutate } =
     useCodyMutate(onClickModalClose);
 
   const onClickCreateOK = async () => {
