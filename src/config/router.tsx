@@ -36,8 +36,8 @@ type tDepartmentNewfamilySubMenu = {
 };
 
 type tDepartmentLineUpSubMenu = {
-  key: "lineup-newfamily";
-  label: "새가족 라인업";
+  key: "lineup-newfamily" | "lineup-edit";
+  label: "새가족 라인업" | "라인업 수정";
   path: string;
 };
 
@@ -47,12 +47,6 @@ export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
     label: "지체 관리",
     path: "management/user"
   }
-  // TODO: 라인업 관리 추후 추가
-  // {
-  //   key: "management-lineup",
-  //   label: "라인업 관리",
-  //   path: "management/lineup"
-  // }
 ];
 
 export const DEPARTMENT_NEWFAMILY_SUB_MENU: tDepartmentNewfamilySubMenu[] = [
@@ -73,6 +67,11 @@ export const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
     key: "lineup-newfamily",
     label: "새가족 라인업",
     path: "lineup/newfamily"
+  },
+  {
+    key: "lineup-edit",
+    label: "라인업 수정",
+    path: "lineup/edit"
   }
 ];
 

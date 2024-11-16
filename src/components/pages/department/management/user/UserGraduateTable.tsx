@@ -40,6 +40,7 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       dataIndex: "graduateDate",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.graduateDate),
       sorter: {
         compare: (valueA, valueB) =>
@@ -54,6 +55,7 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       align: "center",
       fixed: "left",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
@@ -65,6 +67,7 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       key: "gender",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -80,6 +83,7 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       key: "grade",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
     },
     {
@@ -88,6 +92,7 @@ const UserGraduateTable: React.FC<tUserGraduateTable> = ({ searchName }) => {
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth),
       sorter: {
         compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),

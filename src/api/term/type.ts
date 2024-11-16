@@ -1,4 +1,4 @@
-import { tUser } from "api/account/types";
+import { tSex, tUser } from "api/account/types";
 
 export type tTerm = {
   termId: number;
@@ -8,20 +8,30 @@ export type tTerm = {
   isActive: boolean;
 };
 
-export type tGetNewFamilyGroup = {
-  newFamilyGroupId: number;
-  newFamilyGroupLeaderName: string;
+export type tSmallGroup = {
+  smallGroupId: number;
+  codyName: string;
+  leaderName: string;
+  sex: tSex;
+  grade: number;
 };
 
-export type tSmallGroupLeader = {
+export type tNewFamilyGroup = {
+  newFamilyGroupId: number;
+  newFamilyGroupLeaderName: string;
+  sex: tSex;
+  grade: number;
+};
+
+export type tNewfamilyLineUpSmallGroup = {
   codyName: string;
   smallGroupId: number;
   smallGroupLeaderName: string;
 };
 
-export type tSmallGroup = {
+export type tCodyAndSmallGroup = {
   codyName: string;
-  smallGroupLeaders: tSmallGroupLeader[];
+  smallGroupLeaders: tNewfamilyLineUpSmallGroup[];
 };
 
 export type tLeader = tUser & {
@@ -32,6 +42,14 @@ export type tLeader = tUser & {
 export type tCody = {
   codyId: number;
   codyName: string;
+  sex: tSex;
+  grade: number;
+};
+
+export type tPastor = {
+  pastorId: number;
+  pastorName: string;
+  isSenior: boolean;
 };
 
 type tGroupType = "SMALL_GROUP" | "NEW_FAMILY_GROUP";
@@ -40,4 +58,6 @@ export type tGroup = {
   groupId: number;
   leaderName: string;
   groupType: tGroupType;
+  sex: tSex;
+  grade: number;
 };

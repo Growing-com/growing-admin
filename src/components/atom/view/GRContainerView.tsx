@@ -17,7 +17,7 @@ export default GRContainerView;
 
 const ComponentContainer = styled.div`
   background-color: ${Color.white};
-  padding: 2rem 3rem;
+  padding: 0.5rem 3rem 2rem;
   border-radius: 0.5rem;
   box-shadow: ${GRStylesConfig.BOX_SHOWDOW};
   margin-bottom: 0.5rem;

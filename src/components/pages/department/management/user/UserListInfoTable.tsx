@@ -24,7 +24,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
 
   const [filteredUserData, setFilteredUserData] = useState<tUser[]>([]);
 
-  const { data: userData, isLoading } = useUserListQuery();
+  const { userList: userData, isLoading } = useUserListQuery();
 
   const onClickUpdateUser = (_userId: number) => {
     router.push(`/department/management/user?userId=${_userId}`);
@@ -51,6 +51,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       key: "duty",
       align: "center",
       width: "5rem",
+      minWidth: 90,
       onFilter: (value, record) => record.duty === value,
       render: (_, item) => {
         if (!item?.duty) return;
@@ -67,6 +68,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       key: "leaderName",
       align: "center",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
@@ -83,6 +85,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       align: "center",
       fixed: "left",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
@@ -94,6 +97,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       key: "gender",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -109,6 +113,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       key: "grade",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 }
     },
     {
@@ -117,6 +122,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth),
       sorter: {
         compare: (valueA, valueB) => dateSorter(valueA.birth, valueB.birth),
@@ -128,7 +134,8 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110
     }
   ];
 

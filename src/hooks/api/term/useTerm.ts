@@ -3,16 +3,27 @@ import queryKeys from "api/queryKeys";
 import {
   getAllLeaders,
   getNewFamilyGroup,
-  getCodyAndSmallGroups
+  getCodyAndSmallGroups,
+  getSmallGroup
 } from "api/term";
 import useDutyCountQuery from "api/term/queries/useDutyCountQuery";
 import useTermCodyQuery from "api/term/queries/useTermCodyQuery";
+import useTermPastorQuery from "api/term/queries/useTermPastorQuery";
 import { convertOptions } from "utils";
 
 const useTerm = (termId?: number) => {
   const { data: termCodyAndSmallGroups } = useQuery(
-    [queryKeys.TERM_SMALL_GROUP_LEADER],
+    [queryKeys.TERM_CODY_AND_SMALL_GROUPS],
     async () => await getCodyAndSmallGroups(termId),
+    {
+      enabled: !!termId,
+      select: _data => _data.content
+    }
+  );
+
+  const { data: termSmallGroupLeader } = useQuery(
+    [queryKeys.TERM_SMALL_GROUP_LEADER],
+    async () => await getSmallGroup(termId),
     {
       enabled: !!termId,
       cacheTime: Infinity,
@@ -43,6 +54,7 @@ const useTerm = (termId?: number) => {
     }
   );
 
+  const { data: termPastor } = useTermPastorQuery(termId);
   const { data: termCody } = useTermCodyQuery(termId);
   const { data: termDutyCount } = useDutyCountQuery(termId);
 
@@ -61,7 +73,8 @@ const useTerm = (termId?: number) => {
   return {
     termNewFamilyLeader,
     termNewFamilyLeaderOptions,
-    // termSmallGroupLeaderOptions,
+    termSmallGroupLeader,
+    termPastor,
     termCody,
     termCodyOptions,
     termCodyAndSmallGroups,

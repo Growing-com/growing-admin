@@ -25,9 +25,14 @@ export const DUTY: { [key: string]: string } = {
   SMALL_GROUP_LEADER: "순장",
   NEW_FAMILY_GROUP_LEADER: "새가족 순장",
   SMALL_GROUP_MEMBER: "순원",
-  NEW_FAMILY_MEMBER: "새가족 순원",
+  NEW_FAMILY_GROUP_MEMBER: "새가족 순원",
   NEW_FAMILY: "새가족",
   NOT_PLACED: "미배정"
+};
+
+export const GROUP_TYPE: { [key: string]: string } = {
+  SMALL_GROUP: "일반",
+  NEW_FAMILY_GROUP: "새가족"
 };
 
 export const DISPATCH_TYPE: { [key: string]: string } = {

@@ -37,7 +37,7 @@ type tNewFamilyForm = {
 
 const NewfamilyUpdatePage: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { newfamilyId } = router.query;
   const queryClient = useQueryClient();
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
@@ -45,10 +45,10 @@ const NewfamilyUpdatePage: NextPage = () => {
   const { currentTermNewFamilyLeaderOptions } =
     useCurrentTermInfoOptionQueries();
 
-  const numericId = id ? Number(id) : null;
+  const numericId = newfamilyId ? Number(newfamilyId) : null;
 
   const { data: newFamilyDetailData } = useQuery(
-    [queryKeys.NEW_FAMILY_DETAIL, id],
+    [queryKeys.NEW_FAMILY_DETAIL, newfamilyId],
     async () => {
       if (numericId === null || isNaN(numericId)) {
         throw new Error("Invalid ID");
@@ -85,7 +85,7 @@ const NewfamilyUpdatePage: NextPage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY, id]);
+      queryClient.invalidateQueries([queryKeys.NEW_FAMILY, newfamilyId]);
       GRAlert.success("지체 수정 완료");
     }
   });
@@ -103,8 +103,8 @@ const NewfamilyUpdatePage: NextPage = () => {
   return (
     <>
       <HeaderView title={"새가족 수정"} disabledBackbutton={true} />
-      <GRContainerView>
-        <GRFlexView alignItems="center" style={{ overflow: "auto" }}>
+      <GRContainerView >
+        <GRFlexView margintop={1.5} alignItems="center" style={{ overflow: "auto" }}>
           <GRView style={{ maxWidth: "60rem", width: "100%" }}>
             <GRFlexView yGap={GRStylesConfig.BASE_LONG_MARGIN}>
               <GRFlexView

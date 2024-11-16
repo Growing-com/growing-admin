@@ -94,7 +94,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "name",
       align: "center",
       width: "4rem",
-      minWidth: 55
+      minWidth: 75
     },
     {
       title: "성별",
@@ -102,7 +102,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "gender",
       align: "center",
       width: "3rem",
-      minWidth: 40,
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -114,14 +114,14 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "grade",
       align: "center",
       width: "3rem",
-      minWidth: 40
+      minWidth: 60
     },
     {
       title: "일반 순장",
       align: "center",
       dataIndex: "leaderName",
       width: "5rem",
-      minWidth: 65
+      minWidth: 75
     },
     {
       title: "파송 종류",
@@ -129,6 +129,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "type",
       align: "center",
       width: "10rem",
+      minWidth: 85,
       render: (_, _item) => {
         return (
           <GRFlexView>
@@ -151,6 +152,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "sendDate",
       align: "center",
       width: "10rem",
+      minWidth: 85,
       render: (_, _item) => {
         return (
           <GRFlexView>
@@ -175,6 +177,7 @@ const UserDispatchModal: FC<tUserDispatchModal> = ({
       key: "returnDate",
       align: "center",
       width: "10rem",
+      minWidth: 85,
       render: (_, _item) => {
         return (
           <GRFlexView>

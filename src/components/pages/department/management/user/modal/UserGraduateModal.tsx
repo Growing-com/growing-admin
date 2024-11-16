@@ -47,7 +47,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       key: "duty",
       align: "center",
       width: "3rem",
-      minWidth: 45,
+      minWidth: 75,
       render: (_, item) => {
         if (!item?.duty) return;
         return <GRText>{DUTY[item?.duty]}</GRText>;
@@ -58,7 +58,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       align: "center",
       dataIndex: "leaderName",
       width: "4rem",
-      minWidth: 65
+      minWidth: 75
     },
     {
       title: "이름",
@@ -66,7 +66,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       key: "name",
       align: "center",
       width: "6rem",
-      minWidth: 55,
+      minWidth: 75,
       render: (_, item) => {
         return <GRText fontSize={"b5"}>{item.name}</GRText>;
       }
@@ -77,7 +77,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       key: "gender",
       align: "center",
       width: "3rem",
-      minWidth: 40,
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -89,7 +89,7 @@ const UserGraduateModal: FC<tUserGraduateModal> = ({
       key: "grade",
       align: "center",
       width: "3rem",
-      minWidth: 40
+      minWidth: 60
     }
   ];
 

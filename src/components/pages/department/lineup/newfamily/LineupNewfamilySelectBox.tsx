@@ -8,7 +8,7 @@ import { ColumnType } from "antd/es/table";
 import { lineUpNewfamily, saveNewfamilyTemporaryLeaders } from "api/newfamily";
 import { tNewfamilyRequested } from "api/newfamily/type";
 import queryKeys from "api/queryKeys";
-import { tSmallGroupLeader } from "api/term/type";
+import { tNewfamilyLineUpSmallGroup } from "api/term/type";
 import { SEX_NAME } from "config/const";
 import { useNewfamilyLineupRequestQuery } from "hooks/queries/newfamily/useNewfamilyLineupRequestQuery";
 import { useCallback, useEffect, useState } from "react";
@@ -19,7 +19,7 @@ import DropCell from "./DropCell";
 import TemporarySmallGroupLeaderNamesRender from "./TemporarySmallGroupLeaderNamesRender";
 
 type tLineupNewfamilySelectBox = {
-  smallGroups: tSmallGroupLeader[];
+  smallGroups: tNewfamilyLineUpSmallGroup[];
 };
 
 const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
@@ -153,7 +153,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "name",
       align: "center",
       width: "3rem",
-      minWidth: 55
+      minWidth: 75
     },
     {
       title: "성별",
@@ -161,7 +161,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "gender",
       align: "center",
       width: "2rem",
-      minWidth: 40,
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -173,7 +173,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "grade",
       align: "center",
       width: "2rem",
-      minWidth: 55,
+      minWidth: 60,
       sorter: (a, b) => a.grade - b.grade
     },
     {
@@ -182,7 +182,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "4rem",
-      minWidth: 70,
+      minWidth: 100,
       sorter: (a, b) => {
         return koreanSorter(
           a.newFamilyGroupLeaderName,
@@ -196,13 +196,13 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       key: "etc.lineUpMemo",
       align: "center",
       width: "10rem",
-      minWidth: 75,
+      minWidth: 90,
       render: (_, item) => {
         return (
           <div
             style={{
               maxHeight: "100px", // 최대 높이 설정
-              overflowY: "scroll", // 항상 스크롤 표시
+              overflowY: "auto",
               whiteSpace: "nowrap" // 줄바꿈 방지
             }}
           >
@@ -218,7 +218,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       width: "10rem",
       minWidth: 120,
       render: (_, item) => {
-        const handletemporaryDrop = (droppedItem: tSmallGroupLeader) => {
+        const handletemporaryDrop = (droppedItem: tNewfamilyLineUpSmallGroup) => {
           if (
             item.temporarySmallGroupIds?.some(
               (id: number) => id === droppedItem.smallGroupId
@@ -253,7 +253,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       render: (_, item) => {
         if (!item) return;
 
-        const handleConfirmedDrop = (droppedItem: tSmallGroupLeader) => {
+        const handleConfirmedDrop = (droppedItem: tNewfamilyLineUpSmallGroup) => {
           insertDataInFormResult(item.newFamilyId, {
             smallGroupLeaderName: droppedItem.smallGroupLeaderName,
             smallGroupId: droppedItem.smallGroupId,

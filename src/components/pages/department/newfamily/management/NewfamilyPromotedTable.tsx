@@ -38,7 +38,8 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 75
     },
     {
       title: "성별",
@@ -46,6 +47,7 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -56,7 +58,8 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 60
     },
     {
       title: "등반일",
@@ -64,9 +67,10 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       key: "promoteDate",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.promoteDate),
       sorter: (valueA, valueB) =>
-        dateSorter(valueA.promoteDate, valueB.promoteDate),
+        dateSorter(valueA.promoteDate, valueB.promoteDate)
     },
     {
       title: "등반 후 경과 주",
@@ -74,6 +78,7 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       key: "weeksAfterPromotion",
       align: "center",
       width: "8rem",
+      minWidth: 105,
       render: (_, record) => (
         <GRText>{`${record.weeksAfterPromotion} 주`}</GRText>
       )
@@ -83,6 +88,7 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       align: "center",
       dataIndex: "smallGroupLeaderName",
       width: "8rem",
+      minWidth: 90,
       render: (_, item) => {
         if (!item) return;
         return <GRText>{item?.smallGroupLeaderName}</GRText>;
@@ -96,14 +102,16 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
       align: "center",
-      width: "6rem"
+      width: "6rem",
+      minWidth: 100
     },
     {
       title: "전화번호",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110
     }
   ];
 

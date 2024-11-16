@@ -1,18 +1,26 @@
 import { REQUEST_METHOD, request } from "api";
 import { tDutyCount, tUser } from "api/account/types";
 import {
-  tSmallGroup,
-  tGetNewFamilyGroup,
+  tCodyAndSmallGroup,
+  tNewFamilyGroup,
   tTerm,
   tCody,
   tLeader,
-  tGroup
+  tGroup,
+  tPastor,
+  tSmallGroup
 } from "./type";
 
 const version = "v1";
 
-
 export const getCodyAndSmallGroups = (termId?: number) => {
+  return request<tCodyAndSmallGroup[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/small-groups-by-cody`
+  });
+};
+
+export const getSmallGroup = (termId?: number) => {
   return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/small-groups`
@@ -20,7 +28,7 @@ export const getCodyAndSmallGroups = (termId?: number) => {
 };
 
 export const getNewFamilyGroup = (termId?: number) => {
-  return request<tGetNewFamilyGroup[]>({
+  return request<tNewFamilyGroup[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/terms/${termId}/new-family-groups`
   });
@@ -47,6 +55,12 @@ export const getAllLeaders = (termId?: number) => {
   });
 };
 
+export const getTermPastor = (termId?: number) => {
+  return request<tPastor[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/pastors`
+  });
+};
 
 export const getTermCody = (termId?: number) => {
   return request<tCody[]>({

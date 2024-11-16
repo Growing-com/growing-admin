@@ -37,7 +37,8 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 75
     },
     {
       title: "성별",
@@ -45,6 +46,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -55,7 +57,8 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 60
     },
     {
       title: "생년월일",
@@ -63,6 +66,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth)
     },
     {
@@ -71,6 +75,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       key: "visitDate",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       sorter: (valueA, valueB) =>
         dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
@@ -81,6 +86,7 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
       dataIndex: "lineOutDate",
       align: "center",
       width: "8rem",
+      minWidth: 100,
       render: (_, record) => checkDefaultDate(record.lineOutDate)
     }
   ];

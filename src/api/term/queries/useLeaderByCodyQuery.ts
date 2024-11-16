@@ -3,15 +3,23 @@ import queryKeys from "api/queryKeys";
 import { getLeaderByCody } from "..";
 
 const useLeaderByCodyQuery = (codyId?: number) => {
-  return useQuery(
-    [queryKeys.LEADER_BY_CODY, codyId],
+  const { data: leaderByCody } = useQuery(
+    [queryKeys.SMALL_GROUP_LEADER_BY_CODY, codyId],
     async () => await getLeaderByCody(codyId),
     {
       enabled: !!codyId,
-      select: data =>
-        data.content.filter(leader => leader.groupType !== "NEW_FAMILY_GROUP")
+      select: data => data.content
     }
   );
+
+  const smallGroupLeaderByCody = leaderByCody?.filter(
+    leader => leader.groupType !== "NEW_FAMILY_GROUP"
+  );
+  const newfamilyLeaderByCody = leaderByCody?.filter(
+    leader => leader.groupType !== "SMALL_GROUP"
+  );
+
+  return { smallGroupLeaderByCody, newfamilyLeaderByCody, leaderByCody };
 };
 
 export default useLeaderByCodyQuery;

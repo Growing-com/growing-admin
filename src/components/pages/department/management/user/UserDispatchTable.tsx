@@ -44,6 +44,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "leaderName",
       align: "center",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 4
@@ -59,6 +60,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       align: "center",
       fixed: "left",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 3
@@ -70,6 +72,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "gender",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -85,6 +88,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "grade",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 1 }
     },
     {
@@ -93,6 +97,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "type",
       align: "center",
       width: "6rem",
+      minWidth: 60,
       render: (_, record) => <GRText>{DISPATCH_TYPE[record.type]}</GRText>,
       sorter: {
         compare: (a, b) =>
@@ -106,6 +111,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "sendDate",
       align: "center",
       width: "10rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.sendDate),
       sorter: {
         compare: (valueA, valueB) =>
@@ -119,6 +125,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       key: "returnDate",
       align: "center",
       width: "10rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.returnDate),
       sorter: {
         compare: (valueA, valueB) =>
@@ -132,6 +139,7 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth)
     },
     {
@@ -139,7 +147,8 @@ const UserDispatchTable: React.FC<tUserDispatchTable> = ({
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110
     }
   ];
 

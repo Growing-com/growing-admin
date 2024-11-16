@@ -22,16 +22,15 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
   const { data: lineOutUserData, isLoading } = useLineOutUserListQuery();
 
   useEffect(() => {
-    if (!lineOutUserData || lineOutUserData.length === 0) {
+    if (!lineOutUserData?.length) {
       setFilteredUserData([]);
       return;
     }
-    let _filterUser = lineOutUserData;
-    if (searchName) {
-      _filterUser = lineOutUserData.filter(user => {
-        return user.name?.indexOf(searchName) !== -1;
-      });
-    }
+
+    const _filterUser = searchName
+      ? lineOutUserData.filter(user => user.name?.includes(searchName))
+      : lineOutUserData;
+
     setFilteredUserData(_filterUser);
   }, [lineOutUserData, searchName]);
 
@@ -43,6 +42,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       align: "center",
       fixed: "left",
       width: "6rem",
+      minWidth: 75,
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 1
@@ -54,6 +54,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       key: "gender",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -69,6 +70,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       key: "grade",
       align: "center",
       width: "4rem",
+      minWidth: 60,
       sorter: { compare: (a, b) => a.grade - b.grade, multiple: 3 }
     },
     {
@@ -77,6 +79,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth)
     },
     {
@@ -85,6 +88,7 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       key: "lineOutDate",
       align: "center",
       width: "10rem",
+      minWidth: 120,
       render: (_, record) => checkDefaultDate(record.lineOutDate),
       sorter: {
         compare: (valueA, valueB) =>
@@ -97,7 +101,8 @@ const UserLineOutTable: React.FC<tUserLineOutTable> = ({
       dataIndex: "reason",
       key: "reason",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 100
     }
   ];
 

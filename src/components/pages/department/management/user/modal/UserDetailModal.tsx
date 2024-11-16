@@ -45,7 +45,7 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
 
   const {
     selectedCodyId,
-    leaderByCodyOptions,
+    smallGroupLeaderByCodyOptions,
     currentTermCodyOptions,
     setSelectedCodyId
   } = useCurrentTermInfoOptionQueries();
@@ -199,9 +199,9 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
           />
         </GRFlexView>
       </GRFlexView>
-      <Divider />
       {!userId && (
         <>
+        <Divider />
           <GRFlexView
             flexDirection={"row"}
             alignItems={"center"}
@@ -234,12 +234,11 @@ const UserDetailModal: FC<tUserDetailModal> = ({ open, onClickClose }) => {
                 fieldName={"smallGroupId"}
                 control={control}
                 disabled={!selectedCodyId}
-                options={leaderByCodyOptions}
+                options={smallGroupLeaderByCodyOptions}
                 placeholder={"리더를 선택해 주세요"}
               />
             </GRFlexView>
           </GRFlexView>
-          <Divider />
         </>
       )}
     </GRFormModal>

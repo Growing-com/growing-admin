@@ -21,7 +21,7 @@ const UserTermInfoBox: React.FC = () => {
       </GRView>
       <GRFlexView
         isBoard
-        width={16}
+        width={17}
         paddinghorizontal={2}
         paddingvertical={1}
         marginleft={GRStylesConfig.BASE_MARGIN}

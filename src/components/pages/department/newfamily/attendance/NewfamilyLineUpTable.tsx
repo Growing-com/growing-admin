@@ -34,7 +34,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 75
     },
     {
       title: "성별",
@@ -42,6 +43,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       key: "gender",
       align: "center",
       width: "5rem",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -52,7 +54,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "grade",
       key: "grade",
       align: "center",
-      width: "5rem"
+      width: "5rem",
+      minWidth: 60
     },
     {
       title: "생년월일",
@@ -60,6 +63,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "birth",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       render: (_, record) => checkDefaultDate(record.birth)
     },
     {
@@ -67,7 +71,8 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       align: "center",
-      width: "10rem"
+      width: "10rem",
+      minWidth: 110
     },
     {
       title: "방문일",
@@ -75,6 +80,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       key: "visitDate",
       align: "center",
       width: "8rem",
+      minWidth: 85,
       sorter: (valueA, valueB) =>
         dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
@@ -85,7 +91,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       key: "newFamilyGroupLeaderName",
       align: "center",
       width: "8rem",
-      minWidth: 66,
+      minWidth: 100,
       sorter: (a, b) => {
         return koreanSorter(
           a.newFamilyGroupLeaderName,
@@ -98,7 +104,7 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       align: "center",
       dataIndex: "smallGroupLeaderName",
       width: "8rem",
-      minWidth: 63,
+      minWidth: 90,
       render: (_, item) => {
         if (!item) return;
         return <GRText>{item?.smallGroupLeaderName}</GRText>;

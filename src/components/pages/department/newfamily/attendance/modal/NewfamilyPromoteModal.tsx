@@ -98,13 +98,15 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       title: "이름",
       dataIndex: "name",
       key: "name",
-      align: "center"
+      align: "center",
+      minWidth: 75
     },
     {
       title: "성별",
       dataIndex: "gender",
       key: "gender",
       align: "center",
+      minWidth: 60,
       render: (_, item) => {
         if (!item?.sex) return;
         return <GRText>{SEX_NAME[item?.sex]}</GRText>;
@@ -114,18 +116,21 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       title: "학년",
       dataIndex: "grade",
       key: "grade",
-      align: "center"
+      align: "center",
+      minWidth: 60
     },
     {
       title: "새가족 순장",
       dataIndex: "newFamilyGroupLeaderName",
       key: "newFamilyGroupLeaderName",
-      align: "center"
+      align: "center",
+      minWidth: 100
     },
     {
       title: "일반 순장",
       align: "center",
       dataIndex: "smallGroupLeaderName",
+      minWidth: 90,
       render: (_, item) => {
         if (!item) return;
         return <GRText>{item?.smallGroupLeaderName}</GRText>;
@@ -136,6 +141,7 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       dataIndex: "promoteDate",
       key: "promoteDate",
       align: "center",
+      minWidth: 100,
       render: (_, _item) => {
         return (
           <GRFlexView>
@@ -174,7 +180,8 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       title={"새가족 등반"}
       width={"60%"}
       maskClosable={false}
-    >
+      style={{ width: "100%", overflowX: "auto" }}>
+    
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable
           rowKey={"newFamilyId"}

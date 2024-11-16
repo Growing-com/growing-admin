@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import queryKeys from "api/queryKeys";
 import { getActiveTerm } from "api/term";
 import useTerm from "./useTerm";
-import { useState } from "react";
 
 const useCurrentTerm = () => {
   const { data: currentTermData } = useQuery(
@@ -10,7 +9,6 @@ const useCurrentTerm = () => {
     async () => await getActiveTerm(),
     {
       staleTime: Infinity,
-
       select: data => data.content
     }
   );
@@ -18,17 +16,25 @@ const useCurrentTerm = () => {
   const currentTermId = currentTermData ? currentTermData.termId : undefined;
 
   const {
-    termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
+    termDutyCount: currentTermDutyCount,
     termAllLeaderGroup: currentTermAllLeaderGroup,
-    termDutyCount: currentTermDutyCount
+    termPastor: currentTermPastor,
+    termCody: currentTermCody,
+    termCodyAndSmallGroups: currentTermCodyAndSmallGroups,
+    termNewFamilyLeader: currentTermNewFamilyLeader,
+    termSmallGroupLeader: currentTermSmallGroupLeader
   } = useTerm(currentTermId);
 
   return {
     currentTermData,
     currentTermId,
-    currentTermCodyAndSmallGroups,
     currentTermAllLeaderGroup,
-    currentTermDutyCount
+    currentTermDutyCount,
+    currentTermPastor,
+    currentTermCody,
+    currentTermCodyAndSmallGroups,
+    currentTermSmallGroupLeader,
+    currentTermNewFamilyLeader
   };
 };
 

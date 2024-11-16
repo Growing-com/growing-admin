@@ -1,14 +1,14 @@
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import styled from "@emotion/styled";
-import { tSmallGroupLeader } from 'api/term/type';
+import { tNewfamilyLineUpSmallGroup } from 'api/term/type';
 import { useEffect } from "react";
 import { useDrag } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
 import { Color } from "styles/colors";
 
 type tDraggableLeader = {
-  leader: tSmallGroupLeader;
+  leader: tNewfamilyLineUpSmallGroup;
 };
 
 const DraggableLeader: React.FC<tDraggableLeader> = ({ leader }) => {
@@ -34,7 +34,7 @@ const DraggableLeader: React.FC<tDraggableLeader> = ({ leader }) => {
         padding: "0rem 0.5rem 0rem 0.5rem",
       }}
     >
-      <LeaderGRFlexView alignItems={"center"} paddinghorizontal={0}>
+      <LeaderGRFlexView >
         <GRText fontSize={"b3"}>{leader.smallGroupLeaderName}</GRText>
       </LeaderGRFlexView>
     </div>
