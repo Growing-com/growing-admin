@@ -71,6 +71,19 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
 
   const columns: TableColumnsType<any> = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      width: "6rem",
+      minWidth: 100,
+      sorter: {
+        compare: (a, b) =>
+          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
+        multiple: 3
+      }
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -101,19 +114,6 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
       sorter: {
         compare: (a, b) => a.grade - b.grade,
         multiple: 1
-      }
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "6rem",
-      minWidth: 100,
-      sorter: {
-        compare: (a, b) =>
-          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
-        multiple: 3
       }
     },
     {
