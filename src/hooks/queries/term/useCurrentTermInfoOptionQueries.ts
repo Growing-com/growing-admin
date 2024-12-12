@@ -39,10 +39,7 @@ export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
       ? convertOptions(newfamilyLeaderByCody, "groupId", "leaderName")
       : [];
 
-    const { data: membersByCody } = useMembersByCodyQuery(
-      selectedCodyId,
-      undefined
-    );
+    const { data: membersByCody } = useMembersByCodyQuery(selectedCodyId);
 
     return {
       smallGroupLeaderByCodyOptions,

@@ -76,11 +76,10 @@ export const getLeaderByCody = (codyId?: number) => {
   });
 };
 
-export const getMembersByCody = (codyId?: number, smallGroupId?: number) => {
+export const getMembersByCody = (codyId?: number) => {
   return request<tUser[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/codies/${codyId}/members`,
-    params: { smallGroupId }
+    url: `${version}/codies/${codyId}/members`
   });
 };
 

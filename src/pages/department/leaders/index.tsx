@@ -184,6 +184,7 @@ const LeadersPage: NextPage = () => {
           flexDirection={"row"}
           alignItems={"end"}
           xGap={1}
+          margintop={GRStylesConfig.BASE_LONG_MARGIN}
           marginbottom={GRStylesConfig.BASE_LONG_MARGIN}
           style={{ overflowX: "auto", width: "100%" }}
         >
