@@ -52,6 +52,20 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
 
   const columns: ColumnType<any>[] = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      width: "6rem",
+      minWidth: 100,
+      sorter: (a, b) => {
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
+      }
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -90,20 +104,6 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       sorter: (valueA, valueB) =>
         dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "6rem",
-      minWidth: 100,
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
-      }
     },
     {
       title: "생년월일",

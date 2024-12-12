@@ -96,10 +96,7 @@ const LeadersPage: NextPage = () => {
         multiple: 5
       },
       filters: codyFilterOptions,
-      onFilter: (value, record) => record.codyName === value,
-      render: (_, item) => {
-        return <GRText weight={"bold"}>{item.codyName}</GRText>;
-      }
+      onFilter: (value, record) => record.codyName === value
     },
     {
       title: "이름",
@@ -112,6 +109,9 @@ const LeadersPage: NextPage = () => {
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
+      },
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.name}</GRText>;
       }
     },
     {

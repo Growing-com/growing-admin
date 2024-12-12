@@ -73,10 +73,7 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
       },
-      onFilter: (value, record) => record.leaderName === value,
-      render: (_, item) => {
-        return <GRText weight={"bold"}>{item.leaderName}</GRText>;
-      }
+      onFilter: (value, record) => record.leaderName === value
     },
     {
       title: "이름",
@@ -89,6 +86,9 @@ const UserListInfoTable: React.FC<tUserInfoTable> = ({
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
+      },
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.name}</GRText>;
       }
     },
     {

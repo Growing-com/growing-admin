@@ -84,6 +84,17 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       )
     },
     {
+      title: "등반 후 출석 주",
+      dataIndex: "attendanceAfterPromotion",
+      key: "attendanceAfterPromotion",
+      align: "center",
+      width: "8rem",
+      minWidth: 105,
+      render: (_, record) => (
+        <GRText>{`${record.attendanceAfterPromotion} 주`}</GRText>
+      )
+    },
+    {
       title: "일반 순장",
       align: "center",
       dataIndex: "smallGroupLeaderName",

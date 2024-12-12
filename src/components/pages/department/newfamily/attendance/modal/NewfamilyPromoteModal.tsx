@@ -95,6 +95,13 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
 
   const columns: ColumnType<tNewfamily>[] = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      minWidth: 100
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -118,13 +125,6 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       key: "grade",
       align: "center",
       minWidth: 60
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      minWidth: 100
     },
     {
       title: "일반 순장",
@@ -180,8 +180,8 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
       title={"새가족 등반"}
       width={"60%"}
       maskClosable={false}
-      style={{ width: "100%", overflowX: "auto" }}>
-    
+      style={{ width: "100%", overflowX: "auto" }}
+    >
       <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
         <GRTable
           rowKey={"newFamilyId"}
