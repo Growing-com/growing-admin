@@ -233,3 +233,5 @@ export const BELIEVE_STATUS_OPTIONS = [
     value: BELIEVE_STATUS.NOT_INTERESTED
   }
 ];
+
+export const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;

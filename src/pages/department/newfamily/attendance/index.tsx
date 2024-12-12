@@ -51,12 +51,11 @@ const NewfamilyAttendancePage: NextPage = () => {
 
   const [selectedNewFamily, setSelectedNewFamily] = useState<tNewfamily[]>([]);
 
-  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
+  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs().startOf("week"));
 
   const [newfamilyGroupAttendanceData, setNewfamilyGroupAttendanceData] =
     useState<tNewfamilyAttendances[]>([]);
   const [currentGroupId, setCurrentGroupId] = useState<string>("0");
-
 
   const { currentTermNewFamilyLeaderOptions } =
     useCurrentTermInfoOptionQueries();

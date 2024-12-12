@@ -4,10 +4,11 @@ import useLeaderByCodyQuery from "api/term/queries/useLeaderByCodyQuery";
 import useMembersByCodyQuery from "api/term/queries/useMembersByCodyQuery";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
 import useTerm from "hooks/api/term/useTerm";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { convertOptions } from "utils";
 
 type tUseCurrentTermInfoOptionQueries = () => {
+  leaderByCodyOptions: tOptions[];
   smallGroupLeaderByCodyOptions: tOptions[];
   newfamilyLeaderByCodyOptions: tOptions[];
   selectedCodyId?: number;
@@ -23,14 +24,23 @@ export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
 
     const { currentTermId } = useCurrentTerm();
 
-    const { smallGroupLeaderByCody, newfamilyLeaderByCody } =
-      useLeaderByCodyQuery(selectedCodyId);
-
     const {
       termNewFamilyLeaderOptions: currentTermNewFamilyLeaderOptions,
       termCodyOptions: currentTermCodyOptions
     } = useTerm(currentTermId);
 
+    const { smallGroupLeaderByCody, newfamilyLeaderByCody, leaderByCody } =
+      useLeaderByCodyQuery(selectedCodyId);
+
+    const leaderByCodyOptions = useMemo(
+      () =>
+        leaderByCody?.map(group => ({
+          label: group.leaderName,
+          value: group.groupType + "-" + group.groupId
+        })) ?? [],
+      [leaderByCody]
+    );
+    
     const smallGroupLeaderByCodyOptions = smallGroupLeaderByCody
       ? convertOptions(smallGroupLeaderByCody, "groupId", "leaderName")
       : [];
@@ -42,6 +52,7 @@ export const useCurrentTermInfoOptionQueries: tUseCurrentTermInfoOptionQueries =
     const { data: membersByCody } = useMembersByCodyQuery(selectedCodyId);
 
     return {
+      leaderByCodyOptions,
       smallGroupLeaderByCodyOptions,
       newfamilyLeaderByCodyOptions,
       selectedCodyId,

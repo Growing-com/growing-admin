@@ -37,7 +37,7 @@ const queryKeys = {
 
   //   /** 출석 관련 */
   //   ATTENDANCE: "ATTENDANCE",
-  //   ATTENDANCE_CHECK: "ATTENDANCE_CHECK",
+    ATTENDANCE_NORMAL_CHECK: "ATTENDANCE_NORMAL_CHECK",
 
   //   /** 계정 관련 */
   //   ACCOUNT: "ACCOUNT",

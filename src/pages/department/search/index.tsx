@@ -38,9 +38,13 @@ const SearchPage: NextPage = () => {
   const [searchBaseData, setSearchBaseData] = useState<tUser[]>([]);
   const [searchTotal, setSearchTotal] = useState<tUser[]>([]);
   const { userList } = useUserListQuery();
-  
-  const { currentTermCodyOptions, membersByCody, selectedCodyId, setSelectedCodyId } =
-    useCurrentTermInfoOptionQueries();
+
+  const {
+    currentTermCodyOptions,
+    membersByCody,
+    selectedCodyId,
+    setSelectedCodyId
+  } = useCurrentTermInfoOptionQueries();
 
   const onClickResetSearch = () => {
     setSearchTotal(userList ?? []);
@@ -114,10 +118,7 @@ const SearchPage: NextPage = () => {
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
       },
-      onFilter: (value, record) => record.leaderName === value,
-      render: (_, item) => {
-        return <GRText weight={"bold"}>{item.leaderName}</GRText>;
-      }
+      onFilter: (value, record) => record.leaderName === value
     },
     {
       title: "이름",
@@ -130,6 +131,9 @@ const SearchPage: NextPage = () => {
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
+      },
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.name}</GRText>;
       }
     },
     {

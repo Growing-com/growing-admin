@@ -226,6 +226,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
   };
 
   /** 아래는 선택한 날짜에 해당하는 데이터가 없을 경우 기본 셋팅, 있을 경우 form에 적용하는 로직 */
+  // 선택된 날짜의 데이터만 넘어오는 API를 만들면 필요없는 로직
   useEffect(() => {
     if (!newfamilyGroupAttendanceData) {
       return;
