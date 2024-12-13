@@ -34,7 +34,7 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
 
   const columns: ColumnType<any>[] = [
     {
-      title: "일반 순장",
+      title: "등반 순장",
       align: "center",
       dataIndex: "smallGroupLeaderName",
       width: "8rem",

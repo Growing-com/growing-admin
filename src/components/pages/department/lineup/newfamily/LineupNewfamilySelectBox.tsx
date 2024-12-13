@@ -57,7 +57,7 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
 
   const onClickSaveTemporaryLeaders = () => {
     const newfamilySaveTemporaryLeaderData = formResult
-      .filter(item => item.temporarySmallGroupIds !== undefined)
+      .filter(item => item.temporarySmallGroupIds?.length !== 0)
       .map(({ newFamilyId, temporarySmallGroupIds }) => ({
         newFamilyId,
         temporarySmallGroupIds: temporarySmallGroupIds as number[]
@@ -148,12 +148,29 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
 
   const columns: ColumnType<any>[] = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      width: "3rem",
+      minWidth: 100,
+      sorter: (a, b) => {
+        return koreanSorter(
+          a.newFamilyGroupLeaderName,
+          b.newFamilyGroupLeaderName
+        );
+      }
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
       align: "center",
-      width: "3rem",
-      minWidth: 75
+      width: "5rem",
+      minWidth: 75,
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.name}</GRText>;
+      }
     },
     {
       title: "성별",
@@ -175,20 +192,6 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       width: "2rem",
       minWidth: 60,
       sorter: (a, b) => a.grade - b.grade
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "4rem",
-      minWidth: 100,
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
-      }
     },
     {
       title: "순원 기록지",
@@ -218,7 +221,9 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       width: "10rem",
       minWidth: 120,
       render: (_, item) => {
-        const handletemporaryDrop = (droppedItem: tNewfamilyLineUpSmallGroup) => {
+        const handletemporaryDrop = (
+          droppedItem: tNewfamilyLineUpSmallGroup
+        ) => {
           if (
             item.temporarySmallGroupIds?.some(
               (id: number) => id === droppedItem.smallGroupId
@@ -248,12 +253,14 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
       title: "일반 순장",
       align: "center",
       dataIndex: "smallGroupLeaderName",
-      width: "5rem",
+      width: "3rem",
       minWidth: 120,
       render: (_, item) => {
         if (!item) return;
 
-        const handleConfirmedDrop = (droppedItem: tNewfamilyLineUpSmallGroup) => {
+        const handleConfirmedDrop = (
+          droppedItem: tNewfamilyLineUpSmallGroup
+        ) => {
           insertDataInFormResult(item.newFamilyId, {
             smallGroupLeaderName: droppedItem.smallGroupLeaderName,
             smallGroupId: droppedItem.smallGroupId,
