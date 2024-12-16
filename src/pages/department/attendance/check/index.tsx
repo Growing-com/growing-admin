@@ -15,7 +15,7 @@ import { Alert, TableColumnsType, Tooltip } from "antd";
 import { RadioChangeEvent } from "antd/lib";
 import useAttendanceCheckMutate from "api/attendance/mutate/useAttendanceCheckMutate";
 import { useAttendanceCheckData } from "api/attendance/queries/useAttendanceCheckData";
-import { tAttendanceData } from "api/attendance/type";
+import { tAttendanceCheckData } from "api/attendance/type";
 import { ATTENDANCE_CHECK_STATUS, SEX_NAME, TOOLTIP_INFO } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
@@ -30,7 +30,7 @@ const AttendanceCheckPage: NextPage = () => {
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs().startOf("week"));
   const [currentLeaderTab, setCurrentLeaderTab] = useState<string>();
 
-  const [checkData, setCheckData] = useState<tAttendanceData[]>();
+  const [checkData, setCheckData] = useState<tAttendanceCheckData[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleteCheck, setIsCompleteCheck] = useState(false);
 

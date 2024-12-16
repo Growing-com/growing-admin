@@ -5,8 +5,8 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import { Alert, TableColumnsType, Tooltip } from "antd";
+import { tAttendanceItems } from 'api/attendance/type';
 import {
-  tAttendanceItems,
   tNewfamily,
   tNewfamilyAttendances
 } from "api/newfamily/type";

@@ -1,16 +1,24 @@
 import { tSex } from "api/account/types";
-import { tAttendanceItems } from "./../newfamily/type";
 
 //* ATTEND: "출석", ABSENT: "결석", ONLINE: "온라인", NONE: "미완료"*/
 export type tAttendanceStatus = "ATTEND" | "ABSENT" | "ONLINE" | "NONE";
 export type tAttendanceCheckStatus = Exclude<tAttendanceStatus, "NONE">;
+
+export type tAttendanceItems = {
+  /** @description 출결 날짜  @example: “2024-08-08” */
+  date: string;
+  /** @description 출결 정보  @example: “ABSENT” */
+  status: tAttendanceStatus;
+  /** @description 출결 이유  @example: "감기 걸림" */
+  reason?: string;
+};
 
 export type tAttendanceCheckDataParams = {
   date: string;
   codyId?: number;
 };
 
-export type tAttendanceData = {
+export type tAttendanceCheckData = {
   userId: number;
   name: string;
   sex: tSex;
@@ -18,7 +26,14 @@ export type tAttendanceData = {
   codyName?: string;
   leaderName?: string;
   attendItems: tAttendanceItems[];
+  // *[{}] -> {} 로 변경시 
+  // attendItems: tAttendanceItems;
 };
+
+export type tAttendanceData = {
+  attendanceItems: tAttendanceItems[]
+}
+& Omit<tAttendanceCheckData, "attendItems">
 
 export type tUserAttendanceCheckItems = {
   userId: number;
@@ -32,3 +47,9 @@ export type tPostGroupUserAttandance = {
   codyId: number;
   attendanceItems: tUserAttendanceCheckItems[];
 };
+
+export type tAttendanceRangeData = {
+  startDate: string;
+  endDate: string;
+}
+
