@@ -48,10 +48,12 @@ type tFilterOption = {
 };
 
 const AttendanceManagementPage: NextPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<tAttendanceRangeData>();
   const [skeletonAttendanceData, setSkeletonAttendanceData] =
     useState<tAttendanceItems[]>();
   const [filteredData, setFilteredData] = useState<tAttendanceData[]>();
+  const [searchName, setSearchName] = useState<string>("");
 
   const [codyFilterOptions, setCodyFilterOptions] = useState<tFilterOption[]>(
     []
@@ -82,15 +84,23 @@ const AttendanceManagementPage: NextPage = () => {
       endDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FORMAT)
     });
 
-    // 이름 검색 로직
-    let _filteredData = attendanceList;
-    if (searchName) {
-      _filteredData = attendanceList?.filter(
-        user => user.name?.indexOf(searchName) !== -1
-      );
-    }
-    setFilteredData(_filteredData);
+    setSearchName(searchName);
+    setCurrentPage(1);
   });
+
+  const onSearchName = () => {
+    let _filterUser = attendanceList;
+    if (searchName) {
+      _filterUser = attendanceList?.filter(user => {
+        return user.name?.indexOf(searchName) !== -1;
+      });
+    }
+    setFilteredData(_filterUser);
+  };
+
+  const handlePaginationChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const onClickSearch = useCallback(() => {
     onSubmit();
@@ -99,17 +109,6 @@ const AttendanceManagementPage: NextPage = () => {
   useKeyPressEventListener("Enter", () => {
     onSubmit();
   });
-
-  useEffect(() => {
-    if (attendanceList?.length === 0) return;
-    setFilteredData(attendanceList);
-  }, [attendanceList]);
-
-  // 출석 날짜 목록 설정 함수
-  useEffect(() => {
-    if (!attendanceList) return;
-    setSkeletonAttendanceData(head(attendanceList)?.attendanceItems);
-  }, [attendanceList]);
 
   // 필터 변경에 따른 파지네이션
   const handleChange = (
@@ -121,10 +120,10 @@ const AttendanceManagementPage: NextPage = () => {
     if (!attendanceList) return;
     if (
       filters.codyName === null &&
-      filters.duty === null &&
+      filters.leaderName === null &&
       filters.grade === null
     ) {
-      setFilteredData(attendanceList);
+      onSearchName();
       return;
     }
     setFilteredData(extra.currentDataSource);
@@ -163,6 +162,17 @@ const AttendanceManagementPage: NextPage = () => {
       }));
     setGradeFilterOptions(_gradeFilterOptions);
   }, [filteredData]);
+
+  useEffect(() => {
+    if (attendanceList?.length === 0) return;
+    onSearchName();
+  }, [attendanceList, searchName]);
+
+  // 출석 날짜 목록 설정 함수
+  useEffect(() => {
+    if (!attendanceList) return;
+    setSkeletonAttendanceData(head(attendanceList)?.attendanceItems);
+  }, [attendanceList]);
 
   const columns: TableColumnsType<any> = [
     {
@@ -305,9 +315,11 @@ const AttendanceManagementPage: NextPage = () => {
             isLoading={isFetching}
             rowKey={"userId"}
             columns={columns}
-            data={attendanceList}
+            data={filteredData}
             pagination={{
               total: filteredData?.length,
+              current: currentPage,
+              onChange: handlePaginationChange,
               defaultPageSize: 10,
               position: ["bottomCenter"]
             }}
