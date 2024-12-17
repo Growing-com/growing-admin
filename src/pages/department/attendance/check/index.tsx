@@ -324,7 +324,6 @@ const AttendanceCheckPage: NextPage = () => {
                 total: checkData?.length,
                 defaultPageSize: 15,
                 position: ["bottomCenter"],
-                hideOnSinglePage: true
               }}
               scroll={{ x: true }}
               tableLayout={"auto"}

@@ -93,7 +93,11 @@ const GRTable = <GRTableType extends object>({
         loading={isLoading}
         columns={columns}
         dataSource={data ?? []}
-        pagination={{ ...pagination, showSizeChanger: false }}
+        pagination={{
+          ...pagination,
+          showSizeChanger: false,
+          hideOnSinglePage: true
+        }}
         showSorterTooltip={false}
         css={[
           css`

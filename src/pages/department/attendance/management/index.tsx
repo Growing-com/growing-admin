@@ -1,10 +1,10 @@
 import GRTable from "@component/atom/GRTable";
-import GRAlert from '@component/atom/alert/GRAlert';
+import GRAlert from "@component/atom/alert/GRAlert";
 import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from '@component/atom/view/GRView';
+import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
@@ -65,13 +65,15 @@ const AttendanceManagementPage: NextPage = () => {
       startDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FORMAT),
       endDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FORMAT)
     });
-    
+
     // 이름 검색 로직
-    let _filteredData = attendanceList
-    if(searchName) {
-      _filteredData = attendanceList?.filter(user => user.name?.indexOf(searchName) !== -1);
+    let _filteredData = attendanceList;
+    if (searchName) {
+      _filteredData = attendanceList?.filter(
+        user => user.name?.indexOf(searchName) !== -1
+      );
     }
-    setFilteredData(_filteredData)
+    setFilteredData(_filteredData);
   });
 
   const onClickSearch = useCallback(() => {
@@ -231,20 +233,19 @@ const AttendanceManagementPage: NextPage = () => {
       />
       <GRContainerView>
         <GRView margintop={GRStylesConfig.BASE_LONG_MARGIN}>
-        <GRTable
-          isLoading={isFetching}
-          rowKey={"userId"}
-          columns={columns}
-          data={filteredData}
-          pagination={{
-            total: filteredData?.length,
-            defaultPageSize: 10,
-            position: ["bottomCenter"],
-            hideOnSinglePage: true
-          }}
-          scroll={{ x: true }}
-          tableLayout={"auto"}
-        />
+          <GRTable
+            isLoading={isFetching}
+            rowKey={"userId"}
+            columns={columns}
+            data={filteredData}
+            pagination={{
+              total: filteredData?.length,
+              defaultPageSize: 10,
+              position: ["bottomCenter"]
+            }}
+            scroll={{ x: true }}
+            tableLayout={"auto"}
+          />
         </GRView>
       </GRContainerView>
     </>
