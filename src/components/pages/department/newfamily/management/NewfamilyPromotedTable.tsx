@@ -34,6 +34,20 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
 
   const columns: ColumnType<any>[] = [
     {
+      title: "등반 순장",
+      align: "center",
+      dataIndex: "smallGroupLeaderName",
+      width: "8rem",
+      minWidth: 90,
+      render: (_, item) => {
+        if (!item) return;
+        return <GRText>{item?.smallGroupLeaderName}</GRText>;
+      },
+      sorter: (a, b) => {
+        return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
+      }
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -84,18 +98,15 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
       )
     },
     {
-      title: "일반 순장",
+      title: "등반 후 출석 주",
+      dataIndex: "attendanceAfterPromotion",
+      key: "attendanceAfterPromotion",
       align: "center",
-      dataIndex: "smallGroupLeaderName",
       width: "8rem",
-      minWidth: 90,
-      render: (_, item) => {
-        if (!item) return;
-        return <GRText>{item?.smallGroupLeaderName}</GRText>;
-      },
-      sorter: (a, b) => {
-        return koreanSorter(a.smallGroupLeaderName, b.smallGroupLeaderName);
-      }
+      minWidth: 105,
+      render: (_, record) => (
+        <GRText>{`${record.attendanceAfterPromotion} 주`}</GRText>
+      )
     },
     {
       title: "새가족 순장",

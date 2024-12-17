@@ -21,7 +21,6 @@ import { Dayjs } from "dayjs";
 import { head } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
-import { koreanSorter } from "utils/sorter";
 import AttendanceCheckSubmitButton from "../AttendanceCheckSubmitButton";
 
 const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;
@@ -96,6 +95,14 @@ const NewfamilyAttendanceCheckTable: React.FC<
 
   const columns: TableColumnsType<any> = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      width: "6rem",
+      minWidth: 100
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -122,24 +129,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
       key: "grade",
       align: "center",
       width: "5rem",
-      minWidth: 60,
-      sorter: {
-        compare: (a, b) => a.grade - b.grade,
-        multiple: 1
-      }
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "6rem",
-      minWidth: 100,
-      sorter: {
-        compare: (a, b) =>
-          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
-        multiple: 2
-      }
+      minWidth: 60
     },
     {
       title: () => {
@@ -236,6 +226,7 @@ const NewfamilyAttendanceCheckTable: React.FC<
   };
 
   /** 아래는 선택한 날짜에 해당하는 데이터가 없을 경우 기본 셋팅, 있을 경우 form에 적용하는 로직 */
+  // 선택된 날짜의 데이터만 넘어오는 API를 만들면 필요없는 로직
   useEffect(() => {
     if (!newfamilyGroupAttendanceData) {
       return;

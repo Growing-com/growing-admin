@@ -78,8 +78,7 @@ const GRTransferTable = <T,>(props: TableTransferProps<T>) => {
               }
             })}
             pagination={{
-              position: ["bottomCenter"],
-              hideOnSinglePage: true
+              position: ["bottomCenter"]
             }}
           />
         );

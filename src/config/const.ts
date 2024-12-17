@@ -134,6 +134,11 @@ export const THERE_OPTIONS = [
   { label: "없다.", value: "NO" }
 ];
 
+export const STUMP_OPTIONS = [
+  { label: "그루터기", value: "STUMP" },
+  { label: "순장", value: "NORMAL" }
+]
+
 // export const TeamType: Record<tTeamType, tTeamType> = {
 //   /** @description 등불 */
 //   LAMP: "LAMP",
@@ -233,3 +238,5 @@ export const BELIEVE_STATUS_OPTIONS = [
     value: BELIEVE_STATUS.NOT_INTERESTED
   }
 ];
+
+export const TOOLTIP_INFO = `* Tab: 이동 \n * Tab + Shift: 이전으로 이동 \n * 방향키: 선택 가능`;

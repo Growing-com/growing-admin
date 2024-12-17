@@ -35,17 +35,20 @@ const SearchPage: NextPage = () => {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchCodyId, setSearchCodyId] = useState<number>();
   const [searchBaseData, setSearchBaseData] = useState<tUser[]>([]);
   const [searchTotal, setSearchTotal] = useState<tUser[]>([]);
   const { userList } = useUserListQuery();
 
-  const { currentTermCodyOptions, membersByCody, setSelectedCodyId } =
-    useCurrentTermInfoOptionQueries();
+  const {
+    currentTermCodyOptions,
+    membersByCody,
+    selectedCodyId,
+    setSelectedCodyId
+  } = useCurrentTermInfoOptionQueries();
 
   const onClickResetSearch = () => {
     setSearchTotal(userList ?? []);
-    setSearchCodyId(undefined);
+    setSelectedCodyId(undefined);
     reset();
     setCurrentPage(1);
   };
@@ -115,10 +118,7 @@ const SearchPage: NextPage = () => {
         compare: (a, b) => koreanSorter(a.leaderName, b.leaderName),
         multiple: 6
       },
-      onFilter: (value, record) => record.leaderName === value,
-      render: (_, item) => {
-        return <GRText weight={"bold"}>{item.leaderName}</GRText>;
-      }
+      onFilter: (value, record) => record.leaderName === value
     },
     {
       title: "이름",
@@ -131,6 +131,9 @@ const SearchPage: NextPage = () => {
       sorter: {
         compare: (a, b) => koreanSorter(a.name, b.name),
         multiple: 4
+      },
+      render: (_, item) => {
+        return <GRText weight={"bold"}>{item.name}</GRText>;
       }
     },
     {
@@ -182,10 +185,7 @@ const SearchPage: NextPage = () => {
   ];
 
   const onChangeSelectCody = (_selectedCodyId: number) => {
-    // 쿼리 보내는 codyId : data를 위한 것
     setSelectedCodyId(_selectedCodyId);
-    // 이 컴포넌트에서 관리하는 codyId : view를 위한 것
-    setSearchCodyId(_selectedCodyId);
   };
 
   useEffect(() => {
@@ -195,15 +195,15 @@ const SearchPage: NextPage = () => {
   }, [userList]);
 
   useEffect(() => {
-    if (!searchCodyId) {
-      setSearchCodyId(undefined);
+    if (!selectedCodyId) {
       setSearchBaseData(userList ?? []);
+      // 코디 제거 했을 때 기본 데이터로 세팅하기
       setSearchTotal(userList ?? []);
       return;
     }
     if (!membersByCody) return;
     setSearchBaseData(membersByCody);
-  }, [membersByCody, searchCodyId]);
+  }, [membersByCody, selectedCodyId]);
 
   return (
     <>
@@ -227,7 +227,7 @@ const SearchPage: NextPage = () => {
                         options={currentTermCodyOptions}
                         onChange={onChangeSelectCody}
                         placeholder={"코디를 선택해주세요"}
-                        value={searchCodyId}
+                        value={selectedCodyId}
                         showSearch
                         optionFilterProp={"label"}
                       />
@@ -336,7 +336,10 @@ const SearchPage: NextPage = () => {
         }
       />
       <GRContainerView>
-        <GRView marginbottom={GRStylesConfig.BASE_MARGIN}>
+        <GRView
+          marginbottom={GRStylesConfig.BASE_MARGIN}
+          margintop={GRStylesConfig.BASE_LONG_MARGIN}
+        >
           <TableInfoHeader
             title={"검색된 인원"}
             count={searchTotal.length}

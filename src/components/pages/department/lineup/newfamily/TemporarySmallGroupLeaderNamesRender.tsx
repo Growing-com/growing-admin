@@ -1,6 +1,7 @@
 import { CloseOutlined } from "@ant-design/icons";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
+import GRView from "@component/atom/view/GRView";
 import { tNewfamilyLineUpSmallGroup } from "api/term/type";
 import { Color } from "styles/colors";
 
@@ -19,7 +20,9 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
   deleteTemporaryData,
   newFamilyId
 }) => {
-  const getSmallGroupLeaderForm = (smallGroupIds: number[]): tNewfamilyLineUpSmallGroup[] => {
+  const getSmallGroupLeaderForm = (
+    smallGroupIds: number[]
+  ): tNewfamilyLineUpSmallGroup[] => {
     return smallGroupIds?.map(id => {
       const leader = smallGroups.find(leader => leader.smallGroupId === id);
       return (
@@ -39,26 +42,29 @@ const TemporarySmallGroupLeaderNamesRender: React.FC<
       {temporaryGroupLeader?.length > 0 ? (
         temporaryGroupLeader.map(leader => (
           <GRFlexView
-            flexDirection={"row"}
             justifyContent={"center"}
             alignItems={"center"}
             xGap={0.1}
             key={leader.smallGroupId}
           >
-            <GRText fontSize={"b7"}>{leader.codyName}</GRText>
-            <GRText fontSize={"b4"} marginright={0.1}>
-              {leader.smallGroupLeaderName}
-            </GRText>
-            <GRText
-              color={Color.red100}
-              weight={"bold"}
-              onClick={() =>
-                deleteTemporaryData(newFamilyId, leader.smallGroupId)
-              }
-              style={{ cursor: "pointer" }}
-            >
-              <CloseOutlined />
-            </GRText>
+            <GRView isBoard paddinghorizontal={0.2}>
+              <GRText fontSize={"b7"}>{leader.codyName}</GRText>
+            </GRView>
+            <GRFlexView flexDirection={"row"} alignItems={"center"}>
+              <GRText fontSize={"b4"} marginright={0.1}>
+                {leader.smallGroupLeaderName}
+              </GRText>
+              <GRText
+                color={Color.red100}
+                weight={"bold"}
+                onClick={() =>
+                  deleteTemporaryData(newFamilyId, leader.smallGroupId)
+                }
+                style={{ cursor: "pointer" }}
+              >
+                <CloseOutlined />
+              </GRText>
+            </GRFlexView>
           </GRFlexView>
         ))
       ) : (

@@ -30,6 +30,16 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
 
   const columns: ColumnType<any>[] = [
     {
+      title: "새가족 순장",
+      dataIndex: "newFamilyGroupLeaderName",
+      key: "newFamilyGroupLeaderName",
+      align: "center",
+      width: "8rem",
+      minWidth: 100,
+      sorter: (a, b) =>
+        koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName)
+    },
+    {
       title: "이름",
       dataIndex: "name",
       key: "name",
@@ -84,20 +94,6 @@ const NewfamilyLineUpTable: React.FC<tNewfamilyLineUpTable> = ({
       sorter: (valueA, valueB) =>
         dateSorter(valueA.visitDate, valueB.visitDate),
       render: (_, record) => checkDefaultDate(record.visitDate)
-    },
-    {
-      title: "새가족 순장",
-      dataIndex: "newFamilyGroupLeaderName",
-      key: "newFamilyGroupLeaderName",
-      align: "center",
-      width: "8rem",
-      minWidth: 100,
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
-      }
     },
     {
       title: "일반 순장",
