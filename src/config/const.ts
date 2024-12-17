@@ -134,6 +134,11 @@ export const THERE_OPTIONS = [
   { label: "없다.", value: "NO" }
 ];
 
+export const STUMP_OPTIONS = [
+  { label: "그루터기", value: "STUMP" },
+  { label: "순장", value: "NORMAL" }
+]
+
 // export const TeamType: Record<tTeamType, tTeamType> = {
 //   /** @description 등불 */
 //   LAMP: "LAMP",

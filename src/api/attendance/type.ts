@@ -26,14 +26,18 @@ export type tAttendanceCheckData = {
   codyName?: string;
   leaderName?: string;
   attendItems: tAttendanceItems[];
-  // *[{}] -> {} 로 변경시 
+  // *[{}] -> {} 로 변경시
   // attendItems: tAttendanceItems;
 };
 
+// attendItems 명칭 통일시 제거
+export type tStumpAttendanceCheckData = {
+  attendanceItems:tAttendanceItems[];
+} & Omit<tAttendanceCheckData,"attendItems">
+
 export type tAttendanceData = {
-  attendanceItems: tAttendanceItems[]
-}
-& Omit<tAttendanceCheckData, "attendItems">
+  attendanceItems: tAttendanceItems[];
+} & Omit<tAttendanceCheckData, "attendItems">;
 
 export type tUserAttendanceCheckItems = {
   userId: number;
@@ -41,7 +45,9 @@ export type tUserAttendanceCheckItems = {
   reason?: string;
 };
 
-export type tPostGroupUserAttandance = {
+export type tPostStumpAttendnace = Omit<tPostGroupUserAttendance, "codyId">;
+
+export type tPostGroupUserAttendance = {
   date: string;
   termId: number;
   codyId: number;
@@ -51,5 +57,4 @@ export type tPostGroupUserAttandance = {
 export type tAttendanceRangeData = {
   startDate: string;
   endDate: string;
-}
-
+};
