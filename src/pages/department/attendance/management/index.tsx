@@ -166,8 +166,8 @@ const AttendanceManagementPage: NextPage = () => {
     const _gradeFilterOptions = uniqueGrade
       ?.sort((a, b) => Number(a) - Number(b))
       .map(grade => ({
-        text: `${grade}학년` ?? "",
-        value: (grade as unknown as string) ?? ""
+        text: `${grade}학년`,
+        value: grade as unknown as string
       }));
     setGradeFilterOptions(_gradeFilterOptions);
   }, [filteredData]);
