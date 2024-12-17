@@ -17,7 +17,7 @@ import {
   tAttendanceRangeData
 } from "api/attendance/type";
 import { SEX_NAME } from "config/const";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import { head } from "lodash";
 import { NextPage } from "next";
@@ -73,6 +73,15 @@ const AttendanceManagementPage: NextPage = () => {
       searchName: ""
     }
   });
+
+  // 기간 선택 제한
+  const disabledDate = (current: Dayjs | null): boolean => {
+    if (!current) return false;
+    const sixMonthAgo = dayjs().subtract(6, "month");
+    return (
+      (current && current.isAfter(dayjs())) || current.isBefore(sixMonthAgo)
+    );
+  };
 
   const onSubmit = handleSubmit(_filter => {
     const { rangeDate, searchName } = _filter;
@@ -286,6 +295,7 @@ const AttendanceManagementPage: NextPage = () => {
                     fieldName={"rangeDate"}
                     control={control}
                     pickerType={"range"}
+                    disabledDate={disabledDate}
                   />
                 </GRFlexView>
                 <GRFlexView
