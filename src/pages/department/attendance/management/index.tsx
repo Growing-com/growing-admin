@@ -9,14 +9,14 @@ import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { Alert, TableColumnsType, Tooltip } from "antd";
+import { TableColumnsType } from "antd";
 import { useAttendanceRangeData } from "api/attendance/queries/useAttendanceRangeData";
 import {
   tAttendanceData,
   tAttendanceItems,
   tAttendanceRangeData
 } from "api/attendance/type";
-import { SEX_NAME, TOOLTIP_INFO } from "config/const";
+import { SEX_NAME } from "config/const";
 import dayjs from "dayjs";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import { head } from "lodash";
@@ -25,6 +25,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
+import { koreanSorter } from "utils/sorter";
 
 export const SEARCH_OPTION = [
   {
@@ -41,11 +42,26 @@ export const SEARCH_OPTION = [
   }
 ];
 
+type tFilterOption = {
+  text: string;
+  value: string;
+};
+
 const AttendanceManagementPage: NextPage = () => {
   const [filter, setFilter] = useState<tAttendanceRangeData>();
   const [skeletonAttendanceData, setSkeletonAttendanceData] =
     useState<tAttendanceItems[]>();
   const [filteredData, setFilteredData] = useState<tAttendanceData[]>();
+
+  const [codyFilterOptions, setCodyFilterOptions] = useState<tFilterOption[]>(
+    []
+  );
+  const [leaderFilterOptions, setLeaderFilterOptions] = useState<
+    tFilterOption[]
+  >([]);
+  const [gradeFilterOptions, setGradeFilterOptions] = useState<tFilterOption[]>(
+    []
+  );
 
   const { data: attendanceList, isFetching } = useAttendanceRangeData(filter);
 
@@ -95,6 +111,59 @@ const AttendanceManagementPage: NextPage = () => {
     setSkeletonAttendanceData(head(attendanceList)?.attendanceItems);
   }, [attendanceList]);
 
+  // 필터 변경에 따른 파지네이션
+  const handleChange = (
+    _pagination: any,
+    filters: any,
+    _sorter: any,
+    extra: { currentDataSource: any; action: any }
+  ) => {
+    if (!attendanceList) return;
+    if (
+      filters.codyName === null &&
+      filters.duty === null &&
+      filters.grade === null
+    ) {
+      setFilteredData(attendanceList);
+      return;
+    }
+    setFilteredData(extra.currentDataSource);
+  };
+
+  // 필터 설정 함수
+  useEffect(() => {
+    if (!filteredData) return;
+    const uniqueCodyNames = [
+      ...new Set(filteredData.map(user => user.codyName))
+    ];
+    const _codyFilterOptions = uniqueCodyNames?.map(name => ({
+      text: name ?? "",
+      value: name ?? ""
+    }));
+    setCodyFilterOptions(_codyFilterOptions);
+
+    const uniqueLeaderNames = [
+      ...new Set(filteredData.map(user => user.leaderName))
+    ];
+    const filteredLeaderNames = uniqueLeaderNames.filter(
+      name => !uniqueCodyNames.includes(name)
+    );
+    const _leaderFilterOptions = filteredLeaderNames?.map(name => ({
+      text: name ?? "",
+      value: name ?? ""
+    }));
+    setLeaderFilterOptions(_leaderFilterOptions);
+
+    const uniqueGrade = [...new Set(filteredData.map(user => user.grade))];
+    const _gradeFilterOptions = uniqueGrade
+      ?.sort((a, b) => Number(a) - Number(b))
+      .map(grade => ({
+        text: `${grade}학년` ?? "",
+        value: (grade as unknown as string) ?? ""
+      }));
+    setGradeFilterOptions(_gradeFilterOptions);
+  }, [filteredData]);
+
   const columns: TableColumnsType<any> = [
     {
       title: "코디",
@@ -102,7 +171,9 @@ const AttendanceManagementPage: NextPage = () => {
       key: "codyName",
       align: "center",
       width: "5rem",
-      minWidth: 75
+      minWidth: 75,
+      filters: codyFilterOptions,
+      onFilter: (value, record) => record.codyName === value
     },
     {
       title: "순장",
@@ -110,7 +181,10 @@ const AttendanceManagementPage: NextPage = () => {
       key: "leaderName",
       align: "center",
       width: "5rem",
-      minWidth: 75
+      minWidth: 75,
+      filters: leaderFilterOptions,
+      onFilter: (value, record) => record.leaderName === value,
+      filterSearch: true
     },
     {
       title: "이름",
@@ -120,6 +194,10 @@ const AttendanceManagementPage: NextPage = () => {
       fixed: "left",
       width: "6rem",
       minWidth: 75,
+      sorter: {
+        compare: (a, b) => koreanSorter(a.name, b.name),
+        multiple: 1
+      },
       render: (_, item) => <GRText weight={"bold"}>{item.name}</GRText>
     },
     {
@@ -140,29 +218,19 @@ const AttendanceManagementPage: NextPage = () => {
       key: "grade",
       align: "center",
       width: "5rem",
-      minWidth: 60
+      minWidth: 60,
+      sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 },
+      filters: gradeFilterOptions,
+      onFilter: (value, record) => record.grade === value
     },
     {
       title: () => {
         return (
-          <Tooltip
-            overlayStyle={{ whiteSpace: "pre-line" }}
-            title={TOOLTIP_INFO}
-          >
-            <GRFlexView alignItems={"center"}>
-              <Alert
-                showIcon
-                message={
-                  <GRText weight={"bold"} fontSize={"b7"}>
-                    출석 날짜
-                  </GRText>
-                }
-                type={"info"}
-                banner={true}
-                style={{ backgroundColor: "transparent" }}
-              />
-            </GRFlexView>
-          </Tooltip>
+          <GRFlexView alignItems={"center"}>
+            <GRText weight={"bold"} fontSize={"b7"}>
+              출석 날짜
+            </GRText>
+          </GRFlexView>
         );
       },
       align: "center",
@@ -237,12 +305,13 @@ const AttendanceManagementPage: NextPage = () => {
             isLoading={isFetching}
             rowKey={"userId"}
             columns={columns}
-            data={filteredData}
+            data={attendanceList}
             pagination={{
               total: filteredData?.length,
               defaultPageSize: 10,
               position: ["bottomCenter"]
             }}
+            onChange={handleChange}
             scroll={{ x: true }}
             tableLayout={"auto"}
           />
