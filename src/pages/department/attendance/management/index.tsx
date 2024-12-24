@@ -13,7 +13,7 @@ import { TableColumnsType } from "antd";
 import { useAttendanceRangeData } from "api/attendance/queries/useAttendanceRangeData";
 import {
   tAttendanceData,
-  tAttendanceItems,
+  tAttendanceItem,
   tAttendanceRangeData
 } from "api/attendance/type";
 import { SEX_NAME } from "config/const";
@@ -51,7 +51,7 @@ const AttendanceManagementPage: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<tAttendanceRangeData>();
   const [skeletonAttendanceData, setSkeletonAttendanceData] =
-    useState<tAttendanceItems[]>();
+    useState<tAttendanceItem[]>();
   const [filteredData, setFilteredData] = useState<tAttendanceData[]>();
   const [searchName, setSearchName] = useState<string>("");
 
@@ -259,7 +259,7 @@ const AttendanceManagementPage: NextPage = () => {
         key: "attendanceItems",
         align: "center",
         minWidth: 100,
-        render: (record: tAttendanceItems[]) => {
+        render: (record: tAttendanceItem[]) => {
           const findData = record.find(r => r.date === item.date);
           return (
             <ColumAttendanceRender

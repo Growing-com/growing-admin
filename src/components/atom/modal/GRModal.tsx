@@ -14,6 +14,7 @@ export type tGRModal = {
   okButtonText?: string;
   cancelButtonText?: string;
   showFooter?: boolean;
+  isOneButton?: boolean;
   onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -43,6 +44,7 @@ const GRModal: FC<tGRModal> = ({
   showIcon = true,
   maskClosable = true,
   keyboard = false,
+  isOneButton = false,
   ...props
 }) => {
   const onCancelClickButton = useCallback(
@@ -69,6 +71,18 @@ const GRModal: FC<tGRModal> = ({
 
   const _renderFooter = useMemo(() => {
     if (!!footerComponent || !showFooter) return [];
+    if (isOneButton) {
+      return [
+        <GRTextButton
+          key={"cancel-button"}
+          onClick={onCancelClickButton}
+          htmlType={"submit"}
+        >
+          {cancelButtonText ?? "닫기"}
+        </GRTextButton>
+      ];
+    }
+
     return [
       <GRTextButton
         key={"cancel-button"}

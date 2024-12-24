@@ -6,6 +6,7 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
 import AttendanceCheckNormalTable from "@component/pages/department/attendance/check/AttendanceCheckNormalTable";
 import AttendanceCheckStumpTable from "@component/pages/department/attendance/check/AttendanceCheckStumpTable";
+import AttendanceProgressBar from "@component/pages/department/attendance/check/AttendanceProgressBar";
 import { STUMP_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
@@ -16,7 +17,7 @@ import GRStylesConfig from "styles/GRStylesConfig";
 const AttendanceCheckPage: NextPage = () => {
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs().startOf("week"));
   const [stumpCheck, setStumpCheck] = useState("STUMP");
-
+  
   const {
     currentTermCodyOptions,
     leaderByCodyOptions,
@@ -73,30 +74,39 @@ const AttendanceCheckPage: NextPage = () => {
         <GRFlexView margintop={GRStylesConfig.BASE_LONG_MARGIN}>
           <GRFlexView
             flexDirection={"row"}
-            justifyContent={"end"}
-            alignItems={"center"}
+            alignItems="center"
             marginbottom={GRStylesConfig.BASE_MARGIN}
           >
-            <GRRadio
-              options={STUMP_OPTIONS}
-              onChange={onChangeStumpAttendance}
-              value={stumpCheck}
+            <AttendanceProgressBar
+              userType={"NORMAL"}
+              filterDate={filterDate}
             />
-            <GRSelect
-              marginright={GRStylesConfig.BASE_MARGIN}
-              style={{ width: "8rem" }}
-              options={currentTermCodyOptions}
-              onChange={setSelectedCodyId}
-              value={selectedCodyId}
-              placeholder={"나무 선택"}
-              disabled={stumpCheck === "STUMP"}
-            />
-            <GRDatePicker
-              pickerType={"basic"}
-              picker={"week"}
-              defaultValue={filterDate}
-              onChange={onChangeWeek}
-            />
+            <GRFlexView
+              flexDirection={"row"}
+              justifyContent={"end"}
+              alignItems={"center"}
+            >
+              <GRRadio
+                options={STUMP_OPTIONS}
+                onChange={onChangeStumpAttendance}
+                value={stumpCheck}
+              />
+              <GRSelect
+                marginright={GRStylesConfig.BASE_MARGIN}
+                style={{ width: "8rem" }}
+                options={currentTermCodyOptions}
+                onChange={setSelectedCodyId}
+                value={selectedCodyId}
+                placeholder={"나무 선택"}
+                disabled={stumpCheck === "STUMP"}
+              />
+              <GRDatePicker
+                pickerType={"basic"}
+                picker={"week"}
+                defaultValue={filterDate}
+                onChange={onChangeWeek}
+              />
+            </GRFlexView>
           </GRFlexView>
           <GRFlexView>
             {stumpCheck === "STUMP" && (

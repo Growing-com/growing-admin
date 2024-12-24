@@ -2,7 +2,7 @@ import GRTab from "@component/atom/GRTab";
 import GRTable from "@component/atom/GRTable";
 import GRAlert from "@component/atom/alert/GRAlert";
 import GRRadio from "@component/atom/dataEntry/GRRadio";
-import { tOptions } from '@component/atom/dataEntry/type';
+import { tOptions } from "@component/atom/dataEntry/type";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
@@ -21,20 +21,20 @@ import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
 import AttendanceCheckSubmitButton from "../../newfamily/AttendanceCheckSubmitButton";
 
 type tAttendanceCheckNormalTable = {
-//   insertDataInFormResult: (
-//     _userId: number,
-//     key: string,
-//     value: any,
-//     data: any,
-//     setData: any
-//   ) => void;
+  //   insertDataInFormResult: (
+  //     _userId: number,
+  //     key: string,
+  //     value: any,
+  //     data: any,
+  //     setData: any
+  //   ) => void;
   filterDate: Dayjs;
   selectedCodyId: number | undefined;
   leaderByCodyOptions: tOptions[];
 };
 
 const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
-//   insertDataInFormResult,
+  //   insertDataInFormResult,
   filterDate,
   selectedCodyId,
   leaderByCodyOptions
@@ -60,7 +60,7 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
     setCurrentLeaderTab(leaderName);
   };
 
-  // attendItems 가 통일 될 경우 공통으로 빼야 됨
+  // attendanceItem 가 통일 될 경우 공통으로 빼야 됨
   const insertDataInFormResult = (
     _userId: number,
     key: string,
@@ -69,23 +69,23 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
     setData: any
   ) => {
     const _formResult = data?.map(
-      (result: { userId: number; attendItems: any[] }) => {
+      (result: { userId: number; attendanceItem: any[] }) => {
         if (_userId !== result.userId) return result;
 
         return {
           ...result,
-          attendItems: [
-            {
-              //[{}] 이렇게 오는데 {}로 올 수 있는지 확인해야됨
-              ...result.attendItems[0],
-              [key]: value
-            }
-          ]
-          // * {} 올 경우
-          // attendItems: {
-          //     ...result.attendItems,
+          // attendanceItem: [
+          //   {
+          //     //[{}] 이렇게 오는데 {}로 올 수 있는지 확인해야됨
+          //     ...result.attendanceItem[0],
           //     [key]: value
           //   }
+          // ]
+          // * {} 올 경우
+          attendanceItem: {
+            ...result.attendanceItem,
+            [key]: value
+          }
         };
       }
     );
@@ -135,11 +135,11 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
     if (!checkData) return;
     for (const item of checkData) {
       if (
-        !item.attendItems[0].status ||
-        item.attendItems[0].status === "NONE"
+        // !item.attendanceItem[0].status ||
+        // item.attendanceItem[0].status === "NONE"
         // * {} 올 경우
-        // !item.attendItems?.status ||
-        // item.attendItems?.status === "NONE"
+        !item.attendanceItem?.status ||
+        item.attendanceItem?.status === "NONE"
       ) {
         GRAlert.error(`${item.name}의 출석을 선택해주세요`);
         return false;
@@ -156,11 +156,11 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
       checkData
         ?.map(item => ({
           userId: item.userId,
-          status: item.attendItems[0].status,
-          reason: item.attendItems[0].reason
+          // status: item.attendanceItem[0].status,
+          // reason: item.attendanceItem[0].reason
           // * {} 올 경우
-          // status: item.attendItems.status,
-          // reason: item.attendItems.reason
+          status: item.attendanceItem.status,
+          reason: item.attendanceItem.reason
         }))
         .filter(item => item !== undefined) ?? [];
 
@@ -185,9 +185,9 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
   useEffect(() => {
     if (checkData?.length) {
       const checkFinish = checkData.filter(
-        form => form.attendItems[0].status === "NONE"
+        // form => form.attendanceItem[0].status === "NONE"
         // * {} 올 경우
-        // form => form.attendItems?.status === "NONE"
+        form => form.attendanceItem?.status === "NONE"
       );
       setIsCompleteCheck(checkFinish.length === 0);
     }
@@ -272,8 +272,8 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
           options={ATTENDANCE_CHECK_STATUS}
           onChange={_status => onChangeAttendStatus(recode.userId, _status)}
           // * {} 올 경우
-          // value={recode.attendItems?.status}
-          value={recode.attendItems[0].status}
+          value={recode.attendanceItem?.status}
+          // value={recode.attendanceItem[0].status}
         />
       )
     },
@@ -290,9 +290,9 @@ const AttendanceCheckNormalTable: React.FC<tAttendanceCheckNormalTable> = ({
               height: "2.1rem"
             }}
             type={"textarea"}
-            value={recode.attendItems[0].reason}
+            // value={recode.attendanceItem[0].reason}
             // * {} 올 경우
-            // value={recode.attendItems?.reason}
+            value={recode.attendanceItem?.reason}
             onChange={_reason => onChangeAttendReason(recode.userId, _reason)}
           />
         </GRView>
