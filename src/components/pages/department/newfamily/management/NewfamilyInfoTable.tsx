@@ -56,11 +56,10 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       align: "center",
       width: "6rem",
       minWidth: 100,
-      sorter: (a, b) => {
-        return koreanSorter(
-          a.newFamilyGroupLeaderName,
-          b.newFamilyGroupLeaderName
-        );
+      sorter: {
+        compare: (a, b) =>
+          koreanSorter(a.newFamilyGroupLeaderName, b.newFamilyGroupLeaderName),
+        multiple: 2
       }
     },
     {
@@ -69,7 +68,11 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
       key: "name",
       align: "center",
       width: "5rem",
-      minWidth: 75
+      minWidth: 75,
+      sorter: {
+        compare: (a, b) => koreanSorter(a.name, b.name),
+        multiple: 1
+      }
     },
     {
       title: "성별",

@@ -17,44 +17,13 @@ import GRStylesConfig from "styles/GRStylesConfig";
 const AttendanceCheckPage: NextPage = () => {
   const [filterDate, setFilterDate] = useState<Dayjs>(dayjs().startOf("week"));
   const [stumpCheck, setStumpCheck] = useState("STUMP");
-  
+
   const {
     currentTermCodyOptions,
     leaderByCodyOptions,
     selectedCodyId,
     setSelectedCodyId
   } = useCurrentTermInfoOptionQueries();
-
-  // const insertDataInFormResult = (
-  //   _userId: number,
-  //   key: string,
-  //   value: any,
-  //   data: any,
-  //   setData: any
-  // ) => {
-  //   const _formResult = data?.map(
-  //     (result: { userId: number; attendItems: any[] }) => {
-  //       if (_userId !== result.userId) return result;
-
-  //       return {
-  //         ...result,
-  //         attendItems: [
-  //           {
-  //             //[{}] 이렇게 오는데 {}로 올 수 있는지 확인해야됨
-  //             ...result.attendItems[0],
-  //             [key]: value
-  //           }
-  //         ]
-  //         // * {} 올 경우
-  //         // attendItems: {
-  //         //     ...result.attendItems,
-  //         //     [key]: value
-  //         //   }
-  //       };
-  //     }
-  //   );
-  //   setData(_formResult);
-  // };
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
@@ -110,14 +79,10 @@ const AttendanceCheckPage: NextPage = () => {
           </GRFlexView>
           <GRFlexView>
             {stumpCheck === "STUMP" && (
-              <AttendanceCheckStumpTable
-                // insertDataInFormResult={insertDataInFormResult}
-                filterDate={filterDate}
-              />
+              <AttendanceCheckStumpTable filterDate={filterDate} />
             )}
             {stumpCheck === "NORMAL" && (
               <AttendanceCheckNormalTable
-                // insertDataInFormResult={insertDataInFormResult}
                 filterDate={filterDate}
                 selectedCodyId={selectedCodyId}
                 leaderByCodyOptions={leaderByCodyOptions}

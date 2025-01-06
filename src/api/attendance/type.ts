@@ -25,15 +25,8 @@ export type tAttendanceCheckData = {
   grade: number;
   codyName?: string;
   leaderName?: string;
-  // attendItems: tAttendanceItems[];
-  // *[{}] -> {} 로 변경시
   attendanceItem: tAttendanceItem;
 };
-
-// attendItems 명칭 통일시 제거
-export type tStumpAttendanceCheckData = {
-  attendanceItems: tAttendanceItem[];
-} & Omit<tAttendanceCheckData, "attendanceItem">;
 
 export type tAttendanceData = {
   attendanceItems: tAttendanceItem[];

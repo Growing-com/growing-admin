@@ -6,7 +6,6 @@ import {
   tAttendanceRangeData,
   tAttendanceData,
   tPostStumpAttendance,
-  tStumpAttendanceCheckData,
   tAttendanceRegisterRate
 } from "./type";
 
@@ -25,8 +24,7 @@ export const getAttendanceCheckGroupData = (
 export const getAttendanceCheckStumpData = (
   params: tAttendanceCheckDataParams
 ) => {
-  // return request<tAttendanceCheckData[]>({
-  return request<tStumpAttendanceCheckData[]>({
+  return request<tAttendanceCheckData[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/attendances/stump-attendance`,
     params
