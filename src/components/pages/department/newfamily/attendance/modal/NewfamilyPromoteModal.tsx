@@ -31,14 +31,19 @@ export const NewFamilyPromoteModal: FC<tNewFamilyPromoteModal> = ({
 
   const [selectFormData, setSelectFormData] = useState<tNewfamily[]>([]);
 
-  const { mutateAsync: promoteMutateAsync } = useMutation(promoteNewfamily, {
+  const { mutateAsync: promoteMutateAsync } = useMutation({
+    mutationFn: promoteNewfamily,
     onError: error => {
       handleError(error, "등반 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.NEW_FAMILY] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_UP_REQUEST]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_ATTENDANCE]
+      });
 
       onClickClose();
       GRAlert.success("등반 완료");

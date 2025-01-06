@@ -8,7 +8,12 @@ import GRInfoBadge from "@component/molecule/GRInfoBadge";
 import GRFormItem from "@component/molecule/form/GRFormItem";
 import GRFormTitle from "@component/molecule/form/GRFormTitle";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  useMutation,
+  useQuery
+} from "@tanstack/react-query";
 import { Divider } from "antd";
 import { getNewfamily, updateNewfamily } from "api/newfamily";
 import { tNewfamily } from "api/newfamily/type";
@@ -24,6 +29,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { convertDateStringByDefaultForm } from "utils/DateUtils";
@@ -38,7 +44,15 @@ type tNewFamilyForm = {
 const NewfamilyUpdatePage: NextPage = () => {
   const router = useRouter();
   const { newfamilyId } = router.query;
-  const queryClient = useQueryClient();
+  const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error, query) => {
+        if (query.meta?.errorMessage) {
+          handleError(error, query.meta?.errorMessage as string);
+        }
+      }
+    })
+  });
 
   const { control, handleSubmit, reset } = useForm<tNewFamilyForm>();
 
@@ -47,45 +61,53 @@ const NewfamilyUpdatePage: NextPage = () => {
 
   const numericId = newfamilyId ? Number(newfamilyId) : null;
 
-  const { data: newFamilyDetailData } = useQuery(
-    [queryKeys.NEW_FAMILY_DETAIL, newfamilyId],
-    async () => {
+  const { data: newFamilyDetailData, isSuccess } = useQuery({
+    queryKey: [queryKeys.NEW_FAMILY_DETAIL, newfamilyId],
+    queryFn: async () => {
       if (numericId === null || isNaN(numericId)) {
         throw new Error("Invalid ID");
       }
       return await getNewfamily(numericId);
     },
-    {
-      select: _data => _data.content,
-      enabled: numericId !== null,
-      onSuccess: data => {
-        reset({
-          ...data,
-
-          // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
-          birth:
-            data.birth && data?.birth !== "1970-01-01"
-              ? dayjs(data.birth)
-              : undefined,
-          visitDate:
-            data?.visitDate && data?.visitDate !== "1970-01-01"
-              ? dayjs(data?.visitDate)
-              : undefined
-        });
-      },
-      onError: error => {
-        handleError(error, "새가족 정보가 로드되지 않았습니다.");
-      }
+    select: _data => _data.content,
+    enabled: numericId !== null,
+    meta: {
+      errorMessage: "새가족 정보가 로드되지 않았습니다."
     }
-  );
+  });
 
-  const { mutateAsync } = useMutation(updateNewfamily, {
+  useEffect(() => {
+    if (isSuccess && newFamilyDetailData) {
+      reset({
+        ...newFamilyDetailData,
+
+        // 달력의 경우 setValue를 하기 위해서는 dayjs로 변환해야 한다.
+        birth:
+          newFamilyDetailData.birth &&
+          newFamilyDetailData.birth !== "1970-01-01"
+            ? dayjs(newFamilyDetailData.birth)
+            : undefined,
+        visitDate:
+          newFamilyDetailData.visitDate &&
+          newFamilyDetailData.visitDate !== "1970-01-01"
+            ? dayjs(newFamilyDetailData.visitDate)
+            : undefined
+      });
+    }
+  }, [isSuccess, newFamilyDetailData, reset]);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: updateNewfamily,
     onError: error => {
       handleError(error, "지체 수정 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY, newfamilyId]);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY, newfamilyId]
+      });
       GRAlert.success("지체 수정 완료");
     }
   });
@@ -103,8 +125,12 @@ const NewfamilyUpdatePage: NextPage = () => {
   return (
     <>
       <HeaderView title={"새가족 수정"} disabledBackbutton={true} />
-      <GRContainerView >
-        <GRFlexView margintop={1.5} alignItems="center" style={{ overflow: "auto" }}>
+      <GRContainerView>
+        <GRFlexView
+          margintop={1.5}
+          alignItems="center"
+          style={{ overflow: "auto" }}
+        >
           <GRView style={{ maxWidth: "60rem", width: "100%" }}>
             <GRFlexView yGap={GRStylesConfig.BASE_LONG_MARGIN}>
               <GRFlexView
@@ -261,7 +287,6 @@ const NewfamilyUpdatePage: NextPage = () => {
                 </GRFlexView>
               </GRFlexView>
               <GRFlexView
-
                 marginbottom={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
                 flexDirection={"row"}
                 xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}

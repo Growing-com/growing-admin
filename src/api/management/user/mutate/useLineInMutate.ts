@@ -7,11 +7,12 @@ import GRAlert from "@component/atom/alert/GRAlert";
 const useLineInMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync: lineInMutate } = useMutation(postLineInUser, {
+  const { mutateAsync: lineInMutate } = useMutation({
+    mutationFn: postLineInUser,
     onError: error => handleError(error, "복귀 에러"),
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.USER_LIST]);
-      queryClient.invalidateQueries([queryKeys.USER_LINE_OUT]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USER_LIST] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USER_LINE_OUT] });
       GRAlert.success("복귀 완료");
       onClickClose();
     }

@@ -4,14 +4,12 @@ import { getActiveTerm } from "api/term";
 import useTerm from "./useTerm";
 
 const useCurrentTerm = () => {
-  const { data: currentTermData } = useQuery(
-    [queryKeys.TERM_CURRENT_DATA],
-    async () => await getActiveTerm(),
-    {
-      staleTime: Infinity,
-      select: data => data.content
-    }
-  );
+  const { data: currentTermData } = useQuery({
+    queryKey: [queryKeys.TERM_CURRENT_DATA],
+    queryFn: async () => await getActiveTerm(),
+    staleTime: Infinity,
+    select: data => data.content
+  });
 
   const currentTermId = currentTermData ? currentTermData.termId : undefined;
 

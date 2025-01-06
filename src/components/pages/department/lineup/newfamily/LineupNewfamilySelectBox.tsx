@@ -31,26 +31,29 @@ const LineupNewfamilySelectBox: React.FC<tLineupNewfamilySelectBox> = ({
 
   const { data: newFamilyLineupData } = useNewfamilyLineupRequestQuery();
 
-  const { mutateAsync: saveTemporaryLeadersMutateAsync } = useMutation(
-    saveNewfamilyTemporaryLeaders,
-    {
-      onError: error => {
-        handleError(error, "후보 저장 오류");
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-        GRAlert.success("후보 저장 완료");
-      }
+  const { mutateAsync: saveTemporaryLeadersMutateAsync } = useMutation({
+    mutationFn: saveNewfamilyTemporaryLeaders,
+    onError: error => {
+      handleError(error, "후보 저장 오류");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_UP_REQUEST]
+      });
+      GRAlert.success("후보 저장 완료");
     }
-  );
+  });
 
-  const { mutateAsync: lineUpMutateAsync } = useMutation(lineUpNewfamily, {
+  const { mutateAsync: lineUpMutateAsync } = useMutation({
+    mutationFn: lineUpNewfamily,
     onError: error => {
       handleError(error, "라인업 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.NEW_FAMILY] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_UP_REQUEST]
+      });
       GRAlert.success("라인업 완료");
     }
   });

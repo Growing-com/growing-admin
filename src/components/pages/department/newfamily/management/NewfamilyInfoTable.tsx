@@ -33,18 +33,16 @@ const NewfamilyInfoTable: React.FC<tNewfamilyInfoTable> = ({ searchName }) => {
     [currentTermNewFamilyLeaderOptions]
   );
 
-  const { data: newFamilyData, isLoading } = useQuery(
-    [queryKeys.NEW_FAMILY, currentGroupId],
-    async () => {
+  const { data: newFamilyData, isLoading } = useQuery({
+    queryKey: [queryKeys.NEW_FAMILY, currentGroupId],
+    queryFn: async () => {
       if (currentGroupId === "0") {
         return await getNewfamilies();
       }
       return await getNewfamilies({ newFamilyGroupId: Number(currentGroupId) });
     },
-    {
-      select: _data => _data.content
-    }
-  );
+    select: _data => _data.content
+  });
 
   const onChangeTab = (_groupId: string) => {
     setCurrentGroupId(_groupId);

@@ -3,15 +3,13 @@ import queryKeys from "api/queryKeys";
 import { getTermCody } from "..";
 
 const useTermCodyQuery = (termId?: number) => {
-  return useQuery(
-    [queryKeys.TERM_CODY],
-    async () => await getTermCody(termId),
-    {
-      enabled: !!termId,
-      select: _data => _data.content,
-      staleTime: Infinity
-    }
-  );
+  return useQuery({
+    queryKey: [queryKeys.TERM_CODY],
+    queryFn: async () => await getTermCody(termId),
+    enabled: !!termId,
+    select: _data => _data.content,
+    staleTime: Infinity
+  });
 };
 
 export default useTermCodyQuery;

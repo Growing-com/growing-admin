@@ -24,7 +24,7 @@ import queryKeys from "api/queryKeys";
 import dayjs, { Dayjs } from "dayjs";
 import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
 import { NextPage } from "next";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 import { handleError } from "utils/error";
@@ -72,30 +72,37 @@ const NewfamilyAttendancePage: NextPage = () => {
     setCurrentGroupId("0");
   };
 
-  const { mutateAsync: lineUpRequestMutateAsync } = useMutation(
-    requestLineUpNewfamily,
-    {
-      onError: error => {
-        handleError(error, "라인업 요청 오류");
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-        setIsOpenLineupRequestModal(false);
-        resetSelection();
-        GRAlert.success("라인업 요청 완료");
-      }
+  const { mutateAsync: lineUpRequestMutateAsync } = useMutation({
+    mutationFn: requestLineUpNewfamily,
+    onError: error => {
+      handleError(error, "라인업 요청 오류");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_UP_REQUEST]
+      });
+      setIsOpenLineupRequestModal(false);
+      resetSelection();
+      GRAlert.success("라인업 요청 완료");
     }
-  );
+  });
 
-  const { mutateAsync: lineOutMutateAsync } = useMutation(lineOutNewfamily, {
+  const { mutateAsync: lineOutMutateAsync } = useMutation({
+    mutationFn: lineOutNewfamily,
     onError: error => {
       handleError(error, "라인아웃 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_UP_REQUEST]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.NEW_FAMILY] });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_UP_REQUEST]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_OUT]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_ATTENDANCE]
+      });
       setIsOpenLineOutModal(false);
       GRAlert.success("라인아웃 완료");
     }
@@ -155,9 +162,9 @@ const NewfamilyAttendancePage: NextPage = () => {
     setSelectedNewFamily([]);
   };
 
-  const { data: newFamilyGroupAttendanceData } = useQuery(
-    [queryKeys.NEW_FAMILY_ATTENDANCE, currentGroupId],
-    async () => {
+  const { data: newFamilyGroupAttendanceData } = useQuery({
+    queryKey: [queryKeys.NEW_FAMILY_ATTENDANCE, currentGroupId],
+    queryFn: async () => {
       if (currentGroupId === "0") {
         return await getNewfamiliesAttendances();
       }
@@ -165,11 +172,15 @@ const NewfamilyAttendancePage: NextPage = () => {
         newFamilyGroupId: Number(currentGroupId)
       });
     },
-    {
-      select: _data => _data.content,
-      onSuccess: data => setNewfamilyGroupAttendanceData(data)
-    }
-  );
+
+    select: _data => _data.content
+    // onSuccess: data => setNewfamilyGroupAttendanceData(data)
+  });
+
+  useEffect(() => {
+    if (newFamilyGroupAttendanceData)
+      setNewfamilyGroupAttendanceData(newFamilyGroupAttendanceData);
+  }, []);
 
   return (
     <>

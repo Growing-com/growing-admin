@@ -12,47 +12,40 @@ import useTermPastorQuery from "api/term/queries/useTermPastorQuery";
 import { convertOptions } from "utils";
 
 const useTerm = (termId?: number) => {
-  const { data: termCodyAndSmallGroups } = useQuery(
-    [queryKeys.TERM_CODY_AND_SMALL_GROUPS],
-    async () => await getCodyAndSmallGroups(termId),
-    {
-      enabled: !!termId,
-      select: _data => _data.content
-    }
-  );
+  const { data: termCodyAndSmallGroups } = useQuery({
+    queryKey: [queryKeys.TERM_CODY_AND_SMALL_GROUPS],
+    queryFn: async () => await getCodyAndSmallGroups(termId),
+    enabled: !!termId,
+    select: _data => _data.content
+  });
 
-  const { data: termSmallGroupLeader } = useQuery(
-    [queryKeys.TERM_SMALL_GROUP_LEADER],
-    async () => await getSmallGroup(termId),
-    {
-      enabled: !!termId,
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      select: _data => _data.content
-    }
-  );
+  const { data: termSmallGroupLeader } = useQuery({
+    queryKey: [queryKeys.TERM_SMALL_GROUP_LEADER],
+    queryFn: async () => await getSmallGroup(termId),
+    enabled: !!termId,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    select: _data => _data.content
+  });
 
-  const { data: termNewFamilyLeader } = useQuery(
-    [queryKeys.TERM_NEW_FAMILY_LEADER],
-    async () => await getNewFamilyGroup(termId),
-    {
-      enabled: !!termId,
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      select: _data => _data.content
-    }
-  );
+  const { data: termNewFamilyLeader } = useQuery({
+    queryKey: [queryKeys.TERM_NEW_FAMILY_LEADER],
+    queryFn: async () => await getNewFamilyGroup(termId),
 
-  const { data: termAllLeaderGroup } = useQuery(
-    [queryKeys.TERM_ALL_LEADERS],
-    async () => await getAllLeaders(termId),
-    {
-      enabled: !!termId,
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      select: _data => _data.content
-    }
-  );
+    enabled: !!termId,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    select: _data => _data.content
+  });
+
+  const { data: termAllLeaderGroup } = useQuery({
+    queryKey: [queryKeys.TERM_ALL_LEADERS],
+    queryFn: async () => await getAllLeaders(termId),
+    enabled: !!termId,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    select: _data => _data.content
+  });
 
   const { data: termPastor } = useTermPastorQuery(termId);
   const { data: termCody } = useTermCodyQuery(termId);

@@ -47,14 +47,22 @@ const NewfamilyManagementPage: NextPage = () => {
     setTabValue(value);
   };
 
-  const { mutateAsync: LineinMutateAsync } = useMutation(lineInNewfamily, {
+  const { mutateAsync: LineinMutateAsync } = useMutation({
+    mutationFn: lineInNewfamily,
     onError: error => {
       handleError(error, "복귀 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_LINE_OUT]);
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY]
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_LINE_OUT]
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_ATTENDANCE]
+      });
       setIsOpenLineInModal(false);
       GRAlert.success("복귀 완료");
     }

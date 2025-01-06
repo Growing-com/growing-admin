@@ -7,20 +7,22 @@ import GRAlert from "@component/atom/alert/GRAlert";
 const useUserMutate = (onClickClose: () => void) => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync: createUserMutate } = useMutation(createUser, {
+  const { mutateAsync: createUserMutate } = useMutation({
+    mutationFn: createUser,
     onError: error => handleError(error, "지체 생성 에러"),
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.USER_LIST]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USER_LIST] });
       GRAlert.success("지체 생성 완료");
       onClickClose();
     }
   });
 
-  const { mutateAsync: updateUserMutate } = useMutation(updateUser, {
+  const { mutateAsync: updateUserMutate } = useMutation({
+    mutationFn: updateUser,
     onError: error => handleError(error, "지체 수정 에러"),
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.USER_LIST]);
-      queryClient.invalidateQueries([queryKeys.USER_DETAIL]);
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USER_LIST] });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.USER_DETAIL] });
       GRAlert.success("지체 수정 완료");
     }
   });
