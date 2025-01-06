@@ -24,13 +24,11 @@ const NewfamilyPromotedTable: React.FC<tNewfamilyPromotedTable> = ({
     tNewfamilyPromoted[]
   >([]);
 
-  const { data: newFamilyPromotedData } = useQuery(
-    [queryKeys.NEW_FAMILY_PROMOTED],
-    async () => await getPromotedNewfamilies(),
-    {
-      select: _data => _data.content
-    }
-  );
+  const { data: newFamilyPromotedData } = useQuery({
+    queryKey: [queryKeys.NEW_FAMILY_PROMOTED],
+    queryFn: async () => await getPromotedNewfamilies(),
+    select: _data => _data.content
+  });
 
   const columns: ColumnType<any>[] = [
     {

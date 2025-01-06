@@ -1,5 +1,5 @@
 import { tSex } from "api/account/types";
-import { tAttendanceItems } from 'api/attendance/type';
+import { tAttendanceItem } from 'api/attendance/type';
 import { tAttendanceCheckStatus, tAttendanceStatus } from "api/attendance/type";
 import { BELIEVE_STATUS, VISIT_REASON, YES_NO_STATUS } from "common/enum";
 // import { Nullable } from "common/type-aliases";
@@ -107,7 +107,7 @@ export type tNewfamilyAttendances = {
   /** @description 총 결석 수  @example: 1 */
   totalAbsentCount: number;
 
-  attendanceItems: tAttendanceItems[];
+  attendanceItems: tAttendanceItem[];
 
   attendanceCheckItems?: tAttendanceCheckItems;
 };

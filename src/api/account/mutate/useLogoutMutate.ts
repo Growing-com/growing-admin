@@ -7,7 +7,8 @@ export const useLogoutMutate = () => {
   const queryClient = useQueryClient();
   const { removeMenu } = menuStore();
   const router = useRouter();
-  const { mutateAsync: logoutMutate } = useMutation(postAccountLogout, {
+  const { mutateAsync: logoutMutate } = useMutation({
+    mutationFn: postAccountLogout,
     onError: error => {
       console.log("error", error);
     },

@@ -5,6 +5,8 @@
  */
 export type tSex = "MALE" | "FEMALE";
 
+export type tUserType = "NORMAL" | "NEW_FAMILY"
+
 /**
  * * @descriptio 직분
  * PASTOR: 교역자,

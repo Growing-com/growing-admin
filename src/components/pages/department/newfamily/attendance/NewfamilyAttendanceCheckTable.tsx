@@ -50,15 +50,15 @@ const NewfamilyAttendanceCheckTable: React.FC<
   const [formResult, setFormResult] = useState<tNewfamilyAttendances[]>([]);
   const [isCompleteCheck, setIsCompleteCheck] = useState(false);
 
-  const { mutateAsync: newfamilyAttendanceCheckMutate } = useMutation(
-    postNewfamilyAttendanceCheck,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.NEW_FAMILY_ATTENDANCE]);
-        GRAlert.success("출석체크 완료");
-      }
+  const { mutateAsync: newfamilyAttendanceCheckMutate } = useMutation({
+    mutationFn: postNewfamilyAttendanceCheck,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY_ATTENDANCE]
+      });
+      GRAlert.success("출석체크 완료");
     }
-  );
+  });
 
   const insertDataInFormResult = useCallback(
     (_newFamilyId: number, key: string, value: any) => {

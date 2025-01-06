@@ -39,12 +39,15 @@ const NewfamilyCreatePage: NextPage = () => {
   const { currentTermNewFamilyLeaderOptions } =
     useCurrentTermInfoOptionQueries();
 
-  const { mutateAsync } = useMutation(createNewfamily, {
+  const { mutateAsync } = useMutation({
+    mutationFn: createNewfamily,
     onError: error => {
       handleError(error, "지체 생성 오류");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.NEW_FAMILY]);
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.NEW_FAMILY]
+      });
       router.back();
       GRAlert.success("지체 생성 완료");
     }
@@ -64,7 +67,11 @@ const NewfamilyCreatePage: NextPage = () => {
     <>
       <HeaderView title={"새가족 등록"} disabledBackbutton={true} />
       <GRContainerView>
-        <GRFlexView alignItems="center" style={{ overflow: "auto" }} margintop={1.5}>
+        <GRFlexView
+          alignItems="center"
+          style={{ overflow: "auto" }}
+          margintop={1.5}
+        >
           <GRView style={{ maxWidth: "60rem", width: "100%" }}>
             <GRFlexView yGap={GRStylesConfig.BASE_LONG_MARGIN}>
               <GRFlexView

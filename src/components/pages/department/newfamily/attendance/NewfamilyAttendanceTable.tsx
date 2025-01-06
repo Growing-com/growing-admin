@@ -5,10 +5,10 @@ import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import { Alert, TableColumnsType, Tooltip } from "antd";
-import { tAttendanceItems } from 'api/attendance/type';
+import { tAttendanceItem } from 'api/attendance/type';
 import {
-  tNewfamily,
-  tNewfamilyAttendances
+    tNewfamily,
+    tNewfamilyAttendances
 } from "api/newfamily/type";
 import { SEX_NAME } from "config/const";
 import { head } from "lodash";
@@ -51,7 +51,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     const lineOutRow =
       record.attendanceItems
         .slice(0, 4)
-        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+        .filter((item: tAttendanceItem) => item.status === "ABSENT").length ===
       4;
     if (lineOutRow) {
       return "highlight-lineout";
@@ -60,7 +60,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
     const warningRow =
       record.attendanceItems
         .slice(0, 3)
-        .filter((item: tAttendanceItems) => item.status === "ABSENT").length ===
+        .filter((item: tAttendanceItem) => item.status === "ABSENT").length ===
       3;
     if (warningRow) {
       return "highlight-warning";
@@ -172,7 +172,7 @@ const NewfamilyAttendanceTable: React.FC<tNewfamilyAttendanceTable> = ({
         key: "attendanceItems",
         align: "center",
         minWidth: 100,
-        render: (record: tAttendanceItems[]) => {
+        render: (record: tAttendanceItem[]) => {
           const findData = record.find(r => r.date === item.date);
           return (
             <ColumAttendanceRender

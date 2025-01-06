@@ -23,13 +23,11 @@ const NewfamilyLineOutTable: React.FC<tNewfamilyLineOutTable> = ({
     tLineOutNewFamily[]
   >([]);
 
-  const { data: newFamilyData } = useQuery(
-    [queryKeys.NEW_FAMILY_LINE_OUT],
-    async () => await getLineOutNewfamilies(),
-    {
-      select: _data => _data.content
-    }
-  );
+  const { data: newFamilyData } = useQuery({
+    queryKey: [queryKeys.NEW_FAMILY_LINE_OUT],
+    queryFn: async () => await getLineOutNewfamilies(),
+    select: _data => _data.content
+  });
 
   const columns: ColumnType<any>[] = [
     {

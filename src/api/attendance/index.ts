@@ -5,8 +5,8 @@ import {
   tPostGroupUserAttendance,
   tAttendanceRangeData,
   tAttendanceData,
-  tPostStumpAttendnace,
-  tStumpAttendanceCheckData
+  tPostStumpAttendance,
+  tAttendanceRegisterRate
 } from "./type";
 
 const version = "v1";
@@ -24,15 +24,14 @@ export const getAttendanceCheckGroupData = (
 export const getAttendanceCheckStumpData = (
   params: tAttendanceCheckDataParams
 ) => {
-  // return request<tAttendanceCheckData[]>({
-  return request<tStumpAttendanceCheckData[]>({
+  return request<tAttendanceCheckData[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/attendances/stump-attendance`,
     params
   });
 };
 
-export const postStumpAttandance = (data: tPostStumpAttendnace) => {
+export const postStumpAttandance = (data: tPostStumpAttendance) => {
   return request({
     method: REQUEST_METHOD.POST,
     url: `${version}/attendances/stump-attendance-check`,
@@ -52,6 +51,14 @@ export const getAttendanceData = (params?: tAttendanceRangeData) => {
   return request<tAttendanceData[]>({
     method: REQUEST_METHOD.GET,
     url: `${version}/attendances/search`,
+    params
+  });
+};
+
+export const getAttendanceRegisterRate = (params?: { date?: string }) => {
+  return request<tAttendanceRegisterRate>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/attendances/attendance-register-rate`,
     params
   });
 };

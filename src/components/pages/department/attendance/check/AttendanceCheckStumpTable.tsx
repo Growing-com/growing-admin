@@ -8,7 +8,7 @@ import GRView from "@component/atom/view/GRView";
 import { Alert, RadioChangeEvent, TableColumnsType, Tooltip } from "antd";
 import useAttendanceCheckMutate from "api/attendance/mutate/useAttendanceCheckMutate";
 import { useAttendanceCheckData } from "api/attendance/queries/useAttendanceCheckData";
-import { tStumpAttendanceCheckData } from "api/attendance/type";
+import { tAttendanceCheckData } from "api/attendance/type";
 import { ATTENDANCE_CHECK_STATUS, SEX_NAME, TOOLTIP_INFO } from "config/const";
 import { Dayjs } from "dayjs";
 import useCurrentTerm from "hooks/api/term/useCurrentTerm";
@@ -17,21 +17,13 @@ import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
 import AttendanceCheckSubmitButton from "../../newfamily/AttendanceCheckSubmitButton";
 
 type tAttendanceCheckStumpTable = {
-  //   insertDataInFormResult: (
-  //     _userId: number,
-  //     key: string,
-  //     value: any,
-  //     data: any,
-  //     setData: any
-  //   ) => void;
   filterDate: Dayjs;
 };
 
 const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
-  //   insertDataInFormResult,
   filterDate
 }) => {
-  const [checkData, setCheckData] = useState<tStumpAttendanceCheckData[]>();
+  const [checkData, setCheckData] = useState<tAttendanceCheckData[]>();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isCompleteCheck, setIsCompleteCheck] = useState(false);
@@ -51,23 +43,15 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
     setData: any
   ) => {
     const _formResult = data?.map(
-      (result: { userId: number; attendanceItems: any[] }) => {
+      (result: { userId: number; attendanceItem: any[] }) => {
         if (_userId !== result.userId) return result;
 
         return {
           ...result,
-          attendanceItems: [
-            {
-              //[{}] 이렇게 오는데 {}로 올 수 있는지 확인해야됨
-              ...result.attendanceItems[0],
-              [key]: value
-            }
-          ]
-          // * {} 올 경우
-          // attendItems: {
-          //     ...result.attendItems,
-          //     [key]: value
-          //   }
+          attendanceItem: {
+            ...result.attendanceItem,
+            [key]: value
+          }
         };
       }
     );
@@ -98,11 +82,8 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
     if (!checkData) return;
     for (const item of checkData) {
       if (
-        !item.attendanceItems[0].status ||
-        item.attendanceItems[0].status === "NONE"
-        // * {} 올 경우
-        // !item.attendItems?.status ||
-        // item.attendItems?.status === "NONE"
+        !item.attendanceItem?.status ||
+        item.attendanceItem?.status === "NONE"
       ) {
         GRAlert.error(`${item.name}의 출석을 선택해주세요`);
         return false;
@@ -119,11 +100,8 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
       checkData
         ?.map(item => ({
           userId: item.userId,
-          status: item.attendanceItems[0].status,
-          reason: item.attendanceItems[0].reason
-          // * {} 올 경우
-          // status: item.attendItems.status,
-          // reason: item.attendItems.reason
+          status: item.attendanceItem.status,
+          reason: item.attendanceItem.reason
         }))
         .filter(item => item !== undefined) ?? [];
 
@@ -151,9 +129,7 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
   useEffect(() => {
     if (checkData?.length) {
       const checkFinish = checkData.filter(
-        form => form.attendanceItems[0].status === "NONE"
-        // * {} 올 경우
-        // form => form.attendItems?.status === "NONE"
+        form => form.attendanceItem?.status === "NONE"
       );
       setIsCompleteCheck(checkFinish.length === 0);
     }
@@ -221,9 +197,7 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
         <GRRadio
           options={ATTENDANCE_CHECK_STATUS}
           onChange={_status => onChangeAttendStatus(recode.userId, _status)}
-          // * {} 올 경우
-          // value={recode.attendItems?.status}
-          value={recode.attendanceItems[0].status}
+          value={recode.attendanceItem?.status}
         />
       )
     },
@@ -240,9 +214,7 @@ const AttendanceCheckStumpTable: React.FC<tAttendanceCheckStumpTable> = ({
               height: "2.1rem"
             }}
             type={"textarea"}
-            value={recode.attendanceItems[0].reason}
-            // * {} 올 경우
-            // value={recode.attendItems?.reason}
+            value={recode.attendanceItem?.reason}
             onChange={_reason => onChangeAttendReason(recode.userId, _reason)}
           />
         </GRView>
