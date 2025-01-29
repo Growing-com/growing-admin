@@ -1,17 +1,19 @@
 import GRAlert from "@component/atom/alert/GRAlert";
-import GRButtonText from "@component/atom/button/GRTextButton";
+import GRTextButton from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRTextInput from "@component/atom/text/GRTextInput";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import styled from "@emotion/styled";
 import { useLoginMutate } from "api/account/mutate/useLoginMutate";
+import { DEPARTMENT_MAIN_MENU } from "config/router";
 import useLogin from "hooks/auth/useLogin";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
 import getConfig from "next/config";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactElement, useCallback, useState } from "react";
+import menuStore from "store/clientStore/menuStore";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
@@ -23,7 +25,8 @@ const Login = () => {
 
   const { mutateAsync } = useLoginMutate();
   const [handleRouterCheck] = useLogin();
-
+  const router = useRouter();
+  const { menu: mainMenu, addMenu } = menuStore();
   const onClickLogin = useCallback(async () => {
     if (!userId || !userPW) {
       confirm("아이디 입력해주세요.");
@@ -34,7 +37,11 @@ const Login = () => {
         username: userId,
         password: userPW
       });
-      await handleRouterCheck();
+      DEPARTMENT_MAIN_MENU.forEach(menu => {
+        addMenu(menu);
+      });
+      router.replace(`/department/newfamily/management`);
+      // await handleRouterCheck();
     } catch (error) {
       GRAlert.error("아이디 및 비밀번호를 확인해 주세요");
     }
@@ -50,9 +57,11 @@ const Login = () => {
         <GRView width={15} height={12} style={{ position: "relative" }}>
           <Image
             src={"/logo_name.png"}
-            fill={true}
+            fill
+            priority
             alt={"logo"}
             style={{ objectFit: "contain" }}
+            sizes="(max-width: 600px) 15rem, (max-width: 1200px) 10rem, 15rem"
           />
         </GRView>
         <GRFlexView margintop={1}>
@@ -79,33 +88,33 @@ const Login = () => {
           </GRView>
         </GRFlexView>
         <GRFlexView>
-          <GRButtonText width={"100%"} onClick={onClickLogin}>
+          <GRTextButton width={"100%"} onClick={onClickLogin}>
             로그인
-          </GRButtonText>
-          <GRFlexView
+          </GRTextButton>
+          {/* <GRFlexView
             flexDirection={"row"}
             justifyContent={"center"}
             margintop={1}
           >
-            <GRButtonText buttonType={"text"} width={"100%"}>
+            <GRTextButton buttonType={"text"} width={"100%"}>
               <Link
                 href={`${process.env.NEXT_PUBLIC_OPEN_KAKAO}`}
                 target={"_blank"}
               >
                 카카오 문의
               </Link>
-            </GRButtonText>
-            {/* <GRButtonText
+            </GRTextButton>
+            <GRTextButton
               buttonType={"text"}
               width={"100%"}
               onClick={onClickChangePassword}
             >
               비밀번호 변경
-            </GRButtonText> */}
-          </GRFlexView>
-          <GRFlexView alignItems={"center"}>
+            </GRTextButton>
+          </GRFlexView> */}
+          <GRFlexView alignItems={"center"} margintop={1}>
             <GRText fontSize={"b8"} color={Color.grey80}>
-              {`v${publicRuntimeConfig?.version}` ?? ""}
+              {`v${publicRuntimeConfig?.version || ""}`}
             </GRText>
           </GRFlexView>
         </GRFlexView>

@@ -13,10 +13,9 @@ const GRInfoBadge: FC<tGRInfoBadge> = ({ infoMessage }) => {
       <Tooltip overlayStyle={{ whiteSpace: "pre-line" }} title={infoMessage}>
         <QuestionCircleOutlined
           style={{
-            fontSize: "0.8rem",
+            fontSize: "0.82rem",
             color: Color.green200
           }}
-          rev={undefined}
         />
       </Tooltip>
     </GRView>

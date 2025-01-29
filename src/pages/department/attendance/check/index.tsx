@@ -1,152 +1,98 @@
-import GRTab from "@component/atom/GRTab";
-import GRAlert from "@component/atom/alert/GRAlert";
 import GRDatePicker from "@component/atom/dataEntry/GRDatePicker";
+import GRRadio from "@component/atom/dataEntry/GRRadio";
 import GRSelect from "@component/atom/dataEntry/GRSelect";
-import { tOptions } from "@component/atom/dataEntry/type";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { useAttendanceCheckMutate } from "api/attendance/mutate/useAttendanceCheckMutate";
-import { useAttendanceCheckQuery } from "api/attendance/queries/useAttendanceCheckQuery";
-import { tAttendance, tAttendanceCheckItem } from "api/attendance/types";
+import AttendanceCheckNormalTable from "@component/pages/department/attendance/check/AttendanceCheckNormalTable";
+import AttendanceCheckStumpTable from "@component/pages/department/attendance/check/AttendanceCheckStumpTable";
+import AttendanceProgressBar from "@component/pages/department/attendance/check/AttendanceProgressBar";
+import { STUMP_OPTIONS } from "config/const";
 import dayjs, { Dayjs } from "dayjs";
-import useAccountTermInfos from "hooks/domain/term/useAccountTermInfos";
-import { useTermInfoOptionQueries } from "hooks/queries/term/useTermInfoOptionQueries";
-import { head } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useCurrentTermInfoOptionQueries } from "hooks/queries/term/useCurrentTermInfoOptionQueries";
+import { NextPage } from "next";
+import { useState } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
-import AttendanceCheckTable from "./AttendanceCheckTable";
-import AttendanceProgress from "./AttendanceProgress";
 
-const AttendanceCheck = () => {
-  const [currentTab, setCurrentTab] = useState<tOptions>();
-  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs());
-  const [checkData, setCheckData] = useState<tAttendanceCheckItem[]>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { cordiSelectItem } = useAccountTermInfos();
-  const { setSelectedCodyId, termLeaderOptions, selectedCodyId } =
-    useTermInfoOptionQueries();
+const AttendanceCheckPage: NextPage = () => {
+  const [filterDate, setFilterDate] = useState<Dayjs>(dayjs().startOf("week"));
+  const [stumpCheck, setStumpCheck] = useState("STUMP");
 
   const {
-    data: attendanceCheckData,
-    isFetching,
-    refetch
-  } = useAttendanceCheckQuery({
-    week: filterDate?.format(DEFAULT_DATE_FOMAT),
-    codyId: selectedCodyId
-  });
-
-  const { mutateAsync: attendanceCheckMutate } = useAttendanceCheckMutate();
-
-  const onChangeTab = useCallback(
-    (_tabIndx: string) => {
-      const leaderName = termLeaderOptions.find(
-        leader => leader.value === _tabIndx
-      );
-      setCurrentTab(leaderName);
-    },
-    [termLeaderOptions]
-  );
+    currentTermCodyOptions,
+    leaderByCodyOptions,
+    selectedCodyId,
+    setSelectedCodyId
+  } = useCurrentTermInfoOptionQueries();
 
   const onChangeWeek = (_date: Dayjs | null) => {
     if (_date) {
-      setFilterDate(_date);
+      const lastSunday = dayjs(_date).startOf("week");
+      setFilterDate(lastSunday);
     }
   };
 
-  const onChangeSelectCordi = useCallback(
-    (_selectCordi: number) => {
-      setSelectedCodyId(_selectCordi);
-    },
-    [setSelectedCodyId]
-  );
-
-  useEffect(() => {
-    if (cordiSelectItem.length) {
-      setSelectedCodyId(Number(head(cordiSelectItem)?.value));
-    }
-  }, [cordiSelectItem, setSelectedCodyId]);
-
-  useEffect(() => {
-    if (termLeaderOptions) {
-      const leaderName = head(termLeaderOptions);
-      setCurrentTab(leaderName);
-    }
-  }, [termLeaderOptions]);
-
-  useEffect(() => {
-    let _findAttendance = attendanceCheckData;
-    if (currentTab?.label) {
-      _findAttendance = attendanceCheckData?.filter(
-        checkData => checkData.leaderName === currentTab.label
-      );
-    }
-    setCheckData(_findAttendance);
-  }, [attendanceCheckData, currentTab]);
-
-  const handleOnSubmitButton = useCallback(
-    async (_attendance: tAttendance[]) => {
-      setIsLoading(true);
-      try {
-        await attendanceCheckMutate({
-          week: dayjs(filterDate).format(DEFAULT_DATE_FOMAT),
-          attendances: _attendance
-        });
-        refetch();
-      } catch (e: any) {
-        GRAlert.error(`출석 체크 실패, 다시 시도해주세요 ${e?.message ?? ""}`);
-      } finally {
-        setTimeout(() => setIsLoading(false), 500);
-      }
-    },
-    [attendanceCheckMutate, filterDate, refetch]
-  );
+  const onChangeStumpAttendance = (e: any) => {
+    setStumpCheck(e.target.value);
+  };
 
   return (
     <>
-      <HeaderView
-        title={"출석 체크"}
-        titleInfo={`${dayjs()
-          .weekday(3)
-          .format(
-            DEFAULT_DATE_FOMAT
-          )} 수요일 23:59 까지 출석 체크 부탁드립니다.`}
-        showIcon={false}
-      />
+      <HeaderView title={"출석 체크"} />
       <GRContainerView>
-        <GRFlexView alignItems={"flex-start"} flexDirection={"row"}>
-          <AttendanceProgress attendanceData={attendanceCheckData} />
-          <GRSelect
-            marginright={GRStylesConfig.BASE_MARGIN}
-            style={{ width: "8rem" }}
-            options={cordiSelectItem}
-            onChange={onChangeSelectCordi}
-            value={selectedCodyId}
-            placeholder={"나무 선택"}
-          />
-          <GRDatePicker
-            pickerType={"basic"}
-            picker={"week"}
-            defaultValue={filterDate}
-            onChange={onChangeWeek}
-          />
+        <GRFlexView margintop={GRStylesConfig.BASE_LONG_MARGIN}>
+          <GRFlexView
+            flexDirection={"row"}
+            alignItems="center"
+            marginbottom={GRStylesConfig.BASE_MARGIN}
+          >
+            <AttendanceProgressBar
+              userType={"NORMAL"}
+              filterDate={filterDate}
+            />
+            <GRFlexView
+              flexDirection={"row"}
+              justifyContent={"end"}
+              alignItems={"center"}
+            >
+              <GRRadio
+                options={STUMP_OPTIONS}
+                onChange={onChangeStumpAttendance}
+                value={stumpCheck}
+              />
+              <GRSelect
+                marginright={GRStylesConfig.BASE_MARGIN}
+                style={{ width: "8rem" }}
+                options={currentTermCodyOptions}
+                onChange={setSelectedCodyId}
+                value={selectedCodyId}
+                placeholder={"나무 선택"}
+                disabled={stumpCheck === "STUMP"}
+              />
+              <GRDatePicker
+                pickerType={"basic"}
+                picker={"week"}
+                defaultValue={filterDate}
+                onChange={onChangeWeek}
+              />
+            </GRFlexView>
+          </GRFlexView>
+          <GRFlexView>
+            {stumpCheck === "STUMP" && (
+              <AttendanceCheckStumpTable filterDate={filterDate} />
+            )}
+            {stumpCheck === "NORMAL" && (
+              <AttendanceCheckNormalTable
+                filterDate={filterDate}
+                selectedCodyId={selectedCodyId}
+                leaderByCodyOptions={leaderByCodyOptions}
+              />
+            )}
+          </GRFlexView>
         </GRFlexView>
-        <GRTab
-          items={termLeaderOptions}
-          onChange={onChangeTab}
-          // tabBarExtraContent={
-
-          // }
-        />
-        <AttendanceCheckTable
-          isLoading={isFetching || isLoading}
-          attendanceDataSource={checkData}
-          onSubmit={handleOnSubmitButton}
-        />
       </GRContainerView>
     </>
   );
 };
 
-export default AttendanceCheck;
+export default AttendanceCheckPage;

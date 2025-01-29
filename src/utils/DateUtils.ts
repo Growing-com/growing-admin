@@ -6,12 +6,12 @@ dayjs.extend(weekOfYear);
 dayjs.extend(duration);
 dayjs.extend(weekday);
 
-export const DEFAULT_DATE_FOMAT = "YYYY-MM-DD";
-export const DEFAULT_EXCEL_DATE_FOMAT = "YYYY-MM-DD_HH-mm-ss";
+export const DEFAULT_DATE_FORMAT = "YYYY-MM-DD";
+export const DEFAULT_EXCEL_DATE_FORMAT = "YYYY-MM-DD_HH-mm-ss";
 
-const convertDateString = (date: Dayjs) => {
+const convertDateStringByDefaultForm = (date: Dayjs) => {
   if (!date) return date;
-  return date.format(DEFAULT_DATE_FOMAT);
+  return date.format(DEFAULT_DATE_FORMAT);
 };
 
 const getTime = (date: dayjs.Dayjs | string) => {
@@ -66,7 +66,7 @@ const getSundayRangeDate = (_startDate?: string, _endDate?: string) => {
   while (currentDay.isBefore(endDate) || currentDay.isSame(endDate, "day")) {
     if (currentDay.day() === 0) {
       const sundayStart = currentDay.startOf("day");
-      week.push(sundayStart.format(DEFAULT_DATE_FOMAT));
+      week.push(sundayStart.format(DEFAULT_DATE_FORMAT));
     }
     currentDay = currentDay.add(1, "day");
   }
@@ -83,23 +83,28 @@ const THIS_SUNDAY = 7; // 이번주 일요일
 const THIS_SATURDAY = 6; // 이번주 토요일
 
 const getWeekDataFromToday = {
-  today: dayjs().format(DEFAULT_DATE_FOMAT),
-  lastlastMonday: dayjs().weekday(LAST_LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
-  lastlastSunday: dayjs().weekday(LAST_LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-  lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FOMAT),
-  lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FOMAT),
-  lastSaturday: dayjs().weekday(LAST_SATURDAY).format(DEFAULT_DATE_FOMAT),
-  thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FOMAT),
-  thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FOMAT),
-  thisSaturday: dayjs().weekday(THIS_SATURDAY).format(DEFAULT_DATE_FOMAT)
+  today: dayjs().format(DEFAULT_DATE_FORMAT),
+  lastlastMonday: dayjs().weekday(LAST_LAST_MONDAY).format(DEFAULT_DATE_FORMAT),
+  lastlastSunday: dayjs().weekday(LAST_LAST_SUNDAY).format(DEFAULT_DATE_FORMAT),
+  lastMonday: dayjs().weekday(LAST_MONDAY).format(DEFAULT_DATE_FORMAT),
+  lastSunday: dayjs().weekday(LAST_SUNDAY).format(DEFAULT_DATE_FORMAT),
+  lastSaturday: dayjs().weekday(LAST_SATURDAY).format(DEFAULT_DATE_FORMAT),
+  thisMonday: dayjs().weekday(THIS_MONDAY).format(DEFAULT_DATE_FORMAT),
+  thisSunday: dayjs().weekday(THIS_SUNDAY).format(DEFAULT_DATE_FORMAT),
+  thisSaturday: dayjs().weekday(THIS_SATURDAY).format(DEFAULT_DATE_FORMAT)
+};
+
+const checkDefaultDate = (_date: string) => {
+  return _date !== "1970-01-01" ? _date : "-";
 };
 
 export {
+  checkDefaultDate,
+  convertDateStringByDefaultForm,
   getSundayOfMonth,
   getSundayRangeDate,
   getTime,
   getTimeLine,
   getWeekDataFromToday,
-  getWeekOfMonth,
-  convertDateString
+  getWeekOfMonth
 };

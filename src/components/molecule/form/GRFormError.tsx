@@ -10,10 +10,9 @@ type tGRFormError = {
 const DEFAULT_ERROR_MESSAGE = "필수 정보입니다" as string;
 
 const GRFormError: FC<tGRFormError> = ({ fieldName, formState }) => {
-  if (formState.errors[fieldName]?.type !== "required") return <></>;
-
+  if (formState.errors[fieldName]?.type !== "required" && formState.errors[fieldName]?.type !== "pattern") return <></>;
   return (
-    <GRText fontSize={"b10"} color={Color.red100}>
+    <GRText fontSize={"b7"} color={Color.red100}>
       {!!formState?.errors[fieldName]?.message
         ? formState?.errors[fieldName]?.message?.toString()
         : DEFAULT_ERROR_MESSAGE}

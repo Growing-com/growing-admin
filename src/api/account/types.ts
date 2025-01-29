@@ -1,28 +1,35 @@
-import { tTrainingType } from "api/training/type";
-
 /**
  * @descriptio 성
  * MALE : 남
- * FEMAL : 여
+ * FEMALE : 여
  */
-export type tSex = "MALE" | "FEMAL";
+export type tSex = "MALE" | "FEMALE";
+
+export type tUserType = "NORMAL" | "NEW_FAMILY"
 
 /**
  * * @descriptio 직분
- * PASTOR: 교역자
- * GANSA: 간사
- * CODY: 코디
- * LEADER: 리더
- * MEMBER: 조원
- * NEW_COMER: 새가족
+ * PASTOR: 교역자,
+ * GANSA: 간사,
+ * CODY: 코디,
+ * SMALL_GROUP_LEADER: 순장,
+ * NEW_FAMILY_GROUP_LEADER: 새가족 순장,
+ * SMALL_GROUP_MEMBER: 순원,
+ * NEW_FAMILY_MEMBER: 새가족 순원,
+ * NEW_FAMILY: 새가족,
+ * NOT_PLACED: 미배정
  */
+
 export type tDuty =
   | "PASTOR"
   | "GANSA"
   | "CODY"
-  | "LEADER"
-  | "MEMBER"
-  | "NEW_COMER";
+  | "SMALL_GROUP_LEADER"
+  | "NEW_FAMILY_GROUP_LEADER"
+  | "SMALL_GROUP_MEMBER"
+  | "NEW_FAMILY_MEMBER"
+  | "NEW_FAMILY"
+  | "NOT_PLACED";
 
 /**
  * @description 역할
@@ -32,36 +39,30 @@ export type tDuty =
  */
 export type tRole = "ADMIN" | "MANAGER" | "NORMAL";
 
-export type tAccount = {
-  /** @description 이름  @example   "윤동건", */
+export type tUser = {
+  /** @description 유저 아이디 @example 1 */
+  userId: number;
+  /** @description 이름  @example   "윤동건" */
   name: string;
-  /** @description 성 @example   "MALE", */
+  /** @description 성 @example   "MALE" */
   sex: tSex;
-  /** @description 휴대폰 번호  @example  "01011111111", */
-  phoneNumber: string;
-  /** @description 생년월일  @example  "1996-10-16", */
-  birth: string;
-  /** @description 학년  @example  9, */
+  /** @description 학년  @example  9 */
   grade: number;
-  /** @description 활성화 여부  @example   true, */
-  isActive?: boolean;
-  /** @description 팀 아이디  @example  2 */
-  teamId: number;
-  /** @description 기타 사항  @example null */
-  etc: string | null;
-  id?: number;
-  visitDate?: string;
+  /** @description 휴대폰 번호  @example  "01011111111" */
+  phoneNumber: string;
+  /** @description 생년월일  @example  "1996-10-16" */
+  birth?: string;
+  /** @description 직분 이름  @example  "CODY" */
   duty?: tDuty;
-  role?: tRole;
-  termId?: number;
-  visitTermId?: number;
-  updatedBy: string;
-  updatedAt: string;
-};
+  /** @description 리더 이름  @example  "황길동" */
+  leaderName?: string;
+  /** @description 순모임 아이디  @example  1 */
+  smallGroupId?: number;
+  /** @description 기타 사항  @example  "감자를 좋아함" */
+  etc?: string;
 
-export type tRoleResponse = {
-  name: string;
-  value: string;
+  // updatedBy: string;
+  // updatedAt: string;
 };
 
 export type tLoginParam = {
@@ -69,42 +70,25 @@ export type tLoginParam = {
   password: string;
 };
 
-export type tUser = {
-  /**@description  @example 10 */
-  grade: number;
-  /**@description  @example "홍길동" */
-  leaderName: string;
-  /**@description  @example "FEMALE" */
-  sex: tSex;
-  /**@description  @example 5 */
+export type tUserAccount = {
+  /** @description 유저 아이디 @example 1 */
   userId: number;
-  /**@description  @example "김철수" */
-  userName: string;
-};
-
-type tTraining = {
-  name: string;
-  type: tTrainingType;
-  userId: number;
-};
-
-export type tActiveUser = {
-  id: number;
-  name: string;
-  grade: number;
-  sex: tSex;
-  discipleship?: {
-    name: string;
-    userId: number;
-  };
-  duty: tDuty;
+  /** 직분 */
+  // duty: tDuty;
+  /** 역할 */
   role: tRole;
-  phoneNumber: string;
-  birth?: string;
-  isActive: boolean;
-  visitDate: Date;
-  etc: string;
-  updatedAt: Date;
-  updatedBy: Date;
-  trainings: tTraining[];
+  /** @description 이름  @example   "윤동건", */
+  name: string;
+};
+
+export type tDutyCount = {
+  totalCount: number;
+  pastorCount: number;
+  codyCount: number;
+  smallGroupLeaderCount: number;
+  newFamilyGroupLeaderCount: number;
+  smallGroupMemberCount: number;
+  newFamilyMemberCount: number;
+  newFamilyCount: number;
+  notPlacedCount: number;
 };

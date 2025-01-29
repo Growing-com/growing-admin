@@ -8,7 +8,6 @@ import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
 import React, { useCallback } from "react";
 import { Controller } from "react-hook-form";
-import GRStylesConfig from "styles/GRStylesConfig";
 import GRFormError from "./GRFormError";
 import GRFormTitle from "./GRFormTitle";
 import { tGRFormItem, tRenderProps } from "./type";
@@ -18,7 +17,6 @@ const GRFormItem = ({
   control,
   fieldName,
   title,
-  required = false,
   containStyle,
   type,
   options,
@@ -27,8 +25,10 @@ const GRFormItem = ({
   textType,
   pickerType,
   defaultValue,
+  rules,
   ...props
 }: tGRFormItem) => {
+  const required = !!rules?.required;
   const renderFormItems = useCallback(
     ({ field, formState }: tRenderProps) => {
       let formItemComponent;
@@ -112,7 +112,6 @@ const GRFormItem = ({
     <GRFlexView
       flexDirection={"row"}
       alignItems={"center"}
-      marginbottom={GRStylesConfig.BASE_MARGIN}
       style={containStyle}
     >
       {title && <GRFormTitle title={title} required={required} />}
@@ -120,7 +119,7 @@ const GRFormItem = ({
         control={control}
         name={fieldName}
         render={renderFormItems}
-        rules={{ required: required }}
+        rules={rules}
         defaultValue={defaultValue}
       />
     </GRFlexView>

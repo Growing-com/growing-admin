@@ -1,113 +1,91 @@
 import { REQUEST_METHOD, request } from "api";
-import type { tTermCody, tTermLeader, tTermNewFamily } from "./types";
+import { tDutyCount, tUser } from "api/account/types";
+import {
+  tCodyAndSmallGroup,
+  tNewFamilyGroup,
+  tTerm,
+  tCody,
+  tLeader,
+  tGroup,
+  tPastor,
+  tSmallGroup
+} from "./type";
 
-export const getTermInfo = () => {
-  return request<tTermCody[]>({
+const version = "v1";
+
+export const getCodyAndSmallGroups = (termId?: number) => {
+  return request<tCodyAndSmallGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `/term`
+    url: `${version}/terms/${termId}/small-groups-by-cody`
   });
 };
 
-type getTermUserStatisticsResponse = {
-  /** 새등록 인원 */
-  totalNewRegistered: number;
-  /** 전체 인원 */
-  totalRegistered: number;
-};
-
-export const getTermUserStatistics = (week: string) => {
-  return request<getTermUserStatisticsResponse>({
+export const getSmallGroup = (termId?: number) => {
+  return request<tSmallGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `/term/totalUser`,
-    params: {
-      week
-    }
+    url: `${version}/terms/${termId}/small-groups`
   });
 };
 
-export const getTermCody = (termId: number) => {
-  return request<tTermCody[]>({
+export const getNewFamilyGroup = (termId?: number) => {
+  return request<tNewFamilyGroup[]>({
     method: REQUEST_METHOD.GET,
-    url: `/term/${termId}/cody`
+    url: `${version}/terms/${termId}/new-family-groups`
   });
 };
 
-export const getTermMemberByCodyId = (termId: number, codyId: number) => {
-  return request<tTermLeader[]>({
+export const getTermList = () => {
+  return request<tTerm[]>({
     method: REQUEST_METHOD.GET,
-    url: `/term/${termId}/cody/${codyId}/leaders`
+    url: `${version}/terms`
   });
 };
 
-export const getTermNewFamily = (termId: number) => {
-  return request<tTermNewFamily[]>({
+export const getActiveTerm = () => {
+  return request<tTerm>({
     method: REQUEST_METHOD.GET,
-    url: `/term/${termId}/newComers`
+    url: `${version}/terms/active-term`
   });
 };
 
-export const getTermNewFamilyLeader = (termId: number) => {
-  return request<tTermLeader[]>({
+export const getAllLeaders = (termId?: number) => {
+  return request<tLeader[]>({
     method: REQUEST_METHOD.GET,
-    url: `/term/${termId}/newTeamLeaders`
+    url: `${version}/terms/${termId}/all-leaders`
   });
 };
 
-export const getTermStatistics = (startDate: string, endDate: string) => {
-  return request({
+export const getTermPastor = (termId?: number) => {
+  return request<tPastor[]>({
     method: REQUEST_METHOD.GET,
-    url: `statistics/attendanceSummary`,
-    params: {
-      startDate,
-      endDate
-    }
+    url: `${version}/terms/${termId}/pastors`
   });
 };
 
-type tPostNewFamilyLineUpData = {
-  teamId: number;
-  teamMemberId: number;
-  data: {
-    /**  @example 11, */
-    plantTeamId: number;
-    /**  @example "2023-10-13", */
-    lineupDate: string;
-    /**  @example 9 */
-    gradeAtFirstVisit: number;
-  };
-};
-
-export const postNewFamilyLineUp = ({
-  teamId,
-  teamMemberId,
-  data
-}: tPostNewFamilyLineUpData) => {
-  return request({
-    method: REQUEST_METHOD.POST,
-    url: `team/${teamId}/teamMember/${teamMemberId}/lineup`,
-    data
+export const getTermCody = (termId?: number) => {
+  return request<tCody[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/codies`
   });
 };
 
-type tPostNewFamilyLineOutData = {
-  teamId: number;
-  teamMemberId: number;
-  data: {
-    /**  @example "2023-10-13", */
-    lineoutDate: string;
-    /**  @example 9 */
-    gradeAtFirstVisit: number;
-  };
+export const getLeaderByCody = (codyId?: number) => {
+  return request<tGroup[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/codies/${codyId}/groups`
+  });
 };
 
-export const postNewFamilyLineOut = ({
-  teamId,
-  teamMemberId,
-  data
-}: tPostNewFamilyLineOutData) => {
-  return request({
-    method: REQUEST_METHOD.POST,
-    url: `team/${teamId}/teamMember/${teamMemberId}/lineout`,
-    data
+export const getMembersByCody = (codyId?: number) => {
+  return request<tUser[]>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/codies/${codyId}/members`
+  });
+};
+
+export const getDutyCount = (termId?: number) => {
+  return request<tDutyCount>({
+    method: REQUEST_METHOD.GET,
+    url: `${version}/terms/${termId}/duty-distribution-count`
   });
 };

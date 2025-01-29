@@ -8,6 +8,9 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import Script from "next/script";
 import { ReactElement, ReactNode } from "react";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { ComponentsToken } from "styles/ComponentsToken";
 import { Color } from "styles/colors";
 import "styles/globals.css";
 
@@ -22,7 +25,7 @@ type tMyApp = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 60 * 24,
+      gcTime: 1000 * 60 * 60 * 24,
       refetchOnWindowFocus: false
     }
   }
@@ -54,11 +57,14 @@ const MyApp: NextPage<tMyApp> = ({ Component, pageProps }) => {
           token: {
             colorPrimary: Color.green200,
             colorBgBase: Color.white
-          }
+          },
+          components: ComponentsToken
         }}
       >
         <QueryClientProvider client={queryClient}>
+        <DndProvider backend={HTML5Backend}>
           <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+          </DndProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ConfigProvider>

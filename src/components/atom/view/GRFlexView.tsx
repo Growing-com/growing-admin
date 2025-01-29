@@ -16,9 +16,12 @@ type tGRFlexView = {
   borderRadius?: CSSProperties["borderRadius"];
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
+  minHeight?: CSSProperties["height"];
   style?: CSSProperties;
   css?: SerializedStyles;
   flex?: number;
+  xGap? : number;
+  yGap? : number;
 } & AreaType &
   HTMLAttributes<HTMLDivElement>;
 
@@ -33,9 +36,12 @@ const GRFlexView: FC<tGRFlexView> = ({
   borderRadius,
   width,
   height,
+  minHeight, 
   css: customCss,
   style,
   flex = 1,
+  xGap = 0,
+  yGap = 0,
   ...rest
 }) => {
   const _margin = getMargin(rest);
@@ -55,6 +61,8 @@ const GRFlexView: FC<tGRFlexView> = ({
           border-radius: ${borderRadius}rem;
           width: ${`${width}rem`};
           height: ${`${height}rem`};
+          min-height: ${`${minHeight}rem`};
+          gap: ${yGap}rem ${xGap}rem;
           ${_margin}
           ${_padding}
         `,

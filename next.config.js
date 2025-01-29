@@ -11,20 +11,32 @@ module.exports = {
   },
   reactStrictMode: false,
   swcMinify: true,
-  async redirects() {
-    return [
-      {
-        source: "/department/management",
-        destination: "/department/management/account",
-        permanent: true
-      },
-      {
-        source: "/department/attendance",
-        destination: "/department/attendance/management",
-        permanent: true
-      }
-    ];
-  }
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
+    return config;
+  },
+  /** classname did not match Error시 활성화 */ 
+  // compiler: {
+  //   styledComponents: true,
+  // },
+
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/department/management",
+  //       destination: "/department/management/account",
+  //       permanent: true
+  //     },
+  //     {
+  //       source: "/department/attendance",
+  //       destination: "/department/attendance/management",
+  //       permanent: true
+  //     }
+  //   ];
+  // }
 };
 
 // Injected content via Sentry wizard below
