@@ -7,7 +7,7 @@ const DEFAULT_TIMEOUT = 20 * 1000;
 
 const NetworkConfig = {
   BASE_REQUEST: {
-    baseURL: process.env.BASE_API_URL,
+    baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
     timeout: DEFAULT_TIMEOUT
   },
   // DEV_REQUEST: {
