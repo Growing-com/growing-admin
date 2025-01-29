@@ -3,10 +3,10 @@
   "version": "1.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "node setEnv.js && next dev",
+    "build": "node setEnv.js && next build",
+    "start": "node setEnv.js && next start",
+    "lint": "node setEnv.js && next lint"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.0",
