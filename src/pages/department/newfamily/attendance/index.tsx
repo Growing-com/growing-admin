@@ -180,7 +180,7 @@ const NewfamilyAttendancePage: NextPage = () => {
   useEffect(() => {
     if (newFamilyGroupAttendanceData)
       setNewfamilyGroupAttendanceData(newFamilyGroupAttendanceData);
-  }, []);
+  }, [newFamilyGroupAttendanceData]);
 
   return (
     <>
