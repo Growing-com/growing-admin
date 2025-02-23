@@ -3,24 +3,20 @@ import { FC } from "react"
 
 type tGRDot = {
     size?: number
-    marginRight?: number
-    backgroundColor?: string
 }
 
 const GRDot: FC<tGRDot> = ({
-    size = 4,
-    marginRight,
-    backgroundColor = "red"
+    size = 4
 }) => {
   return (
     <span 
         css={css`
             height: ${size}px;
             width: ${size}px;
-            background-color: ${backgroundColor};
+            background-color: red;
             border-radius: 50%;
             display: inline-block;
-            margin-right: ${ marginRight || 0.5}rem
+            margin-right: 0.5rem
         `
     }/>
   )

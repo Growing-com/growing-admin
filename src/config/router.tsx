@@ -1,32 +1,23 @@
 import {
-  ApartmentOutlined,
+  BankOutlined,
   CheckOutlined,
-  HeartOutlined,
   SearchOutlined,
-  TeamOutlined,
-  UsergroupAddOutlined
+  TeamOutlined
 } from "@ant-design/icons";
 
 export type tDepartmentMainMenu = {
-  key:
-    | "management"
-    | "attendance"
-    | "newfamily"
-    | "lineup"
-    | "leaders"
-    | "search";
-  label: "관리" | "출석" | "새가족" | "라인업" | "리더 구성원" | "전체 검색";
+  key: "search" | "management" | "attendance" | "training";
+  label: "전체 검색" | "관리" | "출석" | "훈련";
   children?:
     | tDepartmentManagementSubMenu[]
     | tDepartmentAttendanceSubMenu[]
-    | tDepartmentNewfamilySubMenu[]
-    | tDepartmentLineUpSubMenu[];
+    | tDepartmentTrainingSubMenu[];
   icon?: React.ReactNode;
 };
 
 type tDepartmentManagementSubMenu = {
-  key: "management-user";
-  label: "지체 관리";
+  key: "management-account" | "management-newfamily";
+  label: "계정 관리" | "새가족 관리";
   path: string;
 };
 
@@ -36,49 +27,22 @@ type tDepartmentAttendanceSubMenu = {
   path: string;
 };
 
-type tDepartmentNewfamilySubMenu = {
-  key: "newfamily-management" | "newfamily-attendance";
-  label: "새가족 관리" | "새가족 출석";
-  path: string;
-};
-
-type tDepartmentLineUpSubMenu = {
-  key: "lineup-newfamily" | "lineup-edit";
-  label: "새가족 라인업" | "라인업 수정";
+type tDepartmentTrainingSubMenu = {
+  key: "training-roster";
+  label: "명부 관리";
   path: string;
 };
 
 export const DEPARTMENT_MANAGEMENT_SUB_MENU: tDepartmentManagementSubMenu[] = [
   {
-    key: "management-user",
-    label: "지체 관리",
-    path: "management/user"
-  }
-];
-
-export const DEPARTMENT_NEWFAMILY_SUB_MENU: tDepartmentNewfamilySubMenu[] = [
+    key: "management-account",
+    label: "계정 관리",
+    path: "management/account"
+  },
   {
-    key: "newfamily-management",
+    key: "management-newfamily",
     label: "새가족 관리",
-    path: "newfamily/management"
-  },
-  {
-    key: "newfamily-attendance",
-    label: "새가족 출석",
-    path: "newfamily/attendance"
-  }
-];
-
-export const DEPARTMENT_LINEUP_SUB_MENU: tDepartmentLineUpSubMenu[] = [
-  {
-    key: "lineup-newfamily",
-    label: "새가족 라인업",
-    path: "lineup/newfamily"
-  },
-  {
-    key: "lineup-edit",
-    label: "라인업 수정",
-    path: "lineup/edit"
+    path: "management/newfamily"
   }
 ];
 
@@ -89,15 +53,23 @@ const DEPARTMENT_ATTENDANCE_SUB_MENU: tDepartmentAttendanceSubMenu[] = [
     path: "attendance/check"
   },
   {
+    key: "attendance-statistics",
+    label: "출석 통계",
+    path: "attendance/statistics"
+  },
+  {
     key: "attendance-management",
     label: "출석 열람",
     path: "attendance/management"
   }
-  // {
-  //   key: "attendance-statistics",
-  //   label: "출석 통계",
-  //   path: "attendance/statistics"
-  // },
+];
+
+const DEPARTMENT_TRAINING_SUB_MENU: tDepartmentTrainingSubMenu[] = [
+  {
+    key: "training-roster",
+    label: "명부 관리",
+    path: "training/roster"
+  }
 ];
 
 export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
@@ -105,35 +77,24 @@ export const DEPARTMENT_MAIN_MENU: tDepartmentMainMenu[] = [
     key: "management",
     label: "관리",
     children: DEPARTMENT_MANAGEMENT_SUB_MENU,
-    icon: <TeamOutlined style={{ fontSize: "1.3rem" }} />
+    icon: <TeamOutlined rev={undefined} />
+  },
+  {
+    key: "training",
+    label: "훈련",
+    children: DEPARTMENT_TRAINING_SUB_MENU,
+    icon: <BankOutlined rev={undefined} />
   },
   {
     key: "attendance",
     label: "출석",
     children: DEPARTMENT_ATTENDANCE_SUB_MENU,
-    icon: <CheckOutlined style={{ fontSize: "1.3rem" }} />
-  },
-  {
-    key: "newfamily",
-    label: "새가족",
-    children: DEPARTMENT_NEWFAMILY_SUB_MENU,
-    icon: <HeartOutlined style={{ fontSize: "1.3rem" }} />
-  },
-  {
-    key: "lineup",
-    label: "라인업",
-    children: DEPARTMENT_LINEUP_SUB_MENU,
-    icon: <UsergroupAddOutlined style={{ fontSize: "1.3rem" }} />
-  },
-  {
-    key: "leaders",
-    label: "리더 구성원",
-    icon: <ApartmentOutlined style={{ fontSize: "1.3rem" }} />
+    icon: <CheckOutlined rev={undefined} />
   },
   {
     key: "search",
     label: "전체 검색",
-    icon: <SearchOutlined style={{ fontSize: "1.3rem" }} />
+    icon: <SearchOutlined rev={undefined} />
   }
 ];
 
@@ -147,29 +108,11 @@ export const TAB_MENU = [
 
 export const DUTY_MENU = [
   {
-    key: "SUPER_ADMIN",
-    value: [
-      "management",
-      "attendance",
-      "newfamily",
-      "lineup",
-      "leaders",
-      "search"
-    ]
+    key: "MANAGER",
+    value: ["search", "attendance"]
   },
   {
-    key: "NEW_FAMILY_GANSA",
-    value: ["management", "attendance", "newfamily", "leaders", "search"]
-  },
-  {
-    key: "LINE_UP_GANSA",
-    value: [
-      "management",
-      "attendance",
-      "newfamily",
-      "lineup",
-      "leaders",
-      "search"
-    ]
+    key: "ADMIN",
+    value: ["search", "training", "management", "attendance"]
   }
 ];

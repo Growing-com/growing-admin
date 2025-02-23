@@ -1,10 +1,9 @@
 import GRView from "@component/atom/view/GRView";
 import { Popover, Tag } from "antd";
-import { tAttendanceStatus } from "api/attendance/type";
+import { tAttendanceStatus } from "api/attendance/types";
 import { ATTENDANCE_STATUS } from "config/const";
 import { FC } from "react";
 import GRDot from "../GRDot";
-
 type tColumAttendanceRender = {
   attendanceStatus?: tAttendanceStatus;
   contentEtc?: string;
@@ -14,7 +13,9 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   contentEtc
 }) => {
   if (!attendanceStatus) {
-    return <Tag color={"#ccc"}>데이터 없음</Tag>;
+    return (
+        <Tag color={"#ccc"}>미완료</Tag>
+    );
   }
 
   const currentStatus = ATTENDANCE_STATUS.find(
@@ -23,9 +24,7 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
   if (!contentEtc) {
     return (
       <GRView isFlex alignItems={"center"} justifyContent={"center"}>
-        <Tag css={{ marginRight: "0rem" }} color={currentStatus?.color}>
-          {currentStatus?.label ?? " "}
-        </Tag>
+        <Tag color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
       </GRView>
     );
   }
@@ -39,9 +38,8 @@ const ColumAttendanceRender: FC<tColumAttendanceRender> = ({
       }}
     >
       <GRView isFlex alignItems={"center"} justifyContent={"center"}>
-        <GRDot />
-        <Tag css={{ marginRight: "0rem" }} color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
-        <GRDot marginRight={0} backgroundColor={"transparent"}/>
+        <GRDot/>
+        <Tag color={currentStatus?.color}>{currentStatus?.label ?? " "}</Tag>
       </GRView>
     </Popover>
   );

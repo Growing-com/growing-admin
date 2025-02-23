@@ -12,8 +12,9 @@ import {
   type FC
 } from "react";
 import menuStore from "store/clientStore/menuStore";
-import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
+
+const { Content, Sider } = Layout;
 
 export type tMenuInfo = {
   key: string;
@@ -25,67 +26,54 @@ export type tSelectInfo = tMenuInfo & {
   selectedKeys: string[];
 };
 
-const { Content, Sider } = Layout;
-
 type tBaseLayout = {
   children?: React.ReactNode;
 };
 
 const BaseLayout: FC<tBaseLayout> = ({ children }) => {
   const router = useRouter();
+
   const { menu: mainMenu } = menuStore();
+
   const [handleRouterCheck] = useLogin();
 
-  const [openedSubMenu, setOpenedSubMenu] = useState<string[]>();
+  const [tabMenu] = useState(TAB_MENU[0].key);
+  const [defaultOpen, setDefaultOpen] = useState<string[]>();
+  const [openMainMenu, openMetMainMenu] = useState<string[]>();
+  const [defaultSelected, setDefaultSelected] = useState<string[]>();
   const [selectedSubMenu, setSelectedSubMenu] = useState<string[]>();
-  const [collapsed, setCollapsed] = useState(false);
 
   const onSelectMenu = useCallback(
     async (info: tSelectInfo) => {
       const newPath = info.key.replace("-", "/");
-      // setSelectedSubMenu([info.key]);
+      setSelectedSubMenu([info.key]);
       router.push(`/department/${newPath}`);
     },
     [router]
   );
 
   const onOpenChange = (keys: string[]) => {
-    setOpenedSubMenu(keys);
+    setDefaultOpen(keys);
   };
 
-  const onClickCollapse = () => {
-    setCollapsed(!collapsed);
-  };
-
-  // 서브 메뉴 열림 변수 설정
   useEffect(() => {
     const _mainDefault = TAB_MENU.find(
       tab => tab.key === "department"
     )?.children;
     if (_mainDefault) {
-      const _defaultSubMenuOpen = _mainDefault.map(menu => menu.key);
-      setOpenedSubMenu(_defaultSubMenuOpen);
+      const _defaultOpen = _mainDefault.map(menu => menu.key);
+      setDefaultOpen(_defaultOpen);
+      const _subDefault = [_mainDefault[0].key];
+      setDefaultSelected(_subDefault);
     }
   }, []);
 
-  // useLayoutEffect가 서버에서는 동작하지 않게.
-  const STR_UNDEFINED = "undefined";
-  const isWindowDefined = typeof window != STR_UNDEFINED;
-  const IS_NODE = !isWindowDefined || "process" in globalThis;
-  const useIsomorphicLayoutEffect = IS_NODE ? useEffect : useLayoutEffect;
-
-  useIsomorphicLayoutEffect(() => {
-    if (!router.pathname) {
-      return;
-    }
-    const _path = router.pathname.split("/");
-
-    // sub 메뉴가 있으면
-    if (_path[3]) {
+  useLayoutEffect(() => {
+    if (router.pathname) {
+      const _path = router.pathname.split("/");
+      openMetMainMenu([_path[2]]);
       setSelectedSubMenu([`${_path[2]}-${_path[3]}`]);
-      return;
     }
-    setSelectedSubMenu([`${_path[2]}`]);
   }, [router.pathname]);
 
   useEffect(() => {
@@ -94,21 +82,20 @@ const BaseLayout: FC<tBaseLayout> = ({ children }) => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <HeaderMenu onClickCollapse={onClickCollapse} />
+      <HeaderMenu />
       <Layout>
         <Sider
           style={{
             backgroundColor: "white"
           }}
-          trigger={null}
-          collapsed={collapsed}
-          collapsedWidth={GRStylesConfig.COLLAPSED_WIDTH}
         >
           <BaseLayoutMenu
             mode={"inline"}
             items={mainMenu}
+            // defaultOpenKeys={defaultOpen}
+            // defaultSelectedKeys={defaultSelected}
             selectedKeys={selectedSubMenu} // 선택되는 key, sub-menu 를 선택 하면 main 도 같이 선택됨
-            openKeys={openedSubMenu} // Sub 메뉴가 열린 main menu 리스트
+            openKeys={defaultOpen} // 열리게 되는 sub menu
             onSelect={onSelectMenu}
             onOpenChange={onOpenChange}
           />
@@ -132,10 +119,10 @@ const LayoutContent = styled(Content)`
 
 const BaseLayoutMenu = styled(Menu)`
   height: "100%";
+  border-right: 0;
   .ant-menu {
-    // background-color: ${Color.white} !important;
+    background-color: ${Color.white} !important;
   }
-
   .ant-menu-submenu-selected {
     .ant-menu-submenu-title {
       .ant-menu-title-content {
@@ -143,8 +130,17 @@ const BaseLayoutMenu = styled(Menu)`
       }
     }
   }
-
   .ant-menu-item-selected {
     font-weight: bold;
+  }
+  .ant-menu-submenu-title {
+    :hover {
+      background-color: ${Color.green100} !important;
+    }
+  }
+  .ant-menu-item {
+    :hover {
+      background-color: ${Color.green100} !important;
+    }
   }
 `;

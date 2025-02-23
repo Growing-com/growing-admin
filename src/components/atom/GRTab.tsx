@@ -4,9 +4,6 @@ import { tOptions } from "./dataEntry/type";
 
 type tGRTab = {
   items: tOptions[];
-  size?: string;
-  fontWeight?: string;
-  marginBottom?: string;
 } & Omit<TabsProps, "items">;
 
 type tTab = {
@@ -14,13 +11,7 @@ type tTab = {
   label: React.ReactNode;
 } & Omit<TabPaneProps, "tab">;
 
-const GRTab: FC<tGRTab> = ({
-  items,
-  size = "large",
-  fontWeight = "bold",
-  marginBottom,
-  ...props
-}) => {
+const GRTab: FC<tGRTab> = ({ items, ...props }) => {
   const tabItem = useMemo(() => {
     if (items) {
       return items.map(_item => ({
@@ -33,10 +24,9 @@ const GRTab: FC<tGRTab> = ({
 
   return (
     <Tabs
-      size={size}
+      size={"large"}
       tabBarStyle={{
-        fontWeight: `${fontWeight}`,
-        marginBottom: `${marginBottom}`
+        fontWeight: "bold"
       }}
       items={tabItem as tTab[]}
       {...props}

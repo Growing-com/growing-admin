@@ -1,8 +1,8 @@
 import { FileExcelOutlined } from "@ant-design/icons";
-import GRTextButton, {
-    tButtonSize,
-    tButtonType,
-    tGRButtonText
+import GRButtonText, {
+  tButtonSize,
+  tButtonType,
+  tGRButtonText
 } from "@component/atom/button/GRTextButton";
 import { Popover } from "antd";
 
@@ -36,20 +36,21 @@ const ExcelButton = ({
         content={popoverprops?.content}
         {...(!popoverprops?.content && { open: false })}
       >
-        <GRTextButton
+        <GRButtonText
           buttonType={buttonType}
           size={size}
           onClick={onClick}
           {...props}
         >
           <FileExcelOutlined
+            rev={undefined}
             style={{
               fontSize: "1rem",
               marginRight: !onlyIcon ? "0.3rem" : "0rem"
             }}
           />
           {!onlyIcon && (size === "normal" ? "엑셀" : "엑셀 다운")}
-        </GRTextButton>
+        </GRButtonText>
       </Popover>
     </>
   );

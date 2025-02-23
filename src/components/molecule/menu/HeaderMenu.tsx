@@ -1,5 +1,5 @@
-import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import GRTextButton from "@component/atom/button/GRTextButton";
+import { NotificationOutlined, UserOutlined } from "@ant-design/icons";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import GRView from "@component/atom/view/GRView";
@@ -7,53 +7,58 @@ import styled from "@emotion/styled";
 import { Avatar, Popover } from "antd";
 import { useLogoutMutate } from "api/account/mutate/useLogoutMutate";
 import { useUserInfoQuery } from "api/account/queries/useUserInfoQuery";
+import { DUTY, ROLE } from "config/const";
 import Image from "next/image";
-import { FC } from "react";
+import Link from "next/link";
+import { useCallback, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
-type tHeaderMenu = {
-  onClickCollapse: () => void;
-};
-
-const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
+const HeaderMenu = () => {
+  const { logoutMutate } = useLogoutMutate();
   const { data: userInfo } = useUserInfoQuery();
 
-  const { logoutMutate } = useLogoutMutate();
+  const DUTY_NAME = useMemo(
+    () => DUTY.find(duty => duty?.key === userInfo?.duty)?.value ?? "",
+    [userInfo?.duty]
+  );
 
-  const onClickLogout = () => {
-    logoutMutate();
-  };
+  const GRADE_NAME = useMemo(
+    () => (userInfo?.grade ? `${userInfo?.grade}학년` : ""),
+    [userInfo?.grade]
+  );
+
+  const ROLE_NAME = useMemo(
+    () => ROLE.find(role => role?.key === userInfo?.role)?.value ?? "",
+    [userInfo?.role]
+  );
+
+  const onClickLogout = useCallback(async () => {
+    await logoutMutate();
+  }, [logoutMutate]);
 
   return (
     <Header style={{ padding: "0.5rem 0rem" }}>
-      <GRView
-        isFlex
-        marginleft={2}
-        justifyContent="center"
-        onClick={onClickCollapse}
-      >
-        <MenuOutlined style={{ fontSize: "1.3rem", cursor: "pointer" }} />
-      </GRView>
-      <GRView
-        isFlex
-        width={8}
-        height={2}
-        style={{ position: "relative" }}
-        marginhorizontal={1}
-      >
+      <GRView width={12} style={{ position: "relative" }} marginright={1}>
         <Image
           src={"/logo/logo-row-mark.png"}
-          fill
+          fill={true}
           alt={"logo"}
           style={{ objectFit: "contain" }}
-          priority
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </GRView>
       <GRFlexView justifyContent={"space-between"} flexDirection={"row"}>
+        <GRFlexView
+          justifyContent={"flex-start"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <GRText weight={"bold"} color={Color.green200} fontSize={"b5"}>
+            부서
+          </GRText>
+        </GRFlexView>
         <GRFlexView flexDirection="row" justifyContent={"end"}>
-          {/* <Avatar
+          <Avatar
             style={{
               marginRight: "1rem",
               backgroundColor: Color.green200
@@ -63,44 +68,42 @@ const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
                 href={`${process.env.NEXT_PUBLIC_ANNOUNCEMENT}`}
                 target={"_blank"}
               >
-                <NotificationOutlined />
+                <NotificationOutlined rev={undefined} />
               </Link>
             }
-          /> */}
+          />
           <Popover
             placement="bottom"
             trigger={"click"}
             content={() => (
               <GRView width={10}>
-                <GRText fontSize={"b6"} marginright={GRStylesConfig.BASE_MARGIN}>안녕하세요!</GRText>
                 <GRText weight={"bold"} fontSize={"b4"}>
                   {userInfo?.name}
                 </GRText>
-                <GRText fontSize={"b6"}>님</GRText>
-                {/* <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
-                    <GRText fontSize={"b7"}>
-                      {GRADE_NAME} | {DUTY_NAME}
-                    </GRText>
-                    <GRText
-                      fontSize={"b7"}
-                      weight={"bold"}
-                      color={Color.grey80}
-                      marginleft={GRStylesConfig.BASE_MARGIN}
-                    >
-                      {ROLE_NAME}
-                    </GRText>
-                  </GRFlexView> */}
+                <GRFlexView flexDirection={"row"} alignItems={"flex-end"}>
+                  <GRText fontSize={"b7"}>
+                    {GRADE_NAME} | {DUTY_NAME}
+                  </GRText>
+                  <GRText
+                    fontSize={"b7"}
+                    weight={"bold"}
+                    color={Color.grey80}
+                    marginleft={GRStylesConfig.BASE_MARGIN}
+                  >
+                    {ROLE_NAME}
+                  </GRText>
+                </GRFlexView>
                 <GRFlexView
                   alignItems={"flex-end"}
                   margintop={GRStylesConfig.BASE_MARGIN}
                 >
-                  <GRTextButton
+                  <GRButtonText
                     width={"100%"}
                     buttonType={"default"}
                     onClick={onClickLogout}
                   >
                     로그아웃
-                  </GRTextButton>
+                  </GRButtonText>
                 </GRFlexView>
               </GRView>
             )}
@@ -108,11 +111,10 @@ const HeaderMenu: FC<tHeaderMenu> = ({ onClickCollapse }) => {
             <Avatar
               style={{
                 backgroundColor: Color.green200,
-                marginRight: "6rem",
-                cursor: "pointer"
+                marginRight: "6rem"
               }}
-              icon={<UserOutlined />}
-            ></Avatar>
+              icon={<UserOutlined rev={undefined} />}
+            />
           </Popover>
         </GRFlexView>
       </GRFlexView>

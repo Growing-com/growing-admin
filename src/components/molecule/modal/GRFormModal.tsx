@@ -1,15 +1,12 @@
-import GRTextButton from "@component/atom/button/GRTextButton";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRModal from "@component/atom/modal/GRModal";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { ModalProps } from "antd";
-import React, { FormEventHandler, ReactNode, useCallback, type FC } from "react";
+import React, { FormEventHandler, useCallback, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
 import { Color } from "styles/colors";
 
 export type tGRFormModal = {
-  titleInfoType?: "success" | "info" | "warning" | "error";
-  titleInfo?: ReactNode;
-  showIcon?: boolean;
   okButtonText?: string;
   cancelButtonText?: string;
   deleteButtonText?: string;
@@ -69,19 +66,13 @@ const GRFormModal: FC<tGRFormModal> = ({
       title={title}
       onCancel={onCancelClickButton}
       {...props}
-      styles={{
-        body: {
-          padding: "1rem",
-          paddingBottom: "0rem"
-        }
-      }}
     >
       <form onSubmit={onSubmit} onKeyDown={preventEnterKeySubmission}>
         {children}
-        <GRFlexView flexDirection={"row"} justifyContent={"space-between"} margintop={GRStylesConfig.FORM_BLOCK_BASE_MARGIN} >
+        <GRFlexView flexDirection={"row"} justifyContent={"space-between"}>
           {isShowDeleteButton && (
             <GRFlexView>
-              <GRTextButton
+              <GRButtonText
                 key={"delete-button"}
                 buttonType={"custom"}
                 onClick={onDeleteClickButton}
@@ -91,21 +82,21 @@ const GRFormModal: FC<tGRFormModal> = ({
                 textSize={"b7"}
               >
                 {deleteButtonText ?? "삭제"}
-              </GRTextButton>
+              </GRButtonText>
             </GRFlexView>
           )}
           <GRFlexView flexDirection={"row"} justifyContent={"flex-end"}>
-            <GRTextButton
+            <GRButtonText
               key={"cancel-button"}
               buttonType={"cancel"}
               onClick={onCancelClickButton}
               marginright={GRStylesConfig.BASE_MARGIN}
             >
               {cancelButtonText ?? "취소"}
-            </GRTextButton>
-            <GRTextButton key={"ok-button"} htmlType={"submit"}>
+            </GRButtonText>
+            <GRButtonText key={"ok-button"} htmlType={"submit"}>
               {okButtonText ?? "확인"}
-            </GRTextButton>
+            </GRButtonText>
           </GRFlexView>
         </GRFlexView>
       </form>

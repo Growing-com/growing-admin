@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": "src",
     "target": "es5",
-    "downlevelIteration": true,
     "lib": ["dom", "dom.iterable", "esnext", "es6"],
     "noImplicitAny": true,
     "noImplicitThis": true,

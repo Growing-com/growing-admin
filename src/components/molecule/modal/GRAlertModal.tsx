@@ -1,9 +1,9 @@
-import GRTextButton from "@component/atom/button/GRTextButton";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRModal, { tGRModal } from "@component/atom/modal/GRModal";
 import GRText from "@component/atom/text/GRText";
 import GRFlexView from "@component/atom/view/GRFlexView";
 import { css } from "@emotion/react";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 type tGRAlertModal = {
   onCancelClickButton?: () => void;
@@ -11,7 +11,6 @@ type tGRAlertModal = {
   onOkClickButton?: () => void;
   okButtonText?: string;
   description: string;
-  subComponent?: ReactNode;
 } & Omit<tGRModal, "onCancel" | "onOk">;
 
 const GRAlertModal: FC<tGRAlertModal> = ({
@@ -20,7 +19,6 @@ const GRAlertModal: FC<tGRAlertModal> = ({
   onOkClickButton,
   okButtonText,
   description,
-  subComponent,
   ...props
 }) => {
   return (
@@ -49,11 +47,10 @@ const GRAlertModal: FC<tGRAlertModal> = ({
             <GRText fontSize={"b4"} weight={"bold"}>
               {description ?? ""}
             </GRText>
-            {subComponent}
           </GRFlexView>
         </GRFlexView>
         <GRFlexView flexDirection={"row"} justifyContent={"center"}>
-          <GRTextButton
+          <GRButtonText
             onClick={onCancelClickButton}
             key={"modal-cancel-button"}
             marginright={2}
@@ -61,14 +58,14 @@ const GRAlertModal: FC<tGRAlertModal> = ({
             buttonType={"cancel"}
           >
             {cancelButtonText ?? "취소"}
-          </GRTextButton>
-          <GRTextButton
+          </GRButtonText>
+          <GRButtonText
             onClick={onOkClickButton}
             key={"modal-ok-button"}
             size={"large"}
           >
             {okButtonText ?? "확인"}
-          </GRTextButton>
+          </GRButtonText>
         </GRFlexView>
       </GRFlexView>
     </GRModal>

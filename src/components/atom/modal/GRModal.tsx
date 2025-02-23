@@ -1,20 +1,14 @@
-import { Alert, Modal, ModalProps } from "antd";
+import { Modal, ModalProps } from "antd";
 import React, { ReactNode, useCallback, useMemo, type FC } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import GRTextButton from "../button/GRTextButton";
-import GRText from "../text/GRText";
-import GRFlexView from "../view/GRFlexView";
+import GRButtonText from "../button/GRTextButton";
 import GRView from "../view/GRView";
 
 export type tGRModal = {
-  titleInfoType?: "success" | "info" | "warning" | "error";
-  titleInfo?: ReactNode;
-  showIcon?: boolean;
   footerComponent?: ReactNode;
   okButtonText?: string;
   cancelButtonText?: string;
   showFooter?: boolean;
-  isOneButton?: boolean;
   onCancel?: (
     e:
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -39,12 +33,8 @@ const GRModal: FC<tGRModal> = ({
   onOk,
   showFooter = true,
   title,
-  titleInfo,
-  titleInfoType,
-  showIcon = true,
   maskClosable = true,
   keyboard = false,
-  isOneButton = false,
   ...props
 }) => {
   const onCancelClickButton = useCallback(
@@ -71,33 +61,21 @@ const GRModal: FC<tGRModal> = ({
 
   const _renderFooter = useMemo(() => {
     if (!!footerComponent || !showFooter) return [];
-    if (isOneButton) {
-      return [
-        <GRTextButton
-          key={"cancel-button"}
-          onClick={onCancelClickButton}
-          htmlType={"submit"}
-        >
-          {cancelButtonText ?? "닫기"}
-        </GRTextButton>
-      ];
-    }
-
     return [
-      <GRTextButton
+      <GRButtonText
         key={"cancel-button"}
         buttonType={"cancel"}
         onClick={onCancelClickButton}
       >
         {cancelButtonText ?? "취소"}
-      </GRTextButton>,
-      <GRTextButton
+      </GRButtonText>,
+      <GRButtonText
         key={"ok-button"}
         onClick={onOkClickButton}
         htmlType={"submit"}
       >
         {okButtonText ?? "확인"}
-      </GRTextButton>
+      </GRButtonText>
     ];
   }, [
     footerComponent,
@@ -112,20 +90,7 @@ const GRModal: FC<tGRModal> = ({
     if (title) {
       return (
         <GRView borderbottom={0.5} padding={GRStylesConfig.BASE_PADDING}>
-          <GRFlexView flexDirection={"row"} alignItems="center">
-            {title}
-            <GRText fontSize={"b10"}>
-              {titleInfo && (
-                <Alert
-                  showIcon={showIcon}
-                  message={titleInfo}
-                  type={titleInfoType}
-                  style={{ backgroundColor: "white" }}
-                  banner={true}
-                />
-              )}
-            </GRText>
-          </GRFlexView>
+          {title}
         </GRView>
       );
     }
@@ -139,10 +104,8 @@ const GRModal: FC<tGRModal> = ({
       closable={closable}
       footer={_renderFooter}
       maskClosable={maskClosable}
-      styles={{
-        body: {
-          padding: "1rem"
-        }
+      bodyStyle={{
+        padding: "1rem"
       }}
       title={renderModalHeader()}
       keyboard={keyboard}

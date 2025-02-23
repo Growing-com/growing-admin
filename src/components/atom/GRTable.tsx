@@ -2,7 +2,6 @@ import { SerializedStyles, css } from "@emotion/react";
 import { Pagination, PaginationProps, Table, TableProps } from "antd";
 import { ReactNode, useMemo } from "react";
 import GRStylesConfig from "styles/GRStylesConfig";
-import { Color } from "styles/colors";
 import getMargin, { type tGetMargin } from "styles/css/getMargin";
 import GRFlexView from "./view/GRFlexView";
 import GRView from "./view/GRView";
@@ -53,8 +52,7 @@ const GRTable = <GRTableType extends object>({
         background: ${!isHoverTable && `white !important`};
       }
       .ant-table-body {
-        overflow: hidden !important;
-        /* ::- ::-webkit-scrollbar { */
+        overflow-y: auto !important;
       }
 
       .ant-table table {
@@ -67,16 +65,6 @@ const GRTable = <GRTableType extends object>({
             padding: 0.5rem;
           }
         }
-      }
-
-      .highlight-lineout .ant-table-cell {
-        background-color: ${Color.red300};
-      }
-      .highlight-warning .ant-table-cell {
-        background-color: ${Color.yellow100};
-      }
-      .highlight-promote .ant-table-cell {
-        background-color: ${Color.green200};
       }
     `,
     [fontSize, headerFontSize, isHoverTable]
@@ -93,11 +81,8 @@ const GRTable = <GRTableType extends object>({
         loading={isLoading}
         columns={columns}
         dataSource={data ?? []}
-        pagination={{
-          ...pagination,
-          showSizeChanger: false,
-          hideOnSinglePage: true
-        }}
+        pagination={pagination}
+        scroll={scroll ?? BASE_SCROLL}
         showSorterTooltip={false}
         css={[
           css`
@@ -106,7 +91,6 @@ const GRTable = <GRTableType extends object>({
           `,
           customCss
         ]}
-        scroll={scroll}
         {...props}
       />
       {paginationProps && (

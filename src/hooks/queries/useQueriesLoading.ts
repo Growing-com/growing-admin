@@ -15,7 +15,7 @@ export function useQueriesLoading() {
 
   useEffect(() => {
     if (
-      queries.every(({ state }) => state.status !== "pending") &&
+      queries.every(({ state }) => state.status !== "loading") &&
       queryChangedCount >= 0
     ) {
       setQueryChangedCount(prevState => prevState - 1);

@@ -9,7 +9,7 @@ import { Color } from "styles/colors";
 type tTableInfoHeader = {
   title: string;
   count: number;
-  totalCount?: number;
+  totalCount: number;
   isResetButton?: boolean;
   onClickFilterReset?: () => void;
 };
@@ -23,8 +23,8 @@ const TableInfoHeader: FC<tTableInfoHeader> = ({
 }) => {
   return (
     <GRView>
-      <GRText weight={"bold"} marginright={GRStylesConfig.BASE_SMALL_MARGIN}>{title} </GRText>
-      <GRText color={Color.grey60} marginright={GRStylesConfig.BASE_SMALL_MARGIN}>
+      <GRText weight={"bold"}>{title} </GRText>
+      <GRText color={Color.grey60} marginright={GRStylesConfig.BASE_MARGIN}>
         <GRText weight={"bold"} color={Color.green200}>
           {count ?? 0} 명
         </GRText>
@@ -35,7 +35,7 @@ const TableInfoHeader: FC<tTableInfoHeader> = ({
       </GRText>
       {isResetButton && (
         <Button size={"small"} onClick={onClickFilterReset}>
-          <RedoOutlined  />
+          <RedoOutlined rev={undefined} />
         </Button>
       )}
     </GRView>

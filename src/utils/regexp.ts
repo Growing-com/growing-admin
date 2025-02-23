@@ -9,12 +9,7 @@ const REGEXP_PHONE_NUM = /^[0-9-]+$/;
 
 const REGEXP_PHONE_PATTERN = /(\d{3})(\d{4})(\d{4})/;
 
-const REGEXP_PHONE_HYPHEN_PATTERN = /^\d{3}-\d{4}-\d{4}$/;
-
-// 1학년부터 19학년까지
-const REGEXP_GRADE_NUM = /^(0?[1-9]|1[0-9])$/;
-
-export { REGEXP_NUM, REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN, REG_PHONE, REGEXP_PHONE_HYPHEN_PATTERN, REGEXP_GRADE_NUM};
+export { REGEXP_NUM, REGEXP_PHONE_NUM, REGEXP_PHONE_PATTERN, REG_PHONE };
 
 export const getHypenCardNumber = (number: string) => {
   const onlyNumber = number.replace(/[^0-9]/g, "");

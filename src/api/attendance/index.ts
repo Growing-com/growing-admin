@@ -1,64 +1,37 @@
 import { REQUEST_METHOD, request } from "api";
+import { tUser } from "api/account/types";
 import {
-  tAttendanceCheckData,
-  tAttendanceCheckDataParams,
-  tPostGroupUserAttendance,
-  tAttendanceRangeData,
-  tAttendanceData,
-  tPostStumpAttendance,
-  tAttendanceRegisterRate
-} from "./type";
+  tAttendanceCheck,
+  tAttendanceCheckItem,
+  tAttendanceCheckParam,
+  tAttendanceItem,
+  tAttendanceSearch
+} from "./types";
 
-const version = "v1";
-
-export const getAttendanceCheckGroupData = (
-  params: tAttendanceCheckDataParams
-) => {
-  return request<tAttendanceCheckData[]>({
+export const getAttendance = (params: tAttendanceCheckParam) => {
+  return request<tAttendanceCheckItem[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/attendances/normal-attendance`,
+    url: `/attendance`,
     params
   });
 };
 
-export const getAttendanceCheckStumpData = (
-  params: tAttendanceCheckDataParams
-) => {
-  return request<tAttendanceCheckData[]>({
+export type tUseAttendanceQueryResposne = {
+  attendanceItems: tAttendanceItem[];
+} & tUser;
+
+export const getAttendanceSearch = (params: tAttendanceSearch) => {
+  return request<tUseAttendanceQueryResposne[]>({
     method: REQUEST_METHOD.GET,
-    url: `${version}/attendances/stump-attendance`,
+    url: `/attendance/search`,
     params
   });
 };
 
-export const postStumpAttandance = (data: tPostStumpAttendance) => {
+export const postAttendanceCheck = (data: tAttendanceCheck) => {
   return request({
     method: REQUEST_METHOD.POST,
-    url: `${version}/attendances/stump-attendance-check`,
+    url: `/attendance`,
     data
-  });
-};
-
-export const postGroupUserAttandance = (data: tPostGroupUserAttendance) => {
-  return request({
-    method: REQUEST_METHOD.POST,
-    url: `${version}/attendances/group-attendance-check`,
-    data
-  });
-};
-
-export const getAttendanceData = (params?: tAttendanceRangeData) => {
-  return request<tAttendanceData[]>({
-    method: REQUEST_METHOD.GET,
-    url: `${version}/attendances/search`,
-    params
-  });
-};
-
-export const getAttendanceRegisterRate = (params?: { date?: string }) => {
-  return request<tAttendanceRegisterRate>({
-    method: REQUEST_METHOD.GET,
-    url: `${version}/attendances/attendance-register-rate`,
-    params
   });
 };

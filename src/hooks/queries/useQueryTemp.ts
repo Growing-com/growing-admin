@@ -11,9 +11,7 @@ export function useQueryTemp<TQueryFnData, TData>(
   queryFn: QueryFunction<TQueryFnData, QueryKey>,
   option?: UseQueryOptions<TQueryFnData, AxiosError, TData, QueryKey>
 ) {
-  return useOriginQuery({
-    queryKey,
-    queryFn,
+  return useOriginQuery(queryKey, queryFn, {
     refetchOnWindowFocus: false,
     ...option
   });

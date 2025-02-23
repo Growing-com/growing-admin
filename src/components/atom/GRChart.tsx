@@ -112,7 +112,7 @@ const GRChart: FC<tGRChart> = ({
             font: {
               size: 12,
               family: "'Noto Sans KR', sans-serif",
-              weight: 300
+              weight: "300"
             },
             text: "단위: 명"
           }

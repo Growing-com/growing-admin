@@ -1,31 +1,18 @@
-import GRTable from "@component/atom/GRTable";
-import GRAlert from "@component/atom/alert/GRAlert";
-import GRTextButton from "@component/atom/button/GRTextButton";
-import GRText from "@component/atom/text/GRText";
+import GRButtonText from "@component/atom/button/GRTextButton";
 import GRContainerView from "@component/atom/view/GRContainerView";
 import GRFlexView from "@component/atom/view/GRFlexView";
-import GRView from "@component/atom/view/GRView";
 import GRFormItem from "@component/molecule/form/GRFormItem";
-import GRFormTitle from "@component/molecule/form/GRFormTitle";
-import ColumAttendanceRender from "@component/molecule/table/ColumAttendanceRender";
 import HeaderView from "@component/molecule/view/HeaderView";
-import { TableColumnsType } from "antd";
-import { useAttendanceRangeData } from "api/attendance/queries/useAttendanceRangeData";
-import {
-  tAttendanceData,
-  tAttendanceItem,
-  tAttendanceRangeData
-} from "api/attendance/type";
-import { SEX_NAME } from "config/const";
-import dayjs, { Dayjs } from "dayjs";
+import { useAttendanceQuery } from "api/attendance/queries/useAttendanceQuery";
+import { tAttendanceSearch } from "api/attendance/types";
+import dayjs from "dayjs";
+import useAccountTermInfos from "hooks/domain/term/useAccountTermInfos";
 import useKeyPressEventListener from "hooks/useKeyPressEventListener";
-import { head } from "lodash";
 import { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import GRStylesConfig from "styles/GRStylesConfig";
-import { DEFAULT_DATE_FORMAT } from "utils/DateUtils";
-import { koreanSorter } from "utils/sorter";
+import { DEFAULT_DATE_FOMAT } from "utils/DateUtils";
+import AttendanceSearchTable from "./AttendanceSearchTable";
 
 export const SEARCH_OPTION = [
   {
@@ -39,238 +26,89 @@ export const SEARCH_OPTION = [
   {
     label: "학년",
     value: "grade"
+  },
+  {
+    label: "새가족",
+    value: "newFamily"
   }
 ];
 
-type tFilterOption = {
-  text: string;
-  value: string;
-};
-
 const AttendanceManagementPage: NextPage = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState<tAttendanceRangeData>();
-  const [skeletonAttendanceData, setSkeletonAttendanceData] =
-    useState<tAttendanceItem[]>();
-  const [filteredData, setFilteredData] = useState<tAttendanceData[]>();
-  const [searchName, setSearchName] = useState<string>("");
+  const [filter, setFilter] = useState<tAttendanceSearch>();
 
-  const [codyFilterOptions, setCodyFilterOptions] = useState<tFilterOption[]>(
-    []
-  );
-  const [leaderFilterOptions, setLeaderFilterOptions] = useState<
-    tFilterOption[]
-  >([]);
-  const [gradeFilterOptions, setGradeFilterOptions] = useState<tFilterOption[]>(
-    []
-  );
-
-  const { data: attendanceList, isFetching } = useAttendanceRangeData(filter);
-
-  const { control, handleSubmit } = useForm({
+  const { control, watch, handleSubmit } = useForm({
     defaultValues: {
       rangeDate: [dayjs().subtract(1, "M"), dayjs()],
-      searchName: ""
+      searchType: "name"
     }
   });
+  const { data: attendanceList, isFetching } = useAttendanceQuery(filter);
 
-  // 기간 선택 제한
-  const disabledDate = (current: Dayjs | null): boolean => {
-    if (!current) return false;
-    const sixMonthAgo = dayjs().subtract(6, "month");
-    return (
-      (current && current.isAfter(dayjs())) || current.isBefore(sixMonthAgo)
-    );
+  const convertParam = (_filter: {
+    rangeDate?: dayjs.Dayjs[];
+    searchType: any;
+    keyword?: any;
+    codyId?: any;
+  }) => {
+    switch (_filter?.searchType) {
+      case "name":
+        return { name: _filter?.keyword };
+      case "cordi":
+        return { codyId: _filter?.codyId.join(",") };
+      case "grade":
+        return { grade: _filter?.keyword };
+      case "newFamily":
+        return { isNewOnly: true };
+      default:
+        break;
+    }
   };
 
   const onSubmit = handleSubmit(_filter => {
-    const { rangeDate, searchName } = _filter;
-
-    if (!rangeDate) return GRAlert.error("검색 기간을 선택해주세요");
-
+    const { rangeDate } = _filter;
     setFilter({
-      startDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FORMAT),
-      endDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FORMAT)
+      startDate: dayjs(rangeDate[0]).format(DEFAULT_DATE_FOMAT),
+      endDate: dayjs(rangeDate[1]).format(DEFAULT_DATE_FOMAT),
+      page: 1,
+      size: 10,
+      ...convertParam(_filter)
     });
-
-    setSearchName(searchName);
-    setCurrentPage(1);
   });
 
-  const onSearchName = () => {
-    let _filterUser = attendanceList;
-    if (searchName) {
-      _filterUser = attendanceList?.filter(user => {
-        return user.name?.indexOf(searchName) !== -1;
-      });
-    }
-    setFilteredData(_filterUser);
-  };
+  const { cordiSelectItem } = useAccountTermInfos();
 
-  const handlePaginationChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const renderPlaceHolder = useMemo(() => {
+    switch (watch("searchType")) {
+      case "name":
+        return "이름으로 검색하세요. 예) 홍, 홍길, 홍길동";
+      case "grade":
+        return "학년으로 검색하세요";
+      default:
+        return "검색어를 작성해 주세요";
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch("searchType")]);
 
   const onClickSearch = useCallback(() => {
     onSubmit();
   }, [onSubmit]);
 
+  const onChangeAttendancePagination = useCallback(
+    (page: number, pageSize: number) => {
+      if (filter) {
+        setFilter({
+          ...filter,
+          size: pageSize,
+          page
+        });
+      }
+    },
+    [filter]
+  );
+
   useKeyPressEventListener("Enter", () => {
     onSubmit();
   });
-
-  // 필터 변경에 따른 파지네이션
-  const handleChange = (
-    _pagination: any,
-    filters: any,
-    _sorter: any,
-    extra: { currentDataSource: any; action: any }
-  ) => {
-    if (!attendanceList) return;
-    if (
-      filters.codyName === null &&
-      filters.leaderName === null &&
-      filters.grade === null
-    ) {
-      onSearchName();
-      return;
-    }
-    setFilteredData(extra.currentDataSource);
-  };
-
-  // 필터 설정 함수
-  useEffect(() => {
-    if (!filteredData) return;
-    const uniqueCodyNames = [
-      ...new Set(filteredData.map(user => user.codyName))
-    ];
-    const _codyFilterOptions = uniqueCodyNames?.map(name => ({
-      text: name ?? "",
-      value: name ?? ""
-    }));
-    setCodyFilterOptions(_codyFilterOptions);
-
-    const uniqueLeaderNames = [
-      ...new Set(filteredData.map(user => user.leaderName))
-    ];
-    const filteredLeaderNames = uniqueLeaderNames.filter(
-      name => !uniqueCodyNames.includes(name)
-    );
-    const _leaderFilterOptions = filteredLeaderNames?.map(name => ({
-      text: name ?? "",
-      value: name ?? ""
-    }));
-    setLeaderFilterOptions(_leaderFilterOptions);
-
-    const uniqueGrade = [...new Set(filteredData.map(user => user.grade))];
-    const _gradeFilterOptions = uniqueGrade
-      ?.sort((a, b) => Number(a) - Number(b))
-      .map(grade => ({
-        text: `${grade}학년`,
-        value: grade as unknown as string
-      }));
-    setGradeFilterOptions(_gradeFilterOptions);
-  }, [filteredData]);
-
-  useEffect(() => {
-    if (attendanceList?.length === 0) return;
-    onSearchName();
-  }, [attendanceList, searchName]);
-
-  // 출석 날짜 목록 설정 함수
-  useEffect(() => {
-    if (!attendanceList) return;
-    setSkeletonAttendanceData(head(attendanceList)?.attendanceItems);
-  }, [attendanceList]);
-
-  const columns: TableColumnsType<any> = [
-    {
-      title: "코디",
-      dataIndex: "codyName",
-      key: "codyName",
-      align: "center",
-      width: "5rem",
-      minWidth: 75,
-      filters: codyFilterOptions,
-      onFilter: (value, record) => record.codyName === value
-    },
-    {
-      title: "순장",
-      dataIndex: "leaderName",
-      key: "leaderName",
-      align: "center",
-      width: "5rem",
-      minWidth: 75,
-      filters: leaderFilterOptions,
-      onFilter: (value, record) => record.leaderName === value,
-      filterSearch: true
-    },
-    {
-      title: "이름",
-      dataIndex: "name",
-      key: "name",
-      align: "center",
-      fixed: "left",
-      width: "6rem",
-      minWidth: 75,
-      sorter: {
-        compare: (a, b) => koreanSorter(a.name, b.name),
-        multiple: 1
-      },
-      render: (_, item) => <GRText weight={"bold"}>{item.name}</GRText>
-    },
-    {
-      title: "성별",
-      dataIndex: "gender",
-      key: "gender",
-      align: "center",
-      width: "5rem",
-      minWidth: 60,
-      render: (_, item) => {
-        if (!item?.sex) return;
-        return <GRText>{SEX_NAME[item?.sex]}</GRText>;
-      }
-    },
-    {
-      title: "학년",
-      dataIndex: "grade",
-      key: "grade",
-      align: "center",
-      width: "5rem",
-      minWidth: 60,
-      sorter: { compare: (a, b) => a.grade - b.grade, multiple: 2 },
-      filters: gradeFilterOptions,
-      onFilter: (value, record) => record.grade === value
-    },
-    {
-      title: () => {
-        return (
-          <GRFlexView alignItems={"center"}>
-            <GRText weight={"bold"} fontSize={"b7"}>
-              출석 날짜
-            </GRText>
-          </GRFlexView>
-        );
-      },
-      align: "center",
-      children: skeletonAttendanceData?.map(item => ({
-        title: item.date,
-        dataIndex: "attendanceItems",
-        key: "attendanceItems",
-        align: "center",
-        minWidth: 100,
-        render: (record: tAttendanceItem[]) => {
-          const findData = record.find(r => r.date === item.date);
-          return (
-            <ColumAttendanceRender
-              attendanceStatus={findData?.status}
-              contentEtc={findData?.reason}
-            />
-          );
-        }
-      }))
-    }
-  ];
 
   return (
     <>
@@ -279,65 +117,64 @@ const AttendanceManagementPage: NextPage = () => {
         subComponent={
           <GRFlexView flexDirection={"row"}>
             <GRFlexView>
-              <GRFlexView
-                flexDirection={"row"}
-                alignItems={"center"}
-                xGap={GRStylesConfig.FORM_BLOCK_BASE_MARGIN}
-              >
-                <GRFlexView
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  xGap={GRStylesConfig.BASE_LONG_MARGIN}
-                >
-                  <GRFormTitle title={"기간"} />
-                  <GRFormItem
-                    type={"date"}
-                    fieldName={"rangeDate"}
-                    control={control}
-                    pickerType={"range"}
-                    disabledDate={disabledDate}
-                  />
-                </GRFlexView>
-                <GRFlexView
-                  flexDirection={"row"}
-                  alignItems={"center"}
-                  xGap={GRStylesConfig.BASE_LONG_MARGIN}
-                >
-                  <GRFormTitle title={"이름"} />
-                  <GRFormItem
-                    type={"text"}
-                    fieldName={"searchName"}
-                    control={control}
-                    placeholder={"이름으로 검색하세요"}
-                  />
-                </GRFlexView>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFormItem
+                  title={"기간"}
+                  type={"date"}
+                  fieldName={"rangeDate"}
+                  control={control}
+                  pickerType={"range"}
+                  containStyle={{ marginRight: "1rem" }}
+                />
+                <GRFormItem
+                  title={"검색 조건"}
+                  type={"select"}
+                  fieldName={"searchType"}
+                  control={control}
+                  options={SEARCH_OPTION}
+                  placeholder={"조건을 선택해주세요"}
+                />
+              </GRFlexView>
+              <GRFlexView flexDirection={"row"} alignItems={"center"}>
+                <GRFormItem
+                  title={"조건"}
+                  mode={"multiple"}
+                  type={"select"}
+                  fieldName={"codyId"}
+                  control={control}
+                  options={cordiSelectItem}
+                  placeholder={"나무를 선택해주세요"}
+                  isShow={watch("searchType") === "cordi"}
+                  showSearch
+                  optionFilterProp={"label"}
+                />
+                <GRFormItem
+                  title={"조건"}
+                  type={"text"}
+                  fieldName={"keyword"}
+                  control={control}
+                  placeholder={renderPlaceHolder}
+                  isShow={watch("searchType") !== "cordi"}
+                  disabled={watch("searchType") === "newFamily"}
+                />
               </GRFlexView>
             </GRFlexView>
-            <GRTextButton onClick={onClickSearch} marginleft={2} size={"large"}>
+            <GRButtonText onClick={onClickSearch} marginleft={2} size={"large"}>
               조회
-            </GRTextButton>
+            </GRButtonText>
           </GRFlexView>
         }
       />
       <GRContainerView>
-        <GRView margintop={GRStylesConfig.BASE_LONG_MARGIN}>
-          <GRTable
-            isLoading={isFetching}
-            rowKey={"userId"}
-            columns={columns}
-            data={filteredData}
-            pagination={{
-              total: filteredData?.length,
-              current: currentPage,
-              onChange: handlePaginationChange,
-              defaultPageSize: 10,
-              position: ["bottomCenter"]
-            }}
-            onChange={handleChange}
-            scroll={{ x: true }}
-            tableLayout={"auto"}
-          />
-        </GRView>
+        <AttendanceSearchTable
+          filter={filter}
+          isLoading={isFetching}
+          attendanceList={attendanceList?.content}
+          attendanceListSize={attendanceList?.size}
+          attendanceListTotal={attendanceList?.total}
+          attendanceListPage={filter?.page}
+          onChangePage={onChangeAttendancePagination}
+        />
       </GRContainerView>
     </>
   );

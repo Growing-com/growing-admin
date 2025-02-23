@@ -70,7 +70,6 @@ const GRText: FC<GRTextProps> = ({
         textAlign,
         ...style
       }}
-      {...rest}
     >
       {children}
     </TextComponent>
